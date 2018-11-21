@@ -151,7 +151,6 @@ class Home extends PureComponent {
                 updateProjectModal={this.updateProjectModal}
                 create={this.state.create}
                 user={this.props.user}
-                getProjects={this.props.getProjects}
                 toggleProjectForm={this.toggleProjectForm}
                 authenticated={this.props.authenticated}
               />

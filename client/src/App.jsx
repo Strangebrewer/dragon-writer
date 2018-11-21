@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { GlobalStyle } from "./GlobalStyle";
 import Home from "./pages/Home";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
@@ -24,8 +25,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 class App extends Component {
   state = {
     projects: [],
-    subjects: [],
-    links: [],
     user: null,
     loading: true,
   };
@@ -36,7 +35,6 @@ class App extends Component {
 
   getInitialData = async (auth, userInfo) => {
     let projects = [];
-    let subjects = [];
     let user = userInfo;
     let error;
     let projectData = [];
@@ -48,15 +46,14 @@ class App extends Component {
         // userInfo is passed to this function
         // in order to avoid excess db requests.
         user = userResponse.data;
-      } catch (err) {
+      }
+      catch (err) {
         error = err;
       }
 
     if (!error && user._id) {
       const projectsRes = await API.getProjects();
       projects = projectsRes.data;
-      const subjectsRes = await API.getSubjects();
-      subjects = subjectsRes.data;
       projects.forEach(project => {
         projectData.push(Utils.formatInitialData(project));
       });
@@ -67,7 +64,6 @@ class App extends Component {
       projectData,
       loading: false,
       projects,
-      subjects,
       user,
     });
   }
@@ -79,24 +75,10 @@ class App extends Component {
     this.setState({ user: null, });
   };
 
-  getTexts = async () => {
-    const texts = await API.getTexts()
-    this.setState({ texts: texts.data });
-  };
-
-  getSubjects = async () => {
-    const subjects = await API.getSubjects()
-    this.setState({ subjects: subjects.data });
-  };
-
-  getProjects = async () => {
-    const projects = await API.getProjects();
-    this.setState({ projects: projects.data });
-  };
-
   render() {
     return (
       <Fragment>
+        <GlobalStyle />
         <Router>
           <Switch>
             <Route exact path="/"
@@ -106,12 +88,7 @@ class App extends Component {
                     {...routeProps}
                     authenticated={isAuthenticated}
                     user={this.state.user}
-                    links={this.state.links}
                     projects={this.state.projects}
-                    subjects={this.state.subjects}
-                    getProjects={this.getProjects}
-                    getSubjects={this.getSubjects}
-                    getTexts={this.getTexts}
                     getInitialData={this.getInitialData}
                     logout={this.logout}
                     loading={this.state.loading}
@@ -125,11 +102,7 @@ class App extends Component {
               component={AddPropsToRoute(Editor, {
                 authenticated: isAuthenticated,
                 user: this.state.user,
-                links: this.state.links,
                 projects: this.state.projects,
-                getProjects: this.getProjects,
-                getSubjects: this.getSubjects,
-                getTexts: this.getTexts,
                 getInitialData: this.getInitialData,
                 logout: this.logout,
                 loading: this.state.loading
@@ -145,13 +118,8 @@ class App extends Component {
                     component={AddPropsToRoute(Project, {
                       authenticated: isAuthenticated,
                       user: this.state.user,
-                      links: this.state.links,
                       project: project,
                       projectData: this.state.projectData[index],
-                      subjects: this.state.subjects,
-                      getProjects: this.getProjects,
-                      getSubjects: this.getSubjects,
-                      getTexts: this.getTexts,
                       getInitialData: this.getInitialData,
                       logout: this.logout,
                       loading: this.state.loading

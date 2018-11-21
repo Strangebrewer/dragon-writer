@@ -1,0 +1,21 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+mongoose.promise = Promise;
+
+const textSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId },
+  projectId: { type: Schema.Types.ObjectId },
+  subjectId: { type: Schema.Types.ObjectId },
+  text: { type: String, required: true },
+  title: { type: String, required: true },
+  thesis: { type: String, required: true },
+  errant: { type: Boolean, default: true }
+},
+  {
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
+  }
+);
+
+const Text = mongoose.model('Text', textSchema);
+
+module.exports = Text;

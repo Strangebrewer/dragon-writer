@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import styled from "styled-components";
 import Page from "../components/Elements/Page";
-import { NewProject, Login } from "../components/Elements/Forms";
+import { Login } from "../components/Elements/Forms";
 import { Button, Input, TextArea } from "../components/Elements/FormElements";
 import Modal from "../components/Elements/Modal";
 import ProjectCard from "../components/ProjectCard";
@@ -52,7 +52,7 @@ class Home extends PureComponent {
     const { username, password } = this.state;
     const user = await API.login({ username, password });
     if (user)
-      this.props.getInitialData(true, user.data);
+      this.props.getInitialData(user.data);
   };
 
   outsideClick = event => {
@@ -71,7 +71,7 @@ class Home extends PureComponent {
       summary: this.state.summary,
       link: this.state.link
     }).then(() => {
-      this.props.getInitialData(true, this.props.user);
+      this.props.getInitialData(this.props.user);
       this.setState({ create: false });
     })
       .catch(err => console.log(err));
@@ -88,7 +88,7 @@ class Home extends PureComponent {
     else updateObject.link = project.link;
     API.updateProject(project._id, updateObject)
       .then(() => {
-        this.props.getInitialData(true, this.props.user)
+        this.props.getInitialData(this.props.user)
         this.closeModal();
       })
   };

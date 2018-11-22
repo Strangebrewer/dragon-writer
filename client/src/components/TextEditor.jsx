@@ -20,14 +20,11 @@ const editorStyle = {
 };
 
 const DragHandle = styled.div`
-  width: 30px;
-  height: 30px;
+  height: 35px;
   background-color: orange;
   border: 1px solid ${props => props.theme.black};
   border-radius: 3px;
-  position: absolute;
-  top: 50px;
-  right: 10px;
+  display: inline-block;
 `;
 
 class TextEditor extends Component {
@@ -55,7 +52,7 @@ class TextEditor extends Component {
 
   hasMark = type => {
     const { value } = this.state;
-    return value.activeMarks.some(mark => mark.type == type);
+    return value.activeMarks.some(mark => mark.type === type);
   };
 
   onClickMark = (type) => {
@@ -64,7 +61,7 @@ class TextEditor extends Component {
 
   hasBlock = type => {
     const { value } = this.state;
-    return value.blocks.some(node => node.type == type);
+    return value.blocks.some(node => node.type === type);
   };
 
   onClickBlock = (type) => {
@@ -89,7 +86,7 @@ class TextEditor extends Component {
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock('list-item');
       const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type == type);
+        return !!document.getClosest(block.key, parent => parent.type === type);
       });
 
       if (isList && isType) {
@@ -122,7 +119,6 @@ class TextEditor extends Component {
         this.props.insertNewText(this.state.subject, res.data);
         // empty editor fields (maybe)
         // do whatever else you want to do with the creation of a new text.
-        // this.setState({ runUnmount: true });
       })
       .catch(err => console.log(err));
   };
@@ -143,16 +139,17 @@ class TextEditor extends Component {
     console.log(this.props);
     return (
       <Fragment>
-        <DragHandle {...this.props.dragHandle} />
         <RenderButtons
           id={id}
-        state={this.state}
-        onClickMark={this.onClickMark}
-        onClickBlock={this.onClickBlock}
-        hasMark={this.hasMark}
-        hasBlock={this.hasBlock}
-        toggleEdit={this.props.toggleEdit}
+          state={this.state}
+          onClickMark={this.onClickMark}
+          onClickBlock={this.onClickBlock}
+          hasMark={this.hasMark}
+          hasBlock={this.hasBlock}
+          toggleEdit={this.props.toggleEdit}
+          dragHandle={this.props.dragHandle}
         />
+        <DragHandle {...this.props.dragHandle}>Drag Handle</DragHandle>
         <Input
           style={{ maxWidth: "300px" }}
           type="text"
@@ -197,14 +194,14 @@ class TextEditor extends Component {
           onClick={id ? () => this.updateText(id) : this.createText}
         >
           Save
-            </Button>
+        </Button>
         {id &&
           <Button
             style={{ marginTop: "8px", marginRight: "8px" }}
             onClick={() => this.props.toggleEdit(id)}
           >
             Cancel
-              </Button>}
+          </Button>}
       </Fragment>
     );
   };

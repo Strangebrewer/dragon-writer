@@ -97,13 +97,8 @@ export const Scales = {
 
   singleSubjectDragon: function (state, start, source, destination, draggableId) {
     const newTextIds = Array.from(start.textIds);
-    // const newTextIds = start.textIds.map(item => ({ ...item }));
-    // const movingText = { ...newTextIds[source.index] };
     newTextIds.splice(source.index, 1);
     newTextIds.splice(destination.index, 0, draggableId);
-    // const newSubjectTexts = Array.from(state.subjectTexts);
-    // newSubjectTexts.splice(source.index, 1);
-    // newSubjectTexts.splice(destination.index, 0, draggableId);
     // create new subject column with the same properties as the old column, but with new textIds.
     const newSubject = {
       ...start,
@@ -116,9 +111,7 @@ export const Scales = {
         ...state.subjects,
         [newSubject._id]: newSubject,
       },
-      // subjectTexts: newSubjectTexts
     };
-    console.log(newState);
     return newState;
   },
 

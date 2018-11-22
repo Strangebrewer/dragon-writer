@@ -32,7 +32,7 @@ class App extends Component {
     this.getInitialData();
   };
 
-  getInitialData = async (auth, userInfo) => {
+  getInitialData = async (userInfo) => {
     let projects = [];
     let user = userInfo;
     let error;
@@ -41,9 +41,8 @@ class App extends Component {
     if (!user)
       try {
         const userResponse = await API.getUser();
-        // do this to keep user consistent with the way
-        // userInfo is passed to this function
-        // in order to avoid excess db requests.
+        // do this (immediately below) to keep user consistent with the way
+        // userInfo is passed to this function in order to avoid excess db requests.
         user = userResponse.data;
       }
       catch (err) {
@@ -53,13 +52,16 @@ class App extends Component {
     if (!error && user._id) {
       const projectsRes = await API.getProjects();
       projects = projectsRes.data;
+
       projects.forEach(project => {
-        projectData.push(Utils.formatInitialData(project));
+        if (project.order)
+          projectData.push(Utils.addTextsToOrder(project));
+        else
+          projectData.push(Utils.formatInitialData(project));
       });
+
       isAuthenticated = true;
     }
-
-    console.log(projectData);
 
     this.setState({
       projectData,

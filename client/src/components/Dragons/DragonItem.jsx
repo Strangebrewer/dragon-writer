@@ -61,7 +61,6 @@ const DateText = styled.h5`
 class DragonItem extends Component {
   render() {
     const { index, text, subjectId } = this.props;
-    console.log(text._id);
     return (
       <Draggable
         draggableId={text._id}

@@ -1,11 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { Editor } from "slate-react";
-import { Value } from "slate";
 import styled from 'styled-components';
-import dateFns from "date-fns";
 import DragonItem from "./DragonItem";
-import API from '../../utils/API';
 
 const Container = styled.div`
   position: relative;
@@ -78,8 +74,6 @@ const Paragraph = styled.div`
 class DragonColumn extends Component {
   render() {
     const { subject, theme, _id } = this.props.subject;
-    console.log(_id);
-    console.log(this.props.subject)
     return (
       <Draggable draggableId={_id} index={this.props.index}>
         {provided => (
@@ -98,10 +92,15 @@ class DragonColumn extends Component {
                   {...provided.droppableProps}
                   isDraggingOver={snapshot.isDraggingOver}
                 >
-                  {this.props.texts.map((text, index) => {
-                    console.log(text);
-                    return <DragonItem key={text._id} index={index} text={text} subjectId={_id} deleteText={this.props.deleteText} />
-                  })}
+                  {this.props.texts.map((text, index) => (
+                    <DragonItem
+                      key={text._id}
+                      index={index}
+                      text={text}
+                      subjectId={_id}
+                      deleteText={this.props.deleteText}
+                    />
+                  ))}
                   {provided.placeholder}
                 </DragonList>
               )}
@@ -109,7 +108,6 @@ class DragonColumn extends Component {
           </Container>
         )}
       </Draggable>
-
     )
   }
 };

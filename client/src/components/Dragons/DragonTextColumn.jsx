@@ -41,8 +41,6 @@ const EditorContainer = styled.div`
 class DragonTextColumn extends Component {
   render() {
     const { subject, theme, _id } = this.props.subject
-    const { index } = this.props;
-    console.log(_id);
     return (
       <TextColumn>
         <LinkBtn onClick={this.props.dragonTextOn}>overview</LinkBtn>

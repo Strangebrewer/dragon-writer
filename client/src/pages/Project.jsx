@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from "styled-components";
 import Page from "../components/Elements/Page"
@@ -26,7 +26,7 @@ class Project extends Component {
   // if there is a saved order, it will load that; otherwise, it will load the projectData
   // (when a project is first created, there won't be a saved order)
   state = this.props.project.order
-    ? JSON.parse(this.props.project.order)
+    ? this.props.project.order
     : {
       create: false,
       dragons: true,
@@ -139,10 +139,11 @@ class Project extends Component {
 
   saveOrder = async () => {
     const { _id } = this.props.project;
-    const orderObject = { ...this.state, editorOn: false };
+    const orderObject = Object.assign({}, { ...this.state }, { editorOn: false })
+    delete orderObject.texts;
     const updateObj = { order: JSON.stringify(orderObject) }
     await API.updateProject(_id, updateObj);
-    this.props.getInitialData(true, this.props.user);
+    this.props.getInitialData(this.props.user);
   };
 
   updateChangedText = async (newText) => {
@@ -165,7 +166,6 @@ class Project extends Component {
 
   render() {
     const { title, _id, subjects } = this.props.project;
-    console.log(this.props.projectData);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Page
@@ -200,8 +200,6 @@ class Project extends Component {
                 {provided => (
                   <ColumnContainer
                     {...provided.droppableProps}
-                    // this keeps fluctuating - sometimes ref works, other times only innerRef works...
-                    // innerRef={provided.innerRef}
                     ref={provided.innerRef}
                   >
                     {this.state.dragons
@@ -209,7 +207,6 @@ class Project extends Component {
                         this.state.subjectOrder.map((subjectId, index) => {
                           const subject = this.state.subjects[subjectId];
                           const texts = subject.textIds.map(textId => this.state.texts[textId]);
-                          console.log(texts);
                           return this.state[subject._id] &&
                             <DragonColumn
                               key={subject._id}
@@ -217,7 +214,6 @@ class Project extends Component {
                               texts={texts}
                               index={index}
                               toggleSubject={this.toggleSubject}
-                              // getSubjects={this.props.getSubjects}
                               deleteText={this.deleteText}
                               toggleEdit={this.toggleEdit}
                               dragonTextOff={this.dragonTextOff}
@@ -227,10 +223,7 @@ class Project extends Component {
                         <DragonTextColumn
                           subject={this.state.subjects[this.state.singleSubject]}
                           texts={this.state.subjects[this.state.singleSubject].textIds
-                            .map(textId => {
-                              console.log(this.state.texts[textId]);
-                              return (this.state.texts[textId])
-                            })}
+                            .map(textId => { return (this.state.texts[textId]) })}
                           user={this.props.user}
                           deleteText={this.deleteText}
                           toggleEdit={this.toggleEdit}

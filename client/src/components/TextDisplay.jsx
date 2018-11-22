@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "./slate/utils/Renderers";
 import TextEditor from "./TextEditor";
-import API from '../utils/API';
 
 const TextColumn = styled.div`
   width: 600px;
@@ -42,7 +40,6 @@ const LinkBtn = styled.button`
 
 class TextDisplay extends Component {
   render() {
-    console.log(this.props.texts)
     return (
       <Fragment>        
         <TextColumn>
@@ -78,9 +75,7 @@ class TextDisplay extends Component {
                 </TextContainer>
               )
           ))}
-        </TextColumn>
-
-        
+        </TextColumn>        
       </Fragment>
     );
   }

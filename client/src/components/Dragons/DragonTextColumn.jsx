@@ -6,7 +6,7 @@ import DragonTextItem from "./DragonTextItem";
 
 const TextColumn = styled.div`
   width: 60%;
-  margin: auto;
+  margin: 0 auto;
   border-radius: 3px;
   padding-right: 200px;
 `;
@@ -30,19 +30,27 @@ const DragonTextList = styled.div`
   background-color: ${props => props.isDraggingOver ? 'skyblue' : 'white'};
 `;
 
+const EditorContainer = styled.div`
+  width: 100%;
+  max-width: 1150px;
+  height: 100%;
+  margin: auto;
+  position: relative;
+`;
+
 class DragonTextColumn extends Component {
   render() {
     const { subject, theme, _id } = this.props.subject
     const { index } = this.props;
-    console.log(this.props)
+    console.log(_id);
     return (
       <TextColumn>
-        <LinkBtn onClick={this.props.dragonTextOn}>fuck</LinkBtn>
+        <LinkBtn onClick={this.props.dragonTextOn}>overview</LinkBtn>
         {/* subject heading info here... */}
         <Droppable droppableId={_id} >
           {(provided, snapshot) => (
             <DragonTextList
-              innerRef={provided.innerRef}
+              ref={provided.innerRef}
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
             >
@@ -50,21 +58,37 @@ class DragonTextColumn extends Component {
                 console.log(text);
                 return this.props.state[text._id]
                   ? (
-                    <TextEditor
-                      key={text._id}
-                      index={index}
-                      id={text._id}
-                      inline={true}
-                      subject={text.subjectId}
-                      text={JSON.parse(text.text)}
-                      title={text.title}
-                      toggleEdit={this.props.toggleEdit}
-                      getProjects={this.props.getProjects}
-                      getSubjects={this.props.getSubjects}
-                    />
+                    <Draggable key={text._id}draggableId={text._id} index={index}>
+                      {(provided, snapshot) => (
+                        <EditorContainer
+                          key={text._id}
+                          index={index}
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          isDragging={snapshot.isDragging}
+                          // {...provided.dragHandleProps}
+                        >
+                          <TextEditor
+                            id={text._id}
+                            dragHandle={provided.dragHandleProps}
+                            index={index}
+                            user={this.props.user}
+                            inline={true}
+                            subject={text.subjectId}
+                            text={JSON.parse(text.text)}
+                            title={text.title}
+                            thesis={text.thesis}
+                            toggleEdit={this.props.toggleEdit}
+                            saveOrder={this.props.saveOrder}
+                            getInitialData={this.props.getInitialData}
+                            updateChangedText={this.props.updateChangedText}
+                          />
+                        </EditorContainer>
+                      )}
+                    </Draggable>
                   ) : (
                     <DragonTextItem
-                      key={text._id ? text._id : index}
+                      key={text._id}
                       subject={this.props.subject}
                       text={text}
                       index={index}
@@ -78,8 +102,6 @@ class DragonTextColumn extends Component {
           )}
         </Droppable>
       </TextColumn>
-      //   )}
-      // </Draggable>
     );
   }
 }

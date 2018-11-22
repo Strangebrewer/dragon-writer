@@ -86,7 +86,7 @@ function renderMark(props, editor, next) {
         <a
           style={{ color: '#1111ff', textDecoration: 'underline' }}
           href={href}
-          ref="noopener noreferrer"
+          rel="noopener noreferrer"
           target="_blank"
           {...attributes}
           value={linkText}

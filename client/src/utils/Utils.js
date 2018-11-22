@@ -6,17 +6,17 @@ export const Utils = {
       const element = project.texts[i];
       initialData.texts[element._id] = element;
     }
+
+    console.log(initialData.texts);
+
     for (let i = 0; i < project.subjects.length; i++) {
       const element = project.subjects[i];
-      const textObject = {};
-      const texts = element.texts.map(text => {
-        return textObject[text] = initialData.texts[text];
-      })
+
       initialData.subjects[element._id] = {
         _id: element._id,
         subject: element.subject,
         theme: element.theme,
-        textIds: texts || []
+        textIds: element.texts || []
       }
       subjectArray.push(element._id);
     }

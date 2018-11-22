@@ -36,8 +36,8 @@ const CloseButton = styled.button`
 
 const DragonBtn = styled.button`
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 7px;
+  left: 3px;
   color: #aaa;
   font-size: 1rem;
   outline: transparent;
@@ -63,7 +63,8 @@ const Heading3 = styled.div`
   font-weight: bold;
   font-size: 2rem;
   text-align: center;
-  padding: 10px 8px;
+  padding: 0 8px;
+  margin-top: 25px;
 `;
 
 const Paragraph = styled.div`
@@ -75,17 +76,17 @@ const Paragraph = styled.div`
 `;
 
 class DragonColumn extends Component {
-  state = {
-
-  };
-
   render() {
-    const { subject, theme, _id } = this.props.subject
+    const { subject, theme, _id } = this.props.subject;
+    console.log(_id);
     console.log(this.props.subject)
     return (
       <Draggable draggableId={_id} index={this.props.index}>
         {provided => (
-          <Container {...provided.draggableProps} innerRef={provided.innerRef}>
+          <Container
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+          >
             <DragonBtn onClick={() => this.props.dragonTextOff(_id)}>full text</DragonBtn>
             <CloseButton onClick={() => this.props.toggleSubject(_id)}>&times;</CloseButton>
             <Heading3 {...provided.dragHandleProps}>{subject}</Heading3>
@@ -93,7 +94,7 @@ class DragonColumn extends Component {
             <Droppable droppableId={_id} type="text">
               {(provided, snapshot) => (
                 <DragonList
-                  innerRef={provided.innerRef}
+                  ref={provided.innerRef}
                   {...provided.droppableProps}
                   isDraggingOver={snapshot.isDraggingOver}
                 >

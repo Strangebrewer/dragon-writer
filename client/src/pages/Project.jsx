@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from "styled-components";
 import Page from "../components/Elements/Page"
@@ -12,6 +12,14 @@ const ColumnContainer = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
+`;
+
+const EditorContainer = styled.div`
+  width: 100%;
+  max-width: 1150px;
+  height: 100%;
+  padding-right: 200px;
+  margin: auto;
 `;
 
 class Project extends Component {
@@ -63,19 +71,22 @@ class Project extends Component {
     this.setState({ editorOn: !this.state.editorOn });
   };
 
-  toggleSubject = id => {
-    this.setState({ [id]: !this.state[id] });
+  toggleSubject = async id => {
+    await this.setState({ [id]: !this.state[id] });
+    this.saveOrder();
   };
 
-  dragonTextOn = () => {
-    this.setState({ dragons: true })
+  dragonTextOn = async () => {
+    await this.setState({ dragons: true });
+    this.saveOrder();
   };
 
   dragonTextOff = async id => {
-    this.setState({
+    await this.setState({
       dragons: false,
       singleSubject: id,
-    })
+    });
+    this.saveOrder();
   };
 
   toggleSubjectForm = async (created, subject) => {
@@ -87,9 +98,10 @@ class Project extends Component {
     else this.setState({ create: !this.state.create });
   };
 
-  clearAllTopics = () => {
+  clearAllTopics = async () => {
     const stateObject = Scales.clearTopicsHelper(this.state.subjectOrder)
-    this.setState(stateObject);
+    await this.setState(stateObject);
+    this.saveOrder();
   };
 
   onDragEnd = async result => {
@@ -127,12 +139,17 @@ class Project extends Component {
 
   saveOrder = async () => {
     const { _id } = this.props.project;
-    const orderObject = { ...this.state };
-    orderObject.editorOn = false;
+    const orderObject = { ...this.state, editorOn: false };
     const updateObj = { order: JSON.stringify(orderObject) }
     await API.updateProject(_id, updateObj);
     this.props.getInitialData(true, this.props.user);
   };
+
+  updateChangedText = async (newText) => {
+    const newState = Scales.updateTextHelper(newText, this.state);
+    await this.setState(newState);
+    this.saveOrder();
+  }
 
   insertNewText = async (subjectId, newText) => {
     const newState = Scales.insertTextHelper(subjectId, newText, this.state);
@@ -166,12 +183,14 @@ class Project extends Component {
         >
           {this.state.editorOn
             ? (
-              <TextEditor
-                projectId={_id}
-                toggleEdit={this.toggleEdit}
-                insertNewText={this.insertNewText}
-                subjects={subjects}
-              />
+              <EditorContainer>
+                <TextEditor
+                  projectId={_id}
+                  toggleEdit={this.toggleEdit}
+                  insertNewText={this.insertNewText}
+                  subjects={subjects}
+                />
+              </EditorContainer>
             ) : (
               <Droppable
                 droppableId="all-subjects"
@@ -181,21 +200,24 @@ class Project extends Component {
                 {provided => (
                   <ColumnContainer
                     {...provided.droppableProps}
-                    innerRef={provided.innerRef}
+                    // this keeps fluctuating - sometimes ref works, other times only innerRef works...
+                    // innerRef={provided.innerRef}
+                    ref={provided.innerRef}
                   >
                     {this.state.dragons
                       ? (
                         this.state.subjectOrder.map((subjectId, index) => {
                           const subject = this.state.subjects[subjectId];
-                          console.log(subject);
+                          const texts = subject.textIds.map(textId => this.state.texts[textId]);
+                          console.log(texts);
                           return this.state[subject._id] &&
                             <DragonColumn
                               key={subject._id}
                               subject={subject}
-                              texts={subject.textIds}
+                              texts={texts}
                               index={index}
                               toggleSubject={this.toggleSubject}
-                              getSubjects={this.props.getSubjects}
+                              // getSubjects={this.props.getSubjects}
                               deleteText={this.deleteText}
                               toggleEdit={this.toggleEdit}
                               dragonTextOff={this.dragonTextOff}
@@ -203,13 +225,20 @@ class Project extends Component {
                         })
                       ) : (
                         <DragonTextColumn
-                          key={this.state.singleSubject}
                           subject={this.state.subjects[this.state.singleSubject]}
-                          texts={this.state.subjects[this.state.singleSubject].textIds}
+                          texts={this.state.subjects[this.state.singleSubject].textIds
+                            .map(textId => {
+                              console.log(this.state.texts[textId]);
+                              return (this.state.texts[textId])
+                            })}
+                          user={this.props.user}
                           deleteText={this.deleteText}
                           toggleEdit={this.toggleEdit}
                           state={this.state}
+                          saveOrder={this.saveOrder}
                           dragonTextOn={this.dragonTextOn}
+                          getInitialData={this.props.getInitialData}
+                          updateChangedText={this.updateChangedText}
                         />
                       )}
                     {provided.placeholder}

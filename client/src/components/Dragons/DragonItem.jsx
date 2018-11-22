@@ -60,17 +60,17 @@ const DateText = styled.h5`
 
 class DragonItem extends Component {
   render() {
-    const { text, subjectId } = this.props;
-    console.log(this.props);
+    const { index, text, subjectId } = this.props;
+    console.log(text._id);
     return (
       <Draggable
-        draggableId={text}
-        index={this.props.index}
+        draggableId={text._id}
+        index={index}
       >
         {(provided, snapshot) => (
           <Container
             {...provided.draggableProps}
-            innerRef={provided.innerRef}
+            ref={provided.innerRef}
             isDragging={snapshot.isDragging}
             {...provided.dragHandleProps}
           >

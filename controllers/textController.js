@@ -46,7 +46,7 @@ module.exports = {
   },
 
   updateText: function (req, res) {
-    db.Text.findOneAndUpdate({ _id: req.params.id }, req.body)
+    db.Text.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then(text => res.json(text))
       .catch(err => res.status(422).json(err));
   },

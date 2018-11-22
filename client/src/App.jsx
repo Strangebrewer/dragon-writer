@@ -4,7 +4,6 @@ import { GlobalStyle } from "./GlobalStyle";
 import Home from "./pages/Home";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
-import Editor from "./pages/Editor";
 import API from "./utils/API";
 import { Utils } from "./utils/Utils";
 import AddPropsToRoute from "./utils/AddPropsToRoute";
@@ -60,6 +59,8 @@ class App extends Component {
       isAuthenticated = true;
     }
 
+    console.log(projectData);
+
     this.setState({
       projectData,
       loading: false,
@@ -95,18 +96,6 @@ class App extends Component {
                   />
                 )
               }
-            />
-
-            <PrivateRoute
-              path="/editor"
-              component={AddPropsToRoute(Editor, {
-                authenticated: isAuthenticated,
-                user: this.state.user,
-                projects: this.state.projects,
-                getInitialData: this.getInitialData,
-                logout: this.logout,
-                loading: this.state.loading
-              })}
             />
 
             {this.state.projects.length > 0

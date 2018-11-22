@@ -35,13 +35,13 @@ class DragonTextItem extends Component {
   render() {
     const { index, text, subject, toggleEdit, deleteText } = this.props;
     const thisValue = text.text ? JSON.parse(text.text) : initialValue; 
-    console.log(subject);
+    console.log(text);
     return (
-      <Draggable draggableId={text._id ? text._id : "fuck"} index={index}>
+      <Draggable key={text} draggableId={text._id} index={index}>
         {(provided, snapshot) => (
           <TextContainer
             {...provided.draggableProps}
-            innerRef={provided.innerRef}
+            ref={provided.innerRef}
             isDragging={snapshot.isDragging}
             {...provided.dragHandleProps}
           >

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Editor } from "slate-react";
 import { Value } from "slate";
-import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { plugins } from "./slate/utils/HotKeys";
 import { renderMark, renderNode } from "./slate/utils/Renderers";
@@ -20,15 +19,15 @@ const editorStyle = {
   fontFamily: "Arial, Helvetica, sans-serif"
 };
 
-const Container = styled.div`
-  width: 100%;
-  max-width: 1150px;
-  height: 100%;
-  padding-right: ${props => props.inline
-    ? 0
-    : "200px"
-  };
-  margin: auto;
+const DragHandle = styled.div`
+  width: 30px;
+  height: 30px;
+  background-color: orange;
+  border: 1px solid ${props => props.theme.black};
+  border-radius: 3px;
+  position: absolute;
+  top: 50px;
+  right: 10px;
 `;
 
 class TextEditor extends Component {
@@ -133,87 +132,80 @@ class TextEditor extends Component {
       title: this.state.title,
       text: JSON.stringify(this.state.value.toJSON())
     }
-    const text = await API.updateText(id, textObject)
-    this.props.toggleEdit(id)
+    const text = await API.updateText(id, textObject);
+    await this.props.toggleEdit(id);
+    this.props.updateChangedText(text.data);
   };
 
   render() {
     // if (props.id) then this editor is being used to update an existing text.
-    const { id, index, subjects } = this.props;
-    const dragonId = id ? id : "narf"
+    const { id, subjects } = this.props;
+    console.log(this.props);
     return (
-      <Draggable draggableId={dragonId} index={index ? index : 0}>
-        {(provided, snapshot) => (
-          <Container
-            {...provided.draggableProps}
-            innerRef={provided.innerRef}
-            isDragging={snapshot.isDragging}
-            {...provided.dragHandleProps}
-            inline={this.props.inline}>
-            <RenderButtons
-              id={id}
-              state={this.state}
-              onClickMark={this.onClickMark}
-              onClickBlock={this.onClickBlock}
-              hasMark={this.hasMark}
-              hasBlock={this.hasBlock}
-              toggleEdit={this.props.toggleEdit}
-            />
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              name="title"
-              value={this.state.title}
-              maxlength="22"
-              placeholder="enter a title (22 char max)"
-              onChange={this.handleInputChange}
-            />
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              name="thesis"
-              value={this.state.thesis}
-              placeholder="enter a short thesis statement"
-              onChange={this.handleInputChange}
-            />
-            {subjects && (
-              <Select
-                style={{ maxWidth: "300px", width: "300px" }}
-                value={this.state.subject}
-                onChange={this.handleInputChange}
-                name="subject"
-              >
-                <option value="">Select a subject:</option>
-                {subjects.map(subject => <option key={subject._id} value={subject._id}>{subject.subject}</option>)}
-              </Select>
-            )}
-            <Editor
-              autoFocus
-              style={editorStyle}
-              plugins={plugins}
-              ref={this.ref}
-              value={this.state.value}
-              onChange={this.onChange}
-              renderMark={renderMark}
-              renderNode={renderNode}
-            />
-            <Button
-              style={{ marginTop: "8px", marginRight: "8px" }}
-              disabled={!this.state.title || !this.state.subject}
-              onClick={id ? () => this.updateText(id) : this.createText}
-            >
-              Save
-            </Button>
-            {id &&
-              <Button
-                style={{ marginTop: "8px", marginRight: "8px" }}
-                onClick={() => this.props.toggleEdit(id)}
-              >
-                Cancel
-              </Button>}
-          </Container>
+      <Fragment>
+        <DragHandle {...this.props.dragHandle} />
+        <RenderButtons
+          id={id}
+        state={this.state}
+        onClickMark={this.onClickMark}
+        onClickBlock={this.onClickBlock}
+        hasMark={this.hasMark}
+        hasBlock={this.hasBlock}
+        toggleEdit={this.props.toggleEdit}
+        />
+        <Input
+          style={{ maxWidth: "300px" }}
+          type="text"
+          name="title"
+          value={this.state.title}
+          maxLength="22"
+          placeholder="enter a title (22 char max)"
+          onChange={this.handleInputChange}
+        />
+        <Input
+          style={{ maxWidth: "300px" }}
+          type="text"
+          name="thesis"
+          value={this.state.thesis}
+          placeholder="enter a short thesis statement"
+          onChange={this.handleInputChange}
+        />
+        {subjects && (
+          <Select
+            style={{ maxWidth: "300px", width: "300px" }}
+            value={this.state.subject}
+            onChange={this.handleInputChange}
+            name="subject"
+          >
+            <option value="">Select a subject:</option>
+            {subjects.map(subject => <option key={subject._id} value={subject._id}>{subject.subject}</option>)}
+          </Select>
         )}
-      </Draggable>
+        <Editor
+          autoFocus
+          style={editorStyle}
+          plugins={plugins}
+          ref={this.ref}
+          value={this.state.value}
+          onChange={this.onChange}
+          renderMark={renderMark}
+          renderNode={renderNode}
+        />
+        <Button
+          style={{ marginTop: "8px", marginRight: "8px" }}
+          disabled={!this.state.title || !this.state.subject}
+          onClick={id ? () => this.updateText(id) : this.createText}
+        >
+          Save
+            </Button>
+        {id &&
+          <Button
+            style={{ marginTop: "8px", marginRight: "8px" }}
+            onClick={() => this.props.toggleEdit(id)}
+          >
+            Cancel
+              </Button>}
+      </Fragment>
     );
   };
 }

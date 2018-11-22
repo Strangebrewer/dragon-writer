@@ -28,8 +28,8 @@ export const Scales = {
   },
 
   deleteTextHelper: function (textId, subjectId, index, state) {
-    // const newTextIds = Array.from(state.subjects[subjectId].textIds);
-    const newTextIds = state.subjects[subjectId].textIds.map(item => ({ ...item }));
+    const newTextIds = Array.from(state.subjects[subjectId].textIds);
+    // const newTextIds = state.subjects[subjectId].textIds.map(item => ({ ...item }));
     newTextIds.splice(index, 1)
     const newTexts = { ...state.texts };
     delete newTexts[textId];
@@ -49,9 +49,8 @@ export const Scales = {
   },
 
   insertTextHelper: function (subjectId, newText, state) {
-    delete newText.text;
-    // const newTextIds = Array.from(state.subjects[subjectId].textIds);
-    const newTextIds = state.subjects[subjectId].textIds.map(item => ({ ...item }));
+    const newTextIds = Array.from(state.subjects[subjectId].textIds);
+    // const newTextIds = state.subjects[subjectId].textIds.map(item => ({ ...item }));
     newTextIds.unshift(newText._id);
     const newSubjects = {
       ...state.subjects,
@@ -70,10 +69,20 @@ export const Scales = {
     }
   },
 
+  updateTextHelper: function (newText, state) {
+    const newTexts = {
+      ...state.texts,
+      [newText._id]: newText
+    };
+    return {
+      texts: newTexts
+    }
+  },
+
   dragonSubjectColumns: function (state, source, destination, draggableId) {
     // create a new subject array that has the same values as the previous subject array:
-    // const newSubjectOrder = Array.from(state.subjectOrder)
-    const newSubjectOrder = state.subjectOrder.map(item => ({ ...item }));
+    const newSubjectOrder = Array.from(state.subjectOrder)
+    // const newSubjectOrder = state.subjectOrder.map(item => ({ ...item }));
     // remove the subject from the array:
     newSubjectOrder.splice(source.index, 1);
     // and insert the subject into its new position:
@@ -87,11 +96,11 @@ export const Scales = {
   },
 
   singleSubjectDragon: function (state, start, source, destination, draggableId) {
-    // const newTextIds = Array.from(start.textIds);
-    const newTextIds = start.textIds.map(item => ({ ...item }));
-    const movingText = { ...newTextIds[source.index] };
+    const newTextIds = Array.from(start.textIds);
+    // const newTextIds = start.textIds.map(item => ({ ...item }));
+    // const movingText = { ...newTextIds[source.index] };
     newTextIds.splice(source.index, 1);
-    newTextIds.splice(destination.index, 0, movingText);
+    newTextIds.splice(destination.index, 0, draggableId);
     // const newSubjectTexts = Array.from(state.subjectTexts);
     // newSubjectTexts.splice(source.index, 1);
     // newSubjectTexts.splice(destination.index, 0, draggableId);
@@ -115,8 +124,8 @@ export const Scales = {
 
   multiSubjectDragon: function (state, start, finish, source, destination, draggableId) {
     // first, create a new array from the existing start array:
-    // const startTextIds = Array.from(start.textIds);
-    const startTextIds = start.textIds.map(item => ({ ...item }));
+    const startTextIds = Array.from(start.textIds);
+    // const startTextIds = start.textIds.map(item => ({ ...item }));
     // Then, splice the dragged item from the new start array:
     startTextIds.splice(source.index, 1);
     // then create a new column with the dragged item removed:
@@ -126,8 +135,8 @@ export const Scales = {
     };
 
     // Then do the opposite for the destination column:
-    // const finishTextIds = Array.from(finish.textIds);
-    const finishTextIds = finish.textIdsmap(item => ({ ...item }));
+    const finishTextIds = Array.from(finish.textIds);
+    // const finishTextIds = finish.textIdsmap(item => ({ ...item }));
     finishTextIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,

@@ -2,18 +2,29 @@ import React, { PureComponent } from 'react';
 import styled from "styled-components";
 
 const FormButton = styled.button`
-  border: 1px solid ${props => props.theme.secondary};
-  border-radius: 5px;
+  border: 1px solid ${props => props.theme.bg};
+  /* border: 1px solid ${props => props.theme.bg}b2; */
+  /* border-radius: 10px; */
   cursor: pointer;
   color: #fff;
-  box-shadow: 0 0 20px 20px ${props => props.theme.secondary}e2 inset, 0 0 0 0 ${props => props.theme.secondary}e2;
+  box-shadow: 0 0 20px 20px ${props => props.theme.bg}f1 inset, 0 0 0 0 ${props => props.theme.bg}f1;
 	transition: all 0.2s ease-in-out;
   padding: 8px 12px;
   margin: 5px 10px 0 0;
-  &:active, &:hover {
-    background-color: #fff;
-    box-shadow: 0 0 5px ${props => props.theme.secondary}e2 inset, 0 0 5px ${props => props.theme.secondary}e2;
-    color: ${props => props.theme.secondary};
+  &:active, &:enabled:hover {
+    background-color: ${props => props.theme.offwhite};
+    box-shadow: 0 0 5px ${props => props.theme.button}e2 inset, 0 0 5px ${props => props.theme.button}e2;
+    color: ${props => props.theme.button};
+  }
+  &[disabled] {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+  &[disabled]:hover {
+    border: 1px solid ${props => props.theme.black};
+    background-color: ${props => props.theme.black};
+    box-shadow: 0 0 5px ${props => props.theme.black} inset, 0 0 5px ${props => props.theme.black};
+    color: ${props => props.theme.black};
   }
 `;
 

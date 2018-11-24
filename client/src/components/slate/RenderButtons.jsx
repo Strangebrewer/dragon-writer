@@ -2,29 +2,48 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const EditorBtnArray = styled.div`
-  padding: 5px 0;
+  padding-top: 26px;
+  margin: 0 0 5px 0;
   button span {
-    font-size: 1.6rem;
+    font-size: ${props => (
+    props.inline
+      ? "1rem"
+      : "1.6rem"
+  )};
     line-height: 0.5;
     font-weight: bold;
     padding: 0;
     margin: 0;
     font-family: 'Times New Roman', Times, serif;
   }
-  button:last-of-type {
-    margin-right: 0;
-  }
 `;
 
 const EditorBtn = styled.button`
-  min-width: 45px;
-  height: 35px;
-  margin: 5px 10px 0 0;
+  width: ${props => (
+    props.inline === "true"
+      ? "30px"
+      : "45px"
+  )};
+  padding: 0;
+  margin-right: 5px;
+  height: ${props => (
+    props.inline
+      ? "30px"
+      : "45px"
+  )};
+  font-size: ${props => (
+    props.inline
+      ? "1rem"
+      : "1.6rem"
+  )};
   opacity: ${props => (
     props.snarky
       ? 1
       : 0.6
   )};
+  &:last-of-type {
+    margin-right: 0;
+  }
 `;
 
 class RenderButtons extends Component {
@@ -40,6 +59,7 @@ class RenderButtons extends Component {
 
     return (
       <EditorBtn
+        inline={this.props.inline}
         snarky={isActive}
         style={{ color }}
         key={`icon-${type}`}
@@ -67,6 +87,7 @@ class RenderButtons extends Component {
 
     return (
       <EditorBtn
+        inline={this.props.inline}
         snarky={isActive}
         key={`icon-${type}`}
         onClick={() => this.props.onClickBlock(type)}
@@ -79,7 +100,7 @@ class RenderButtons extends Component {
 
   render() {
     return (
-      <EditorBtnArray>
+      <EditorBtnArray inline={this.props.inline}>
         {this.renderMarkButton('bold', 'bold')}
         {this.renderMarkButton('italic', 'italic')}
         {this.renderMarkButton('underline', 'underline')}

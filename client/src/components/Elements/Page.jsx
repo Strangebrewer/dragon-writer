@@ -8,17 +8,23 @@ const PageContainer = styled.div`
   display: grid;
   grid-template-columns: 200px 1fr 200px;
   grid-template-rows: auto auto 1fr auto;
+  background: ${props => props.theme.bg};
+  color: ${props => props.theme.color};
+  font-family: ${props => props.theme.text};
 `;
 
 const TitleContainer = styled.div`
   grid-column: 1 / 4;
   grid-row: 2;
   text-align: center;
-  margin: 30px auto 20px auto;
+  margin: 30px auto 30px auto;
   width: 100%;
-  background: ${props => props.theme.lightgrey};
+  background: ${props => props.theme.color};
   padding: 15px 0;
   align-items: center;
+  font-family: ${props => props.theme.heading};
+  font-size: 3rem;
+  color: ${props => props.theme.bg};
 `;
 
 const NavColumn = styled.div`
@@ -26,7 +32,7 @@ const NavColumn = styled.div`
   grid-column: 1;
   width: 200px;
   position: fixed;
-  top: 100px;
+  top: 120px;
   padding: 0 20px 0 20px;
 `;
 

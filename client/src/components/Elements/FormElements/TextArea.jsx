@@ -3,7 +3,11 @@ import styled from "styled-components";
 
 const TextField = styled.textarea`
   display: block;
-  padding: 3px;
+  border: 3px solid ${props => props.theme.link};
+  background-color: ${props => props.theme.lightgrey};
+  color: ${props => props.theme.bg};
+  border-radius: 5px;
+  padding: 5px;
   min-width: 100%;
   max-width: 100%;
   margin-bottom: 5px;

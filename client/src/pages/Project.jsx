@@ -29,7 +29,7 @@ class Project extends Component {
     ? this.props.project.order
     : {
       create: false,
-      dragons: true,
+      dragons: false,
       subjects: this.props.projectData.subjects,
       texts: this.props.projectData.texts,
       subjectOrder: this.props.projectData.subjectOrder,
@@ -76,14 +76,14 @@ class Project extends Component {
     this.saveOrder();
   };
 
-  dragonTextOn = async () => {
-    await this.setState({ dragons: true });
+  dragonTextOff = async () => {
+    await this.setState({ dragons: false });
     this.saveOrder();
   };
 
-  dragonTextOff = async id => {
+  dragonTextOn = async id => {
     await this.setState({
-      dragons: false,
+      dragons: true,
       singleSubject: id,
     });
     this.saveOrder();
@@ -189,6 +189,7 @@ class Project extends Component {
                   toggleEdit={this.toggleEdit}
                   insertNewText={this.insertNewText}
                   subjects={subjects}
+                  toggleEditor={this.toggleEditor}
                 />
               </EditorContainer>
             ) : (
@@ -204,6 +205,21 @@ class Project extends Component {
                   >
                     {this.state.dragons
                       ? (
+                        <DragonTextColumn
+                          subject={this.state.subjects[this.state.singleSubject]}
+                          texts={this.state.subjects[this.state.singleSubject].textIds
+                            .map(textId => (this.state.texts[textId]))}
+                          user={this.props.user}
+                          deleteText={this.deleteText}
+                          toggleEdit={this.toggleEdit}
+                          state={this.state}
+                          saveOrder={this.saveOrder}
+                          dragonTextOn={this.dragonTextOn}
+                          getInitialData={this.props.getInitialData}
+                          updateChangedText={this.updateChangedText}
+                          dragonTextOff={this.dragonTextOff}
+                        />
+                      ) : (
                         this.state.subjectOrder.map((subjectId, index) => {
                           const subject = this.state.subjects[subjectId];
                           const texts = subject.textIds.map(textId => this.state.texts[textId]);
@@ -216,23 +232,9 @@ class Project extends Component {
                               toggleSubject={this.toggleSubject}
                               deleteText={this.deleteText}
                               toggleEdit={this.toggleEdit}
-                              dragonTextOff={this.dragonTextOff}
+                              dragonTextOn={this.dragonTextOn}
                             />
                         })
-                      ) : (
-                        <DragonTextColumn
-                          subject={this.state.subjects[this.state.singleSubject]}
-                          texts={this.state.subjects[this.state.singleSubject].textIds
-                            .map(textId => { return (this.state.texts[textId]) })}
-                          user={this.props.user}
-                          deleteText={this.deleteText}
-                          toggleEdit={this.toggleEdit}
-                          state={this.state}
-                          saveOrder={this.saveOrder}
-                          dragonTextOn={this.dragonTextOn}
-                          getInitialData={this.props.getInitialData}
-                          updateChangedText={this.updateChangedText}
-                        />
                       )}
                     {provided.placeholder}
                   </ColumnContainer>

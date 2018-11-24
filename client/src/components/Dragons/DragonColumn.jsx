@@ -8,7 +8,7 @@ const Container = styled.div`
   width: 260px;
   min-width: 260px;
   margin: 0 10px;
-  border: 1px solid lightgray;
+  border: 1px solid ${props => props.theme.link};
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -18,13 +18,13 @@ const CloseButton = styled.button`
   position: absolute;
   top: 2px;
   right: 2px;
-  color: #aaa;
+  color: ${props => props.theme.link};
   font-size: 1.8rem;
   outline: transparent;
   background-color: transparent;
   border: none;
   &:hover, &:focus {
-    color: black;
+    color: ${props => props.theme.linkHover};
     text-decoration: none;
     cursor: pointer;
   }
@@ -34,13 +34,13 @@ const DragonBtn = styled.button`
   position: absolute;
   top: 7px;
   left: 3px;
-  color: #aaa;
-  font-size: 1rem;
+  color: ${props => props.theme.link};
+  font-size: 1.1rem;
   outline: transparent;
   background-color: transparent;
   border: none;
   &:hover, &:focus {
-    color: black;
+    color: ${props => props.theme.linkHover};
     text-decoration: none;
     cursor: pointer;
   }
@@ -52,7 +52,11 @@ const DragonList = styled.div`
   flex-direction: column;
   flex-grow: 1;
   transition: background-color 1s ease;
-  background-color: ${props => props.isDraggingOver ? 'skyblue' : 'white'};
+  background-color: ${props => (
+    props.isDraggingOver
+      ? props.theme.midGrey
+      : props.theme.bg
+  )};
 `;
 
 const Heading3 = styled.div`
@@ -65,10 +69,13 @@ const Heading3 = styled.div`
 
 const Paragraph = styled.div`
   margin: 8px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   padding: 8px;
   background-color: ${props => props.theme.offwhite};
-  height: 65px;
+  min-height: 75px;
+  color: ${props => props.theme.bg};
+  display: flex;
+  align-items: center;
 `;
 
 class DragonColumn extends Component {
@@ -81,10 +88,10 @@ class DragonColumn extends Component {
             {...provided.draggableProps}
             ref={provided.innerRef}
           >
-            <DragonBtn onClick={() => this.props.dragonTextOff(_id)}>full text</DragonBtn>
+            <DragonBtn onClick={() => this.props.dragonTextOn(_id)}>full text</DragonBtn>
             <CloseButton onClick={() => this.props.toggleSubject(_id)}>&times;</CloseButton>
             <Heading3 {...provided.dragHandleProps}>{subject}</Heading3>
-            <Paragraph>{theme}</Paragraph>
+            <Paragraph><p>{theme}</p></Paragraph>
             <Droppable droppableId={_id} type="text">
               {(provided, snapshot) => (
                 <DragonList

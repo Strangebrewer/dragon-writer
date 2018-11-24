@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Button, Input, TextArea } from "../FormElements";
+import { Button, Input, Label, TextArea } from "../FormElements";
 import API from "../../../utils/API";
 
 const Container = styled.div`
@@ -32,6 +32,7 @@ export class NewSubjectForm extends Component {
   render() {
     return (
       <Container>
+        <Label>Topic Name:</Label>
         <Input
           name="subject"
           value={this.state.subject}
@@ -39,16 +40,22 @@ export class NewSubjectForm extends Component {
           onChange={this.handleInputChange}
           placeholder="subject"
         />
+        <Label>Topic Theme:</Label>
         <TextArea
           name="theme"
           value={this.state.theme}
           type="text"
-          maxlength="150"
+          maxLength="100"
           rows="3"
           onChange={this.handleInputChange}
-          placeholder="subject theme (150 characters max)"
+          placeholder="(100 characters max)"
         />
-        <Button onClick={this.createSubject}>Create</Button>
+        <Button
+          disabled={!this.state.subject || !this.state.theme}
+          onClick={this.createSubject}
+        >
+          Create
+         </Button>
         <Button onClick={this.props.toggleSubjectForm}>Cancel</Button>
       </Container>
     )

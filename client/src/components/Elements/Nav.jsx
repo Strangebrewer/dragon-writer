@@ -9,8 +9,7 @@ const NavContainer = styled.div`
   height: 30px;
   position: fixed;
   top: 0;
-  background-color: white;
-  border-bottom: 1px solid ${props => props.theme.lightgrey};
+  background-color: ${props => props.theme.bg};
   z-index: 99999;
 `;
 
@@ -23,19 +22,24 @@ const NavInner = styled.div`
   align-items: center;
   padding: 0 20px;
   a, button {
-    font-size: 1.3rem;
-    color: ${props => props.theme.black};
+    font-size: 1.6rem;
+    font-weight: bold;
+    font-family: ${props => props.theme.text};
+    color: ${props => props.theme.link};
+  }
+  a:hover, button:hover {
+    color: ${props => props.theme.linkHover};
   }
   a, button, h3 {
      padding: 0 10px;
   }
-  a, button {
-     border-right: 1px solid lightgrey;
+  a {
+     border-right: 1px solid ${props => props.theme.color};
   }
-  button:last-of-type { border: none }
   h3 {
+    font-size: 1.8rem;
     font-weight: bold;
-    color: ${props => props.theme.primary }
+    color: ${props => props.theme.primary};
   }
 `;
 

@@ -14,8 +14,6 @@ const InputField = styled.input`
   box-shadow: ${props => props.theme.formShadow};
 `;
 
-export class Input extends React.PureComponent {
-  render() {
-    return <InputField {...this.props} />
-  }
-}
+export const Input = props => (
+  <InputField {...props} />
+);

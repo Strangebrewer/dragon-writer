@@ -91,51 +91,49 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
-class DragonColumn extends Component {
-  render() {
-    const { subject, theme, _id } = this.props.subject;
-    return (
-      <Draggable draggableId={_id} index={this.props.index}>
-        {provided => (
-          <Container
-            {...provided.draggableProps}
-            ref={provided.innerRef}
-          >
-            <DragonBtn onClick={() => this.props.dragonTextOn(_id)}>see full text</DragonBtn>
-            <CloseButton onClick={() => this.props.toggleSubject(_id)}>&times;</CloseButton>
+const DragonColumn = props => {
+  const { subject, theme, _id } = props.subject;
+  return (
+    <Draggable draggableId={_id} index={props.index}>
+      {provided => (
+        <Container
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <DragonBtn onClick={() => props.dragonTextOn(_id)}>see full text</DragonBtn>
+          <CloseButton onClick={() => props.toggleSubject(_id)}>&times;</CloseButton>
 
-            <SubjectHeader {...provided.dragHandleProps}>
-              <Heading3>{subject}</Heading3>
-              <Paragraph>{theme}</Paragraph>
-            </SubjectHeader>
+          <SubjectHeader {...provided.dragHandleProps}>
+            <Heading3>{subject}</Heading3>
+            <Paragraph>{theme}</Paragraph>
+          </SubjectHeader>
 
-            <Droppable droppableId={_id} type="text">
-              {(provided, snapshot) => (
-                <DragonList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {this.props.texts.map((text, index) => (
-                    <DragonItem
-                      key={text._id}
-                      index={index}
-                      text={text}
-                      subjectId={_id}
-                      deleteText={this.props.deleteText}
-                      loading={this.props.loading}
-                      dragging={this.props.dragging}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </DragonList>
-              )}
-            </Droppable>
-          </Container>
-        )}
-      </Draggable>
-    )
-  }
+          <Droppable droppableId={_id} type="text">
+            {(provided, snapshot) => (
+              <DragonList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
+              >
+                {props.texts.map((text, index) => (
+                  <DragonItem
+                    key={text._id}
+                    index={index}
+                    text={text}
+                    subjectId={_id}
+                    deleteText={props.deleteText}
+                    loading={props.loading}
+                    dragging={props.dragging}
+                  />
+                ))}
+                {provided.placeholder}
+              </DragonList>
+            )}
+          </Droppable>
+        </Container>
+      )}
+    </Draggable>
+  )
 };
 
 export default DragonColumn;

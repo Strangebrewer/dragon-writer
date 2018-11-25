@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import TextEditor from "../TextEditor";
@@ -65,74 +65,72 @@ const EditorContainer = styled.div`
   )};
 `;
 
-class DragonTextColumn extends Component {
-  render() {
-    const { subject, theme, _id } = this.props.subject
-    return (
-      <TextColumn>
-        <SubjectHeading>
-          <Title title={theme}>Topic: {subject}</Title>
-          <LinkBtn onClick={this.props.dragonTextOff}>return to overview</LinkBtn>
-        </SubjectHeading>
+const DragonTextColumn = props => {
+  const { subject, theme, _id } = props.subject
+  return (
+    <TextColumn>
+      <SubjectHeading>
+        <Title title={theme}>Topic: {subject}</Title>
+        <LinkBtn onClick={props.dragonTextOff}>return to overview</LinkBtn>
+      </SubjectHeading>
 
-        <Droppable droppableId={_id} >
-          {(provided, snapshot) => (
-            <DragonTextList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}
-            >
-              {this.props.texts.map((text, index) => {
-                console.log(text);
-                return this.props.state[text._id]
-                  ? (
-                    <Draggable key={text._id} draggableId={text._id} index={index}>
-                      {(provided, snapshot) => (
-                        <EditorContainer
-                          key={text._id}
+      <Droppable droppableId={_id} >
+        {(provided, snapshot) => (
+          <DragonTextList
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            {props.texts.map((text, index) => {
+              console.log(text);
+              return props.state[text._id]
+                ? (
+                  <Draggable key={text._id} draggableId={text._id} index={index}>
+                    {(provided, snapshot) => (
+                      <EditorContainer
+                        key={text._id}
+                        index={index}
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        isDragging={snapshot.isDragging}
+                      // {...provided.dragHandleProps}
+                      >
+                        <TextEditor
+                          id={text._id}
+                          style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
+                          dragHandle={provided.dragHandleProps}
                           index={index}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          isDragging={snapshot.isDragging}
-                        // {...provided.dragHandleProps}
-                        >
-                          <TextEditor
-                            id={text._id}
-                            style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
-                            dragHandle={provided.dragHandleProps}
-                            index={index}
-                            user={this.props.user}
-                            inline="true"
-                            subject={text.subjectId}
-                            text={JSON.parse(text.text)}
-                            title={text.title}
-                            thesis={text.thesis}
-                            toggleEdit={this.props.toggleEdit}
-                            saveOrder={this.props.saveOrder}
-                            getInitialData={this.props.getInitialData}
-                            updateChangedText={this.props.updateChangedText}
-                          />
-                        </EditorContainer>
-                      )}
-                    </Draggable>
-                  ) : (
-                    <DragonTextItem
-                      key={text._id}
-                      subject={this.props.subject}
-                      text={text}
-                      index={index}
-                      toggleEdit={this.props.toggleEdit}
-                      deleteText={this.props.deleteText}
-                    />
-                  )
-              })}
-              {provided.placeholder}
-            </DragonTextList>
-          )}
-        </Droppable>
-      </TextColumn>
-    );
-  }
+                          user={props.user}
+                          inline="true"
+                          subject={text.subjectId}
+                          text={JSON.parse(text.text)}
+                          title={text.title}
+                          thesis={text.thesis}
+                          toggleEdit={props.toggleEdit}
+                          saveOrder={props.saveOrder}
+                          getInitialData={props.getInitialData}
+                          updateChangedText={props.updateChangedText}
+                        />
+                      </EditorContainer>
+                    )}
+                  </Draggable>
+                ) : (
+                  <DragonTextItem
+                    key={text._id}
+                    subject={props.subject}
+                    text={text}
+                    index={index}
+                    toggleEdit={props.toggleEdit}
+                    deleteText={props.deleteText}
+                  />
+                )
+            })}
+            {provided.placeholder}
+          </DragonTextList>
+        )}
+      </Droppable>
+    </TextColumn>
+  );
 }
 
 export default DragonTextColumn;

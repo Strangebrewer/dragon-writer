@@ -6,7 +6,6 @@ import { plugins } from "./slate/utils/HotKeys";
 import { renderMark, renderNode } from "./slate/utils/Renderers";
 import { EditorStyles } from "./slate/utils/EditorStyles";
 import { Button, Input, Label, Select } from "./Elements/FormElements";
-
 import initialValue from "./slate/utils/value.json";
 import RenderButtons from "./slate/RenderButtons.jsx";
 import API from "../utils/API";
@@ -37,7 +36,6 @@ const EditorOuter = styled.div`
 const EditorInner = styled.div`
   width: 100%;
   padding: 10px;
-  /* position: relative; */
 `;
 
 const DragHeader = styled.div`
@@ -50,7 +48,6 @@ const DragHeader = styled.div`
   display: flex;
   align-items: center;
   padding-left: 10px;
-  /* font-weight: bold; */
   font-size: 2.2rem;
   color: ${props => props.theme.bg};
 `;
@@ -145,8 +142,6 @@ class TextEditor extends Component {
     API.createText(textObject)
       .then(res => {
         this.props.insertNewText(this.state.subject, res.data);
-        // empty editor fields (maybe)
-        // do whatever else you want to do with the creation of a new text.
       })
       .catch(err => console.log(err));
   };
@@ -171,6 +166,7 @@ class TextEditor extends Component {
         <DragHeader {...this.props.dragHandle}>
           <p>{inline ? title : "Create New Text"}</p>
         </DragHeader>
+
         <EditorInner>
           <RenderButtons
             id={id}
@@ -182,6 +178,7 @@ class TextEditor extends Component {
             hasBlock={this.hasBlock}
             toggleEdit={this.props.toggleEdit}
           />
+
           <Label>Title:</Label>
           <Input
             style={{ maxWidth: "300px" }}
@@ -192,6 +189,7 @@ class TextEditor extends Component {
             placeholder="(22 char max)"
             onChange={this.handleInputChange}
           />
+
           <Label>Summary:</Label>
           <Input
             style={{ maxWidth: "300px" }}
@@ -201,6 +199,7 @@ class TextEditor extends Component {
             placeholder="enter a short description"
             onChange={this.handleInputChange}
           />
+
           {subjects && (
             <Fragment>
               <Label>Column:</Label>
@@ -215,6 +214,7 @@ class TextEditor extends Component {
               </Select>
             </Fragment>
           )}
+
           <EditorStyles>
             <Editor
               autoFocus
@@ -234,7 +234,8 @@ class TextEditor extends Component {
             onClick={id ? () => this.updateText(id) : this.createText}
           >
             Save
-        </Button>
+          </Button>
+
           {id
             ? (
               <Button
@@ -250,8 +251,7 @@ class TextEditor extends Component {
               >
                 Cancel
               </Button>
-            )
-          }
+            )}
         </EditorInner>
       </EditorOuter>
     );

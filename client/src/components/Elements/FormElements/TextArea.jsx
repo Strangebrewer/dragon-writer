@@ -14,8 +14,6 @@ const TextField = styled.textarea`
   margin-bottom: 5px;
 `;
 
-export class TextArea extends React.PureComponent {
-  render() {
-    return <TextField {...this.props} />
-  }
-}
+export const TextArea = props => (
+  <TextField {...props} />
+);

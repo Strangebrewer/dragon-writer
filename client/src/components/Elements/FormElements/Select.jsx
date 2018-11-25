@@ -14,7 +14,5 @@ const Dropdown = styled.select`
 `;
 
 export const Select = props => (
-  <Dropdown {...props}>
-    {props.children}
-  </Dropdown>
+  <Dropdown {...props}>{props.children}</Dropdown>
 );

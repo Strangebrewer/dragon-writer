@@ -13,26 +13,12 @@ const PageContainer = styled.div`
   font-family: ${props => props.theme.text};
 `;
 
-const TitleContainer = styled.div`
-  grid-column: 1 / 4;
-  grid-row: 2;
-  text-align: center;
-  margin: 30px auto 30px auto;
-  width: 100%;
-  background: ${props => props.theme.color};
-  padding: 15px 0;
-  align-items: center;
-  font-family: ${props => props.theme.heading};
-  font-size: 3rem;
-  color: ${props => props.theme.bg};
-`;
-
 const NavColumn = styled.div`
   grid-row: 3;
   grid-column: 1;
   width: 200px;
   position: fixed;
-  top: 120px;
+  top: 150px;
   padding: 0 20px 0 20px;
 `;
 
@@ -49,12 +35,50 @@ const FooterContainer = styled.div`
   height: 90px;
 `;
 
+const TitleContainer = styled.div`
+  color: ${props => props.theme.color};
+  grid-column: 1 / 4;
+  grid-row: 2;
+  text-align: center;
+  margin: ${props => (
+    props.dragons
+      ? "30px auto 15px auto"
+      : "30px auto"
+  )};
+  width: ${props => (props.home ? '600px' : '100%')};
+  transition: color .3s ease-in;
+  background: ${props => (props.home ? props.theme.offwhite : props.theme.color)};
+  box-shadow: ${props => (props.home ? '6px 6px 2px #000' : 'none')};
+  padding: 5px 0 8px 0;
+  align-items: center;  
+  h2 {
+    font-family: ${props => props.theme.heading};
+    font-size: ${props => (
+    props.size === 'large'
+      ? "5rem"
+      : "3rem"
+  )};
+    color: ${props => props.home ? props.theme.bg : props.theme.bg};
+  }
+  h3 {
+    font-weight: bold;    font-size: ${props => (
+    props.size === 'large'
+      ? "1.65rem"
+      : "1.5rem"
+  )};
+    margin-top: 10px;
+    color: ${props => props.home ? props.theme.bg : props.theme.bg};
+  }
+`;
+
 class Page extends Component {
   render() {
     const { user, projectId, subjects, logout,
       authenticated, title, toggleSubject,
       create, toggleSubjectForm, children,
-      toggleEditor, clearAllTopics } = this.props;
+      toggleEditor, clearAllTopics, size,
+      dragons, dragonTextOn, subtitle, home, editorOn } = this.props;
+
     return (
       <PageContainer >
         <Nav
@@ -63,12 +87,13 @@ class Page extends Component {
           authenticated={authenticated}
         />
 
-        <TitleContainer>
-          <h2>{title}</h2>
+        <TitleContainer size={size} home={home} title={title} subtitle={subtitle} dragons={dragons}>
+          <h2 title={subtitle}>{title}</h2>
+          {home && <h3>{subtitle}</h3>}
         </TitleContainer>
 
         <NavColumn>
-          {subjects &&
+          {subjects && !editorOn &&
             <React.Fragment>
               <SubjectList
                 subjects={subjects}
@@ -78,6 +103,8 @@ class Page extends Component {
                 projectId={projectId}
                 create={create}
                 clearAllTopics={clearAllTopics}
+                dragons={dragons}
+                dragonTextOn={dragonTextOn}
               />
             </React.Fragment>}
         </NavColumn>

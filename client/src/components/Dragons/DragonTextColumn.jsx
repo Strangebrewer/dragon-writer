@@ -5,17 +5,13 @@ import TextEditor from "../TextEditor";
 import DragonTextItem from "./DragonTextItem";
 
 const TextColumn = styled.div`
-  width: 60%;
+  width: 80%;
+  max-width: 1250px;
   margin: 0 auto;
   border-radius: 3px;
   padding-right: 200px;
   display: flex;
   flex-direction: column;
-  background-color: ${props => (
-    props.isDraggingOver
-      ? props.theme.midGrey
-      : props.theme.bg
-  )};
 `;
 
 const SubjectHeading = styled.div`
@@ -27,22 +23,10 @@ const SubjectHeading = styled.div`
 const Title = styled.h3`
 font-family: ${props => props.theme.heading};
   width: 100%;
-  font-size: 4.5rem;
+  font-size: 3.5rem;
   text-align: center;
-  /* font-weight: bold; */
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   color: ${props => props.theme.hcolor};
-`;
-
-const Theme = styled.p`
-  width: 60%;
-  text-align: center;
-  margin: 0 auto 5px auto;
-  font-size: 1.5rem;
-  line-height: 1.2;
-  padding: 5px;
-  font-weight: bold;
-  /* background-color: ${props => props.theme.offwhite}; */
 `;
 
 const LinkBtn = styled.button`
@@ -52,7 +36,6 @@ const LinkBtn = styled.button`
   display: block;
   margin: auto;
   color: ${props => props.theme.link};
-  padding: 0 10px 0 0;
   text-decoration: underline;
   cursor: pointer;
   font-size: 1.1rem;
@@ -66,12 +49,6 @@ const DragonTextList = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  transition: background-color 1s ease;
-  background-color: ${props => (
-    props.isDraggingOver
-      ? props.theme.midGrey
-      : props.theme.bg
-  )};
 `;
 
 const EditorContainer = styled.div`
@@ -80,6 +57,12 @@ const EditorContainer = styled.div`
   height: 100%;
   margin: auto;
   position: relative;
+  transition: background-color .2s ease;
+  background-color: ${props => (
+    props.isDragging
+      ? props.theme.bgLite
+      : props.theme.bg
+  )};
 `;
 
 class DragonTextColumn extends Component {
@@ -88,12 +71,10 @@ class DragonTextColumn extends Component {
     return (
       <TextColumn>
         <SubjectHeading>
-          <Title>{subject}</Title>
-          <Theme>{theme}</Theme>
+          <Title title={theme}>Topic: {subject}</Title>
           <LinkBtn onClick={this.props.dragonTextOff}>return to overview</LinkBtn>
         </SubjectHeading>
 
-        {/* subject heading info here... */}
         <Droppable droppableId={_id} >
           {(provided, snapshot) => (
             <DragonTextList
@@ -117,6 +98,7 @@ class DragonTextColumn extends Component {
                         >
                           <TextEditor
                             id={text._id}
+                            style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
                             dragHandle={provided.dragHandleProps}
                             index={index}
                             user={this.props.user}

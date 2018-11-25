@@ -19,7 +19,6 @@ const NavInner = styled.div`
   height: 30px;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 0 20px;
   a, button {
     font-size: 1.6rem;
@@ -40,7 +39,12 @@ const NavInner = styled.div`
     font-size: 1.8rem;
     font-weight: bold;
     color: ${props => props.theme.primary};
+    align-self: center;
   }
+`;
+
+const LinkContainer = styled.div`
+  align-self: center;
 `;
 
 const Button = styled.button`
@@ -54,15 +58,19 @@ const Button = styled.button`
 
 class Nav extends React.PureComponent {
   render() {
-    const { authenticated, user, logout } = this.props;
+    const { authenticated, user, logout, size, home, title, subtitle } = this.props;
     return (
       <NavContainer>
         <NavInner>
           {authenticated && (
             <React.Fragment>
-              <h3>Hello {user.username}!</h3>
-              <Link to="/">Home</Link>
-              <Button onClick={logout}>Logout</Button>
+              <h3>Hello, {user.username}!</h3>
+
+              <LinkContainer>
+                <Link to="/">Home</Link>
+                <Button onClick={logout}>Logout</Button>
+              </LinkContainer>
+
             </React.Fragment>
           )}
         </NavInner>

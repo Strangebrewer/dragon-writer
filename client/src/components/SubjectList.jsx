@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { NewSubjectForm } from "./Elements/Forms";
 import { Button } from "./Elements/FormElements/Button";
 
-const buttonStyle= {
+const buttonStyle = {
   marginLeft: "20px",
   marginTop: "10px",
-  width: "100px"
+  width: "120px"
 }
 
 const Container = styled.div`
@@ -53,17 +53,21 @@ const ListItem = styled.li`
 `;
 
 const SubjectList = props => {
-  const { subjects, toggleSubject, create, toggleSubjectForm, clearAllTopics, toggleEditor, projectId } = props;
+  const { subjects, dragons, dragonTextOn, toggleSubject, create, toggleSubjectForm, clearAllTopics, toggleEditor, projectId } = props;
   return (
     <Container>
       <HeadingTwo>
-        Topics <LinkBtn onClick={clearAllTopics}> (clear all)</LinkBtn>
+        Columns <LinkBtn onClick={clearAllTopics}> (clear all)</LinkBtn>
       </HeadingTwo>
       {subjects.length === 0 && <Empty>You don't have any topics for this project yet.</Empty>}
       <List>
         {subjects.map(subject => (
           <ListItem key={subject._id}>
-            <LinkBtn onClick={() => toggleSubject(subject._id)}>
+            <LinkBtn onClick={
+              dragons
+                ? () => dragonTextOn(subject._id)
+                : () => toggleSubject(subject._id)
+            }>
               {subject.subject}
             </LinkBtn>
           </ListItem>
@@ -76,13 +80,15 @@ const SubjectList = props => {
             projectId={projectId}
           />
         ) : (
-          <Button onClick={toggleSubjectForm} style={buttonStyle}>
-            New Topic
-          </Button>
+          <React.Fragment>
+            <Button onClick={toggleSubjectForm} style={buttonStyle}>
+              New Column
+            </Button>
+            <Button onClick={toggleEditor} style={buttonStyle}>
+              New Text
+            </Button>
+          </React.Fragment>
         )}
-      <Button onClick={toggleEditor} style={buttonStyle}>
-        New Text
-      </Button>
     </Container>
   )
 };

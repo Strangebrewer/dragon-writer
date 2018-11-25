@@ -130,10 +130,13 @@ class Home extends PureComponent {
   render() {
     return (
       <Page
-        title="Home Page!"
+        title="Dragon Writer"
+        subtitle="Drag-and-drop storyboarding for writers"
+        size="large"
         user={this.props.user}
         logout={this.props.logout}
         authenticated={this.props.authenticated}
+        home="true"
       >
         <Modal
           show={this.state.modal.isOpen}

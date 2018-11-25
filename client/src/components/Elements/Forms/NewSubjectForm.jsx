@@ -32,15 +32,15 @@ export class NewSubjectForm extends Component {
   render() {
     return (
       <Container>
-        <Label>Topic Name:</Label>
+        <Label>Column Topic:</Label>
         <Input
           name="subject"
           value={this.state.subject}
           type="text"
           onChange={this.handleInputChange}
-          placeholder="subject"
+          placeholder="enter topic"
         />
-        <Label>Topic Theme:</Label>
+        <Label>Column Theme:</Label>
         <TextArea
           name="theme"
           value={this.state.theme}

@@ -4,7 +4,9 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import { plugins } from "./slate/utils/HotKeys";
 import { renderMark, renderNode } from "./slate/utils/Renderers";
+import { EditorStyles } from "./slate/utils/EditorStyles";
 import { Button, Input, Label, Select } from "./Elements/FormElements";
+
 import initialValue from "./slate/utils/value.json";
 import RenderButtons from "./slate/RenderButtons.jsx";
 import API from "../utils/API";
@@ -14,7 +16,7 @@ const DEFAULT_NODE = 'paragraph';
 const editorStyle = {
   border: "1px solid black",
   backgroundColor: "#d7d7d7",
-  border: "3px solid #87b3b0",
+  border: "2px solid #87b3b0",
   borderRadius: "5px",
   color: "#062333",
   minHeight: "200px",
@@ -152,6 +154,7 @@ class TextEditor extends Component {
   updateText = async id => {
     const textObject = {
       title: this.state.title,
+      thesis: this.state.thesis,
       text: JSON.stringify(this.state.value.toJSON())
     }
     const text = await API.updateText(id, textObject);
@@ -189,7 +192,7 @@ class TextEditor extends Component {
             placeholder="(22 char max)"
             onChange={this.handleInputChange}
           />
-          <Label>Thesis:</Label>
+          <Label>Summary:</Label>
           <Input
             style={{ maxWidth: "300px" }}
             type="text"
@@ -198,28 +201,33 @@ class TextEditor extends Component {
             placeholder="enter a short description"
             onChange={this.handleInputChange}
           />
-          <Label>Topic:</Label>
           {subjects && (
-            <Select
-              style={{ maxWidth: "300px", width: "300px" }}
-              value={this.state.subject}
-              onChange={this.handleInputChange}
-              name="subject"
-            >
-              <option value="">Select a subject:</option>
-              {subjects.map(subject => <option key={subject._id} value={subject._id}>{subject.subject}</option>)}
-            </Select>
+            <Fragment>
+              <Label>Column:</Label>
+              <Select
+                style={{ maxWidth: "300px", width: "300px" }}
+                value={this.state.subject}
+                onChange={this.handleInputChange}
+                name="subject"
+              >
+                <option value="">Select a column:</option>
+                {subjects.map(subject => <option key={subject._id} value={subject._id}>{subject.subject}</option>)}
+              </Select>
+            </Fragment>
           )}
-          <Editor
-            autoFocus
-            style={editorStyle}
-            plugins={plugins}
-            ref={this.ref}
-            value={this.state.value}
-            onChange={this.onChange}
-            renderMark={renderMark}
-            renderNode={renderNode}
-          />
+          <EditorStyles>
+            <Editor
+              autoFocus
+              style={editorStyle}
+              plugins={plugins}
+              ref={this.ref}
+              value={this.state.value}
+              onChange={this.onChange}
+              renderMark={renderMark}
+              renderNode={renderNode}
+            />
+          </EditorStyles>
+
           <Button
             style={{ marginTop: "8px", marginRight: "8px" }}
             disabled={!this.state.title || !this.state.subject}

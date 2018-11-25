@@ -12,6 +12,7 @@ const ColumnContainer = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
+  background: transparent;
 `;
 
 const EditorContainer = styled.div`
@@ -104,12 +105,22 @@ class Project extends Component {
     this.saveOrder();
   };
 
+  onDragStart = start => {
+    if (start.type !== 'subject') this.setState({ dragging: true });
+  }
+
   onDragEnd = async result => {
+    await this.setState({ loading: true });
     const { destination, source, draggableId, type } = result;
-    if (!destination) return;
-    if (destination.droppableId === source.droppableId &&
-      destination.index === source.index)
+    if (!destination) {
+      await this.setState({ loading: false });
       return;
+    }
+    if (destination.droppableId === source.droppableId &&
+      destination.index === source.index) {
+      await this.setState({ loading: false });
+      return;
+    }
 
     // if you are dragging one of the subject columns, the type will be "subject"
     if (type === 'subject') {
@@ -139,7 +150,7 @@ class Project extends Component {
 
   saveOrder = async () => {
     const { _id } = this.props.project;
-    const orderObject = Object.assign({}, { ...this.state }, { editorOn: false })
+    const orderObject = Object.assign({}, { ...this.state }, { editorOn: false, loading: false, dragging: false })
     delete orderObject.texts;
     const updateObj = { order: JSON.stringify(orderObject) }
     await API.updateProject(_id, updateObj);
@@ -165,11 +176,12 @@ class Project extends Component {
   };
 
   render() {
-    const { title, _id, subjects } = this.props.project;
+    const { title, _id, subjects, summary } = this.props.project;
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
+      <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart} onDragUpdate={this.onDragUpdate}>
         <Page
           title={`Project: ${title}`}
+          subtitle={summary}
           user={this.props.user}
           projectId={_id}
           subjects={subjects}
@@ -177,9 +189,12 @@ class Project extends Component {
           logout={this.props.logout}
           toggleSubjectForm={this.toggleSubjectForm}
           toggleEditor={this.toggleEditor}
+          editorOn={this.state.editorOn}
           create={this.state.create}
           authenticated={this.props.authenticated}
           clearAllTopics={this.clearAllTopics}
+          dragons={this.state.dragons}
+          dragonTextOn={this.dragonTextOn}
         >
           {this.state.editorOn
             ? (
@@ -233,6 +248,8 @@ class Project extends Component {
                               deleteText={this.deleteText}
                               toggleEdit={this.toggleEdit}
                               dragonTextOn={this.dragonTextOn}
+                              loading={this.state.loading}
+                              dragging={this.state.dragging}
                             />
                         })
                       )}

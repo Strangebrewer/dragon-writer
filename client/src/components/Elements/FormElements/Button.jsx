@@ -6,14 +6,15 @@ const FormButton = styled.button`
   /* border: 1px solid ${props => props.theme.bg}b2; */
   /* border-radius: 10px; */
   cursor: pointer;
+  outline: transparent;
   color: #fff;
-  box-shadow: 0 0 20px 20px ${props => props.theme.bg}f1 inset, 0 0 0 0 ${props => props.theme.bg}f1;
+  box-shadow: 0 0 20px 20px ${props => props.theme.button} inset, 0 0 0 0 ${props => props.theme.button};
 	transition: all 0.2s ease-in-out;
   padding: 8px 12px;
   margin: 5px 10px 0 0;
   &:active, &:enabled:hover {
     background-color: ${props => props.theme.offwhite};
-    box-shadow: 0 0 5px ${props => props.theme.button}e2 inset, 0 0 5px ${props => props.theme.button}e2;
+    box-shadow: 0 0 5px ${props => props.theme.button} inset, 0 0 5px ${props => props.theme.button};
     color: ${props => props.theme.button};
   }
   &[disabled] {

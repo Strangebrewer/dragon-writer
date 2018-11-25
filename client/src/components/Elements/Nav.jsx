@@ -56,27 +56,25 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-class Nav extends React.PureComponent {
-  render() {
-    const { authenticated, user, logout, size, home, title, subtitle } = this.props;
-    return (
-      <NavContainer>
-        <NavInner>
-          {authenticated && (
-            <React.Fragment>
-              <h3>Hello, {user.username}!</h3>
+const Nav = props => {
+  const { authenticated, user, logout } = props;
+  return (
+    <NavContainer>
+      <NavInner>
+        {authenticated && (
+          <React.Fragment>
+            <h3>Hello, {user.username}!</h3>
 
-              <LinkContainer>
-                <Link to="/">Home</Link>
-                <Button onClick={logout}>Logout</Button>
-              </LinkContainer>
+            <LinkContainer>
+              <Link to="/">Home</Link>
+              <Button onClick={logout}>Logout</Button>
+            </LinkContainer>
 
-            </React.Fragment>
-          )}
-        </NavInner>
-      </NavContainer>
-    );
-  }
+          </React.Fragment>
+        )}
+      </NavInner>
+    </NavContainer>
+  );
 };
 
 export default Nav;

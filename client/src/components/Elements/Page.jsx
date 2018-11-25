@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Nav from './Nav';
 import SubjectList from "../SubjectList";
 import styled from "styled-components";
@@ -71,52 +71,69 @@ const TitleContainer = styled.div`
   }
 `;
 
-class Page extends Component {
-  render() {
-    const { user, projectId, subjects, logout,
-      authenticated, title, toggleSubject,
-      create, toggleSubjectForm, children,
-      toggleEditor, clearAllTopics, size,
-      dragons, dragonTextOn, subtitle, home, editorOn } = this.props;
+const Page = props => {
+  const {
+    authenticated,
+    children,
+    clearAllTopics,
+    create,
+    dragons,
+    dragonTextOn,
+    editorOn,
+    home,
+    logout,
+    projectId,
+    size,
+    subjects,
+    subtitle,
+    title,
+    toggleEditor,
+    toggleSubject,
+    toggleSubjectForm,
+    user
+  } = props;
 
-    return (
-      <PageContainer >
-        <Nav
-          user={user}
-          logout={logout}
-          authenticated={authenticated}
-        />
+  return (
+    <PageContainer >
+      <Nav
+        authenticated={authenticated}
+        logout={logout}
+        user={user}
+      />
 
-        <TitleContainer size={size} home={home} title={title} subtitle={subtitle} dragons={dragons}>
-          <h2 title={subtitle}>{title}</h2>
-          {home && <h3>{subtitle}</h3>}
-        </TitleContainer>
+      <TitleContainer
+        dragons={dragons}
+        home={home}
+        size={size}
+        subtitle={subtitle}
+        title={title}
+      >
+        <h2 title={subtitle}>{title}</h2>
+        {home && <h3>{subtitle}</h3>}
+      </TitleContainer>
 
-        <NavColumn>
-          {subjects && !editorOn &&
-            <React.Fragment>
-              <SubjectList
-                subjects={subjects}
-                toggleSubject={toggleSubject}
-                toggleSubjectForm={toggleSubjectForm}
-                toggleEditor={toggleEditor}
-                projectId={projectId}
-                create={create}
-                clearAllTopics={clearAllTopics}
-                dragons={dragons}
-                dragonTextOn={dragonTextOn}
-              />
-            </React.Fragment>}
-        </NavColumn>
+      <NavColumn>
+        {subjects && !editorOn &&
+          <SubjectList
+            clearAllTopics={clearAllTopics}
+            create={create}
+            dragons={dragons}
+            dragonTextOn={dragonTextOn}
+            projectId={projectId}
+            subjects={subjects}
+            toggleEditor={toggleEditor}
+            toggleSubject={toggleSubject}
+            toggleSubjectForm={toggleSubjectForm}
+          />}
+      </NavColumn>
 
-        <ContentColumn>
-          {children}
-        </ContentColumn>
+      <ContentColumn>
+        {children}
+      </ContentColumn>
 
-        <FooterContainer></FooterContainer>
-      </PageContainer >
-    );
-  }
+      <FooterContainer></FooterContainer>
+    </PageContainer >
+  );
 }
 
 export default Page;

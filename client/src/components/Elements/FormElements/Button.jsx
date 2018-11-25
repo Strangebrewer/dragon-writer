@@ -1,10 +1,8 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
 const FormButton = styled.button`
   border: 1px solid ${props => props.theme.bg};
-  /* border: 1px solid ${props => props.theme.bg}b2; */
-  /* border-radius: 10px; */
   cursor: pointer;
   outline: transparent;
   color: #fff;
@@ -29,10 +27,6 @@ const FormButton = styled.button`
   }
 `;
 
-export class Button extends PureComponent {
-  render() {
-    return (
-      <FormButton {...this.props}>{this.props.children}</FormButton>
-    );
-  }
-}
+export const Button = props => (
+  <FormButton {...props}>{props.children}</FormButton>
+);

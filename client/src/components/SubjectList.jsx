@@ -53,13 +53,26 @@ const ListItem = styled.li`
 `;
 
 const SubjectList = props => {
-  const { subjects, dragons, dragonTextOn, toggleSubject, create, toggleSubjectForm, clearAllTopics, toggleEditor, projectId } = props;
+  const {
+    clearAllTopics,
+    create,
+    dragons,
+    dragonTextOn,
+    projectId,
+    subjects,
+    toggleEditor,
+    toggleSubject,
+    toggleSubjectForm,
+  } = props;
+
   return (
     <Container>
       <HeadingTwo>
         Columns <LinkBtn onClick={clearAllTopics}> (clear all)</LinkBtn>
       </HeadingTwo>
+
       {subjects.length === 0 && <Empty>You don't have any topics for this project yet.</Empty>}
+
       <List>
         {subjects.map(subject => (
           <ListItem key={subject._id}>
@@ -73,6 +86,7 @@ const SubjectList = props => {
           </ListItem>
         ))}
       </List>
+      
       {create
         ? (
           <NewSubjectForm

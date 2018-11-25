@@ -168,8 +168,6 @@ class Home extends PureComponent {
               />
             )}
         </Container>
-
-
       </Page>
     );
   }

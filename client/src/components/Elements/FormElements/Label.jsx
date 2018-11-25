@@ -4,7 +4,7 @@ import styled from "styled-components";
 const FormLabel = styled.label`
   display: block;
   padding: 10px 0 5px 0;
-  font-weight: bold;
+  /* font-weight: bold; */
   font-size: 1.7rem;
 `;
 

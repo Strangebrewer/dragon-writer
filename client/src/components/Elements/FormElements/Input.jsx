@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const InputField = styled.input`
   display: block;
-  border: 3px solid ${props => props.theme.link};
+  border: 2px solid ${props => props.theme.link};
   background-color: ${props => props.theme.midGrey};
   color: ${props => props.theme.bg};
   border-radius: 5px;

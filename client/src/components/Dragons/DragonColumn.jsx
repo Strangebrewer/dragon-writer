@@ -7,11 +7,16 @@ const Container = styled.div`
   position: relative;
   width: 260px;
   min-width: 260px;
-  margin: 0 10px;
-  border: 1px solid ${props => props.theme.link};
-  border-radius: 5px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
+  background: ${props => props.theme.bg};
+`;
+
+const SubjectHeader = styled.div`
+  position: absolute;
+  top: 30px;
+  width: 100%;
 `;
 
 const CloseButton = styled.button`
@@ -48,14 +53,23 @@ const DragonBtn = styled.button`
 
 const DragonList = styled.div`
   padding: 8px;
+  padding-top: 136px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  transition: background-color 1s ease;
-  background-color: ${props => (
+  border-radius: 5px;
+  transition: all .2s ease-in-out;
+  border-color: ${props => (
     props.isDraggingOver
-      ? props.theme.midGrey
-      : props.theme.bg
+      ? props.theme.linkHover
+      : props.theme.link
+  )};
+  border-width: 2px;
+  border-style: solid;
+  box-shadow: ${props => (
+    props.isDraggingOver
+      ? props.theme.columnBs
+      : "none"
   )};
 `;
 
@@ -64,18 +78,17 @@ const Heading3 = styled.div`
   font-size: 2rem;
   text-align: center;
   padding: 0 8px;
-  margin-top: 25px;
+  margin: 5px 0 10px 0;
 `;
 
-const Paragraph = styled.div`
-  margin: 8px;
+const Paragraph = styled.p`
+  margin: 0 10px;
   font-size: 1.5rem;
   padding: 8px;
-  background-color: ${props => props.theme.offwhite};
+  border-top: 1px solid ${props => props.theme.color};
   min-height: 75px;
-  color: ${props => props.theme.bg};
-  display: flex;
-  align-items: center;
+  color: ${props => props.theme.text};
+  text-align: center;
 `;
 
 class DragonColumn extends Component {
@@ -88,10 +101,14 @@ class DragonColumn extends Component {
             {...provided.draggableProps}
             ref={provided.innerRef}
           >
-            <DragonBtn onClick={() => this.props.dragonTextOn(_id)}>full text</DragonBtn>
+            <DragonBtn onClick={() => this.props.dragonTextOn(_id)}>see full text</DragonBtn>
             <CloseButton onClick={() => this.props.toggleSubject(_id)}>&times;</CloseButton>
-            <Heading3 {...provided.dragHandleProps}>{subject}</Heading3>
-            <Paragraph><p>{theme}</p></Paragraph>
+
+            <SubjectHeader {...provided.dragHandleProps}>
+              <Heading3>{subject}</Heading3>
+              <Paragraph>{theme}</Paragraph>
+            </SubjectHeader>
+
             <Droppable droppableId={_id} type="text">
               {(provided, snapshot) => (
                 <DragonList
@@ -106,6 +123,8 @@ class DragonColumn extends Component {
                       text={text}
                       subjectId={_id}
                       deleteText={this.props.deleteText}
+                      loading={this.props.loading}
+                      dragging={this.props.dragging}
                     />
                   ))}
                   {provided.placeholder}

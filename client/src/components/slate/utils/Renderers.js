@@ -23,16 +23,16 @@ function renderNode(props, editor, next) {
         </div>
       );
 
-    case 'tab-p':
-      return <p style={{ textIndent: "25px" }} {...attributes}>{children}</p>
+    case 'paragraph':
+      return <p {...attributes}>{children}</p>
     case 'bulleted-list':
       return <ul {...attributes}>{children}</ul>
     case 'heading-one':
-      return <h1 {...attributes}>{children}</h1>
+      return <h1 style={{ fontSize: "30px", fontWeight: "bold" }} {...attributes}>{children}</h1>
     case 'heading-two':
-      return <h2 {...attributes}>{children}</h2>
+      return <h2 style={{ fontSize: "25px", fontWeight: "bold" }} {...attributes}>{children}</h2>
     case 'heading-three':
-      return <h3 {...attributes}>{children}</h3>
+      return <h3 style={{ fontSize: "20px", fontWeight: "bold" }} {...attributes}>{children}</h3>
     case 'list-item':
       return <li {...attributes}>{children}</li>
     case 'numbered-list':

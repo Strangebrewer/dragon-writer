@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import LinkBtn from "../Elements/LinkBtn";
 import DragonItem from "./DragonItem";
 
 const Container = styled.div`
@@ -10,45 +11,13 @@ const Container = styled.div`
   margin: 10px;
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.bg};
+  background: ${props => props.theme.pageBG};
 `;
 
 const SubjectHeader = styled.div`
   position: absolute;
   top: 30px;
   width: 100%;
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  color: ${props => props.theme.link};
-  font-size: 1.8rem;
-  outline: transparent;
-  background-color: transparent;
-  border: none;
-  &:hover, &:focus {
-    color: ${props => props.theme.linkHover};
-    text-decoration: none;
-    cursor: pointer;
-  }
-`;
-
-const DragonBtn = styled.button`
-  position: absolute;
-  top: 7px;
-  left: 3px;
-  color: ${props => props.theme.link};
-  font-size: 1.1rem;
-  outline: transparent;
-  background-color: transparent;
-  border: none;
-  &:hover, &:focus {
-    color: ${props => props.theme.linkHover};
-    text-decoration: none;
-    cursor: pointer;
-  }
 `;
 
 const DragonList = styled.div`
@@ -62,13 +31,13 @@ const DragonList = styled.div`
   border-color: ${props => (
     props.isDraggingOver
       ? props.theme.linkHover
-      : props.theme.link
+      : props.theme.links
   )};
   border-width: 2px;
   border-style: solid;
   box-shadow: ${props => (
     props.isDraggingOver
-      ? props.theme.columnBs
+      ? props.theme.columnBS
       : "none"
   )};
 `;
@@ -85,9 +54,9 @@ const Paragraph = styled.p`
   margin: 0 10px;
   font-size: 1.5rem;
   padding: 8px;
-  border-top: 1px solid ${props => props.theme.color};
+  border-top: 1px solid ${props => props.theme.mainColor};
   min-height: 75px;
-  color: ${props => props.theme.text};
+  color: ${props => props.theme.mainColor};
   text-align: center;
 `;
 
@@ -100,8 +69,27 @@ const DragonColumn = props => {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <DragonBtn onClick={() => props.dragonTextOn(_id)}>see full text</DragonBtn>
-          <CloseButton onClick={() => props.toggleSubject(_id)}>&times;</CloseButton>
+          <LinkBtn
+            position="absolute"
+            top="6px"
+            left="3px"
+            padding="0 0 5px 4px"
+            size="1.1rem"
+            onClick={() => props.dragonTextOn(_id)}
+          >
+            see full text
+           </LinkBtn>
+
+          <LinkBtn
+            position="absolute"
+            top="2px"
+            right="2px"
+            padding="0 4px 5px 0"
+            size="1.8rem"
+            onClick={() => props.toggleSubject(_id)}
+          >
+            &times;
+           </LinkBtn>
 
           <SubjectHeader {...provided.dragHandleProps}>
             <Heading3>{subject}</Heading3>

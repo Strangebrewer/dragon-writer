@@ -18,15 +18,15 @@ const Content = styled.div`
   max-width: 60%;
   min-width: 300px;
   position: relative;
-  background-color: ${props => props.theme.color};
+  background-color: ${props => props.theme.modalBG};
   margin: auto;
   padding: 0;
-  border: 1px solid #4e50d8e2;
+  border: 1px solid ${props => props.theme.links};
   box-shadow: 0 0 10px #fff, 0 0 10px #cacaca, 0 0 20px #a3a3a3, 0 0 30px #777777;
   animation-name: fadein;
   animation-duration: 0.4s;
   border-radius: 12px;
-  color: ${props => props.theme.bg};
+  color: ${props => props.theme.modalColor};
   font-size: 1.8rem;
   font-weight: bold;
   @keyframes fadein {
@@ -39,7 +39,7 @@ const Button = styled.button`
   position: absolute;
   top: 5px;
   right: 5px;
-  color: ${props => props.theme.button};
+  color: ${props => props.theme.buttonBG};
   font-size: 20px;
   outline: transparent;
   background-color: transparent;
@@ -63,20 +63,20 @@ const Buttons = styled.div`
   justify-content: space-evenly;
   button, a {
     font-size: 1.8rem;
-    border: 1px solid ${props => props.theme.button};
+    border: 1px solid ${props => props.theme.buttonBG};
     padding: 7px 14px;
     margin-top: 20px;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 20px 20px ${props => props.theme.button} inset, 0 0 0 0 ${props => props.theme.button};
+    box-shadow: 0 0 20px 20px ${props => props.theme.buttonBG} inset, 0 0 0 0 ${props => props.theme.buttonBG};
 	  transition: all 150ms ease-in-out;
 	  text-decoration: none;
   }
   button:hover, a:hover {
-    background-color: #fff;
-    box-shadow: 0 0 5px ${props => props.theme.button} inset, 0 0 5px ${props => props.theme.button};
-    color: ${props => props.theme.button};
+    background-color: ${props => props.theme.buttonHoverBG};
+    box-shadow: 0 0 5px ${props => props.theme.buttonBG} inset, 0 0 5px ${props => props.theme.buttonBG};
+    color: ${props => props.theme.buttonHoverColor};
   }
 `;
 

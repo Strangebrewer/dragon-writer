@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NewSubjectForm } from "./Elements/Forms";
+import LinkBtn from "./Elements/LinkBtn";
 import { Button } from "./Elements/FormElements/Button";
 
 const buttonStyle = {
@@ -14,33 +15,19 @@ const Container = styled.div`
 `;
 
 const HeadingTwo = styled.h2`
-  color: ${props => props.theme.secondary};
+  color: ${props => props.theme.headingColor};
   padding: 0;
   margin: 0;
-  font-family: ${props => props.theme.heading};
+  font-family: ${props => props.theme.hTypeface};
   line-height: 1;
   padding-bottom: 5px;
-  border-bottom: 1px solid ${props => props.theme.secondary};
+  border-bottom: 1px solid ${props => props.theme.headingColor};
   font-size: 2rem;
   /* font-weight: bold; */
 `;
 
-const LinkBtn = styled.button`
-  background: transparent;
-  border: none;
-  outline: transparent;
-  color: ${props => props.theme.link};
-  padding: 0 10px 0 0;
-  text-decoration: underline;
-  cursor: pointer;
-  line-height: 1.5;
-  &:hover {
-    color: ${props => props.theme.linkHover};
-  }
-`;
-
-const Empty = styled.p`
-  padding: 10px;
+const Message = styled.p`
+  padding-top: 10px;
 `;
 
 const List = styled.ul`
@@ -68,25 +55,32 @@ const SubjectList = props => {
   return (
     <Container>
       <HeadingTwo>
-        Columns <LinkBtn onClick={clearAllTopics}> (clear all)</LinkBtn>
+        Columns {subjects.length > 0 && <LinkBtn underline onClick={clearAllTopics}> clear all</LinkBtn>}
       </HeadingTwo>
 
-      {subjects.length === 0 && <Empty>You don't have any topics for this project yet.</Empty>}
+      {subjects.length === 0
+        ? <Message>You don't have any topics for this project yet.</Message>
+        : <Message>click to toggle on/off</Message>}
 
       <List>
         {subjects.map(subject => (
           <ListItem key={subject._id}>
-            <LinkBtn onClick={
-              dragons
-                ? () => dragonTextOn(subject._id)
-                : () => toggleSubject(subject._id)
-            }>
+            <LinkBtn
+              underline
+              padding="0 10px 0 0"
+              lineHeight="1.5"
+              onClick={
+                dragons
+                  ? () => dragonTextOn(subject._id)
+                  : () => toggleSubject(subject._id)
+              }
+            >
               {subject.subject}
             </LinkBtn>
           </ListItem>
         ))}
       </List>
-      
+
       {create
         ? (
           <NewSubjectForm

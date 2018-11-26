@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import dateFns from "date-fns";
+import LinkBtn from "../Elements/LinkBtn";
 import Modal from "../Elements/Modal";
 
 const Container = styled.div`
@@ -11,7 +12,7 @@ const Container = styled.div`
   border-radius: 5px;
   padding: 6px 8px 4px 8px;
   transition: background-color .2s ease-in-out;
-  box-shadow: ${props => props.theme.formShine};
+  box-shadow: ${props => props.theme.fieldShine};
   opacity: ${props => (
     props.dragging || props.loading
       ? "0.9"
@@ -19,36 +20,18 @@ const Container = styled.div`
   )};
   background-color: ${props => (
     props.isDragging
-      ? props.theme.link
-      : props.theme.color
+      ? props.theme.links
+      : props.theme.itemBG
   )};
+  color: ${props => props.theme.itemColor};
   h4 {
     font-size: 1.8rem;
     font-weight: bold;
     padding-bottom: 2px;
-    color: ${props => props.theme.black};
   }
   p {
     font-size: 1.5rem;
     padding-left: 12px;
-    color: ${props => props.theme.bg};
-  }
-`;
-
-const DeleteBtn = styled.button`
-  position: absolute;
-  z-index: 999;
-  top: 4px;
-  right: 2px;
-  color: ${props => props.theme.bg};
-  font-size: .9rem;
-  outline: transparent;
-  background-color: transparent;
-  border: none;
-  text-decoration: underline;
-  &:hover, &:focus {
-    color: ${props => props.theme.blood};
-    cursor: pointer;
   }
 `;
 
@@ -62,7 +45,6 @@ const DateText = styled.h5`
     font-size: 1.1rem;
     font-weight: bold;
     margin-top: 8px;
-    color: ${props => props.theme.black};
 `;
 
 class DragonItem extends Component {
@@ -131,13 +113,24 @@ class DragonItem extends Component {
               isDragging={snapshot.isDragging}
               loading={this.props.loading}
               dragging={this.props.dragging}
+              {...provided.dragHandleProps}
             >
-              <DeleteBtn onClick={() => this.deleteTextModal(text._id, subjectId, index)}>
+              <LinkBtn
+                onClick={() => this.deleteTextModal(text._id, subjectId, index)}
+                position="absolute"
+                padding="0 0 10px 10px"
+                top="6px"
+                right="7px"
                 delete
-            </DeleteBtn>
+                black
+                size=".9rem"
+                underline
+              >
+                delete
+            </LinkBtn>
 
               <h4>{text.title}</h4>
-              <p {...provided.dragHandleProps}>{text.thesis}</p>
+              <p>{text.thesis}</p>
 
               <DateDiv>
                 <DateText>

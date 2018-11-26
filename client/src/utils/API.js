@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default {
+export const API = {
 
   // USER AUTHENTICATION ROUTES
   // Get user info

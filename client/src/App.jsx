@@ -1,12 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import { GlobalStyle } from "./GlobalStyle";
+import { ThemeProvider } from "styled-components";
 import Home from "./pages/Home";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
-import API from "./utils/API";
-import { Utils } from "./utils/Utils";
-import AddPropsToRoute from "./utils/AddPropsToRoute";
+import { AddPropsToRoute, API, Utils, Themes } from "./utils";
 
 let isAuthenticated = false;
 
@@ -80,8 +78,7 @@ class App extends Component {
 
   render() {
     return (
-      <Fragment>
-        <GlobalStyle />
+      <ThemeProvider theme={Themes.brightmode}>
         <Router>
           <Switch>
             <Route exact path="/"
@@ -133,7 +130,7 @@ class App extends Component {
             />
           </Switch>
         </Router>
-      </Fragment>
+      </ThemeProvider>
     );
   }
 }

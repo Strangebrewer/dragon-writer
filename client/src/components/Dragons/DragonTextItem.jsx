@@ -6,24 +6,19 @@ import styled from 'styled-components';
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { EditorStyles } from "../slate/utils/EditorStyles";
 import Modal from "../Elements/Modal";
+import LinkBtn from "../Elements/LinkBtn";
 import initialValue from "../slate/utils/value.json"
 
 const Container = styled.div`
   width: 100%;
   display: flex;
-  /* padding: 5px 0; */
+  border-radius: 10px;
   background-color: ${props => (
     props.isDragging
-      ? props.theme.bgLite
-      : props.theme.bg
-  )};
-  /* background-color: ${props => props.theme.bg}; */
-  border: 1px solid ${props => (
-    props.isDragging
-      ? props.theme.grey
+      ? props.theme.pageBGLite
       : 'transparent'
   )};
-  transition: background-color 0.4s ease-in-out, border 0.4s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
 `;
 
 const MetaDataContainer = styled.div`
@@ -46,20 +41,6 @@ const TextThesis = styled.p`
   font-size: 1.5rem;
   margin: 0;
   padding: 4px 0 6px 0;
-`;
-
-const LinkBtn = styled.button`
-  background: transparent;
-  border: none;
-  font-size: 1.3rem;
-  outline: transparent;
-  color: ${props => props.theme.link};
-  padding: 2px 0 2px 8px;
-  text-decoration: underline;
-  cursor: pointer;
-  &:hover {
-    color: ${props => props.theme.linkHover};
-  }
 `;
 
 class DragonTextItem extends Component {
@@ -98,15 +79,15 @@ class DragonTextItem extends Component {
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
         <React.Fragment>
-      <button onClick={() => this.props.deleteText(textId, subjectId, index)}>Yes, delete it</button>
-        <button onClick={this.closeModal}>Cancel</button>
+          <button onClick={() => this.props.deleteText(textId, subjectId, index)}>Yes, delete it</button>
+          <button onClick={this.closeModal}>Cancel</button>
         </React.Fragment>
       )
     })
   };
 
   render() {
-    const { index, text, subject, toggleEdit, deleteText } = this.props;
+    const { index, text, subject, toggleEdit } = this.props;
     const thisValue = text.text ? JSON.parse(text.text) : initialValue;
     console.log(text);
     return (
@@ -130,12 +111,17 @@ class DragonTextItem extends Component {
                 <TextTitle>{text.title}</TextTitle>
                 <TextThesis>{text.thesis}</TextThesis>
                 <LinkBtn
+                  underline
+                  padding="2px 0 10px 8px"
                   onClick={() => toggleEdit(text._id)}>edit</LinkBtn>
                 <LinkBtn
+                  underline
+                  padding="2px 0 10px 8px"
+                  delete
                   onClick={() => this.deleteTextModal(text._id, subject._id, index)}>delete</LinkBtn>
               </MetaDataContainer>
 
-              <EditorStyles>
+              <EditorStyles mode="read" isDragging={snapshot.isDragging}>
                 <Editor
                   key={text._id}
                   index={index}

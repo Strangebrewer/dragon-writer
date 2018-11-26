@@ -5,7 +5,7 @@ import { Login } from "../components/Elements/Forms";
 import { Button, Input, TextArea } from "../components/Elements/FormElements";
 import Modal from "../components/Elements/Modal";
 import ProjectCard from "../components/ProjectCard";
-import API from '../utils/API';
+import { API } from '../utils';
 
 const Container = styled.div`
   padding-right: 200px;
@@ -79,7 +79,7 @@ class Home extends PureComponent {
 
   updateProject = project => {
     const { title, summary, link } = this.state;
-    const updateObject = { };
+    const updateObject = {};
     if (title) updateObject.title = title;
     else updateObject.title = project.title;
     if (summary) updateObject.summary = summary;

@@ -22,14 +22,18 @@ const editorStyle = {
 
 const EditorOuter = styled.div`
   width: 100%;
-  border: 1px solid darkgrey;
+  border: ${props => (
+    props.inline
+      ? "none"
+      : "1px solid " + props.theme.mainColor
+  )};
   border-radius: 2px;
   position: relative;
 `;
 
 const EditorInner = styled.div`
   width: 100%;
-  padding: 10px;
+  padding: 5px 0 10px 10px;
 `;
 
 const DragHeader = styled.div`
@@ -44,6 +48,17 @@ const DragHeader = styled.div`
   padding-left: 10px;
   font-size: 2.4rem;
   color: ${props => props.theme.black};
+`;
+
+const MetaDataForm = styled.div`
+  position: ${props => (
+    props.inline
+      ? "absolute"
+      : "inherit"
+  )};
+  left: ${props => props.inline && '0'};
+  top: ${props => props.inline && '40px'};
+  width: ${props => props.inline && '160px'};
 `;
 
 class TextEditor extends Component {
@@ -153,17 +168,18 @@ class TextEditor extends Component {
 
   render() {
     // if (props.id) then this editor is being used to update an existing text.
-    const { id, inline, subjects, title, mode } = this.props;
+    const { id, inline, subjects, title } = this.props;
     console.log(this.props);
     return (
-      <EditorOuter>
-        <DragHeader {...this.props.dragHandle}>
+      <EditorOuter inline={inline}>
+        <DragHeader inline={inline} {...this.props.dragHandle}>
           <p>{inline ? title : "Create New Text"}</p>
         </DragHeader>
 
         <EditorInner>
           <RenderButtons
             id={id}
+            inline={inline}
             state={this.state}
             onClickMark={this.onClickMark}
             onClickBlock={this.onClickBlock}
@@ -173,26 +189,54 @@ class TextEditor extends Component {
             toggleEdit={this.props.toggleEdit}
           />
 
-          <Label>Title:</Label>
-          <Input
-            style={{ maxWidth: "300px" }}
-            type="text"
-            name="title"
-            value={this.state.title}
-            maxLength="22"
-            placeholder="(22 char max)"
-            onChange={this.handleInputChange}
-          />
+          <MetaDataForm inline={inline}>
+            <Label>Title:</Label>
+            <Input
+              style={{ maxWidth: "300px" }}
+              type="text"
+              name="title"
+              value={this.state.title}
+              maxLength="22"
+              placeholder="(22 char max)"
+              onChange={this.handleInputChange}
+            />
+            <Label>Summary:</Label>
+            <Input
+              style={{ maxWidth: "300px" }}
+              type="text"
+              name="thesis"
+              value={this.state.thesis}
+              placeholder="enter a short description"
+              onChange={this.handleInputChange}
+            />
+            {inline && (
+              <Button
+                style={{ marginTop: "8px", marginRight: "8px" }}
+                disabled={!this.state.title || !this.state.subject}
+                onClick={id ? () => this.updateText(id) : this.createText}
+              >
+                Save
+              </Button>
+            )}
 
-          <Label>Summary:</Label>
-          <Input
-            style={{ maxWidth: "300px" }}
-            type="text"
-            name="thesis"
-            value={this.state.thesis}
-            placeholder="enter a short description"
-            onChange={this.handleInputChange}
-          />
+            {id && inline
+              ? (
+                <Button
+                  style={{ marginTop: "8px", marginRight: "8px" }}
+                  onClick={() => this.props.toggleEdit(id)}
+                >
+                  Cancel
+                </Button>
+              ) : (
+                inline &&
+                <Button
+                  style={{ marginTop: "8px", marginRight: "8px" }}
+                  onClick={this.props.toggleEditor}
+                >
+                  Cancel
+                  </Button>
+              )}
+          </MetaDataForm>
 
           {subjects && (
             <Fragment>
@@ -209,7 +253,7 @@ class TextEditor extends Component {
             </Fragment>
           )}
 
-          <EditorStyles mode="write" isDragging={this.props.isDragging}>
+          <EditorStyles mode="write" inline={inline} isDragging={this.props.isDragging}>
             <Editor
               autoFocus
               style={editorStyle}
@@ -222,15 +266,17 @@ class TextEditor extends Component {
             />
           </EditorStyles>
 
-          <Button
-            style={{ marginTop: "8px", marginRight: "8px" }}
-            disabled={!this.state.title || !this.state.subject}
-            onClick={id ? () => this.updateText(id) : this.createText}
-          >
-            Save
+          {!inline && (
+            <Button
+              style={{ marginTop: "8px", marginRight: "8px" }}
+              disabled={!this.state.title || !this.state.subject}
+              onClick={id ? () => this.updateText(id) : this.createText}
+            >
+              Save
           </Button>
+          )}
 
-          {id
+          {id && !inline
             ? (
               <Button
                 style={{ marginTop: "8px", marginRight: "8px" }}
@@ -239,6 +285,7 @@ class TextEditor extends Component {
                 Cancel
             </Button>
             ) : (
+              !inline &&
               <Button
                 style={{ marginTop: "8px", marginRight: "8px" }}
                 onClick={this.props.toggleEditor}

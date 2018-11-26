@@ -24,11 +24,30 @@ class App extends Component {
     projects: [],
     user: null,
     loading: true,
+    styleMode: Themes.brightmode,
+    nextMode: 'Night'
   };
 
   componentDidMount() {
     this.getInitialData();
   };
+
+  toggleMode = modeInput => {
+    let stateObj = {};
+    if (modeInput === "Bright") {
+      stateObj.styleMode = Themes.brightmode;
+      stateObj.nextMode = "Night";
+    }
+    if (modeInput === "Night") {
+      stateObj.styleMode = Themes.nightmode;
+      stateObj.nextMode = "Fright";
+    }
+    if (modeInput === "Fright") {
+      stateObj.styleMode = Themes.frightmode;
+      stateObj.nextMode = "Bright";
+    }
+    this.setState(stateObj);
+  }
 
   getInitialData = async (userInfo) => {
     let projects = [];
@@ -52,6 +71,7 @@ class App extends Component {
       projects = projectsRes.data;
 
       projects.forEach(project => {
+        console.log(project.order);
         if (project.order)
           projectData.push(Utils.addTextsToOrder(project));
         else
@@ -78,7 +98,7 @@ class App extends Component {
 
   render() {
     return (
-      <ThemeProvider theme={Themes.brightmode}>
+      <ThemeProvider theme={this.state.styleMode}>
         <Router>
           <Switch>
             <Route exact path="/"
@@ -92,6 +112,9 @@ class App extends Component {
                     getInitialData={this.getInitialData}
                     logout={this.logout}
                     loading={this.state.loading}
+                    styleMode={this.state.styleMode}
+                    nextMode={this.state.nextMode}
+                    toggleMode={this.toggleMode}
                   />
                 )
               }
@@ -110,7 +133,10 @@ class App extends Component {
                       projectData: this.state.projectData[index],
                       getInitialData: this.getInitialData,
                       logout: this.logout,
-                      loading: this.state.loading
+                      loading: this.state.loading,
+                      styleMode: this.state.styleMode,
+                      nextMode: this.state.nextMode,
+                      toggleMode: this.toggleMode,
                     })}
                   />
                 ))
@@ -125,6 +151,9 @@ class App extends Component {
                   authenticated={isAuthenticated}
                   logout={this.logout}
                   loading={this.state.loading}
+                  styleMode={this.state.styleMode}
+                  nextMode={this.state.nextMode}
+                  toggleMode={this.toggleMode}
                 />
               )}
             />

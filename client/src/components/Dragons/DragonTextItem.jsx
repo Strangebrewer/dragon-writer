@@ -13,7 +13,7 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   border-radius: 10px;
-  background-color: ${props => (
+  background: ${props => (
     props.isDragging
       ? props.theme.pageBGLite
       : 'transparent'

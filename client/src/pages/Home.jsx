@@ -137,6 +137,9 @@ class Home extends PureComponent {
         logout={this.props.logout}
         authenticated={this.props.authenticated}
         home="true"
+        mode={this.props.mode}
+        nextMode={this.props.nextMode}
+        toggleMode={this.props.toggleMode}
       >
         <Modal
           show={this.state.modal.isOpen}

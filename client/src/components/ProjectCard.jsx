@@ -15,7 +15,7 @@ const Container = styled.div`
   margin: 10px auto;
   line-height: 1.2;
   &:hover {
-    border: 1px solid ${props => props.theme.linkHover};
+    border: 1px solid ${props => props.theme.columnDragBorder};
     box-shadow: ${props => props.theme.columnBS};
   }
 `;

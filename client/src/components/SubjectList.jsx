@@ -22,12 +22,13 @@ const HeadingTwo = styled.h2`
   line-height: 1;
   padding-bottom: 5px;
   border-bottom: 1px solid ${props => props.theme.headingColor};
-  font-size: 2rem;
+  font-size: 2.3rem;
+  text-shadow: 1px 1px 0 ${props => props.theme.midGrey};
   /* font-weight: bold; */
 `;
 
 const Message = styled.p`
-  padding-top: 10px;
+  padding: 10px 0 0 10px;
 `;
 
 const List = styled.ul`
@@ -59,7 +60,7 @@ const SubjectList = props => {
       </HeadingTwo>
 
       {subjects.length === 0
-        ? <Message>You don't have any topics for this project yet.</Message>
+        ? <Message>You don't have any columns for this project yet.</Message>
         : <Message>click to toggle on/off</Message>}
 
       <List>

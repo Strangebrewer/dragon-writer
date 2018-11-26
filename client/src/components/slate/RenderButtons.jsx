@@ -3,13 +3,15 @@ import styled from 'styled-components';
 
 const EditorBtnArray = styled.div`
   padding-top: 26px;
-  margin: 0 0 5px 0;
+  margin: 5px 0 0 0;  
+  margin-left: ${props => props.inline && '160px'};
+  text-align: center;
   button span {
     font-size: ${props => (
-    props.inline
-      ? "1rem"
-      : "1.6rem"
-  )};
+      props.inline
+        ? "1rem"
+        : "1.6rem"
+    )};
     line-height: 0.5;
     font-weight: bold;
     padding: 0;
@@ -25,7 +27,7 @@ const EditorBtn = styled.button`
       : "45px"
   )};
   padding: 0;
-  margin-right: 5px;
+  margin: 0 5px 5px 0;
   height: ${props => (
     props.inline
       ? "30px"

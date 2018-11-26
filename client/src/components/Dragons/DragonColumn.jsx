@@ -11,7 +11,7 @@ const Container = styled.div`
   margin: 10px;
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.pageBG};
+  background: ${props => props.theme.pageBGLite};
 `;
 
 const SubjectHeader = styled.div`
@@ -30,7 +30,7 @@ const DragonList = styled.div`
   transition: all .2s ease-in-out;
   border-color: ${props => (
     props.isDraggingOver
-      ? props.theme.linkHover
+      ? props.theme.columnDragBorder
       : props.theme.links
   )};
   border-width: 2px;
@@ -70,22 +70,23 @@ const DragonColumn = props => {
           ref={provided.innerRef}
         >
           <LinkBtn
+            title="expand column to show full texts"
             position="absolute"
             top="6px"
-            left="3px"
+            left="4px"
             padding="0 0 5px 4px"
-            size="1.1rem"
             onClick={() => props.dragonTextOn(_id)}
           >
             see full text
            </LinkBtn>
 
           <LinkBtn
+            title="close this column"
             position="absolute"
             top="2px"
-            right="2px"
+            right="3px"
             padding="0 4px 5px 0"
-            size="1.8rem"
+            size="2rem"
             onClick={() => props.toggleSubject(_id)}
           >
             &times;

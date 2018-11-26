@@ -47,6 +47,25 @@ const LinkContainer = styled.div`
   align-self: center;
 `;
 
+const ModeButton = styled.button`
+  padding: 0 20px 0 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  outline: transparent;
+  cursor: pointer;
+  position: absolute;
+  top: 7px;
+  right: 0;
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-family: ${props => props.theme.typeface};
+  color: ${props => props.theme.links};
+  &:hover {
+    color: ${props => props.theme.linkHover};
+  }
+`;
+
 const Button = styled.button`
   padding: 0;
   margin: 0;
@@ -57,7 +76,7 @@ const Button = styled.button`
 `;
 
 const Nav = props => {
-  const { authenticated, user, logout } = props;
+  const { authenticated, user, logout, nextMode, toggleMode } = props;
   return (
     <NavContainer>
       <NavInner>
@@ -73,6 +92,8 @@ const Nav = props => {
           </React.Fragment>
         )}
       </NavInner>
+
+      <ModeButton onClick={() => toggleMode(nextMode)}>Toggle {nextMode} Mode</ModeButton>
     </NavContainer>
   );
 };

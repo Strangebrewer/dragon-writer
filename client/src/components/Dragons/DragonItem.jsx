@@ -18,9 +18,9 @@ const Container = styled.div`
       ? "0.9"
       : "1"
   )};
-  background-color: ${props => (
+  background: ${props => (
     props.isDragging
-      ? props.theme.links
+      ? props.theme.itemDragBG
       : props.theme.itemBG
   )};
   color: ${props => props.theme.itemColor};

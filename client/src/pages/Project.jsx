@@ -195,6 +195,9 @@ class Project extends Component {
           clearAllTopics={this.clearAllTopics}
           dragons={this.state.dragons}
           dragonTextOn={this.dragonTextOn}
+          mode={this.props.mode}
+          nextMode={this.props.nextMode}
+          toggleMode={this.props.toggleMode}
         >
           {this.state.editorOn
             ? (

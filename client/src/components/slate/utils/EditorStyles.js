@@ -7,7 +7,8 @@ export const EditorStyles = styled.div`
       ? "2px solid " + props.theme.links
       : "none"
   )};
-  background-color: ${props => (
+  margin-left: ${props => props.inline && '160px'};
+  background: ${props => (
     props.mode === "write"
       ? props.theme.editorBG
       : props.isDragging

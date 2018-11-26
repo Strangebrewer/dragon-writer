@@ -39,7 +39,7 @@ const FooterContainer = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  color: ${props => props.theme.homeHeaderColor};
+  color: ${props => props.home ? props.theme.homeBannerColor : props.theme.bannerColor};
   grid-column: 1 / 4;
   grid-row: 2;
   text-align: center;
@@ -50,7 +50,7 @@ const TitleContainer = styled.div`
   )};
   width: ${props => (props.home ? '600px' : '100%')};
   transition: color .3s ease-in;
-  background: ${props => (props.home ? props.theme.homeHeaderBG : props.theme.secondary)};
+  background: ${props => (props.home ? props.theme.homeBannerBG : props.theme.bannerBG)};
   box-shadow: ${props => (props.home ? '6px 6px 2px #000' : 'none')};
   padding: 5px 0 8px 0;
   align-items: center;  
@@ -103,6 +103,9 @@ const Page = props => {
           authenticated={authenticated}
           logout={logout}
           user={user}
+          mode={props.mode}
+          nextMode={props.nextMode}
+          toggleMode={props.toggleMode}
         />
 
         <TitleContainer

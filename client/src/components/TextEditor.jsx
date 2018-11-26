@@ -8,22 +8,16 @@ import { EditorStyles } from "./slate/utils/EditorStyles";
 import { Button, Input, Label, Select } from "./Elements/FormElements";
 import initialValue from "./slate/utils/value.json";
 import RenderButtons from "./slate/RenderButtons.jsx";
-import API from "../utils/API";
+import { API } from "../utils";
 
 const DEFAULT_NODE = 'paragraph';
 
 const editorStyle = {
-  border: "1px solid black",
-  backgroundColor: "#d7d7d7",
-  border: "2px solid #87b3b0",
-  borderRadius: "5px",
-  color: "#062333",
+  borderRadius: "6px",
   minHeight: "200px",
   minWidth: "60%",
   padding: "10px",
-  marginTop: "15px",
-  fontFamily: "Arial, Helvetica, sans-serif",
-  boxShadow: "inset 3px 3px 2px 0 #666, inset -3px -3px 2px 0 #fff"
+  fontFamily: "Arial, Helvetica, sans-serif"
 };
 
 const EditorOuter = styled.div`
@@ -42,14 +36,14 @@ const DragHeader = styled.div`
   width: 100%;
   height: 30px;
   background-color: ${props => props.theme.midGrey};
-  font-family: ${props => props.theme.heading};
+  font-family: ${props => props.theme.hTypeface};
   position: absolute;
   top: 0;
   display: flex;
   align-items: center;
   padding-left: 10px;
-  font-size: 2.2rem;
-  color: ${props => props.theme.bg};
+  font-size: 2.4rem;
+  color: ${props => props.theme.black};
 `;
 
 class TextEditor extends Component {
@@ -159,7 +153,7 @@ class TextEditor extends Component {
 
   render() {
     // if (props.id) then this editor is being used to update an existing text.
-    const { id, inline, subjects, title } = this.props;
+    const { id, inline, subjects, title, mode } = this.props;
     console.log(this.props);
     return (
       <EditorOuter>
@@ -215,7 +209,7 @@ class TextEditor extends Component {
             </Fragment>
           )}
 
-          <EditorStyles>
+          <EditorStyles mode="write" isDragging={this.props.isDragging}>
             <Editor
               autoFocus
               style={editorStyle}

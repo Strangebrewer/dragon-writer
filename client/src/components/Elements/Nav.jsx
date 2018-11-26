@@ -9,7 +9,7 @@ const NavContainer = styled.div`
   height: 30px;
   position: fixed;
   top: 0;
-  background-color: ${props => props.theme.bg};
+  background-color: ${props => props.theme.pageBG};
   z-index: 99999;
 `;
 
@@ -23,8 +23,8 @@ const NavInner = styled.div`
   a, button {
     font-size: 1.6rem;
     font-weight: bold;
-    font-family: ${props => props.theme.text};
-    color: ${props => props.theme.link};
+    font-family: ${props => props.theme.typeface};
+    color: ${props => props.theme.links};
   }
   a:hover, button:hover {
     color: ${props => props.theme.linkHover};
@@ -33,12 +33,12 @@ const NavInner = styled.div`
      padding: 0 10px;
   }
   a {
-     border-right: 1px solid ${props => props.theme.color};
+     border-right: 1px solid ${props => props.theme.mainColor};
   }
   h3 {
     font-size: 1.8rem;
     font-weight: bold;
-    color: ${props => props.theme.primary};
+    color: ${props => props.theme.mainColor};
     align-self: center;
   }
 `;

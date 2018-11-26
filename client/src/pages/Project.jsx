@@ -5,8 +5,8 @@ import Page from "../components/Elements/Page"
 import TextEditor from "../components/TextEditor";
 import DragonColumn from "../components/Dragons/DragonColumn";
 import DragonTextColumn from "../components/Dragons/DragonTextColumn";
-import API from '../utils/API';
-import { Scales } from "../utils/DragonScales";
+import { API, Scales } from '../utils';
+// import { Scales } from "../utils/DragonScales";
 
 const ColumnContainer = styled.div`
   height: 100%;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const AddPropsToRoute = (WrappedComponent, passedProps) => {
+export const AddPropsToRoute = (WrappedComponent, passedProps) => {
   return (
     class Route extends Component {
       render() {
@@ -9,6 +9,4 @@ const AddPropsToRoute = (WrappedComponent, passedProps) => {
       }
     }
   );
-}
-
-export default AddPropsToRoute;
+};

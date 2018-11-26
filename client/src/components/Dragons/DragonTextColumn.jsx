@@ -1,6 +1,7 @@
 import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import LinkBtn from "../Elements/LinkBtn";
 import TextEditor from "../TextEditor";
 import DragonTextItem from "./DragonTextItem";
 
@@ -17,31 +18,16 @@ const TextColumn = styled.div`
 const SubjectHeading = styled.div`
   width: 100%;
   padding-bottom: 5px;
-  border-bottom: 1px solid ${props => props.theme.color};
+  border-bottom: 1px solid ${props => props.theme.mainColor};
 `;
 
 const Title = styled.h3`
-font-family: ${props => props.theme.heading};
+  font-family: ${props => props.theme.hTypeface};
   width: 100%;
   font-size: 3.5rem;
   text-align: center;
   padding-bottom: 10px;
-  color: ${props => props.theme.hcolor};
-`;
-
-const LinkBtn = styled.button`
-  background: transparent;
-  border: none;
-  outline: transparent;
-  display: block;
-  margin: auto;
-  color: ${props => props.theme.link};
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 1.1rem;
-  &:hover {
-    color: ${props => props.theme.linkHover};
-  }
+  color: ${props => props.theme.titleColor};
 `;
 
 const DragonTextList = styled.div`
@@ -57,11 +43,11 @@ const EditorContainer = styled.div`
   height: 100%;
   margin: auto;
   position: relative;
-  transition: background-color .2s ease;
+  transition: background-color .2s ease-in-out;
   background-color: ${props => (
     props.isDragging
-      ? props.theme.bgLite
-      : props.theme.bg
+      ? props.theme.pageBGLite
+      : props.theme.pageBG
   )};
 `;
 
@@ -71,7 +57,15 @@ const DragonTextColumn = props => {
     <TextColumn>
       <SubjectHeading>
         <Title title={theme}>Topic: {subject}</Title>
-        <LinkBtn onClick={props.dragonTextOff}>return to overview</LinkBtn>
+        <LinkBtn
+          display="block"
+          margin="auto"
+          underline
+          size="1.1rem"
+          onClick={props.dragonTextOff}
+        >
+          return to overview
+         </LinkBtn>
       </SubjectHeading>
 
       <Droppable droppableId={_id} >
@@ -102,6 +96,7 @@ const DragonTextColumn = props => {
                           index={index}
                           user={props.user}
                           inline="true"
+                          isDragging={snapshot.isDragging}
                           subject={text.subjectId}
                           text={JSON.parse(text.text)}
                           title={text.title}

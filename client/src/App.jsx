@@ -9,14 +9,13 @@ import { AddPropsToRoute, API, Utils, Themes } from "./utils";
 let isAuthenticated = false;
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props => (
+  <Route {...rest}>
+    {routeProps => (
       isAuthenticated
-        ? <Component {...props} />
-        : <Redirect to={{ pathname: "/", state: { from: props.location, loginShow: true } }} />
+        ? <Component {...routeProps} />
+        : <Redirect to="/" />
     )}
-  />
+  </Route>
 );
 
 class App extends Component {
@@ -71,7 +70,6 @@ class App extends Component {
       projects = projectsRes.data;
 
       projects.forEach(project => {
-        console.log(project.order);
         if (project.order)
           projectData.push(Utils.addTextsToOrder(project));
         else
@@ -80,8 +78,6 @@ class App extends Component {
 
       isAuthenticated = true;
     }
-
-    console.log(user);
 
     this.setState({
       projectData,
@@ -103,24 +99,22 @@ class App extends Component {
       <ThemeProvider theme={this.state.styleMode}>
         <Router>
           <Switch>
-            <Route exact path="/"
-              render={
-                routeProps => (
-                  <Home
-                    {...routeProps}
-                    authenticated={isAuthenticated}
-                    user={this.state.user}
-                    projects={this.state.projects}
-                    getInitialData={this.getInitialData}
-                    logout={this.logout}
-                    loading={this.state.loading}
-                    styleMode={this.state.styleMode}
-                    nextMode={this.state.nextMode}
-                    toggleStyleMode={this.toggleStyleMode}
-                  />
-                )
-              }
-            />
+            <Route exact path="/">
+              {routeProps => (
+                <Home
+                  {...routeProps}
+                  authenticated={isAuthenticated}
+                  user={this.state.user}
+                  projects={this.state.projects}
+                  getInitialData={this.getInitialData}
+                  logout={this.logout}
+                  loading={this.state.loading}
+                  styleMode={this.state.styleMode}
+                  nextMode={this.state.nextMode}
+                  toggleStyleMode={this.toggleStyleMode}
+                />
+              )}
+            </Route>
 
             {this.state.projects.length > 0
               && (

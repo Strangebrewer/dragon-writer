@@ -59,9 +59,9 @@ class Home extends PureComponent {
     const user = await API.signup({
       username, email, password
     });
-    return console.log(user);
-    if (user) this.login();
-  }
+    console.log(user);
+    if (!user.data.error && user.data._id) this.login();
+  };
 
   login = async () => {
     const { username, password } = this.state;
@@ -143,7 +143,6 @@ class Home extends PureComponent {
   }
 
   render() {
-    const { signup } = this.state;
     return (
       <Page
         title="Dragon Writer"
@@ -176,7 +175,7 @@ class Home extends PureComponent {
                 toggleProjectForm={this.toggleProjectForm}
                 authenticated={this.props.authenticated}
               />
-              // displayLogin prevents the login form from flashing on the screen while the app checks if a user already has a session cookie upon first page load
+              // 'loading' prevents the login form from flashing on the screen while the app checks if a user already has a session cookie upon first page load
             ) : (
               !this.props.loading && !this.state.signup
                 ? (

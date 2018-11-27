@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { NewSubjectForm } from "./Elements/Forms";
+import { NewSubjectForm } from "./Forms";
 import LinkBtn from "./Elements/LinkBtn";
-import { Button } from "./Elements/FormElements/Button";
+import { Button } from "./Forms/FormElements";
 
 const buttonStyle = {
   marginLeft: "20px",
@@ -12,6 +12,7 @@ const buttonStyle = {
 
 const Container = styled.div`
   min-height: 150px;
+  width: 165px;
 `;
 
 const HeadingTwo = styled.h2`
@@ -68,7 +69,6 @@ const SubjectList = props => {
           <ListItem key={subject._id}>
             <LinkBtn
               underline
-              padding="0 10px 0 0"
               lineHeight="1.5"
               onClick={
                 dragons

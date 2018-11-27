@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { plugins } from "./slate/utils/HotKeys";
 import { renderMark, renderNode } from "./slate/utils/Renderers";
 import { EditorStyles } from "./slate/utils/EditorStyles";
-import { Button, Input, Label, Select } from "./Elements/FormElements";
+import { Button, Input, Label, Select } from "./Forms/FormElements";
 import initialValue from "./slate/utils/value.json";
 import RenderButtons from "./slate/RenderButtons.jsx";
 import { API } from "../utils";

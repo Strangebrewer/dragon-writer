@@ -1,8 +1,8 @@
 import React, { Fragment, PureComponent } from 'react';
 import styled from "styled-components";
 import Page from "../components/Elements/Page";
-import { Login } from "../components/Elements/Forms";
-import { Button, Input, TextArea } from "../components/Elements/FormElements";
+import { Login, Signup } from "../components/Forms";
+import { Button, Input, TextArea } from "../components/Forms/FormElements";
 import Modal from "../components/Elements/Modal";
 import ProjectCard from "../components/ProjectCard";
 import { API } from '../utils';
@@ -23,8 +23,11 @@ class Home extends PureComponent {
     title: '',
     summary: '',
     link: '',
+    email: '',
     username: '',
     password: '',
+    confirmPassword: '',
+    signup: false,
   }
 
   handleInputChange = event => {
@@ -47,6 +50,19 @@ class Home extends PureComponent {
       }
     });
   };
+
+  toggleSignupForm = () => {
+    this.setState({ signup: !this.state.signup });
+  };
+
+  signup = async () => {
+    const { confirmPassword, email, password, username } = this.state;
+    const user = await API.signup({
+      username, email, password
+    });
+    return console.log(user);
+    if (user) this.login();
+  }
 
   login = async () => {
     const { username, password } = this.state;
@@ -128,6 +144,7 @@ class Home extends PureComponent {
   }
 
   render() {
+    const { signup } = this.state;
     return (
       <Page
         title="Dragon Writer"
@@ -161,15 +178,30 @@ class Home extends PureComponent {
                 authenticated={this.props.authenticated}
               />
               // displayLogin prevents the login form from flashing on the screen while the app checks if a user already has a session cookie upon first page load
-            ) : (!this.props.loading &&
-              <Login
-                getInitialData={this.props.getInitialData}
-                handleInputChange={this.handleInputChange}
-                login={this.login}
-                username={this.state.username}
-                password={this.state.password}
-              />
-            )}
+            ) : (
+              !this.props.loading && !this.state.signup
+                ? (
+                  <Login
+                    getInitialData={this.props.getInitialData}
+                    handleInputChange={this.handleInputChange}
+                    login={this.login}
+                    username={this.state.username}
+                    password={this.state.password}
+                    toggleSignupForm={this.toggleSignupForm}
+                  />
+                ) : (
+                  !this.props.loading &&
+                  <Signup
+                    getInitialData={this.props.getInitialData}
+                    handleInputChange={this.handleInputChange}
+                    signup={this.signup}
+                    username={this.state.username}
+                    password={this.state.password}
+                    confirmPassword={this.state.confirmPassword}
+                    email={this.state.email}
+                    toggleSignupForm={this.toggleSignupForm}
+                  />
+                ))}
         </Container>
       </Page>
     );

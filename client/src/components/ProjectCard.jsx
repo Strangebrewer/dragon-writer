@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import LinkBtn from "./Elements/LinkBtn";
-import { Button } from "../components/Elements/FormElements";
-import { NewProject } from "./Elements/Forms";
+import { Button } from "./Forms/FormElements";
+import { NewProject } from "./Forms";
 
 const Container = styled.div`
   background-color: ${props => props.theme.projectItemBG};

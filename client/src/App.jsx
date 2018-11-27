@@ -81,6 +81,8 @@ class App extends Component {
       isAuthenticated = true;
     }
 
+    console.log(user);
+
     this.setState({
       projectData,
       loading: false,

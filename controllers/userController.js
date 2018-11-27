@@ -29,31 +29,28 @@ module.exports = {
     // ADD VALIDATION
     db.User.findOne({ username: username }, (err, user) => {
       if (err) {
-        console.log('User.js post error: ', err)
+        res.send('User.js post error: ', err);
       } else if (user) {
         res.json({ error: 'username taken' });
       } else {
         db.User.findOne({ email: email }, (err, nextUser) => {
           if (err) {
-            console.log('User.js post error: ', err)
+            res.send('User.js post error: ', err);
           } else if (nextUser) {
-            res.json({ error: 'email taken' })
+            res.json({ error: 'email taken' });
           }
           else {
+            const pw = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null);
+            req.body.password = pw;
             const newUser = new db.User(req.body)
             newUser.save((err, savedUser) => {
               if (err) return res.json(err)
-              console.log("User returned from login:");
-              console.log(savedUser);
-              console.log("User from req.user");
-              console.log(req.user);
-
               res.json(savedUser)
-            })
+            });
           }
-        })
+        });
       }
-    })
+    });
   },
 
   updateUserInfo: function (req, res) {

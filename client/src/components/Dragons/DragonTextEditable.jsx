@@ -17,7 +17,7 @@ const Container = styled.div`
   )};
 `;
 
-class DragonTextEditable extends Component {
+export class DragonTextEditable extends Component {
   render() {
     const {
       text,
@@ -60,6 +60,4 @@ class DragonTextEditable extends Component {
       </Draggable>
     );
   }
-}
-
-export default DragonTextEditable;
+};

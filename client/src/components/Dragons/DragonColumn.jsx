@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import LinkBtn from "../Elements/LinkBtn";
-import DragonItem from "./DragonItem";
+import { LinkBtn } from "../Elements";
+import { DragonItem } from "./DragonItem";
 
 const Container = styled.div`
   position: relative;
@@ -60,7 +60,7 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
-const DragonColumn = props => {
+export const DragonColumn = props => {
   const { subject, theme, _id } = props.subject;
   return (
     <Draggable draggableId={_id} index={props.index}>
@@ -124,5 +124,3 @@ const DragonColumn = props => {
     </Draggable>
   )
 };
-
-export default DragonColumn;

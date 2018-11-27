@@ -1,9 +1,9 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import LinkBtn from "../Elements/LinkBtn";
-import DragonTextItem from "./DragonTextItem";
-import DragonTextEditable from "./DragonTextEditable";
+import { LinkBtn } from "../Elements";
+import { DragonTextItem } from "./DragonTextItem";
+import { DragonTextEditable } from "./DragonTextEditable";
 
 const TextColumn = styled.div`
   width: 80%;
@@ -37,19 +37,21 @@ const DragonTextList = styled.div`
   flex-grow: 1;
 `;
 
-const DragonTextColumn = props => {
+export const DragonTextColumn = props => {
   const { subject, theme, _id } = props.subject
   return (
     <TextColumn>
       <SubjectHeading>
         <Title title={theme}>Topic: {subject}</Title>
         <LinkBtn
-          display="block"
+          block
+          fancy
+          size="1.5rem"
           margin="auto"
           underline
           onClick={props.dragonTextOff}
         >
-          return to overview
+          return to project overview
          </LinkBtn>
       </SubjectHeading>
 
@@ -92,6 +94,4 @@ const DragonTextColumn = props => {
       </Droppable>
     </TextColumn>
   );
-}
-
-export default DragonTextColumn;
+};

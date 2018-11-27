@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import { Button, Input, TextArea } from "../FormElements";
-import { API } from "../../../utils";
+import { Button, Input, TextArea } from "./FormElements";
+import { API } from "../../utils";
 
 const Container = styled.div`
   width: 300px;

@@ -5,8 +5,7 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { EditorStyles } from "../slate/utils/EditorStyles";
-import Modal from "../Elements/Modal";
-import LinkBtn from "../Elements/LinkBtn";
+import { Modal, LinkBtn } from "../Elements";
 import initialValue from "../slate/utils/value.json"
 
 const Container = styled.div`
@@ -43,7 +42,7 @@ const TextThesis = styled.p`
   padding: 4px 0 6px 0;
 `;
 
-class DragonTextItem extends Component {
+export class DragonTextItem extends Component {
   state = {
     modal: {
       isOpen: false,
@@ -139,6 +138,4 @@ class DragonTextItem extends Component {
 
     );
   }
-}
-
-export default DragonTextItem;
+};

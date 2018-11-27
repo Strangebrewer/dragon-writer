@@ -24,7 +24,7 @@ const FormButton = styled.button`
     cursor: not-allowed;
   }
   &[disabled]:hover {
-    border: 2px solid ${props => props.theme.black};
+    /* border: 2px solid ${props => props.theme.black}; */
     background-color: ${props => props.theme.black};
     box-shadow: inset 0 0 5px 3px ${props => props.theme.black}, 0 0 5px ${props => props.theme.black};
     color: ${props => props.theme.black};

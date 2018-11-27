@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Button = styled.button`
   display: ${props => props.block ? 'block' : 'inline'};
-  font-family: ${props => props.theme.typeface};
+  font-family: ${props => props.fancy ? props.theme.typeface : 'default'};
   font-weight: ${props => props.bold ? 'bold' : 'normal'};
   margin: ${props => props.margin};
   position: ${props => props.position ? props.position : "relative"};
@@ -12,7 +12,7 @@ const Button = styled.button`
   left: ${props => props.left};
   right: ${props => props.right};
   color: ${props => props.black ? props.theme.black : props.theme.links};
-  font-size: ${props => props.size ? props.size : '1.5rem'};
+  font-size: ${props => props.size ? props.size : '1.3rem'};
   text-decoration: ${props => props.underline ? 'underline' : 'none'};
   line-height: ${props => props.lineHeight};
   padding: ${props => props.padding};
@@ -30,10 +30,8 @@ const Button = styled.button`
 `;
 
 
-const LinkBtn = props => {
+export const LinkBtn = props => {
   return (
     <Button {...props}>{props.children}</Button>
   )
 };
-
-export default LinkBtn;

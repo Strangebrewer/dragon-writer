@@ -2,8 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import dateFns from "date-fns";
-import LinkBtn from "../Elements/LinkBtn";
-import Modal from "../Elements/Modal";
+import { LinkBtn, Modal } from "../Elements";
 
 const Container = styled.div`
   position: relative;
@@ -47,7 +46,7 @@ const DateText = styled.h5`
     margin-top: 8px;
 `;
 
-class DragonItem extends Component {
+export class DragonItem extends Component {
   state = {
     modal: {
       isOpen: false,
@@ -148,6 +147,4 @@ class DragonItem extends Component {
 
     );
   }
-}
-
-export default DragonItem;
+};

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LinkBtn from "./Elements/LinkBtn";
+import { LinkBtn } from "./Elements";
 import { Button } from "./Forms/FormElements";
 import { NewProject } from "./Forms";
 

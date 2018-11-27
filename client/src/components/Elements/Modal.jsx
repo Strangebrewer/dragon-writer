@@ -80,7 +80,7 @@ const Buttons = styled.div`
   }
 `;
 
-const Modal = props => (
+export const Modal = props => (
   <React.Fragment>
     {props.show
       ? (
@@ -99,5 +99,3 @@ const Modal = props => (
       : null}
   </React.Fragment>
 );
-
-export default Modal;

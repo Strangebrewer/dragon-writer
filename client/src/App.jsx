@@ -32,7 +32,7 @@ class App extends Component {
     this.getInitialData();
   };
 
-  toggleMode = modeInput => {
+  toggleStyleMode = modeInput => {
     let stateObj = {};
     if (modeInput === "Bright") {
       stateObj.styleMode = Themes.brightmode;
@@ -116,7 +116,7 @@ class App extends Component {
                     loading={this.state.loading}
                     styleMode={this.state.styleMode}
                     nextMode={this.state.nextMode}
-                    toggleMode={this.toggleMode}
+                    toggleStyleMode={this.toggleStyleMode}
                   />
                 )
               }
@@ -138,7 +138,7 @@ class App extends Component {
                       loading: this.state.loading,
                       styleMode: this.state.styleMode,
                       nextMode: this.state.nextMode,
-                      toggleMode: this.toggleMode,
+                      toggleStyleMode: this.toggleStyleMode,
                     })}
                   />
                 ))
@@ -155,7 +155,7 @@ class App extends Component {
                   loading={this.state.loading}
                   styleMode={this.state.styleMode}
                   nextMode={this.state.nextMode}
-                  toggleMode={this.toggleMode}
+                  toggleStyleMode={this.toggleStyleMode}
                 />
               )}
             />

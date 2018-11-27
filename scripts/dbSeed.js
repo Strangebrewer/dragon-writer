@@ -31,15 +31,15 @@ const projectSeed = [
     userId: '',
     title: "New Novel",
     link: "novel",
-    summary: "Write a novel about some shit, yo.",
+    summary: "Write a novel, yo.",
     subjects: [],
     texts: []
   },
   {
     userId: '',
-    title: "Therapy Journal",
+    title: "Journal",
     link: "journal",
-    summary: "Write my thoughts and experiences while I go through therapy.",
+    summary: "Write my thoughts and experiences...",
     subjects: [],
     texts: []
   },

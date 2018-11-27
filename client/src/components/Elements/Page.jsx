@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar } from './Navbar';
 import SubjectList from "../SubjectList";
 import styled from "styled-components";
-import { GlobalStyle } from "../../GlobalStyle";
+import { GlobalStyle } from "../../utils";
 
 const PageContainer = styled.div`
   min-height: 100vh;

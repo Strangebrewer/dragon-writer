@@ -75,8 +75,8 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const Nav = props => {
-  const { authenticated, user, logout, nextMode, toggleMode } = props;
+export const Navbar = props => {
+  const { authenticated, user, logout, nextMode, toggleStyleMode } = props;
   return (
     <NavContainer>
       <NavInner>
@@ -93,9 +93,7 @@ const Nav = props => {
         )}
       </NavInner>
 
-      <ModeButton onClick={() => toggleMode(nextMode)}>Toggle {nextMode} Mode</ModeButton>
+      <ModeButton onClick={() => toggleStyleMode(nextMode)}>Toggle {nextMode} Mode</ModeButton>
     </NavContainer>
   );
 };
-
-export default Nav;

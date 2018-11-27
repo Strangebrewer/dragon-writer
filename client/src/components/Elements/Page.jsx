@@ -1,10 +1,8 @@
 import React from 'react';
-import Nav from './Nav';
+import { Navbar } from './Navbar';
 import SubjectList from "../SubjectList";
 import styled from "styled-components";
-// import { ThemeProvider } from "styled-components";
 import { GlobalStyle } from "../../GlobalStyle";
-// import { nightmode } from "../../utils/Theme";
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -39,7 +37,10 @@ const FooterContainer = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  color: ${props => props.home ? props.theme.homeBannerColor : props.theme.bannerColor};
+  color: ${props => props.home
+    ? props.theme.homeBannerColor
+    : props.theme.bannerColor
+  };
   grid-column: 1 / 4;
   grid-row: 2;
   text-align: center;
@@ -48,100 +49,71 @@ const TitleContainer = styled.div`
       ? "30px auto 15px auto"
       : "30px auto"
   )};
-  width: ${props => (props.home ? '600px' : '100%')};
+  width: ${props => props.home ? '600px' : '100%'};
   transition: color .3s ease-in;
-  background: ${props => (props.home ? props.theme.homeBannerBG : props.theme.bannerBG)};
-  box-shadow: ${props => (props.home ? '6px 6px 2px #000' : 'none')};
+  background: ${props =>
+    props.home
+      ? props.theme.homeBannerBG
+      : props.theme.bannerBG
+  };
+  box-shadow: ${props => props.home ? '6px 6px 2px #000' : 'none'};
   padding: 5px 0 8px 0;
   align-items: center;  
   h2 {
     font-family: ${props => props.theme.hTypeface};
-    font-size: ${props => (
-    props.size === 'large'
-      ? "5rem"
-      : "3rem"
-  )};
+    font-size: ${props => props.size === 'large' ? "5" : "3"}rem;
   }
   h3 {
     margin-top: 10px;
     font-weight: bold;
-    font-size: ${props => (
-    props.size === 'large'
-      ? "1.65rem"
-      : "1.5rem"
-  )};
+    font-size: ${props => props.size === 'large' ? "1.65" : "1.5"}rem;
   }
 `;
 
-const Page = props => {
-  const {
-    authenticated,
-    children,
-    clearAllTopics,
-    create,
-    dragons,
-    dragonTextOn,
-    editorOn,
-    home,
-    logout,
-    projectId,
-    size,
-    subjects,
-    subtitle,
-    title,
-    toggleEditor,
-    toggleSubject,
-    toggleSubjectForm,
-    user
-  } = props;
-
+export const Page = props => {
   return (
-    // <ThemeProvider theme={nightmode}>
-      <PageContainer >
+    <PageContainer >
       <GlobalStyle />
-        <Nav
-          authenticated={authenticated}
-          logout={logout}
-          user={user}
-          mode={props.mode}
-          nextMode={props.nextMode}
-          toggleMode={props.toggleMode}
-        />
+      <Navbar
+        authenticated={props.authenticated}
+        logout={props.logout}
+        user={props.user}
+        mode={props.mode}
+        nextMode={props.nextMode}
+        toggleStyleMode={props.toggleStyleMode}
+      />
 
-        <TitleContainer
-          dragons={dragons}
-          home={home}
-          size={size}
-          subtitle={subtitle}
-          title={title}
-        >
-          <h2 title={subtitle}>{title}</h2>
-          {home && <h3>{subtitle}</h3>}
-        </TitleContainer>
+      <TitleContainer
+        dragons={props.dragons}
+        home={props.home}
+        size={props.size}
+        subtitle={props.subtitle}
+        title={props.title}
+      >
+        <h2 title={props.subtitle}>{props.title}</h2>
+        {props.home && <h3>{props.subtitle}</h3>}
+      </TitleContainer>
 
-        <NavColumn>
-          {subjects && !editorOn &&
-            <SubjectList
-              clearAllTopics={clearAllTopics}
-              create={create}
-              dragons={dragons}
-              dragonTextOn={dragonTextOn}
-              projectId={projectId}
-              subjects={subjects}
-              toggleEditor={toggleEditor}
-              toggleSubject={toggleSubject}
-              toggleSubjectForm={toggleSubjectForm}
-            />}
-        </NavColumn>
+      <NavColumn>
+        {props.subjects && !props.editorOn &&
+          <SubjectList
+            clearAllTopics={props.clearAllTopics}
+            create={props.create}
+            dragons={props.dragons}
+            dragonTextOn={props.dragonTextOn}
+            projectId={props.projectId}
+            subjects={props.subjects}
+            toggleEditor={props.toggleEditor}
+            toggleSubject={props.toggleSubject}
+            toggleSubjectForm={props.toggleSubjectForm}
+          />}
+      </NavColumn>
 
-        <ContentColumn>
-          {children}
-        </ContentColumn>
+      <ContentColumn>
+        {props.children}
+      </ContentColumn>
 
-        <FooterContainer></FooterContainer>
-      </PageContainer >
-    // </ThemeProvider>
+      <FooterContainer></FooterContainer>
+    </PageContainer >
   );
-}
-
-export default Page;
+};

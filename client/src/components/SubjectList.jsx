@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { NewSubjectForm } from "./Forms";
-import LinkBtn from "./Elements/LinkBtn";
+import NewSubjectForm from "./Forms/NewSubjectForm";
+import { LinkBtn } from "./Elements";
 import { Button } from "./Forms/FormElements";
 
 const buttonStyle = {
@@ -69,6 +69,8 @@ const SubjectList = props => {
           <ListItem key={subject._id}>
             <LinkBtn
               underline
+              fancy
+              size="1.5rem"
               lineHeight="1.5"
               onClick={
                 dragons

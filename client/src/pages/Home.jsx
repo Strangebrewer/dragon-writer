@@ -1,9 +1,8 @@
 import React, { Fragment, PureComponent } from 'react';
 import styled from "styled-components";
-import Page from "../components/Elements/Page";
+import { Page, Modal } from "../components/Elements";
 import { Login, Signup } from "../components/Forms";
 import { Button, Input, TextArea } from "../components/Forms/FormElements";
-import Modal from "../components/Elements/Modal";
 import ProjectCard from "../components/ProjectCard";
 import { API } from '../utils';
 
@@ -122,7 +121,7 @@ class Home extends PureComponent {
           <TextArea
             type="text"
             name="summary"
-            onChange={this.andleInputChange}
+            onChange={this.handleInputChange}
             placeholder="project summary"
           />
           <Input
@@ -156,7 +155,7 @@ class Home extends PureComponent {
         home="true"
         mode={this.props.mode}
         nextMode={this.props.nextMode}
-        toggleMode={this.props.toggleMode}
+        toggleStyleMode={this.props.toggleStyleMode}
       >
         <Modal
           show={this.state.modal.isOpen}

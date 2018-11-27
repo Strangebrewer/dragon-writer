@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Button, Input, Label, TextArea } from "../FormElements";
-import { API } from "../../../utils";
+import { Button, Input, Label, TextArea } from "./FormElements";
+import { API } from "../../utils";
 
 const Container = styled.div`
   width: 100%;
@@ -9,7 +9,7 @@ const Container = styled.div`
   padding-top: 8px;
 `;
 
-export class NewSubjectForm extends Component {
+class NewSubjectForm extends Component {
   state = {
     subject: '',
     theme: '',
@@ -60,4 +60,6 @@ export class NewSubjectForm extends Component {
       </Container>
     )
   }
-}
+};
+
+export default NewSubjectForm;

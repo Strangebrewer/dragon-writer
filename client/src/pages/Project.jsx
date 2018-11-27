@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from "styled-components";
-import Page from "../components/Elements/Page"
+import { Page } from "../components/Elements"
 import TextEditor from "../components/TextEditor";
-import DragonColumn from "../components/Dragons/DragonColumn";
-import DragonTextColumn from "../components/Dragons/DragonTextColumn";
+import { DragonColumn, DragonTextColumn } from "../components/Dragons";
 import { API, Scales } from '../utils';
 // import { Scales } from "../utils/DragonScales";
 
@@ -197,7 +196,7 @@ class Project extends Component {
           dragonTextOn={this.dragonTextOn}
           mode={this.props.mode}
           nextMode={this.props.nextMode}
-          toggleMode={this.props.toggleMode}
+          toggleStyleMode={this.props.toggleStyleMode}
         >
           {this.state.editorOn
             ? (

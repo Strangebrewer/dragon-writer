@@ -85,7 +85,7 @@ export const Modal = props => (
     {props.show
       ? (
         <Outer className="modal" id="modal" onClick={props.outsideClick}>
-          <Content className="modal-content">
+          <Content className="modal-content" style={props.style}>
             <Button className="modal-close" onClick={props.closeModal}>&times;</Button>
             <Body className="modal-body">
               {props.body}

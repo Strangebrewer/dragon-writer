@@ -67,9 +67,10 @@ export const API = {
     return axios.put(`/api/project/${id}`, projectData)
   },
 
-  createSubject: function (subjectData) {
-    return axios.post('/api/subject', subjectData);
+  deleteProject: function (id) {
+    return axios.delete(`/api/project/${id}`);
   },
+
 
   getSubjects: function () {
     return axios.get('/api/subject');
@@ -77,5 +78,17 @@ export const API = {
 
   getSingleSubject: function (id) {
     return axios.get(`/api/subject/${id}`);
+  },
+
+  createSubject: function (subjectData) {
+    return axios.post('/api/subject', subjectData);
+  },
+
+  updateSubject: function (id, updateData) {
+    return axios.put(`/api/subject/${id}`, updateData);
+  },
+
+  deleteSubject: function (id) {
+    return axios.delete(`/api/subject/${id}`);
   }
 };

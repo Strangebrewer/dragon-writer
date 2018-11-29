@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { Editor } from "slate-react";
+import { Value } from "slate";
 import styled from 'styled-components';
 import dateFns from "date-fns";
+import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { LinkBtn, Modal } from "../Elements";
+import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
   position: relative;
@@ -34,9 +38,20 @@ const Container = styled.div`
   }
 `;
 
+const ButtonDiv = styled.div`
+  text-align: right;
+  width: 30px;
+`;
+
+const TextDiv = styled.div`
+  text-align: left;
+  max-width: calc(100% - 30px);
+`;
+
 const DateDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const DateText = styled.h5`
@@ -46,12 +61,25 @@ const DateText = styled.h5`
     margin-top: 8px;
 `;
 
+const ModalH2 = styled.h2`
+
+`;
+
+const ModalH3 = styled.h3`
+
+`;
+
+const ModalPg = styled.p`
+
+`;
+
 export class DragonItem extends Component {
   state = {
     modal: {
       isOpen: false,
       body: "",
-      buttons: ""
+      buttons: "",
+      style: {}
     },
   };
 
@@ -66,7 +94,8 @@ export class DragonItem extends Component {
       modal: {
         isOpen: true,
         body: modalInput.body,
-        buttons: modalInput.buttons
+        buttons: modalInput.buttons,
+        style: modalInput.style
       }
     });
   };
@@ -89,11 +118,33 @@ export class DragonItem extends Component {
     })
   };
 
+  seeFullText = text => {
+    console.log(text);
+    this.setModal({
+      body: (
+        <Fragment>
+          <ModalH2>{text.title}</ModalH2>
+          <ModalH3>{text.thesis}</ModalH3>
+          <Editor
+            value={Value.fromJSON(JSON.parse(text.text))}
+            renderMark={renderMark}
+            renderNode={renderNode}
+          />
+        </Fragment>
+      ),
+      buttons: (
+        <Button onClick={this.closeModal}>Close</Button>
+      ),
+      style: { maxHeight: '80vh', overflow: 'auto' }
+    })
+  }
+
   render() {
     const { index, text, subjectId } = this.props;
     return (
       <Fragment>
         <Modal
+          style={this.state.modal.style}
           show={this.state.modal.isOpen}
           closeModal={this.closeModal}
           body={this.state.modal.body}
@@ -115,18 +166,32 @@ export class DragonItem extends Component {
               {...provided.dragHandleProps}
             >
               <LinkBtn
-                onClick={() => this.deleteTextModal(text._id, subjectId, index)}
+                onClick={() => this.seeFullText(text)}
                 position="absolute"
-                padding="0 0 10px 10px"
                 top="6px"
-                right="7px"
-                delete
+                right="24px"
+                padding="0 0 10px 7px"
                 black
-                size=".9rem"
+                size="1rem"
                 underline
               >
+                <i className="far fa-eye"></i>
+              </LinkBtn>
+
+              <LinkBtn
+                onClick={() => this.deleteTextModal(text._id, subjectId, index)}
+                position="absolute"
+                top="6px"
+                right="8px"
+                padding="0 0 10px 7px"
                 delete
-            </LinkBtn>
+                black
+                size="1rem"
+                underline
+              >
+                <i className="fas fa-trash-alt"></i>
+              </LinkBtn>
+
 
               <h4>{text.title}</h4>
               <p>{text.thesis}</p>

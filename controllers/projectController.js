@@ -30,8 +30,18 @@ module.exports = {
     } catch (err) {
       res.status(422).json(err);
     }
+  },
 
-
+  deleteProject: async function (req, res) {
+    try {
+      await db.Text.deleteMany({ projectId: req.params.id });
+      await db.Subject.deleteMany({ projectId: req.params.id });
+      await db.Project.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: "Delete complete."});
+    }
+    catch (err) {
+      res.send(err);
+    }
   }
 
 }

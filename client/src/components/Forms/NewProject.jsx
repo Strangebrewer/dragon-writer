@@ -22,19 +22,16 @@ export class NewProject extends Component {
     this.setState({ [name]: value });
   };
 
-  createProject = () => {
-    API.createProject({
+  createProject = async () => {
+    await API.createProject({
       title: this.state.title,
       summary: this.state.summary,
       link: this.state.link,
       userId: this.props.user._id
-    }).then(res => {
-      console.log(res);
-      this.props.getProjects(this.props.user._id);
-      this.setState({ create: false });
     })
-      .catch(err => console.log(err));
-  }
+    await this.props.getInitialData(this.props.user);
+    this.props.toggleProjectForm();
+  };
 
   render() {
     return (

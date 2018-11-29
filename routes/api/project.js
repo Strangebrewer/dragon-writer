@@ -6,7 +6,8 @@ router.route('/')
   .post(projectController.createProject);
 
 router.route('/:id')
-  .put(projectController.updateProject);
+  .put(projectController.updateProject)
+  .delete(projectController.deleteProject);
 
 // function isLoggedIn(req, res, next) {
 //   if (req.isAuthenticated())

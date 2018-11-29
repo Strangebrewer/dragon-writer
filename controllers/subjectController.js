@@ -41,4 +41,30 @@ module.exports = {
     }
   },
 
+  updateSubject: async function (req, res) {
+    try {
+      await db.Subject.findByIdAndUpdate(req.params.id, req.body);
+      res.status(200).json({ message: "Update complete" });
+    }
+    catch (err) {
+      res.status(422).json(err);
+    }
+  },
+
+  deleteSubject: async function (req, res) {
+    try {
+      const promiseArray = []
+      const subject = await db.Subject.findByIdAndDelete(req.params.id);
+      for (let i = 0; i < subject.texts.length; i++) {
+        const element = subject.texts[i];
+        promiseArray.push(db.Text.findByIdAndDelete(element));
+      }
+      await Promise.all(promiseArray);
+      res.status(200).json({ message: "Delete complete." })
+    }
+    catch (err) {
+      res.status(422).json(err);
+    }
+  },
+
 }

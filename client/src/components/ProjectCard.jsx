@@ -46,6 +46,7 @@ const ProjectCard = props => (
           user={props.user}
           getProjects={props.getProjects}
           toggleProjectForm={props.toggleProjectForm}
+          getInitialData={props.getInitialData}
         />
       ) : props.authenticated &&
       <Fragment>
@@ -64,7 +65,7 @@ const ProjectCard = props => (
                 padding="0 10px 0 0"
                 underline
                 delete
-                onClick={() => props.deleteProjectModal(project)}>delete</LinkBtn>
+                onClick={() => props.deleteProjectModal(project._id)}>delete</LinkBtn>
             </Links>
           </Container>
         ))}

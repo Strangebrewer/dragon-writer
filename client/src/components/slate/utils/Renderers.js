@@ -32,7 +32,7 @@ function renderNode(props, editor, next) {
     case 'heading-two':
       return <h2 style={{ fontSize: "25px", fontWeight: "bold" }} {...attributes}>{children}</h2>
     case 'heading-three':
-      return <h3 style={{ fontSize: "20px", fontWeight: "bold" }} {...attributes}>{children}</h3>
+      return <h3 style={{ fontSize: "18px", fontWeight: "bold", fontStyle: 'italic' }} {...attributes}>{children}</h3>
     case 'list-item':
       return <li {...attributes}>{children}</li>
     case 'numbered-list':

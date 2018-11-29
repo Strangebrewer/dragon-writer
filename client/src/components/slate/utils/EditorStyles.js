@@ -7,6 +7,8 @@ export const EditorStyles = styled.div`
       ? "2px solid " + props.theme.links
       : "none"
   )};
+  max-height: ${props => props.inline && '70vh'};
+  overflow: auto;
   margin-left: ${props => props.inline && '160px'};
   background: ${props => (
     props.mode === "write"
@@ -25,7 +27,15 @@ export const EditorStyles = styled.div`
   )};
   p {
     text-indent: 25px;
-    font-size: 2.3rem;
+    font-size: ${props => (
+      props.mode === "write"
+        ? "1.5rem"
+        : "2.2rem"
+    )};
+  }
+  ul {
+    padding-top: 0;
+    margin-top: 0;
   }
   box-shadow: ${props => (
     props.mode === "write"

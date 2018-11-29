@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from "styled-components";
 import { Page } from "../components/Elements"
+import { Button, Input, Label } from "../components/Forms/FormElements";
 import TextEditor from "../components/TextEditor";
 import { DragonColumn, DragonTextColumn } from "../components/Dragons";
 import { API, Scales } from '../utils';
@@ -171,6 +172,18 @@ class Project extends Component {
     this.saveOrder();
   };
 
+  updateSubject = async (id, updateObject) => {
+    const newState = Scales.updateSubjectHelper(id, updateObject, this.state);
+    await this.setState(newState);
+    this.saveOrder();
+  };
+
+  deleteSubject = async (id, index) => {
+    const newState = Scales.deleteSubjectHelper(id, index, this.state);
+    await this.setState(newState);
+    this.saveOrder();
+  };
+
   render() {
     const { title, _id, subjects, summary } = this.props.project;
     return (
@@ -243,16 +256,21 @@ class Project extends Component {
                           const texts = subject.textIds.map(textId => this.state.texts[textId]);
                           return this.state[subject._id] &&
                             <DragonColumn
+                              deleteSubject={this.deleteSubject}
                               deleteText={this.deleteText}
                               dragging={this.state.dragging}
                               dragonTextOn={this.dragonTextOn}
+                              getInitialData={this.props.getInitialData}
                               index={index}
                               key={subject._id}
                               loading={this.state.loading}
+                              saveOrder={this.saveOrder}
                               subject={subject}
                               texts={texts}
                               toggleEdit={this.toggleEdit}
                               toggleSubject={this.toggleSubject}
+                              updateSubject={this.updateSubject}
+                              user={this.props.user}
                             />
                         })
                       )}

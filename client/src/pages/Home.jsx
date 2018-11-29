@@ -32,7 +32,7 @@ class Home extends PureComponent {
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
-  }
+  };
 
   closeModal = () => {
     this.setState({
@@ -48,6 +48,12 @@ class Home extends PureComponent {
         buttons: modalInput.buttons
       }
     });
+  };
+
+  outsideClick = event => {
+    // the space in this is necessary because the outer div is the only one that will have a space after 'modal' in the classname.
+    if (event.target.className.includes("modal "))
+      this.closeModal();
   };
 
   toggleSignupForm = () => {
@@ -68,12 +74,6 @@ class Home extends PureComponent {
     const user = await API.login({ username, password });
     if (user)
       this.props.getInitialData(user.data);
-  };
-
-  outsideClick = event => {
-    // the space in this is necessary because the outer div is the only one that will have a space after 'modal' in the classname.
-    if (event.target.className.includes("modal "))
-      this.closeModal();
   };
 
   toggleProjectForm = () => {
@@ -140,8 +140,27 @@ class Home extends PureComponent {
         </Fragment>
       )
     })
-  }
+  };
 
+  deleteProjectModal = async id => {
+    console.log(id);
+    this.setModal({
+      body: <h3>Are you sure you want to delete this entire project and all associated texts and topic columns?</h3>,
+      buttons: (
+        <Fragment>
+          <Button onClick={this.closeModal}>Cancel</Button>
+          <Button onClick={() => this.deleteProject(id)}>Yes, Delete</Button>
+        </Fragment>
+      )
+    })
+  };
+
+  deleteProject = async id => {
+    await API.deleteProject(id);
+    await this.props.getInitialData(this.props.user);
+    this.closeModal();
+  }
+    ;
   render() {
     return (
       <Page
@@ -170,10 +189,12 @@ class Home extends PureComponent {
               <ProjectCard
                 projects={this.props.projects}
                 updateProjectModal={this.updateProjectModal}
+                getInitialData={this.props.getInitialData}
                 create={this.state.create}
                 user={this.props.user}
                 toggleProjectForm={this.toggleProjectForm}
                 authenticated={this.props.authenticated}
+                deleteProjectModal={this.deleteProjectModal}
               />
               // 'loading' prevents the login form from flashing on the screen while the app checks if a user already has a session cookie upon first page load
             ) : (

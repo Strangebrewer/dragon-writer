@@ -19,6 +19,38 @@ export const Scales = {
     }
   },
 
+  updateSubjectHelper: function (subjectId, subjectContent, state) {
+    const newSubjects = {
+      ...state.subjects,
+      [subjectId]: {
+        ...state.subjects[subjectId],
+        subject: subjectContent.subject,
+        theme: subjectContent.theme
+      }
+    }
+    API.updateSubject(subjectId, subjectContent);
+    return { subjects: newSubjects };
+  },
+
+  deleteSubjectHelper: function (subjectId, index, state) {
+    const subjectOrder = Array.from(state.subjectOrder);
+    const textIds = state.subjects[subjectId].textIds;
+    const texts = Object.assign({}, { ...state.texts });
+    const subjects = Object.assign({}, { ...state.subjects });
+    subjectOrder.splice(index, 1);
+    
+    for (let i = 0; i < textIds.length; i++)
+      delete texts[textIds[i]];
+
+    delete subjects[subjectId];
+    API.deleteSubject(subjectId);
+    return {
+      texts,
+      subjects,
+      subjectOrder
+    }
+  },
+
   clearTopicsHelper: function (subjectOrder) {
     let stateObject = {};
     for (let i = 0; i < subjectOrder.length; i++) {

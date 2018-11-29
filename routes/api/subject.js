@@ -6,7 +6,9 @@ router.route('/')
   .post(subjectController.createSubject);
 
 router.route('/:id')
-  .get(subjectController.getSingleSubject);
+  .get(subjectController.getSingleSubject)
+  .put(subjectController.updateSubject)
+  .delete(subjectController.deleteSubject);
 
 // function isLoggedIn(req, res, next) {
 //   if (req.isAuthenticated())

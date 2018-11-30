@@ -63,12 +63,25 @@ class Project extends Component {
     }
   };
 
-  toggleEdit = id => {
-    this.setState({ [id]: !this.state[id] });
+  toggleEdit = text => {
+    console.log(text);
+    this.setState({
+      [text._id]: !this.state[text._id],
+      incomingSubject: '',
+      incomingText: text
+    });
   };
 
-  toggleEditor = () => {
-    this.setState({ editorOn: !this.state.editorOn });
+  toggleEditor = toggleObject => {
+    console.log(toggleObject);
+    const stateObj = {
+      editorOn: !this.state.editorOn,
+      incomingSubject: '',
+      incomingText: '',
+    };
+    if (toggleObject.text) stateObj.incomingText = toggleObject;
+    if (toggleObject.subject) stateObj.incomingSubject = toggleObject;
+    this.setState(stateObj);
   };
 
   toggleSubject = async id => {
@@ -91,7 +104,9 @@ class Project extends Component {
 
   toggleSubjectForm = async (created, subject) => {
     if (created === "created") {
-      const stateObject = Scales.toggleSubjectHelper(this.state, subject)
+      const stateObject = Scales.toggleSubjectHelper(this.state, subject);
+      // make sure the new subject is set to 'true' in state so it will appear upon creation
+      stateObject[subject._id] = true;
       await this.setState(stateObject);
       this.saveOrder();
     }
@@ -157,7 +172,9 @@ class Project extends Component {
   };
 
   updateChangedText = async (newText) => {
+    console.log(newText);
     const newState = Scales.updateTextHelper(newText, this.state);
+    console.log(newState);
     await this.setState(newState);
     this.saveOrder();
   }
@@ -187,7 +204,13 @@ class Project extends Component {
   };
 
   render() {
-    const { title, _id, subjects, summary } = this.props.project;
+    const { title, _id, summary } = this.props.project;
+    console.log(this.state.subjects);
+
+    const subjects = this.state.subjectOrder.map(subject => (
+      { ...this.state.subjects[subject] }
+    ))
+    console.log(subjects);
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
@@ -219,10 +242,18 @@ class Project extends Component {
               <EditorContainer>
                 <TextEditor
                   insertNewText={this.insertNewText}
+                  incomingSubject={this.state.incomingSubject}
+                  incomingText={this.state.incomingText}
                   projectId={_id}
+                  state={this.state}
+                  subject={this.state.incomingText.parentSubject}
                   subjects={subjects}
+                  thesis={this.state.incomingText.thesis}
+                  title={this.state.incomingText.title}
+                  text={JSON.parse(this.state.incomingText.text)}
                   toggleEdit={this.toggleEdit}
                   toggleEditor={this.toggleEditor}
+                  updateChangedText={this.updateChangedText}
                 />
               </EditorContainer>
             ) : (
@@ -243,9 +274,12 @@ class Project extends Component {
                           dragonTextOff={this.dragonTextOff}
                           dragonTextOn={this.dragonTextOn}
                           getInitialData={this.props.getInitialData}
+                          incomingSubject={this.state.incomingSubject}
+                          incomingText={this.state.incomingText}
                           saveOrder={this.saveOrder}
                           state={this.state}
                           subject={this.state.subjects[this.state.singleSubject]}
+                          subjects={subjects}
                           texts={this.state.subjects[this.state.singleSubject].textIds
                             .map(textId => (this.state.texts[textId]))}
                           toggleEdit={this.toggleEdit}
@@ -270,7 +304,9 @@ class Project extends Component {
                               subject={subject}
                               texts={texts}
                               toggleEdit={this.toggleEdit}
+                              toggleEditor={this.toggleEditor}
                               toggleSubject={this.toggleSubject}
+                              updateChangedText={this.updateChangedText}
                               updateSubject={this.updateSubject}
                               user={this.props.user}
                             />

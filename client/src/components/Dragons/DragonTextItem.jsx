@@ -112,7 +112,7 @@ export class DragonTextItem extends Component {
                 <LinkBtn
                   underline
                   padding="2px 0 10px 8px"
-                  onClick={() => toggleEdit(text._id)}>edit</LinkBtn>
+                  onClick={() => toggleEdit(text)}>edit</LinkBtn>
                 <LinkBtn
                   underline
                   padding="2px 0 10px 8px"

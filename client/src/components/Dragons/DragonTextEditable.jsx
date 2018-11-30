@@ -21,7 +21,10 @@ export class DragonTextEditable extends Component {
   render() {
     const {
       text,
+      incomingSubject,
+      incomingText,
       index,
+      subjects,
       user,
       toggleEdit,
       saveOrder,
@@ -44,9 +47,12 @@ export class DragonTextEditable extends Component {
               dragHandle={provided.dragHandleProps}
               index={index}
               user={user}
-              inline="true"
+              inline={incomingText ? 'true' : null}
+              incomingSubject={incomingSubject}
+              incomingText={incomingText}
               isDragging={snapshot.isDragging}
               subject={text.subjectId}
+              subjects={subjects}
               text={JSON.parse(text.text)}
               title={text.title}
               thesis={text.thesis}

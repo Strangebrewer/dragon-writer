@@ -61,13 +61,20 @@ const MetaDataForm = styled.div`
   width: ${props => props.inline && '160px'};
 `;
 
+const ColumnName = styled.h3`
+  font-size: 1.8rem;
+  padding: 10px 0;
+`;
+
 class TextEditor extends Component {
   state = {
     value: Value.fromJSON(this.props.text ? this.props.text : initialValue),
     title: this.props.title || '',
-    subject: this.props.subject || '',
+    subject: this.props.subject || this.props.incomingSubject._id || '',
     thesis: this.props.thesis || '',
     runUnmount: false,
+    incomingSubject: this.props.incomingSubject,
+    incomingText: this.props.incomingText,
   };
 
   // Standard input change controller
@@ -162,18 +169,29 @@ class TextEditor extends Component {
       text: JSON.stringify(this.state.value.toJSON())
     }
     const text = await API.updateText(id, textObject);
-    await this.props.toggleEdit(id);
+    text.data.parentSubject = this.props.incomingText.parentSubject;
+
+    if (this.props.incomingText)
+      await this.props.toggleEditor(text.data);
+    else
+      await this.props.toggleEdit(text.data);
+
     this.props.updateChangedText(text.data);
   };
 
   render() {
     // if (props.id) then this editor is being used to update an existing text.
-    const { id, inline, subjects, title } = this.props;
+    const { incomingSubject, incomingText, inline, subjects, title } = this.props;
+    const id = this.props.id || incomingText._id;
+    console.log(incomingText);
     console.log(this.props);
     return (
       <EditorOuter inline={inline}>
         <DragHeader inline={inline} {...this.props.dragHandle}>
-          <p>{inline ? title : "Create New Text"}</p>
+          <p>
+            {inline && title}
+            {!inline && incomingText ? `Edit ${incomingText.title}` : "Create New Text"}
+          </p>
         </DragHeader>
 
         <EditorInner>
@@ -213,7 +231,8 @@ class TextEditor extends Component {
               <Button
                 style={{ marginTop: "8px", marginRight: "8px" }}
                 disabled={!this.state.title || !this.state.subject}
-                onClick={id ? () => this.updateText(id) : this.createText}
+                nerb="feck"
+                onClick={id || incomingText ? () => this.updateText(id) : this.createText}
               >
                 Save
               </Button>
@@ -223,7 +242,8 @@ class TextEditor extends Component {
               ? (
                 <Button
                   style={{ marginTop: "8px", marginRight: "8px" }}
-                  onClick={() => this.props.toggleEdit(id)}
+                  nerb="shizzle"
+                  onClick={() => this.props.toggleEdit(incomingText)}
                 >
                   Cancel
                 </Button>
@@ -231,6 +251,7 @@ class TextEditor extends Component {
                 inline &&
                 <Button
                   style={{ marginTop: "8px", marginRight: "8px" }}
+                  nerb="cram"
                   onClick={this.props.toggleEditor}
                 >
                   Cancel
@@ -238,20 +259,26 @@ class TextEditor extends Component {
               )}
           </MetaDataForm>
 
-          {subjects && (
-            <Fragment>
-              <Label>Column:</Label>
-              <Select
-                style={{ maxWidth: "300px", width: "300px" }}
-                value={this.state.subject}
-                onChange={this.handleInputChange}
-                name="subject"
-              >
-                <option value="">Select a column:</option>
-                {subjects.map(subject => <option key={subject._id} value={subject._id}>{subject.subject}</option>)}
-              </Select>
-            </Fragment>
-          )}
+          {incomingSubject || incomingText
+            ? (
+              incomingSubject
+                ? <ColumnName>Column: <strong>{incomingSubject.subject}</strong></ColumnName>
+                : <ColumnName>Column: <strong>{incomingText.parentSubject.subject}</strong></ColumnName>
+            ) : (
+              <Fragment>
+                <Label>Column:</Label>
+                <Select
+                  style={{ maxWidth: "300px", width: "300px" }}
+                  value={this.state.subject}
+                  onChange={this.handleInputChange}
+                  name="subject"
+                >
+                  <option value="">Select a column:</option>
+                  {subjects.map(subject => <option key={subject._id} value={subject._id}>{subject.subject}</option>)}
+                </Select>
+              </Fragment>
+            )
+          }
 
           <EditorStyles mode="write" inline={inline} isDragging={this.props.isDragging}>
             <Editor
@@ -269,8 +296,9 @@ class TextEditor extends Component {
           {!inline && (
             <Button
               style={{ marginTop: "8px", marginRight: "8px" }}
+              nerb="fuck"
               disabled={!this.state.title || !this.state.subject}
-              onClick={id ? () => this.updateText(id) : this.createText}
+              onClick={id || incomingText ? () => this.updateText(id) : this.createText}
             >
               Save
           </Button>
@@ -280,7 +308,8 @@ class TextEditor extends Component {
             ? (
               <Button
                 style={{ marginTop: "8px", marginRight: "8px" }}
-                onClick={() => this.props.toggleEdit(id)}
+                nerb="fuck"
+                onClick={() => this.props.toggleEditor(incomingText)}
               >
                 Cancel
             </Button>
@@ -288,6 +317,7 @@ class TextEditor extends Component {
               !inline &&
               <Button
                 style={{ marginTop: "8px", marginRight: "8px" }}
+                nerb="derp"
                 onClick={this.props.toggleEditor}
               >
                 Cancel

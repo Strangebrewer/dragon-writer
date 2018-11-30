@@ -72,6 +72,7 @@ class App extends Component {
       projects.forEach(project => {
         if (project.order)
           projectData.push(Utils.addTextsToOrder(project));
+
         else
           projectData.push(Utils.formatInitialData(project));
       });

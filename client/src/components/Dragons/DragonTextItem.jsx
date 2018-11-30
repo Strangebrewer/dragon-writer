@@ -86,8 +86,9 @@ export class DragonTextItem extends Component {
   };
 
   render() {
-    const { index, text, subject, toggleEdit } = this.props;
+    const { index, text, subject, toggleEdit, toggleEditor } = this.props;
     const thisValue = text.text ? JSON.parse(text.text) : initialValue;
+    text.parentSubject = subject;
     console.log(text);
     return (
       <React.Fragment>

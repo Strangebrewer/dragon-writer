@@ -284,6 +284,7 @@ class Project extends Component {
                           texts={this.state.subjects[this.state.singleSubject].textIds
                             .map(textId => (this.state.texts[textId]))}
                           toggleEdit={this.toggleEdit}
+                          toggleEditor={this.toggleEditor}
                           updateChangedText={this.updateChangedText}
                           user={this.props.user}
                         />

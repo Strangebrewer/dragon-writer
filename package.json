@@ -28,7 +28,6 @@
     "body-parser": "^1.17.2",
     "connect-mongo": "^2.0.1",
     "date-fns": "^1.29.0",
-    "event-stream": "^4.0.1",
     "express": "^4.15.4",
     "express-session": "^1.15.6",
     "immutable": "^4.0.0-rc.12",

@@ -89,6 +89,7 @@ export const DragonTextColumn = props => {
                     text={text}
                     index={index}
                     toggleEdit={props.toggleEdit}
+                    toggleEditor={props.toggleEditor}
                     deleteText={props.deleteText}
                   />
                 )

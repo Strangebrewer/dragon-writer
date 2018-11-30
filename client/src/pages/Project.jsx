@@ -7,8 +7,6 @@ import TextEditor from "../components/TextEditor";
 import { DragonColumn, DragonTextColumn } from "../components/Dragons";
 import { API, Scales } from '../utils';
 
-let dis = 'add code so I can deploy.'
-
 const ColumnContainer = styled.div`
   height: 100%;
   width: 100%;
@@ -206,6 +204,9 @@ class Project extends Component {
   render() {
     const { title, _id, summary } = this.props.project;
     console.log(this.state.subjects);
+    const text = this.state.incomingText
+      ? JSON.parse(this.state.incomingText.text)
+      : null;
 
     const subjects = this.state.subjectOrder.map(subject => (
       { ...this.state.subjects[subject] }
@@ -250,7 +251,7 @@ class Project extends Component {
                   subjects={subjects}
                   thesis={this.state.incomingText.thesis}
                   title={this.state.incomingText.title}
-                  text={JSON.parse(this.state.incomingText.text)}
+                  text={text}
                   toggleEdit={this.toggleEdit}
                   toggleEditor={this.toggleEditor}
                   updateChangedText={this.updateChangedText}

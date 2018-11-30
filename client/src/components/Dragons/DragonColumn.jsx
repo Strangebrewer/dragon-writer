@@ -62,6 +62,14 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
+const CRUDButtons = styled.div`
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  display: flex;
+  justify-content: space-between;
+`;
+
 export class DragonColumn extends Component {
   state = {
     modal: {
@@ -158,6 +166,7 @@ export class DragonColumn extends Component {
       loading,
       subject,
       texts,
+      toggleEditor,
       toggleSubject,
       updateSubject
     } = this.props;
@@ -176,39 +185,40 @@ export class DragonColumn extends Component {
               buttons={this.state.modal.buttons}
               outsideClick={this.outsideClick}
             />
-            <LinkBtn
-              title="expand column to show full texts"
-              position="absolute"
-              top="6px"
-              left="8px"
-              padding="0 3px 5px 3px"
-              onClick={() => dragonTextOn(_id)}
-            >
-              <i className="far fa-eye"></i>
-            </LinkBtn>
+            <CRUDButtons>
+              <LinkBtn
+                title={`create new item for ${subject.subject} column`}
+                padding="0 3px 5px 3px"
+                onClick={() => this.props.toggleEditor(subject)}
+              >
+                <i className="far fa-file-alt"></i>
+              </LinkBtn>
 
-            <LinkBtn
-              title="expand column to show full texts"
-              position="absolute"
-              top="6px"
-              left="28px"
-              padding="0 3px 5px 3px"
-              onClick={() => this.updateSubjectModal(subject)}
-            >
-              <i className="fas fa-edit"></i>
-            </LinkBtn>
+              <LinkBtn
+                title="expand column to read all full texts"
+                padding="0 3px 5px 3px"
+                onClick={() => dragonTextOn(_id)}
+              >
+                <i className="far fa-eye"></i>
+              </LinkBtn>
 
-            <LinkBtn
-              title="expand column to show full texts"
-              position="absolute"
-              top="6px"
-              left="48px"
-              padding="0 3px 5px 3px"
-              delete
-              onClick={() => this.deleteSubjectModal(_id, index)}
-            >
-              <i className="fas fa-trash-alt"></i>
-            </LinkBtn>
+              <LinkBtn
+                title="update column name"
+                padding="0 3px 5px 3px"
+                onClick={() => this.updateSubjectModal(subject)}
+              >
+                <i className="fas fa-edit"></i>
+              </LinkBtn>
+
+              <LinkBtn
+                title="delete this column"
+                padding="0 3px 5px 3px"
+                delete
+                onClick={() => this.deleteSubjectModal(_id, index)}
+              >
+                <i className="fas fa-trash-alt"></i>
+              </LinkBtn>
+            </CRUDButtons>
 
             <LinkBtn
               title="close this column"
@@ -239,10 +249,11 @@ export class DragonColumn extends Component {
                       key={text._id}
                       index={index}
                       text={text}
-                      subjectId={_id}
+                      subject={subject}
                       deleteText={deleteText}
                       loading={loading}
                       dragging={dragging}
+                      toggleEditor={toggleEditor}
                     />
                   ))}
                   {provided.placeholder}

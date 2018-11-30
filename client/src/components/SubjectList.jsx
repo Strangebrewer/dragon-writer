@@ -96,7 +96,7 @@ const SubjectList = props => {
               New Column
             </Button>
             <Button onClick={toggleEditor} style={buttonStyle}>
-              New Text
+              New Item
             </Button>
           </React.Fragment>
         )}

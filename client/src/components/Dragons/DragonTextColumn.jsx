@@ -39,6 +39,7 @@ const DragonTextList = styled.div`
 
 export const DragonTextColumn = props => {
   const { subject, theme, _id } = props.subject
+  console.log(props.subjects);
   return (
     <TextColumn>
       <SubjectHeading>
@@ -69,8 +70,11 @@ export const DragonTextColumn = props => {
                   <DragonTextEditable
                     key={text._id}
                     index={index}
+                    incomingSubject={props.incomingSubject}
+                    incomingText={props.incomingText}
                     text={text}
                     subject={props.subject}
+                    subjects={props.subjects}
                     user={props.user}
                     toggleEdit={props.toggleEdit}
                     saveOrder={props.saveOrder}
@@ -81,6 +85,7 @@ export const DragonTextColumn = props => {
                   <DragonTextItem
                     key={text._id}
                     subject={props.subject}
+                    subjects={props.subjects}
                     text={text}
                     index={index}
                     toggleEdit={props.toggleEdit}

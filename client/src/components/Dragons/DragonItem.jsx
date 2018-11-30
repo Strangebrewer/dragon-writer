@@ -140,7 +140,9 @@ export class DragonItem extends Component {
   }
 
   render() {
-    const { index, text, subjectId } = this.props;
+    const { index, text, subject } = this.props;
+    text.parentSubject = subject;
+    console.log(text);
     return (
       <Fragment>
         <Modal
@@ -169,25 +171,41 @@ export class DragonItem extends Component {
                 onClick={() => this.seeFullText(text)}
                 position="absolute"
                 top="6px"
-                right="24px"
-                padding="0 0 10px 7px"
+                right="36px"
+                padding="0 2px 10px 3px"
                 black
                 size="1rem"
                 underline
+                title="see full text"
               >
                 <i className="far fa-eye"></i>
               </LinkBtn>
 
               <LinkBtn
-                onClick={() => this.deleteTextModal(text._id, subjectId, index)}
+                onClick={() => this.props.toggleEditor(text)}
+                position="absolute"
+                top="6px"
+                right="20px"
+                padding="0 2px 10px 3px"
+                black
+                size="1rem"
+                underline
+                title="edit text"
+              >
+                <i className="fas fa-edit"></i>
+              </LinkBtn>
+
+              <LinkBtn
+                onClick={() => this.deleteTextModal(text._id, subject._id, index)}
                 position="absolute"
                 top="6px"
                 right="8px"
-                padding="0 0 10px 7px"
+                padding="0 2px 10px 3px"
                 delete
                 black
                 size="1rem"
                 underline
+                title={`delete ${text.title}`}
               >
                 <i className="fas fa-trash-alt"></i>
               </LinkBtn>

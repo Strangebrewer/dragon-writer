@@ -15,7 +15,8 @@ export const CRUDButtons = props => (
     <LinkBtn
       title={`create new item for ${props.subject.subject} column`}
       padding="0 3px 5px 3px"
-      onClick={() => props.toggleEditor(props.subject)}
+      disabled={props.disabled}
+      onClick={() => props.toggleInlineNew(props.subject)}
     >
       <i className="far fa-file-alt"></i>
     </LinkBtn>
@@ -23,6 +24,7 @@ export const CRUDButtons = props => (
     <LinkBtn
       title="expand column to read all full texts"
       padding="0 3px 5px 3px"
+      disabled={props.disabled}
       onClick={() => props.dragonTextOn(props.id)}
     >
       <i className="far fa-eye"></i>
@@ -31,6 +33,7 @@ export const CRUDButtons = props => (
     <LinkBtn
       title="update column name"
       padding="0 3px 5px 3px"
+      disabled={props.disabled}
       onClick={() => props.updateSubjectModal(props.subject)}
     >
       <i className="fas fa-edit"></i>
@@ -39,6 +42,7 @@ export const CRUDButtons = props => (
     <LinkBtn
       title="delete this column"
       padding="0 3px 5px 3px"
+      disabled={props.disabled}
       delete
       onClick={() => props.deleteSubjectModal(props.id, props.index)}
     >

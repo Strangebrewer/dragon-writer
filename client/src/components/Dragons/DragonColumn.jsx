@@ -187,6 +187,7 @@ export class DragonColumn extends Component {
                 dragonTextOn={dragonTextOn}
                 updateSubjectModal={this.updateSubjectModal}
                 deleteSubjectModal={this.deleteSubjectModal}
+                toggleInlineNew={this.props.toggleInlineNew}
               />
 
               <LinkBtn
@@ -223,6 +224,7 @@ export class DragonColumn extends Component {
                         subject={subject}
                         text={text}
                         toggleEditor={toggleEditor}
+                        toggleInlineEdit={this.props.toggleInlineEdit}
                       />
                     ))}
                     {provided.placeholder}

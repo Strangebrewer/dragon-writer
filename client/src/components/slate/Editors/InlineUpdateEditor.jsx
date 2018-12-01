@@ -1,16 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Editor } from "slate-react";
-import { Value } from "slate";
 import styled from 'styled-components';
 import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
 import { EditorStyles } from "../utils/EditorStyles";
-import { Button, Input, Label, Select } from "../../Forms/FormElements";
-import initialValue from "../utils/value.json";
+import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { API, Scales } from "../../../utils";
-
-const DEFAULT_NODE = 'paragraph';
 
 const editorStyle = {
   borderRadius: "6px",
@@ -54,114 +50,36 @@ const MetaDataForm = styled.div`
 `;
 
 export class InlineUpdateEditor extends Component {
-  state = {
-    value: Value.fromJSON(this.props.text ? this.props.text : initialValue),
-    title: this.props.title || '',
-    subject: this.props.subject || '',
-    thesis: this.props.thesis || '',
-    incomingSubject: this.props.incomingSubject,
-    incomingText: this.props.incomingText,
-  };
-
-  // Standard input change controller
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  onChange = ({ value }) => {
-    this.setState({ value });
-  };
-
-  ref = editor => {
-    this.editor = editor;
-  };
-
-  hasMark = type => {
-    const { value } = this.state;
-    return value.activeMarks.some(mark => mark.type === type);
-  };
-
-  onClickMark = (type) => {
-    this.editor.toggleMark(type);
-  };
-
-  hasBlock = type => {
-    const { value } = this.state;
-    return value.blocks.some(node => node.type === type);
-  };
-
-  onClickBlock = (type) => {
-    const { editor } = this;
-    const { value } = editor;
-    const { document } = value;
-
-    // Handle everything but list buttons.
-    if (type !== 'bulleted-list' && type !== 'numbered-list') {
-      const isActive = this.hasBlock(type);
-      const isList = this.hasBlock('list-item')
-
-      if (isList) {
-        editor
-          .setBlocks(isActive ? DEFAULT_NODE : type)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list');
-      } else {
-        editor.setBlocks(isActive ? DEFAULT_NODE : type);
-      }
-    } else {
-      // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock('list-item');
-      const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type === type);
-      });
-
-      if (isList && isType) {
-        editor
-          .setBlocks(DEFAULT_NODE)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
-      } else if (isList) {
-        editor
-          .unwrapBlock(
-            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
-          )
-          .wrapBlock(type)
-      } else {
-        editor.setBlocks('list-item').wrapBlock(type)
-      }
-    }
-  };
 
   updateText = async id => {
+    const { given, state } = this.props;
     const textObject = {
-      title: this.state.title,
-      thesis: this.state.thesis,
-      text: JSON.stringify(this.state.value.toJSON())
+      title: given.state.title,
+      thesis: given.state.thesis,
+      text: JSON.stringify(given.state.value.toJSON())
     }
     const text = await API.updateText(id, textObject);
-    text.data.parentSubject = this.props.incomingText.parentSubject;
     await this.props.toggleEditable(text.data._id);
-    const newState = Scales.updateTextHelper(text.data, this.props.state);
+    const newState = Scales.updateTextHelper(text.data, state);
     this.props.executeOrderChanges(newState);
   };
 
   render() {
-    const { id, inline, title, } = this.props;
+    const { given, id, inline } = this.props;
     return (
       <EditorOuter>
         <DragHeader {...this.props.dragHandle}>
-          <p>{`Edit ${title}`}</p>
+          <p>{`Edit ${this.props.title}`}</p>
         </DragHeader>
 
         <EditorInner>
           <RenderButtons
             inline={inline}
-            state={this.state}
-            onClickMark={this.onClickMark}
-            onClickBlock={this.onClickBlock}
-            hasMark={this.hasMark}
-            hasBlock={this.hasBlock}
+            state={given.state}
+            onClickMark={given.onClickMark}
+            onClickBlock={given.onClickBlock}
+            hasMark={given.hasMark}
+            hasBlock={given.hasBlock}
           />
 
           <MetaDataForm>
@@ -170,23 +88,23 @@ export class InlineUpdateEditor extends Component {
               style={{ maxWidth: "300px" }}
               type="text"
               name="title"
-              value={this.state.title}
+              value={given.state.title}
               maxLength="22"
               placeholder="(22 char max)"
-              onChange={this.handleInputChange}
+              onChange={given.handleInputChange}
             />
             <Label>Summary:</Label>
             <Input
               style={{ maxWidth: "300px" }}
               type="text"
               name="thesis"
-              value={this.state.thesis}
+              value={given.state.thesis}
               placeholder="enter a short description"
-              onChange={this.handleInputChange}
+              onChange={given.handleInputChange}
             />
             <Button
               style={{ marginTop: "8px", marginRight: "8px" }}
-              disabled={!this.state.title || !this.state.subject}
+              disabled={!given.state.title || !given.state.subject}
               nerb="feck"
               onClick={() => this.updateText(id)}
             >
@@ -210,9 +128,9 @@ export class InlineUpdateEditor extends Component {
               autoFocus
               style={editorStyle}
               plugins={plugins}
-              ref={this.ref}
-              value={this.state.value}
-              onChange={this.onChange}
+              ref={given.ref}
+              value={given.state.value}
+              onChange={given.onChange}
               renderMark={renderMark}
               renderNode={renderNode}
             />

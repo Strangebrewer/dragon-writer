@@ -27,7 +27,7 @@ export const RUDButtons = props => {
       </LinkBtn>
 
       <LinkBtn
-        onClick={() => props.toggleInlineEdit(subject, text)}
+        onClick={() => props.toggleSingleEdit(subject, text)}
         disabled={props.disabled}
         padding="0 2px 10px 3px"
         black

@@ -224,7 +224,7 @@ export class DragonColumn extends Component {
                         subject={subject}
                         text={text}
                         toggleEditor={toggleEditor}
-                        toggleInlineEdit={this.props.toggleInlineEdit}
+                        toggleSingleEdit={this.props.toggleSingleEdit}
                       />
                     ))}
                     {provided.placeholder}

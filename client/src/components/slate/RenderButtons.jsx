@@ -24,14 +24,14 @@ const EditorBtn = styled.button`
   width: ${props => (
     props.inline === "true"
       ? "30px"
-      : "45px"
+      : "40px"
   )};
   padding: 0;
   margin: 0 5px 5px 0;
   height: ${props => (
     props.inline
       ? "30px"
-      : "45px"
+      : "40px"
   )};
   font-size: ${props => (
     props.inline

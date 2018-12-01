@@ -128,8 +128,6 @@ export class DragonItem extends Component {
 
   render() {
     const { index, text, subject } = this.props;
-    text.parentSubject = subject;
-    console.log(text);
     return (
       <Fragment>
         <Modal
@@ -161,7 +159,7 @@ export class DragonItem extends Component {
                 subject={subject}
                 text={text}
                 toggleEditor={this.props.toggleEditor}
-                toggleInlineEdit={this.props.toggleInlineEdit}
+                toggleSingleEdit={this.props.toggleSingleEdit}
               />
 
               <h4>{text.title}</h4>

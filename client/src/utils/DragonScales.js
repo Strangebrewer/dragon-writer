@@ -113,7 +113,6 @@ export const Scales = {
   dragonSubjectColumns: function (state, source, destination, draggableId) {
     // create a new subject array that has the same values as the previous subject array:
     const newSubjectOrder = Array.from(state.subjectOrder)
-    // const newSubjectOrder = state.subjectOrder.map(item => ({ ...item }));
     // remove the subject from the array:
     newSubjectOrder.splice(source.index, 1);
     // and insert the subject into its new position:
@@ -149,7 +148,6 @@ export const Scales = {
   multiSubjectDragon: function (state, start, finish, source, destination, draggableId) {
     // first, create a new array from the existing start array:
     const startTextIds = Array.from(start.textIds);
-    // const startTextIds = start.textIds.map(item => ({ ...item }));
     // Then, splice the dragged item from the new start array:
     startTextIds.splice(source.index, 1);
     // then create a new column with the dragged item removed:
@@ -160,7 +158,6 @@ export const Scales = {
 
     // Then do the opposite for the destination column:
     const finishTextIds = Array.from(finish.textIds);
-    // const finishTextIds = finish.textIdsmap(item => ({ ...item }));
     finishTextIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,

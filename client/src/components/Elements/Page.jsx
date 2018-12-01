@@ -104,6 +104,7 @@ export const Page = props => {
             projectId={props.projectId}
             subjects={props.subjects}
             toggleEditor={props.toggleEditor}
+            toggleSingleNewEditor={props.toggleSingleNewEditor}
             toggleSubject={props.toggleSubject}
             toggleSubjectForm={props.toggleSubjectForm}
           />}

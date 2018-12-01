@@ -5,6 +5,7 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import dateFns from "date-fns";
 import { renderMark, renderNode } from "../slate/utils/Renderers";
+import { RUDButtons } from "./DragonElements";
 import { LinkBtn, Modal } from "../Elements";
 import { Button } from "../Forms/FormElements";
 
@@ -38,16 +39,6 @@ const Container = styled.div`
   }
 `;
 
-const ButtonDiv = styled.div`
-  text-align: right;
-  width: 30px;
-`;
-
-const TextDiv = styled.div`
-  text-align: left;
-  max-width: calc(100% - 30px);
-`;
-
 const DateDiv = styled.div`
   display: flex;
   justify-content: space-between;
@@ -66,10 +57,6 @@ const ModalH2 = styled.h2`
 `;
 
 const ModalH3 = styled.h3`
-
-`;
-
-const ModalPg = styled.p`
 
 `;
 
@@ -167,49 +154,14 @@ export class DragonItem extends Component {
               dragging={this.props.dragging}
               {...provided.dragHandleProps}
             >
-              <LinkBtn
-                onClick={() => this.seeFullText(text)}
-                position="absolute"
-                top="6px"
-                right="36px"
-                padding="0 2px 10px 3px"
-                black
-                size="1rem"
-                underline
-                title="see full text"
-              >
-                <i className="far fa-eye"></i>
-              </LinkBtn>
-
-              <LinkBtn
-                onClick={() => this.props.toggleEditor(text)}
-                position="absolute"
-                top="6px"
-                right="20px"
-                padding="0 2px 10px 3px"
-                black
-                size="1rem"
-                underline
-                title="edit text"
-              >
-                <i className="fas fa-edit"></i>
-              </LinkBtn>
-
-              <LinkBtn
-                onClick={() => this.deleteTextModal(text._id, subject._id, index)}
-                position="absolute"
-                top="6px"
-                right="8px"
-                padding="0 2px 10px 3px"
-                delete
-                black
-                size="1rem"
-                underline
-                title={`delete ${text.title}`}
-              >
-                <i className="fas fa-trash-alt"></i>
-              </LinkBtn>
-
+              <RUDButtons
+                deleteTextModal={this.deleteTextModal}
+                index={index}
+                seeFullText={this.seeFullText}
+                subject={subject}
+                text={text}
+                toggleEditor={this.props.toggleEditor}
+              />
 
               <h4>{text.title}</h4>
               <p>{text.thesis}</p>

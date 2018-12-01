@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { LinkBtn, Modal } from "../Elements";
+import { LinkBtn, Modal } from "../PageElements";
 import { Button, Input, Label } from "../Forms/FormElements";
 import { DragonItem } from "../Dragons";
-import { CRUDButtons } from "./DragonElements";
+import { ColumnButtons } from "./DragonElements";
 import { API } from '../../utils';
 
 const Container = styled.div`
@@ -161,7 +161,6 @@ export class DragonColumn extends Component {
       texts,
       toggleEditor,
       toggleSubject,
-      updateSubject
     } = this.props;
     const { theme, _id } = subject;
     return (
@@ -179,7 +178,7 @@ export class DragonColumn extends Component {
               {...provided.draggableProps}
               ref={provided.innerRef}
             >
-              <CRUDButtons
+              <ColumnButtons
                 subject={subject}
                 id={_id}
                 index={index}
@@ -188,19 +187,8 @@ export class DragonColumn extends Component {
                 updateSubjectModal={this.updateSubjectModal}
                 deleteSubjectModal={this.deleteSubjectModal}
                 toggleInlineNew={this.props.toggleInlineNew}
+                toggleSubject={toggleSubject}
               />
-
-              <LinkBtn
-                title="close this column"
-                position="absolute"
-                top="2px"
-                right="3px"
-                padding="0 4px 5px 0"
-                size="2rem"
-                onClick={() => toggleSubject(_id)}
-              >
-                &times;
-              </LinkBtn>
 
               <SubjectHeader {...provided.dragHandleProps}>
                 <Heading3>{subject.subject}</Heading3>

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import dateFns from 'date-fns';
-import { LinkBtn } from "./Elements/LinkBtn";
-import { CRUDButtons, RUDButtons } from "./Dragons/DragonElements";
+import { ColumnButtons, DateDiv, ItemButtons } from "./Dragons/DragonElements";
 
 const ColumnContainer = styled.div`
   position: relative;
@@ -78,25 +76,12 @@ const ItemContainer = styled.div`
   }
 `;
 
-const DateDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const DateText = styled.h5`
-    display: inline-block;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-top: 8px;
-`;
-
 class DragonColumnFake extends Component {
   render() {
     const { subject, texts } = this.props;
     return (
       <ColumnContainer>
-        <CRUDButtons
+        <ColumnButtons
           deleteSubjectModal="nothing"
           disabled={true}
           dragonTextOn="nothing"
@@ -107,17 +92,6 @@ class DragonColumnFake extends Component {
           toggleInlineNew="nothing"
           updateSubjectModal="nothing"
         />
-        <LinkBtn
-          title="close this column"
-          position="absolute"
-          top="2px"
-          right="3px"
-          disabled={true}
-          padding="0 4px 5px 0"
-          size="2rem"
-        >
-          &times;
-        </LinkBtn>
 
         <SubjectHeader>
           <Heading3>{subject.subject}</Heading3>
@@ -127,7 +101,7 @@ class DragonColumnFake extends Component {
         <ListContainer>
           {texts.map((text, index) => (
             <ItemContainer key={text._id}>
-              <RUDButtons
+              <ItemButtons
                 deleteTextModal="nothing"
                 disabled={true}
                 index={index}
@@ -141,15 +115,7 @@ class DragonColumnFake extends Component {
               <h4>{text.title}</h4>
               <p>{text.thesis}</p>
 
-              <DateDiv>
-                <DateText>
-                  created: {dateFns.format(text.createdAt, "MMM DD, YYYY")}
-                </DateText>
-
-                <DateText>
-                  modified: {dateFns.format(text.updatedAt, "MMM DD, YYYY")}
-                </DateText>
-              </DateDiv>
+              <DateDiv text={text} />
             </ItemContainer>
           ))}
         </ListContainer>

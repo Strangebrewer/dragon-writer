@@ -5,8 +5,8 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import dateFns from "date-fns";
 import { renderMark, renderNode } from "../slate/utils/Renderers";
-import { RUDButtons } from "./DragonElements";
-import { Modal } from "../Elements";
+import { DateDiv, ItemButtons } from "./DragonElements";
+import { Modal } from "../PageElements";
 import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
@@ -39,26 +39,24 @@ const Container = styled.div`
   }
 `;
 
-const DateDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const DateText = styled.h5`
-    display: inline-block;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-top: 8px;
-`;
-
 const ModalH2 = styled.h2`
-
+  font-family: ${props => props.theme.hTypeface};
+  font-size: 3.5rem;
 `;
 
 const ModalH3 = styled.h3`
-
+  font-size: 2rem;
+  margin-bottom: 10px;
+  margin-top: 4px;
+  text-indent: 30px;
 `;
+
+const editorStyle = {
+  padding: "20px",
+  border: "1px solid black",
+  overflow: "auto",
+  maxHeight: "300px",
+}
 
 export class DragonItem extends Component {
   state = {
@@ -116,6 +114,7 @@ export class DragonItem extends Component {
             value={Value.fromJSON(JSON.parse(text.text))}
             renderMark={renderMark}
             renderNode={renderNode}
+            style={editorStyle}
           />
         </Fragment>
       ),
@@ -152,7 +151,7 @@ export class DragonItem extends Component {
               dragging={this.props.dragging}
               {...provided.dragHandleProps}
             >
-              <RUDButtons
+              <ItemButtons
                 deleteTextModal={this.deleteTextModal}
                 index={index}
                 seeFullText={this.seeFullText}
@@ -165,15 +164,8 @@ export class DragonItem extends Component {
               <h4>{text.title}</h4>
               <p>{text.thesis}</p>
 
-              <DateDiv>
-                <DateText>
-                  created: {dateFns.format(text.createdAt, "MMM DD, YYYY")}
-                </DateText>
+              <DateDiv text={text}/>
 
-                <DateText>
-                  modified: {dateFns.format(text.updatedAt, "MMM DD, YYYY")}
-                </DateText>
-              </DateDiv>
             </Container>
           )}
         </Draggable>

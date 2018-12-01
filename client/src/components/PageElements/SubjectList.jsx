@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import NewSubjectForm from "./Forms/NewSubjectForm";
-import { LinkBtn } from "./Elements";
-import { Button } from "./Forms/FormElements";
+import NewSubjectForm from "../Forms/NewSubjectForm";
+import { LinkBtn } from "./LinkBtn";
+import { Button } from "../Forms/FormElements";
 
 const buttonStyle = {
   marginLeft: "20px",
@@ -58,12 +58,15 @@ const SubjectList = props => {
   return (
     <Container>
       <HeadingTwo>
-        Columns {subjects.length > 0 && <LinkBtn underline onClick={clearAllTopics}> clear all</LinkBtn>}
+        Columns {subjects.length > 0 &&
+          <LinkBtn underline onClick={clearAllTopics}> clear all</LinkBtn>}
       </HeadingTwo>
 
       {subjects.length === 0
         ? <Message>You don't have any columns for this project yet.</Message>
-        : <Message>click to toggle on/off</Message>}
+        : dragons
+          ? <Message>click to switch columns:</Message>
+          : <Message>click to toggle on/off:</Message>}
 
       <List>
         {subjects.map(subject => (
@@ -93,8 +96,8 @@ const SubjectList = props => {
           />
         ) : (
           <React.Fragment>
-            <Button onClick={toggleSubjectForm} style={buttonStyle}>
-              New Column
+              <Button onClick={toggleSubjectForm} style={buttonStyle}>
+                New Column
             </Button>
             <Button onClick={toggleSingleNewEditor} style={buttonStyle}>
               New Item

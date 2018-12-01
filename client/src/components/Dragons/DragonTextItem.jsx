@@ -5,7 +5,7 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { EditorStyles } from "../slate/utils/EditorStyles";
-import { Modal, LinkBtn } from "../Elements";
+import { Modal, LinkBtn } from "../PageElements";
 import initialValue from "../slate/utils/value.json"
 
 const Container = styled.div`

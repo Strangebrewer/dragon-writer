@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import { LinkBtn } from "../../Elements";
+import { LinkBtn } from "../../PageElements";
 
 const Buttons = styled.div`
   position: absolute;
@@ -10,7 +10,7 @@ const Buttons = styled.div`
   justify-content: space-between;
 `;
 
-export const RUDButtons = props => {
+export const ItemButtons = props => {
   const { text, subject, index } = props;
   return (
     <Buttons>

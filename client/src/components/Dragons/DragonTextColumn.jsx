@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { LinkBtn } from "../Elements";
+import { LinkBtn } from "../PageElements";
 import { DragonTextItem } from "./DragonTextItem";
 import { DragonTextEditable } from "./DragonTextEditable";
-import { API, Scales } from "../../utils";
 
 const TextColumn = styled.div`
   width: 80%;
@@ -55,7 +54,7 @@ export class DragonTextColumn extends Component {
           <LinkBtn
             block
             fancy
-            size="1.5rem"
+            size="1.8rem"
             margin="auto"
             underline
             onClick={this.props.dragonTextOff}

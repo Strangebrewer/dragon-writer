@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react';
 import styled from "styled-components";
-import { Page, Modal } from "../components/Elements";
+import { Page, Modal } from "../components/PageElements";
 import { Login, Signup } from "../components/Forms";
 import { Button, Input, TextArea } from "../components/Forms/FormElements";
 import ProjectCard from "../components/ProjectCard";

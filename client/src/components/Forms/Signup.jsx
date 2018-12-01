@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import { Button, Input, Label } from "./FormElements";
-import { LinkBtn } from "../Elements";
+import { LinkBtn } from "../PageElements";
 
 const Container = styled.div`
 width: 300px;

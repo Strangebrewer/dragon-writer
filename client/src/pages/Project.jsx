@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from "styled-components";
 import { Page } from "../components/Elements"
-import { SingleNewEditor } from "../components/slate/Editors";
+import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor } from "../components/slate/Editors";
 import { DragonColumn, DragonTextColumn } from "../components/Dragons";
 import { DropZone } from "../components/Dragons/DragonElements";
 import { API, Scales } from '../utils';
@@ -28,7 +28,11 @@ class Project extends Component {
       subjectOrder: this.props.projectData.subjectOrder,
       editorOn: false,
       dropZoneOn: true,
+      singleSubjectId: '',
       singleSubject: '',
+      singleText: '',
+      singleTextEdit: false,
+      inlineTextNew: false,
     }
 
   // state = {
@@ -39,7 +43,7 @@ class Project extends Component {
   //   subjectOrder: this.props.projectData.subjectOrder,
   //   editorOn: false,
   //   dropzoneOn: true,
-  //   singleSubject: '',
+  //   singleSubjectId: '',
   // }
 
   componentDidMount() {
@@ -71,6 +75,28 @@ class Project extends Component {
     });
   };
 
+  toggleInlineNew = subject => {
+    console.log(subject);
+    this.setState({
+      singleSubject: subject,
+      inlineTextNew: !this.state.inlineTextNew,
+      singleTextEdit: !this.state.singleTextEdit,
+      dropZoneOn: !this.state.dropZoneOn,
+    })
+  }
+
+  toggleInlineEdit = (subject, text) => {
+    console.log(subject);
+    console.log(text);
+    this.setState({
+      singleSubject: subject,
+      singleText: text,
+      inlineTextNew: !this.state.inlineTextNew,
+      singleTextEdit: !this.state.singleTextEdit,
+      dropZoneOn: !this.state.dropZoneOn,
+    })
+  }
+
   toggleEditor = toggleObject => {
     const stateObj = {
       editorOn: !this.state.editorOn,
@@ -95,7 +121,7 @@ class Project extends Component {
   dragonTextOn = async id => {
     await this.setState({
       dragons: true,
-      singleSubject: id,
+      singleSubjectId: id,
     });
     this.saveOrder();
   };
@@ -252,6 +278,23 @@ class Project extends Component {
             </EditorContainer>
           }
 
+          {this.state.inlineTextNew &&
+            <Fragment>
+              <InlineNewEditor
+                subject={this.state.singleSubject}
+                texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
+              />
+            </Fragment>}
+
+          {this.state.singleTextEdit &&
+            <Fragment>
+              <SingleUpdateEditor
+                subject={this.state.singleSubject}
+                texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
+                text={this.state.singleText}
+              />
+            </Fragment>}
+
           {this.state.dropZoneOn &&
             <DropZone>
               {this.state.dragons
@@ -267,9 +310,9 @@ class Project extends Component {
                       incomingText={this.state.incomingText}
                       saveOrder={this.saveOrder}
                       state={this.state}
-                      subject={this.state.subjects[this.state.singleSubject]}
+                      subject={this.state.subjects[this.state.singleSubjectId]}
                       subjects={subjects}
-                      texts={this.state.subjects[this.state.singleSubject].textIds
+                      texts={this.state.subjects[this.state.singleSubjectId].textIds
                         .map(textId => (this.state.texts[textId]))}
                       toggleEdit={this.toggleEdit}
                       toggleEditor={this.toggleEditor}
@@ -296,6 +339,8 @@ class Project extends Component {
                         texts={texts}
                         toggleEdit={this.toggleEdit}
                         toggleEditor={this.toggleEditor}
+                        toggleInlineNew={this.toggleInlineNew}
+                        toggleInlineEdit={this.toggleInlineEdit}
                         toggleSubject={this.toggleSubject}
                         updateChangedText={this.updateChangedText}
                         updateSubject={this.updateSubject}

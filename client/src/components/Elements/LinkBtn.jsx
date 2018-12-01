@@ -27,6 +27,13 @@ const Button = styled.button`
       : props.theme.linkHover
   )};
   }
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+  &:disabled:hover {
+    color: inherit;
+  }
 `;
 
 

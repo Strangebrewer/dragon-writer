@@ -15,7 +15,8 @@ export const RUDButtons = props => {
   return (
     <Buttons>
       <LinkBtn
-        onClick={() => props.seeFullText(props.text)}
+        onClick={() => props.seeFullText(text)}
+        disabled={props.disabled}
         padding="0 2px 10px 3px"
         black
         size="1rem"
@@ -26,7 +27,8 @@ export const RUDButtons = props => {
       </LinkBtn>
 
       <LinkBtn
-        onClick={() => props.toggleEditor(props.text)}
+        onClick={() => props.toggleInlineEdit(subject, text)}
+        disabled={props.disabled}
         padding="0 2px 10px 3px"
         black
         size="1rem"
@@ -38,6 +40,7 @@ export const RUDButtons = props => {
 
       <LinkBtn
         onClick={() => props.deleteTextModal(text._id, subject._id, index)}
+        disabled={props.disabled}
         padding="0 2px 10px 3px"
         delete
         black

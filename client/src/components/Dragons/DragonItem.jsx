@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import dateFns from "date-fns";
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { RUDButtons } from "./DragonElements";
-import { LinkBtn, Modal } from "../Elements";
+import { Modal } from "../Elements";
 import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
@@ -161,6 +161,7 @@ export class DragonItem extends Component {
                 subject={subject}
                 text={text}
                 toggleEditor={this.props.toggleEditor}
+                toggleInlineEdit={this.props.toggleInlineEdit}
               />
 
               <h4>{text.title}</h4>

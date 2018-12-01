@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-const ColumnContainer = styled.div`
+const Container = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
@@ -13,10 +13,10 @@ export const DropZone = ({ children }) => {
   return (
     <Droppable droppableId="all-subjects" direction="horizontal" type="subject">
       {provided => (
-        <ColumnContainer {...provided.droppableProps} ref={provided.innerRef}>
+        <Container {...provided.droppableProps} ref={provided.innerRef}>
           {children}
           {provided.placeholder}
-        </ColumnContainer>
+        </Container>
       )}
     </Droppable>
   );

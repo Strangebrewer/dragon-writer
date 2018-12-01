@@ -65,7 +65,6 @@ export const Scales = {
     newTextIds.splice(index, 1)
     const newTexts = { ...state.texts };
     delete newTexts[textId];
-    API.deleteText(textId);
     const newState = {
       ...state,
       subjects: {

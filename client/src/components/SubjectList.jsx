@@ -50,6 +50,7 @@ const SubjectList = props => {
     projectId,
     subjects,
     toggleEditor,
+    toggleSingleNewEditor,
     toggleSubject,
     toggleSubjectForm,
   } = props;
@@ -95,7 +96,7 @@ const SubjectList = props => {
             <Button onClick={toggleSubjectForm} style={buttonStyle}>
               New Column
             </Button>
-            <Button onClick={toggleEditor} style={buttonStyle}>
+            <Button onClick={toggleSingleNewEditor} style={buttonStyle}>
               New Item
             </Button>
           </React.Fragment>

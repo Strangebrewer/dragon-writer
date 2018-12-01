@@ -3,7 +3,8 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { LinkBtn, Modal } from "../Elements";
 import { Button, Input, Label } from "../Forms/FormElements";
-import { DragonItem } from "./DragonItem";
+import { DragonItem } from "../Dragons";
+import { CRUDButtons } from "./DragonElements";
 import { API } from '../../utils';
 
 const Container = styled.div`
@@ -60,14 +61,6 @@ const Paragraph = styled.p`
   min-height: 75px;
   color: ${props => props.theme.mainColor};
   text-align: center;
-`;
-
-const CRUDButtons = styled.div`
-  position: absolute;
-  top: 6px;
-  left: 8px;
-  display: flex;
-  justify-content: space-between;
 `;
 
 export class DragonColumn extends Component {
@@ -172,97 +165,74 @@ export class DragonColumn extends Component {
     } = this.props;
     const { theme, _id } = subject;
     return (
-      <Draggable draggableId={_id} index={index}>
-        {provided => (
-          <Container
-            {...provided.draggableProps}
-            ref={provided.innerRef}
-          >
-            <Modal
-              show={this.state.modal.isOpen}
-              closeModal={this.closeModal}
-              body={this.state.modal.body}
-              buttons={this.state.modal.buttons}
-              outsideClick={this.outsideClick}
-            />
-            <CRUDButtons>
-              <LinkBtn
-                title={`create new item for ${subject.subject} column`}
-                padding="0 3px 5px 3px"
-                onClick={() => this.props.toggleEditor(subject)}
-              >
-                <i className="far fa-file-alt"></i>
-              </LinkBtn>
-
-              <LinkBtn
-                title="expand column to read all full texts"
-                padding="0 3px 5px 3px"
-                onClick={() => dragonTextOn(_id)}
-              >
-                <i className="far fa-eye"></i>
-              </LinkBtn>
-
-              <LinkBtn
-                title="update column name"
-                padding="0 3px 5px 3px"
-                onClick={() => this.updateSubjectModal(subject)}
-              >
-                <i className="fas fa-edit"></i>
-              </LinkBtn>
-
-              <LinkBtn
-                title="delete this column"
-                padding="0 3px 5px 3px"
-                delete
-                onClick={() => this.deleteSubjectModal(_id, index)}
-              >
-                <i className="fas fa-trash-alt"></i>
-              </LinkBtn>
-            </CRUDButtons>
-
-            <LinkBtn
-              title="close this column"
-              position="absolute"
-              top="2px"
-              right="3px"
-              padding="0 4px 5px 0"
-              size="2rem"
-              onClick={() => toggleSubject(_id)}
+      <Fragment>
+        <Modal
+          show={this.state.modal.isOpen}
+          closeModal={this.closeModal}
+          body={this.state.modal.body}
+          buttons={this.state.modal.buttons}
+          outsideClick={this.outsideClick}
+        />
+        <Draggable draggableId={_id} index={index}>
+          {provided => (
+            <Container
+              {...provided.draggableProps}
+              ref={provided.innerRef}
             >
-              &times;
-           </LinkBtn>
+              <CRUDButtons
+                subject={subject}
+                id={_id}
+                index={index}
+                toggleEditor={toggleEditor}
+                dragonTextOn={dragonTextOn}
+                updateSubjectModal={this.updateSubjectModal}
+                deleteSubjectModal={this.deleteSubjectModal}
+              />
 
-            <SubjectHeader {...provided.dragHandleProps}>
-              <Heading3>{subject.subject}</Heading3>
-              <Paragraph>{theme}</Paragraph>
-            </SubjectHeader>
+              <LinkBtn
+                title="close this column"
+                position="absolute"
+                top="2px"
+                right="3px"
+                padding="0 4px 5px 0"
+                size="2rem"
+                onClick={() => toggleSubject(_id)}
+              >
+                &times;
+              </LinkBtn>
 
-            <Droppable droppableId={_id} type="text">
-              {(provided, snapshot) => (
-                <DragonList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {texts.map((text, index) => (
-                    <DragonItem
-                      key={text._id}
-                      index={index}
-                      text={text}
-                      subject={subject}
-                      deleteText={deleteText}
-                      loading={loading}
-                      dragging={dragging}
-                      toggleEditor={toggleEditor}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </DragonList>
-              )}
-            </Droppable>
-          </Container>
-        )}
-      </Draggable>
+              <SubjectHeader {...provided.dragHandleProps}>
+                <Heading3>{subject.subject}</Heading3>
+                <Paragraph>{theme}</Paragraph>
+              </SubjectHeader>
+
+              <Droppable droppableId={_id} type="text">
+                {(provided, snapshot) => (
+                  <DragonList
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    isDraggingOver={snapshot.isDraggingOver}
+                  >
+                    {texts.map((text, index) => (
+                      <DragonItem
+                        deleteText={deleteText}
+                        dragging={dragging}
+                        index={index}
+                        key={text._id}
+                        loading={loading}
+                        subject={subject}
+                        text={text}
+                        toggleEditor={toggleEditor}
+                      />
+                    ))}
+                    {provided.placeholder}
+                  </DragonList>
+                )}
+              </Droppable>
+            </Container>
+          )}
+        </Draggable>
+      </Fragment>
     )
   }
 };

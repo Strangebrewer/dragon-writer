@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import styled from 'styled-components';
-import TextEditor from "../TextEditor";
+import { InlineUpdateEditor } from "../slate/Editors";
 
 const Container = styled.div`
   width: 100%;
@@ -22,11 +22,14 @@ export class DragonTextEditable extends Component {
     const {
       text,
       incomingSubject,
+      executeOrderChanges,
       incomingText,
       index,
       subjects,
       user,
       toggleEdit,
+      toggleEditable,
+      toggleEditor,
       saveOrder,
       getInitialData,
       updateChangedText
@@ -41,22 +44,22 @@ export class DragonTextEditable extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            <TextEditor
+            <InlineUpdateEditor
               id={text._id}
               style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
               dragHandle={provided.dragHandleProps}
-              index={index}
-              user={user}
-              inline={incomingText ? 'true' : null}
-              incomingSubject={incomingSubject}
-              incomingText={incomingText}
+              executeOrderChanges={executeOrderChanges}
+              incomingText={text}
+              inline="true"
               isDragging={snapshot.isDragging}
+              state={this.props.state}
               subject={text.subjectId}
-              subjects={subjects}
               text={JSON.parse(text.text)}
               title={text.title}
               thesis={text.thesis}
               toggleEdit={toggleEdit}
+              toggleEditor={toggleEditor}
+              toggleEditable={toggleEditable}
               saveOrder={saveOrder}
               getInitialData={getInitialData}
               updateChangedText={updateChangedText}

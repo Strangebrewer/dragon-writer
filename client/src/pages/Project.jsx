@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import styled from "styled-components";
 import { Page } from "../components/Elements"
-import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor } from "../components/slate/Editors";
+import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/slate/Editors";
 import { DragonColumn, DragonTextColumn } from "../components/Dragons";
 import { DropZone } from "../components/Dragons/DragonElements";
 import { API, Scales } from '../utils';
@@ -35,17 +35,6 @@ class Project extends Component {
       inlineTextNew: false,
     }
 
-  // state = {
-  //   create: false,
-  //   dragons: true,
-  //   subjects: this.props.projectData.subjects,
-  //   texts: this.props.projectData.texts,
-  //   subjectOrder: this.props.projectData.subjectOrder,
-  //   editorOn: false,
-  //   dropzoneOn: true,
-  //   singleSubjectId: '',
-  // }
-
   componentDidMount() {
     // if there is no saved order, then this will load the first three columns
     if (!this.props.project.order) {
@@ -76,22 +65,19 @@ class Project extends Component {
   };
 
   toggleInlineNew = subject => {
-    console.log(subject);
     this.setState({
       singleSubject: subject,
       inlineTextNew: !this.state.inlineTextNew,
-      singleTextEdit: !this.state.singleTextEdit,
+      singleTextEdit: false,
       dropZoneOn: !this.state.dropZoneOn,
     })
   }
 
-  toggleInlineEdit = (subject, text) => {
-    console.log(subject);
-    console.log(text);
+  toggleSingleEdit = (subject, text) => {
     this.setState({
       singleSubject: subject,
       singleText: text,
-      inlineTextNew: !this.state.inlineTextNew,
+      inlineTextNew: false,
       singleTextEdit: !this.state.singleTextEdit,
       dropZoneOn: !this.state.dropZoneOn,
     })
@@ -267,33 +253,54 @@ class Project extends Component {
 
           {this.state.editorOn &&
             <EditorContainer>
-              <SingleNewEditor
-                executeOrderChanges={this.executeOrderChanges}
-                insertNewText={this.insertNewText}
-                projectId={_id}
-                state={this.state}
-                subjects={subjects}
-                toggleSingleNewEditor={this.toggleSingleNewEditor}
-              />
+              <TextEditor>
+                {given => (
+                  <SingleNewEditor
+                    executeOrderChanges={this.executeOrderChanges}
+                    given={given}
+                    projectId={_id}
+                    state={this.state}
+                    subjects={subjects}
+                    toggleSingleNewEditor={this.toggleSingleNewEditor}
+                  />
+                )}
+              </TextEditor>
             </EditorContainer>
           }
 
           {this.state.inlineTextNew &&
-            <Fragment>
-              <InlineNewEditor
-                subject={this.state.singleSubject}
-                texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
-              />
-            </Fragment>}
+            <TextEditor subject={this.state.singleSubject}>
+              {given => (
+                <InlineNewEditor
+                  executeOrderChanges={this.executeOrderChanges}
+                  given={given}
+                  projectId={this.props.project._id}
+                  state={this.state}
+                  texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
+                  toggleInlineNew={this.toggleInlineNew}
+                />
+              )}
+
+            </TextEditor>}
 
           {this.state.singleTextEdit &&
-            <Fragment>
-              <SingleUpdateEditor
-                subject={this.state.singleSubject}
-                texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
-                text={this.state.singleText}
-              />
-            </Fragment>}
+            <TextEditor
+              text={JSON.parse(this.state.singleText.text)}
+              subject={this.state.singleSubject}
+              title={this.state.singleText.title}
+              thesis={this.state.singleText.thesis}
+            >
+              {given => (
+                <SingleUpdateEditor
+                  executeOrderChanges={this.executeOrderChanges}
+                  given={given}
+                  state={this.state}
+                  texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
+                  text={this.state.singleText}
+                  toggleSingleEdit={this.toggleSingleEdit}
+                />
+              )}
+            </TextEditor>}
 
           {this.state.dropZoneOn &&
             <DropZone>
@@ -340,7 +347,7 @@ class Project extends Component {
                         toggleEdit={this.toggleEdit}
                         toggleEditor={this.toggleEditor}
                         toggleInlineNew={this.toggleInlineNew}
-                        toggleInlineEdit={this.toggleInlineEdit}
+                        toggleSingleEdit={this.toggleSingleEdit}
                         toggleSubject={this.toggleSubject}
                         updateChangedText={this.updateChangedText}
                         updateSubject={this.updateSubject}

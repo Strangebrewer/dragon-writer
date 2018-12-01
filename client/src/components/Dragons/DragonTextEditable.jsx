@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import styled from 'styled-components';
-import { InlineUpdateEditor } from "../slate/Editors";
+import { InlineUpdateEditor, TextEditor } from "../slate/Editors";
 
 const Container = styled.div`
   width: 100%;
@@ -21,18 +21,9 @@ export class DragonTextEditable extends Component {
   render() {
     const {
       text,
-      incomingSubject,
       executeOrderChanges,
-      incomingText,
       index,
-      subjects,
-      user,
-      toggleEdit,
       toggleEditable,
-      toggleEditor,
-      saveOrder,
-      getInitialData,
-      updateChangedText
     } = this.props;
     return (
       <Draggable key={text._id} draggableId={text._id} index={index}>
@@ -44,26 +35,28 @@ export class DragonTextEditable extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            <InlineUpdateEditor
-              id={text._id}
-              style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
-              dragHandle={provided.dragHandleProps}
-              executeOrderChanges={executeOrderChanges}
+            <TextEditor
               incomingText={text}
-              inline="true"
-              isDragging={snapshot.isDragging}
-              state={this.props.state}
               subject={text.subjectId}
               text={JSON.parse(text.text)}
-              title={text.title}
               thesis={text.thesis}
-              toggleEdit={toggleEdit}
-              toggleEditor={toggleEditor}
-              toggleEditable={toggleEditable}
-              saveOrder={saveOrder}
-              getInitialData={getInitialData}
-              updateChangedText={updateChangedText}
-            />
+              title={text.title}
+            >
+              {given => (
+                <InlineUpdateEditor
+                  executeOrderChanges={executeOrderChanges}
+                  dragHandle={provided.dragHandleProps}
+                  given={given}
+                  id={text._id}
+                  inline="true"
+                  isDragging={snapshot.isDragging}
+                  state={this.props.state}
+                  title={text.title}
+                  toggleEditable={toggleEditable}
+                />
+              )}
+            </TextEditor>
+
           </Container>
         )}
       </Draggable>

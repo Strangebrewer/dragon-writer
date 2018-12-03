@@ -6,6 +6,9 @@ const projectSchema = new Schema({
   userId: { type: Schema.Types.ObjectId },
   title: { type: String, required: true },
   link: { type: String, required: true },
+  image: String,
+  largeImage: String,
+  publicId: String,
   summary: String,
   subjects: [{
     type: Schema.Types.ObjectId,

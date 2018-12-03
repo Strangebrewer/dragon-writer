@@ -33,7 +33,10 @@ const projectSeed = [
     link: "novel",
     summary: "Write a novel, yo.",
     subjects: [],
-    texts: []
+    texts: [],
+    image: '',
+    largeImage: '',
+    publicId: ''
   },
   {
     userId: '',
@@ -41,7 +44,10 @@ const projectSeed = [
     link: "journal",
     summary: "Write my thoughts and experiences...",
     subjects: [],
-    texts: []
+    texts: [],
+    image: '',
+    largeImage: '',
+    publicId: ''
   },
   {
     userId: '',
@@ -49,7 +55,10 @@ const projectSeed = [
     link: "todo",
     summary: "A to-do list that's customizable and easy to use.",
     subjects: [],
-    texts: []
+    texts: [],
+    image: '',
+    largeImage: '',
+    publicId: ''
   }
 ];
 

@@ -5,6 +5,9 @@ router.route('/')
   .get(projectController.getProjects)
   .post(projectController.createProject);
 
+router.route('/image/:id')
+  .put(projectController.removeProjectImage);
+
 router.route('/:id')
   .put(projectController.updateProject)
   .delete(projectController.deleteProject);

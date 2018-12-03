@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import styled from "styled-components";
 import { Page, Modal } from "../components/PageElements";
-import { Login, Signup } from "../components/Forms";
+import { Login, Signup, UploadLogic } from "../components/Forms";
 import { Button, Input, TextArea } from "../components/Forms/FormElements";
 import ProjectCard from "../components/ProjectCard";
 import { API } from '../utils';
@@ -135,21 +135,20 @@ class Home extends PureComponent {
       ),
       buttons: (
         <Fragment>
-          <Button onClick={this.closeModal}>Cancel</Button>
           <Button onClick={() => this.updateProject(project)}>Submit</Button>
+          <Button onClick={this.closeModal}>Cancel</Button>
         </Fragment>
       )
     })
   };
 
   deleteProjectModal = async id => {
-    console.log(id);
     this.setModal({
       body: <h3>Are you sure you want to delete this entire project and all associated texts and topic columns?</h3>,
       buttons: (
         <Fragment>
-          <Button onClick={this.closeModal}>Cancel</Button>
           <Button onClick={() => this.deleteProject(id)}>Yes, Delete</Button>
+          <Button onClick={this.closeModal}>Cancel</Button>
         </Fragment>
       )
     })
@@ -159,9 +158,10 @@ class Home extends PureComponent {
     await API.deleteProject(id);
     await this.props.getInitialData(this.props.user);
     this.closeModal();
-  }
-    ;
+  };
+
   render() {
+    console.log(this.props.authenticated);
     return (
       <Page
         title="Dragon Writer"
@@ -186,16 +186,21 @@ class Home extends PureComponent {
         <Container>
           {this.props.authenticated
             ? (
-              <ProjectCard
-                projects={this.props.projects}
-                updateProjectModal={this.updateProjectModal}
-                getInitialData={this.props.getInitialData}
-                create={this.state.create}
-                user={this.props.user}
-                toggleProjectForm={this.toggleProjectForm}
-                authenticated={this.props.authenticated}
-                deleteProjectModal={this.deleteProjectModal}
-              />
+              <UploadLogic getInitialData={this.props.getInitialData} type="project">
+                {provided => (
+                  <ProjectCard
+                    authenticated={this.props.authenticated}
+                    create={this.state.create}
+                    deleteProjectModal={this.deleteProjectModal}
+                    imageModal={provided.imageModal}
+                    projects={this.props.projects}
+                    toggleProjectForm={this.toggleProjectForm}
+                    uploadImageModal={provided.uploadImageModal}
+                    updateProjectModal={this.updateProjectModal}
+                    user={this.props.user}
+                  />
+                )}
+              </UploadLogic>
               // 'loading' prevents the login form from flashing on the screen while the app checks if a user already has a session cookie upon first page load
             ) : (
               !this.props.loading && !this.state.signup

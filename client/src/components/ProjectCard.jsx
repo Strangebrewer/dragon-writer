@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { LinkBtn } from "./PageElements";
+import { ProjectButtons } from "./Dragons/DragonElements";
 import { Button } from "./Forms/FormElements";
 import { NewProject } from "./Forms";
 
@@ -32,12 +32,6 @@ const ProjectText = styled.p`
   font-size: 2rem;
 `;
 
-const Links = styled.div`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-`;
-
 const ProjectCard = props => (
   <Fragment>
     {props.create
@@ -56,17 +50,13 @@ const ProjectCard = props => (
               <ProjectTitle>{project.title}</ProjectTitle>
               <ProjectText  >{project.summary}</ProjectText>
             </Link>
-            <Links>
-              <LinkBtn
-                padding="0 10px 0 0"
-                underline
-                onClick={() => props.updateProjectModal(project)}>edit</LinkBtn>
-              <LinkBtn
-                padding="0 10px 0 0"
-                underline
-                delete
-                onClick={() => props.deleteProjectModal(project._id)}>delete</LinkBtn>
-            </Links>
+            <ProjectButtons
+              updateProjectModal={props.updateProjectModal}
+              deleteProjectModal={props.deleteProjectModal}
+              imageModal={props.imageModal}
+              project={project}
+              uploadImageModal={props.uploadImageModal}
+            />
           </Container>
         ))}
         <Button onClick={props.toggleProjectForm}>Create New Project</Button>

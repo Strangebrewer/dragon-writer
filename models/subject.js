@@ -5,6 +5,9 @@ mongoose.promise = Promise;
 const subjectSchema = new Schema({
   userId: { type: Schema.Types.ObjectId },
   projectId: { type: Schema.Types.ObjectId },
+  image: String,
+  largeImage: String,
+  publicId: String,
   subject: String,
   theme: String,
   texts: [{

@@ -71,6 +71,11 @@ export const API = {
     return axios.delete(`/api/project/${id}`);
   },
 
+  removeProjectImage: function (id, data) {
+    console.log(data);
+    return axios.put(`/api/project/image/${id}`, data);
+  },
+
 
   getSubjects: function () {
     return axios.get('/api/subject');

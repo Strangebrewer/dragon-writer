@@ -21,7 +21,7 @@ export class DragonTextEditable extends Component {
   render() {
     const {
       text,
-      executeOrderChanges,
+      executeDragonStateChanges,
       index,
       toggleEditable,
     } = this.props;
@@ -36,7 +36,10 @@ export class DragonTextEditable extends Component {
             isDragging={snapshot.isDragging}
           >
             <TextEditor
+              callback={toggleEditable}
+              executeDragonStateChanges={executeDragonStateChanges}
               incomingText={text}
+              state={this.props.state}
               subject={text.subjectId}
               text={JSON.parse(text.text)}
               thesis={text.thesis}
@@ -44,13 +47,11 @@ export class DragonTextEditable extends Component {
             >
               {given => (
                 <InlineUpdateEditor
-                  executeOrderChanges={executeOrderChanges}
                   dragHandle={provided.dragHandleProps}
                   given={given}
                   id={text._id}
                   inline="true"
                   isDragging={snapshot.isDragging}
-                  state={this.props.state}
                   title={text.title}
                   toggleEditable={toggleEditable}
                 />

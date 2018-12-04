@@ -172,7 +172,7 @@ class Project extends Component {
     return;
   }
 
-  executeOrderChanges = async stateObject => {
+  executeDragonStateChanges = async stateObject => {
     await this.setState(stateObject);
     this.saveOrder();
   }
@@ -190,27 +190,12 @@ class Project extends Component {
     this.props.getInitialData(this.props.user);
   };
 
-  updateChangedText = async (newText) => {
-    const newState = Scales.updateTextHelper(newText, this.state);
-    await this.setState(newState);
-    this.saveOrder();
-  };
-
+  // This one has been removed from DragonLogic but should remain here
+  // since it's used by a few components
+  // Also, rewrite it to use the execute function from DragonLogic
   deleteText = async (textId, subjectId, index) => {
     const newState = Scales.deleteTextHelper(textId, subjectId, index, this.state);
     await API.deleteText(textId);
-    await this.setState(newState);
-    this.saveOrder();
-  };
-
-  updateSubject = async (id, updateObject) => {
-    const newState = Scales.updateSubjectHelper(id, updateObject, this.state);
-    await this.setState(newState);
-    this.saveOrder();
-  };
-
-  deleteSubject = async (id, index) => {
-    const newState = Scales.deleteSubjectHelper(id, index, this.state);
     await this.setState(newState);
     this.saveOrder();
   };
@@ -253,13 +238,15 @@ class Project extends Component {
 
           {this.state.editorOn &&
             <EditorContainer>
-              <TextEditor>
+              <TextEditor
+                executeDragonStateChanges={this.executeDragonStateChanges}
+                callback={this.toggleSingleNewEditor}
+                projectId={_id}
+                state={this.state}
+              >
                 {given => (
                   <SingleNewEditor
-                    executeOrderChanges={this.executeOrderChanges}
                     given={given}
-                    projectId={_id}
-                    state={this.state}
                     subjects={subjects}
                     toggleSingleNewEditor={this.toggleSingleNewEditor}
                   />
@@ -269,13 +256,16 @@ class Project extends Component {
           }
 
           {this.state.inlineTextNew &&
-            <TextEditor subject={this.state.singleSubject}>
+            <TextEditor
+              callback={this.toggleInlineNew}
+              executeDragonStateChanges={this.executeDragonStateChanges}
+              projectId={this.props.project._id}
+              subject={this.state.singleSubject}
+              state={this.state}
+            >
               {given => (
                 <InlineNewEditor
-                  executeOrderChanges={this.executeOrderChanges}
                   given={given}
-                  projectId={this.props.project._id}
-                  state={this.state}
                   texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
                   toggleInlineNew={this.toggleInlineNew}
                 />
@@ -285,18 +275,19 @@ class Project extends Component {
 
           {this.state.singleTextEdit &&
             <TextEditor
-              text={JSON.parse(this.state.singleText.text)}
+              callback={this.toggleSingleEdit}
+              executeDragonStateChanges={this.executeDragonStateChanges}
+              state={this.state}
               subject={this.state.singleSubject}
+              text={JSON.parse(this.state.singleText.text)}
               title={this.state.singleText.title}
               thesis={this.state.singleText.thesis}
             >
               {given => (
                 <SingleUpdateEditor
-                  executeOrderChanges={this.executeOrderChanges}
                   given={given}
-                  state={this.state}
-                  texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
                   text={this.state.singleText}
+                  texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
                   toggleSingleEdit={this.toggleSingleEdit}
                 />
               )}
@@ -311,7 +302,7 @@ class Project extends Component {
                       deleteText={this.deleteText}
                       dragonTextOff={this.dragonTextOff}
                       dragonTextOn={this.dragonTextOn}
-                      executeOrderChanges={this.executeOrderChanges}
+                      executeDragonStateChanges={this.executeDragonStateChanges}
                       getInitialData={this.props.getInitialData}
                       incomingSubject={this.state.incomingSubject}
                       incomingText={this.state.incomingText}
@@ -323,7 +314,6 @@ class Project extends Component {
                         .map(textId => (this.state.texts[textId]))}
                       toggleEdit={this.toggleEdit}
                       toggleEditor={this.toggleEditor}
-                      updateChangedText={this.updateChangedText}
                       user={this.props.user}
                     />
                   </Fragment>
@@ -333,15 +323,16 @@ class Project extends Component {
                     const texts = subject.textIds.map(textId => this.state.texts[textId]);
                     return this.state[subject._id] &&
                       <DragonColumn
-                        deleteSubject={this.deleteSubject}
                         deleteText={this.deleteText}
                         dragging={this.state.dragging}
                         dragonTextOn={this.dragonTextOn}
+                        executeDragonStateChanges={this.executeDragonStateChanges}
                         getInitialData={this.props.getInitialData}
                         index={index}
                         key={subject._id}
                         loading={this.state.loading}
                         saveOrder={this.saveOrder}
+                        state={this.state}
                         subject={subject}
                         texts={texts}
                         toggleEdit={this.toggleEdit}
@@ -349,8 +340,6 @@ class Project extends Component {
                         toggleInlineNew={this.toggleInlineNew}
                         toggleSingleEdit={this.toggleSingleEdit}
                         toggleSubject={this.toggleSubject}
-                        updateChangedText={this.updateChangedText}
-                        updateSubject={this.updateSubject}
                         user={this.props.user}
                       />
                   })

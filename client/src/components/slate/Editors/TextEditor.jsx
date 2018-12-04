@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Value } from "slate";
 import initialValue from "../utils/value.json";
+import { API, Scales } from "../../../utils";
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -83,9 +84,39 @@ export class TextEditor extends Component {
     }
   };
 
+  updateText = async id => {
+    const textObject = {
+      title: this.state.title,
+      thesis: this.state.thesis,
+      text: JSON.stringify(this.state.value.toJSON())
+    }
+    const text = await API.updateText(id, textObject);
+    const newState = Scales.updateTextHelper(text.data, this.props.state);
+    this.props.executeDragonStateChanges(newState);
+    await this.props.callback();
+  };
+
+  createText = async () => {
+    const { callback, state } = this.props;
+    const id = this.state.subject._id || this.state.subject;
+    console.log(id);
+    const textObject = {
+      projectId: this.props.projectId,
+      subjectId: this.state.subject._id || this.state.subject,
+      title: this.state.title,
+      thesis: this.state.thesis,
+      text: JSON.stringify(this.state.value.toJSON())
+    }
+    const newText = await API.createText(textObject);
+    const newState = await Scales.insertTextHelper(id, newText.data, state);
+    if (callback) this.props.callback();
+    this.props.executeDragonStateChanges(newState);
+  };
+
   render() {
     return (
       this.props.children({
+        createText: this.createText,
         handleInputChange: this.handleInputChange,
         hasBlock: this.hasBlock,
         hasMark: this.hasMark,
@@ -93,7 +124,8 @@ export class TextEditor extends Component {
         onClickBlock: this.onClickBlock,
         onClickMark: this.onClickMark,
         ref: this.ref,
-        state: this.state
+        state: this.state,
+        updateText: this.updateText,
       })
     )
   };

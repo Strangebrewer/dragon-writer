@@ -87,9 +87,8 @@ export class DragonTextColumn extends Component {
                       toggleEdit={this.props.toggleEdit}
                       toggleEditor={this.props.toggleEditor}
                       saveOrder={this.props.saveOrder}
-                      executeOrderChanges={this.props.executeOrderChanges}
+                      executeDragonStateChanges={this.props.executeDragonStateChanges}
                       getInitialData={this.props.getInitialData}
-                      updateChangedText={this.props.updateChangedText}
                     />
                   ) : (
                     <DragonTextItem

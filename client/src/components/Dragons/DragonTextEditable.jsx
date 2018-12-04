@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import styled from 'styled-components';
-import { InlineUpdateEditor, TextEditor } from "../slate/Editors";
+import { InlineUpdateEditor, TextEditor } from "../Slate/Editors";
 
 const Container = styled.div`
   width: 100%;

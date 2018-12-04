@@ -6,7 +6,7 @@ import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { API, Scales } from "../../../utils";
-import DragonColumnFake from "../../DragonColumnFake";
+import {DragonColumnFake} from "../../Dragons";
 
 const editorStyle = {
   borderRadius: "6px",

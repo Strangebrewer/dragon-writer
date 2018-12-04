@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { ColumnButtons, DateDiv, ItemButtons } from "./Dragons/DragonElements";
+import { ColumnButtons, DateDiv, ItemButtons } from "./DragonElements";
 
 const ColumnContainer = styled.div`
   position: relative;
@@ -76,7 +76,7 @@ const ItemContainer = styled.div`
   }
 `;
 
-class DragonColumnFake extends Component {
+export class DragonColumnFake extends Component {
   render() {
     const { subject, texts } = this.props;
     return (
@@ -123,6 +123,4 @@ class DragonColumnFake extends Component {
       </ColumnContainer>
     )
   }
-}
-
-export default DragonColumnFake;
+};

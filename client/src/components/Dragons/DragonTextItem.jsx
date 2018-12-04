@@ -3,10 +3,10 @@ import { Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
 import styled from 'styled-components';
-import { renderMark, renderNode } from "../slate/utils/Renderers";
-import { EditorStyles } from "../slate/utils/EditorStyles";
+import { renderMark, renderNode } from "../Slate/utils/Renderers";
+import { EditorStyles } from "../Slate/utils/EditorStyles";
 import { Modal, LinkBtn } from "../PageElements";
-import initialValue from "../slate/utils/value.json"
+import initialValue from "../Slate/utils/value.json"
 
 const Container = styled.div`
   width: 100%;

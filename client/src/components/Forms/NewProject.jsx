@@ -23,15 +23,25 @@ export class NewProject extends Component {
   };
 
   createProject = async () => {
-    await API.createProject({
-      title: this.state.title,
-      summary: this.state.summary,
-      link: this.state.link,
-      userId: this.props.user._id
-    })
-    await this.props.getInitialData(this.props.user);
-    this.props.toggleProjectForm();
-  };
+    const { link, summary, title } = this.state;
+    try {
+      await API.createProject({
+        title,
+        summary,
+        link,
+        userId: this.props.user._id
+      });
+      this.props.getInitialData(this.props.user);
+      this.props.toggleProjectForm();
+    }
+    catch (err) {
+      if (err)
+        this.setModal({
+          body: <p>Something went wrong with your request. Please try again.</p>,
+          buttons: <Button onClick={this.props.closeModal}>OK</Button>
+        });
+    }
+  }
 
   render() {
     return (

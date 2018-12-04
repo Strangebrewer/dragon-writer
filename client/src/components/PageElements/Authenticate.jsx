@@ -41,21 +41,23 @@ export class Authenticate extends Component {
         {this.state.signup
           ? (
             <Signup
-              toggleSignupForm={this.toggleSignupForm}
+              confirmPassword={this.state.confirmPassword}
+              email={this.state.email}
               getInitialData={this.props.getInitialData}
               handleInputChange={this.handleInputChange}
-              email={this.state.email}
-              username={this.state.username}
               password={this.state.password}
-              confirmPassword={this.state.confirmPassword}
+              signup={this.signup}
+              toggleSignupForm={this.toggleSignupForm}
+              username={this.state.username}
             />
           ) : (
             <Login
-              toggleSignupForm={this.toggleSignupForm}
               getInitialData={this.props.getInitialData}
               handleInputChange={this.handleInputChange}
-              username={this.state.username}
+              login={this.login}
               password={this.state.password}
+              toggleSignupForm={this.toggleSignupForm}
+              username={this.state.username}
             />
           )
         }

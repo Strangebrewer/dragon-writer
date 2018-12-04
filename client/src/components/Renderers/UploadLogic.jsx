@@ -100,15 +100,23 @@ export class UploadLogic extends Component {
   };
 
   imageModal = (image, imageId, projectId) => {
+    let body;
+    if (!image) body = <p>There is no image associated with this project.</p>;
+    else body = <img src={image} alt="nothing" />;
     console.log(image);
     console.log(imageId);
     this.props.setModal({
-      body: <img src={image} alt="nothing" />,
+      body,
       buttons: (
         <Fragment>
-          <Button
-            disabled={this.state.loading}
-            onClick={() => this.deleteImage(projectId, imageId)}>Delete</Button>
+          {image &&
+            <Button
+              disabled={this.state.loading}
+              onClick={() => this.deleteImage(projectId, imageId)}
+            >
+              Delete
+          </Button>
+          }
           <Button onClick={this.props.closeModal}>Close</Button>
         </Fragment>
       )

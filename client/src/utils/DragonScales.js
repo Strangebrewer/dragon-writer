@@ -28,7 +28,6 @@ export const Scales = {
         theme: subjectContent.theme
       }
     }
-    API.updateSubject(subjectId, subjectContent);
     return { subjects: newSubjects };
   },
 
@@ -38,12 +37,11 @@ export const Scales = {
     const texts = Object.assign({}, { ...state.texts });
     const subjects = Object.assign({}, { ...state.subjects });
     subjectOrder.splice(index, 1);
-    
+
     for (let i = 0; i < textIds.length; i++)
       delete texts[textIds[i]];
 
     delete subjects[subjectId];
-    API.deleteSubject(subjectId);
     return {
       texts,
       subjects,

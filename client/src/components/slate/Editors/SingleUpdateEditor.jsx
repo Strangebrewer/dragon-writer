@@ -77,19 +77,6 @@ const DragHeader = styled.div`
 
 export class SingleUpdateEditor extends Component {
 
-  updateText = async id => {
-    const { given, state } = this.props;
-    const textObject = {
-      title: given.state.title,
-      thesis: given.state.thesis,
-      text: JSON.stringify(given.state.value.toJSON())
-    }
-    const text = await API.updateText(id, textObject);
-    await this.props.toggleSingleEdit();
-    const newState = Scales.updateTextHelper(text.data, state);
-    this.props.executeOrderChanges(newState);
-  };
-
   render() {
     const { given, texts } = this.props;
     return (
@@ -148,7 +135,7 @@ export class SingleUpdateEditor extends Component {
             <Button
               style={{ marginTop: "8px", marginRight: "8px" }}
               disabled={!given.state.title || !given.state.subject}
-              onClick={() => this.updateText(this.props.text._id)}
+              onClick={() => given.updateText(this.props.text._id)}
             >
               Save
             </Button>

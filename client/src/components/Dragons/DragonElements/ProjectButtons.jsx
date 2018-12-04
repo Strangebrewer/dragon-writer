@@ -1,35 +1,12 @@
 import React, { Fragment } from "react";
 import styled from 'styled-components';
 import { LinkBtn } from "../../PageElements";
+import { Spinner } from "../../Styles";
 
 const Links = styled.div`
   position: absolute;
   top: 8px;
   right: 8px;
-`;
-
-const Spinner = styled.span`
-  position: absolute;
-  top: 8px;
-  right: 44px;
-  width: 12px;
-  height: 12px;
-
-  border: solid 2px transparent;
-  border-top-color: ${props => props.theme.mainColor};
-  border-left-color: ${props => props.theme.mainColor};
-  border-radius: 50%;
-
-  -webkit-animation: spinner 400ms linear infinite;
-  animation: spinner 400ms linear infinite;
-  @-webkit-keyframes spinner {
-    0%   { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-  @keyframes spinner {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
 `;
 
 export const ProjectButtons = props => {
@@ -38,7 +15,7 @@ export const ProjectButtons = props => {
     <Fragment>
       {props.disabled
         ? (
-          <Spinner />
+          <Spinner top="8px" right="44px" size="12px" />
         ) : (
           <Links>
             <LinkBtn

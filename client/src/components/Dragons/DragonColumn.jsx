@@ -5,7 +5,7 @@ import { LinkBtn, Modal } from "../PageElements";
 import { Button, Input, Label } from "../Forms/FormElements";
 import { DragonItem } from "../Dragons";
 import { ColumnButtons } from "./DragonElements";
-import { API } from '../../utils';
+import { API, Scales } from '../../utils';
 
 const Container = styled.div`
   position: relative;
@@ -123,7 +123,7 @@ export class DragonColumn extends Component {
       ),
       buttons: (
         <Fragment>
-          <Button onClick={() => this.props.updateSubject(
+          <Button onClick={() => this.updateSubject(
             subject._id,
             {
               subject: this.state.subject || subject.subject,
@@ -136,18 +136,31 @@ export class DragonColumn extends Component {
     })
   };
 
+  updateSubject = async (id, updateObject) => {
+    this.closeModal();
+    const newState = Scales.updateSubjectHelper(id, updateObject, this.props.state);
+    API.updateSubject(id, updateObject);
+    this.props.executeDragonStateChanges(newState);
+  };
+
   deleteSubjectModal = (id, index) => {
     this.setModal({
       body: <h2>Are you sure you want to delete this column? You will lose all texts contained inside it.</h2>,
       buttons: (
         <Fragment>
-          <Button onClick={() => this.props.deleteSubject(id, index)}>
+          <Button onClick={() => this.deleteSubject(id, index)}>
             Yes, delete it
           </Button>
           <Button onClick={this.closeModal}>Cancel</Button>
         </Fragment>
       )
     })
+  };
+
+  deleteSubject = async (id, index) => {
+    const newState = Scales.deleteSubjectHelper(id, index, this.props.state);
+    await API.deleteSubject(id);
+    this.props.executeDragonStateChanges(newState);
   };
 
   render() {
@@ -202,19 +215,21 @@ export class DragonColumn extends Component {
                     {...provided.droppableProps}
                     isDraggingOver={snapshot.isDraggingOver}
                   >
-                    {texts.map((text, index) => (
-                      <DragonItem
-                        deleteText={deleteText}
-                        dragging={dragging}
-                        index={index}
-                        key={text._id}
-                        loading={loading}
-                        subject={subject}
-                        text={text}
-                        toggleEditor={toggleEditor}
-                        toggleSingleEdit={this.props.toggleSingleEdit}
-                      />
-                    ))}
+                    {texts.map((text, index) => {
+                      return (
+                        <DragonItem
+                          deleteText={deleteText}
+                          dragging={dragging}
+                          index={index}
+                          key={text._id}
+                          loading={loading}
+                          subject={subject}
+                          text={text}
+                          toggleEditor={toggleEditor}
+                          toggleSingleEdit={this.props.toggleSingleEdit}
+                        />
+                      )
+                    })}
                     {provided.placeholder}
                   </DragonList>
                 )}

@@ -6,7 +6,6 @@ import { renderMark, renderNode } from "../utils/Renderers";
 import { EditorStyles } from "../utils/EditorStyles";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
-import { API, Scales } from "../../../utils";
 
 const editorStyle = {
   borderRadius: "6px",
@@ -51,19 +50,6 @@ const MetaDataForm = styled.div`
 
 export class InlineUpdateEditor extends Component {
 
-  updateText = async id => {
-    const { given, state } = this.props;
-    const textObject = {
-      title: given.state.title,
-      thesis: given.state.thesis,
-      text: JSON.stringify(given.state.value.toJSON())
-    }
-    const text = await API.updateText(id, textObject);
-    await this.props.toggleEditable(text.data._id);
-    const newState = Scales.updateTextHelper(text.data, state);
-    this.props.executeOrderChanges(newState);
-  };
-
   render() {
     const { given, id, inline } = this.props;
     return (
@@ -106,7 +92,7 @@ export class InlineUpdateEditor extends Component {
               style={{ marginTop: "8px", marginRight: "8px" }}
               disabled={!given.state.title || !given.state.subject}
               nerb="feck"
-              onClick={() => this.updateText(id)}
+              onClick={() => given.updateText(id)}
             >
               Save
             </Button>

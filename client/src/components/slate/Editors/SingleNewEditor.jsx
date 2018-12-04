@@ -48,19 +48,19 @@ const MetaDataForm = styled.div`
 
 export class SingleNewEditor extends Component {
 
-  createText = async () => {
-    const { executeOrderChanges, given, projectId, state } = this.props;
-    const textObject = {
-      projectId: projectId,
-      subjectId: given.state.subject,
-      title: given.state.title,
-      thesis: given.state.thesis,
-      text: JSON.stringify(given.state.value.toJSON())
-    };
-    const newText = await API.createText(textObject);
-    const newState = Scales.insertTextHelper(given.state.subject, newText.data, state);
-    executeOrderChanges(newState);
-  };
+  // createText = async () => {
+  //   const { given, projectId, state } = this.props;
+  //   const textObject = {
+  //     projectId: projectId,
+  //     subjectId: given.state.subject,
+  //     title: given.state.title,
+  //     thesis: given.state.thesis,
+  //     text: JSON.stringify(given.state.value.toJSON())
+  //   };
+  //   const newText = await API.createText(textObject);
+  //   const newState = Scales.insertTextHelper(given.state.subject, newText.data, state);
+  //   this.props.executeDragonStateChanges(newState);
+  // };
 
   render() {
     const { given, subjects } = this.props;
@@ -127,7 +127,7 @@ export class SingleNewEditor extends Component {
           <Button
             style={{ marginTop: "8px", marginRight: "8px" }}
             disabled={!given.state.title || !given.state.subject}
-            onClick={this.createText}
+            onClick={given.createText}
           >
             Save
           </Button>

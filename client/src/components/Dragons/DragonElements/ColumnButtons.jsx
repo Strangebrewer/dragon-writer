@@ -26,7 +26,7 @@ export const ColumnButtons = props => (
         title="expand column to read all full texts"
         padding="0 3px 5px 3px"
         disabled={props.disabled}
-        onClick={() => props.dragonTextOn(props.id)}
+        onClick={() => props.toggleDragonText(props.id)}
       >
         <i className="far fa-eye"></i>
       </LinkBtn>

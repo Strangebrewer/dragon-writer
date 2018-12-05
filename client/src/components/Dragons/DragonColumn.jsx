@@ -167,12 +167,11 @@ export class DragonColumn extends Component {
     const {
       deleteText,
       dragging,
-      dragonTextOn,
+      toggleDragonText,
       index,
       loading,
       subject,
       texts,
-      toggleEditor,
       toggleSubject,
     } = this.props;
     const { theme, _id } = subject;
@@ -195,10 +194,9 @@ export class DragonColumn extends Component {
                 subject={subject}
                 id={_id}
                 index={index}
-                toggleEditor={toggleEditor}
-                dragonTextOn={dragonTextOn}
                 updateSubjectModal={this.updateSubjectModal}
                 deleteSubjectModal={this.deleteSubjectModal}
+                toggleDragonText={toggleDragonText}
                 toggleInlineNew={this.props.toggleInlineNew}
                 toggleSubject={toggleSubject}
               />
@@ -225,7 +223,6 @@ export class DragonColumn extends Component {
                           loading={loading}
                           subject={subject}
                           text={text}
-                          toggleEditor={toggleEditor}
                           toggleSingleEdit={this.props.toggleSingleEdit}
                         />
                       )

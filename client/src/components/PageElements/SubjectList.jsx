@@ -46,10 +46,9 @@ const SubjectList = props => {
     clearAllTopics,
     create,
     dragons,
-    dragonTextOn,
+    toggleDragonText,
     projectId,
     subjects,
-    toggleEditor,
     toggleSingleNewEditor,
     toggleSubject,
     toggleSubjectForm,
@@ -78,7 +77,7 @@ const SubjectList = props => {
               lineHeight="1.5"
               onClick={
                 dragons
-                  ? () => dragonTextOn(subject._id)
+                  ? () => toggleDragonText(subject._id)
                   : () => toggleSubject(subject._id)
               }
             >

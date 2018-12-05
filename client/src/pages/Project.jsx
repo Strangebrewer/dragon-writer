@@ -49,21 +49,26 @@ class Project extends Component {
     }
   };
 
+  executeToggles = stateObject => {
+    this.setState(stateObject);
+  };
+
+  executeDragonStateChanges = async stateObject => {
+    await this.setState(stateObject);
+    this.saveOrder();
+  };
+
+  // keep
   toggleSingleNewEditor = () => {
-    this.setState({
-      editorOn: !this.state.editorOn,
-      dropZoneOn: !this.state.dropZoneOn
-    })
+    const { editorOn, dropZoneOn } = this.state;
+    const newState = {
+      editorOn: !editorOn,
+      dropZoneOn: !dropZoneOn
+    }
+    this.executeToggles(newState)
   };
 
-  toggleEdit = text => {
-    this.setState({
-      [text._id]: !this.state[text._id],
-      incomingSubject: '',
-      incomingText: text
-    });
-  };
-
+  // keep
   toggleInlineNew = subject => {
     this.setState({
       singleSubject: subject,
@@ -73,6 +78,7 @@ class Project extends Component {
     })
   }
 
+  // keep
   toggleSingleEdit = (subject, text) => {
     this.setState({
       singleSubject: subject,
@@ -81,37 +87,33 @@ class Project extends Component {
       singleTextEdit: !this.state.singleTextEdit,
       dropZoneOn: !this.state.dropZoneOn,
     })
+  };
+
+  // keep
+  toggleSubject = async id => {
+    this.executeDragonStateChanges({ [id]: !this.state[id] });
+  };
+
+  // keep
+  toggleDragonText = id => {
+    const stateObject = {}
+    if (id) {
+      stateObject.singleSubjectId = id;
+      stateObject.dragons = true
+    }
+    else stateObject.dragons = false;
+    this.executeDragonStateChanges(stateObject);
   }
 
-  toggleEditor = toggleObject => {
-    const stateObj = {
-      editorOn: !this.state.editorOn,
-      incomingSubject: '',
-      incomingText: '',
-    };
-    if (toggleObject.text) stateObj.incomingText = toggleObject;
-    if (toggleObject.subject) stateObj.incomingSubject = toggleObject;
-    this.setState(stateObj);
+  // keep
+  clearAllTopics = async () => {
+    const stateObject = Scales.clearTopicsHelper(this.state.subjectOrder);
+    this.executeDragonStateChanges(stateObject)
   };
 
-  toggleSubject = async id => {
-    await this.setState({ [id]: !this.state[id] });
-    this.saveOrder();
-  };
-
-  dragonTextOff = async () => {
-    await this.setState({ dragons: false });
-    this.saveOrder();
-  };
-
-  dragonTextOn = async id => {
-    await this.setState({
-      dragons: true,
-      singleSubjectId: id,
-    });
-    this.saveOrder();
-  };
-
+  // keep
+  // This hasn't been tested yet. I know it's being used, but... 
+  // I think it can be cleaned up and simplified.
   toggleSubjectForm = async (created, subject) => {
     if (created === "created") {
       const stateObject = Scales.toggleSubjectHelper(this.state, subject);
@@ -123,10 +125,13 @@ class Project extends Component {
     else this.setState({ create: !this.state.create });
   };
 
-  clearAllTopics = async () => {
-    const stateObject = Scales.clearTopicsHelper(this.state.subjectOrder)
-    await this.setState(stateObject);
-    this.saveOrder();
+  // This one has been removed from DragonLogic but should remain here
+  // since it's used by a few components
+  // Also, rewrite it to use the execute function from DragonLogic
+  deleteText = async (textId, subjectId, index) => {
+    const newState = Scales.deleteTextHelper(textId, subjectId, index, this.state);
+    await API.deleteText(textId);
+    this.executeDragonStateChanges(newState);
   };
 
   onDragStart = start => {
@@ -170,12 +175,7 @@ class Project extends Component {
     await this.setState(newState);
     this.saveOrder();
     return;
-  }
-
-  executeDragonStateChanges = async stateObject => {
-    await this.setState(stateObject);
-    this.saveOrder();
-  }
+  };
 
   saveOrder = async () => {
     const { _id } = this.props.project;
@@ -188,16 +188,6 @@ class Project extends Component {
 
     await API.updateProject(_id, updateObj);
     this.props.getInitialData(this.props.user);
-  };
-
-  // This one has been removed from DragonLogic but should remain here
-  // since it's used by a few components
-  // Also, rewrite it to use the execute function from DragonLogic
-  deleteText = async (textId, subjectId, index) => {
-    const newState = Scales.deleteTextHelper(textId, subjectId, index, this.state);
-    await API.deleteText(textId);
-    await this.setState(newState);
-    this.saveOrder();
   };
 
   render() {
@@ -219,7 +209,6 @@ class Project extends Component {
           clearAllTopics={this.clearAllTopics}
           create={this.state.create}
           dragons={this.state.dragons}
-          dragonTextOn={this.dragonTextOn}
           editorOn={this.state.editorOn}
           logout={this.props.logout}
           mode={this.props.mode}
@@ -228,7 +217,7 @@ class Project extends Component {
           subjects={subjects}
           subtitle={summary}
           title={`Project: ${title}`}
-          toggleEditor={this.toggleEditor}
+          toggleDragonText={this.toggleDragonText}
           toggleSingleNewEditor={this.toggleSingleNewEditor}
           toggleSubject={this.toggleSubject}
           toggleSubjectForm={this.toggleSubjectForm}
@@ -300,8 +289,6 @@ class Project extends Component {
                   <Fragment>
                     <DragonTextColumn
                       deleteText={this.deleteText}
-                      dragonTextOff={this.dragonTextOff}
-                      dragonTextOn={this.dragonTextOn}
                       executeDragonStateChanges={this.executeDragonStateChanges}
                       getInitialData={this.props.getInitialData}
                       incomingSubject={this.state.incomingSubject}
@@ -312,8 +299,7 @@ class Project extends Component {
                       subjects={subjects}
                       texts={this.state.subjects[this.state.singleSubjectId].textIds
                         .map(textId => (this.state.texts[textId]))}
-                      toggleEdit={this.toggleEdit}
-                      toggleEditor={this.toggleEditor}
+                      toggleDragonText={this.toggleDragonText}
                       user={this.props.user}
                     />
                   </Fragment>
@@ -325,7 +311,6 @@ class Project extends Component {
                       <DragonColumn
                         deleteText={this.deleteText}
                         dragging={this.state.dragging}
-                        dragonTextOn={this.dragonTextOn}
                         executeDragonStateChanges={this.executeDragonStateChanges}
                         getInitialData={this.props.getInitialData}
                         index={index}
@@ -335,8 +320,7 @@ class Project extends Component {
                         state={this.state}
                         subject={subject}
                         texts={texts}
-                        toggleEdit={this.toggleEdit}
-                        toggleEditor={this.toggleEditor}
+                        toggleDragonText={this.toggleDragonText}
                         toggleInlineNew={this.toggleInlineNew}
                         toggleSingleEdit={this.toggleSingleEdit}
                         toggleSubject={this.toggleSubject}

@@ -57,7 +57,11 @@ export class DragonTextColumn extends Component {
             size="1.8rem"
             margin="auto"
             underline
-            onClick={this.props.dragonTextOff}
+            // this must be inside an anonymous function,
+            // otherwise it throws an error thinking it's trying to reuse
+            // the parameter passed to the argument when it was toggled on
+            // ...or something.
+            onClick={() => this.props.toggleDragonText()}
           >
             return to project overview
          </LinkBtn>
@@ -84,8 +88,6 @@ export class DragonTextColumn extends Component {
                       subjects={this.props.subjects}
                       user={this.props.user}
                       toggleEditable={this.toggleEditable}
-                      toggleEdit={this.props.toggleEdit}
-                      toggleEditor={this.props.toggleEditor}
                       saveOrder={this.props.saveOrder}
                       executeDragonStateChanges={this.props.executeDragonStateChanges}
                       getInitialData={this.props.getInitialData}
@@ -97,8 +99,6 @@ export class DragonTextColumn extends Component {
                       subjects={this.props.subjects}
                       text={text}
                       index={index}
-                      toggleEdit={this.props.toggleEdit}
-                      toggleEditor={this.props.toggleEditor}
                       toggleEditable={this.toggleEditable}
                       deleteText={this.props.deleteText}
                     />

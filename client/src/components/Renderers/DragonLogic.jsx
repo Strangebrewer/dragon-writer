@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 class DragonLogic extends Component {
   // if there is a saved order, it will load that; otherwise, it will load the projectData
@@ -155,12 +156,16 @@ class DragonLogic extends Component {
     await this.setState(newState);
     this.saveOrder();
     return;
-  }
+  };
+
+  executeToggles = stateObject => {
+    this.setState(stateObject);
+  };
 
   executeDragonStateChanges = async stateObject => {
     await this.setState(stateObject);
     this.saveOrder();
-  }
+  };
 
   saveOrder = async () => {
     const { _id } = this.props.project;
@@ -185,6 +190,7 @@ class DragonLogic extends Component {
         {this.props.children({
           executeDragonStateChanges: this.executeDragonStateChanges,
           state: this.state,
+          executeToggles: this.executeToggles
         })}
       </DragDropContext>
     );

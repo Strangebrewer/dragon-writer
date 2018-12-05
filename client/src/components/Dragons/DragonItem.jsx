@@ -156,7 +156,6 @@ export class DragonItem extends Component {
                 seeFullText={this.seeFullText}
                 subject={subject}
                 text={text}
-                toggleEditor={this.props.toggleEditor}
                 toggleSingleEdit={this.props.toggleSingleEdit}
               />
 

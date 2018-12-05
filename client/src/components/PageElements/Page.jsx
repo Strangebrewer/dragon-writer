@@ -100,10 +100,9 @@ export const Page = props => {
             clearAllTopics={props.clearAllTopics}
             create={props.create}
             dragons={props.dragons}
-            dragonTextOn={props.dragonTextOn}
             projectId={props.projectId}
             subjects={props.subjects}
-            toggleEditor={props.toggleEditor}
+            toggleDragonText={props.toggleDragonText}
             toggleSingleNewEditor={props.toggleSingleNewEditor}
             toggleSubject={props.toggleSubject}
             toggleSubjectForm={props.toggleSubjectForm}

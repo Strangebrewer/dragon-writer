@@ -18,14 +18,14 @@ class Home extends Component {
   };
 
   // Without this, first login will not show projects.
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.projectOrder !== this.props.projectOrder) {
-      this.setState({
-        projectOrder: nextProps.projectOrder,
-        projectOrderData: nextProps.projectOrderData
-      })
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.projectOrder !== this.props.projectOrder) {
+  //     this.setState({
+  //       projectOrder: nextProps.projectOrder,
+  //       projectOrderData: nextProps.projectOrderData
+  //     })
+  //   }
+  // }
 
   onDragEnd = async result => {
     const { destination, source, draggableId } = result;

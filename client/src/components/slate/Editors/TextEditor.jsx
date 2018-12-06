@@ -99,7 +99,6 @@ export class TextEditor extends Component {
   createText = async () => {
     const { callback, state } = this.props;
     const id = this.state.subject._id || this.state.subject;
-    console.log(id);
     const textObject = {
       projectId: this.props.projectId,
       subjectId: this.state.subject._id || this.state.subject,

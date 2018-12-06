@@ -45,10 +45,6 @@ class Home extends Component {
   };
 
   render() {
-    console.log("Props first:")
-    console.log(this.props);
-    console.log("Then state:")
-    console.log(this.state);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Page

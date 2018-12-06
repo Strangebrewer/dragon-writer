@@ -76,7 +76,6 @@ export class DragonEgg extends PureComponent {
   };
 
   seeFullText = text => {
-    console.log(text);
     this.props.setModal({
       body: (
         <Fragment>

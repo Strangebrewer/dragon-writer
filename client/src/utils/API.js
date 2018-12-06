@@ -80,7 +80,6 @@ export const API = {
   },
 
   removeProjectImage: function (id, data) {
-    console.log(data);
     return axios.put(`/api/project/image/${id}`, data);
   },
 

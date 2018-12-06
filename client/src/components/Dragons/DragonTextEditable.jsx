@@ -45,10 +45,10 @@ export class DragonTextEditable extends Component {
               thesis={text.thesis}
               title={text.title}
             >
-              {given => (
+              {editorProps => (
                 <InlineUpdateEditor
+                  {...editorProps}
                   dragHandle={provided.dragHandleProps}
-                  given={given}
                   id={text._id}
                   inline="true"
                   isDragging={snapshot.isDragging}

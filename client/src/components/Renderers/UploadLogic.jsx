@@ -102,7 +102,7 @@ export class UploadLogic extends Component {
   imageModal = (image, imageId, projectId) => {
     let body;
     if (!image) body = <p>There is no image associated with this project.</p>;
-    else body = <img src={image} alt="nothing" />;
+    else body = <img src={image} alt="nothing" style={{ maxWidth: '70vw', maxHeight: '70vh', width: 'auto', height: 'auto'}} />;
     console.log(image);
     console.log(imageId);
     this.props.setModal({

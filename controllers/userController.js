@@ -53,6 +53,19 @@ module.exports = {
     });
   },
 
+  updateUserOrder: async function (req, res) {
+    console.log(req.body);
+    try {
+      const user = await db.User.findByIdAndUpdate(req.user._id, req.body, { new: true })
+      console.log(user);
+      res.json(user);
+    }
+    catch (err) {
+      res.status(422).json(err);
+    }
+
+  },
+
   updateUserInfo: function (req, res) {
     const { username, email } = req.body;
 
@@ -99,6 +112,7 @@ module.exports = {
       userObject.username = user.username;
       userObject.email = user.email;
       userObject._id = user._id;
+      userObject.order = user.order;
       res.json(userObject)
     };
   },

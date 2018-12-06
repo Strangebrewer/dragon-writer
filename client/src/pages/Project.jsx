@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
-import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/Slate/Editors";
+import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/slate/Editors";
 import { DragonNest, DragonTextNest } from "../components/Dragons";
 import { DragonLair } from "../components/Dragons/DragonElements";
 import { API, Scales } from '../utils';

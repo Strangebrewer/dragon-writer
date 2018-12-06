@@ -25,13 +25,13 @@ export class NewProject extends Component {
   createProject = async () => {
     const { link, summary, title } = this.state;
     try {
-      await API.createProject({
+      const user = await API.createProject({
         title,
         summary,
         link,
         userId: this.props.user._id
       });
-      this.props.getInitialData(this.props.user);
+      this.props.getInitialData(user.data);
       this.props.toggleProjectForm();
     }
     catch (err) {

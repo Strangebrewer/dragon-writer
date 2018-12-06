@@ -113,7 +113,14 @@ export const Scales = {
     console.log(source);
     console.log(destination);
     console.log(draggableId);
-    return "Boo!"
+    const newProjectOrder = Array.from(state.projectOrder);
+    newProjectOrder.splice(source.index, 1);
+    newProjectOrder.splice(destination.index, 0, draggableId)
+    const newState = {
+      ...state,
+      projectOrder: newProjectOrder
+    };
+    return newState;
   },
 
   dragonSubjectColumns: function (state, source, destination, draggableId) {

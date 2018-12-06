@@ -79,7 +79,7 @@ class App extends Component {
         else
           projectData.push(Utils.formatInitialData(project));
       });
-
+      
       if (user.order) projectOrder = JSON.parse(user.order);
       else projectOrder = user.projects;
 

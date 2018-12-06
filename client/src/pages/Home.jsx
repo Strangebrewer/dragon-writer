@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Page } from "../components/PageElements";
-import { ModalLogic, UploadLogic } from "../components/Renderers";
+import { DragDropContext } from "react-beautiful-dnd";
+import { ImageUploader, Page } from "../components/PageElements";
 import { Authenticate, ProjectCard } from "../components/PageElements";
-import { API, Scales, Utils } from "../utils"
+import { API, Scales } from "../utils"
 
 const Container = styled.div`
   padding-right: 220px;
@@ -18,6 +17,7 @@ class Home extends Component {
     projectOrderData: this.props.projectOrderData
   };
 
+  // Without this, first login will not show projects.
   componentWillReceiveProps(nextProps) {
     if (nextProps.projectOrder !== this.props.projectOrder) {
       this.setState({
@@ -28,7 +28,7 @@ class Home extends Component {
   }
 
   onDragEnd = async result => {
-    const { destination, source, draggableId, type } = result;
+    const { destination, source, draggableId } = result;
     if (!destination) {
       return;
     }
@@ -37,32 +37,11 @@ class Home extends Component {
       return;
     }
 
-    // if you are dragging one of the subject columns, the type will be "subject"
-    // if (type === 'subject') {
-    //   const newState = Scales.dragonSubjectColumns(this.state, source, destination, draggableId);
-    //   await this.setState(newState);
-    //   this.saveOrder();
-    //   return;
-    // }
-
     const newState = Scales.singleProjectDragon(this.state, source, destination, draggableId);
-    console.log(newState);
     await this.setState(newState);
     await API.updateUserOrder({ order: JSON.stringify(this.state.projectOrder) });
-    this.props.getInitialData();
-  };
-
-  saveOrder = async () => {
-    const { _id } = this.props.project;
-    const orderObject = Object.assign({},
-      { ...this.state },
-      { editorOn: false, loading: false, dragging: false, dropZoneOn: true });
-
-    delete orderObject.texts;
-    const updateObj = { order: JSON.stringify(orderObject) };
-
-    await API.updateProject(_id, updateObj);
-    this.props.getInitialData(this.props.user);
+    // Call this without passing user data in it so it will request new user data, which will
+    // this.props.getInitialData();
   };
 
   render() {
@@ -81,35 +60,30 @@ class Home extends Component {
           toggleStyleMode={this.props.toggleStyleMode}
         >
           <Container>
-            <ModalLogic>
-              {modalProps => (
+            <ImageUploader
+              getInitialData={this.props.getInitialData}
+              type="project"
+            >
+              {({ uploadImageModal, imageModal, loading }) => (
                 this.props.authenticated
                   ? (
-                    <UploadLogic
-                      {...modalProps}
+                    <ProjectCard
+                      uploadImageModal={uploadImageModal}
+                      loading={loading}
+                      imageModal={imageModal}
+                      authenticated={this.props.authenticated}
                       getInitialData={this.props.getInitialData}
-                      type="project"
-                    >
-                      {provided => (
-                        <ProjectCard
-                          {...modalProps}
-                          {...provided}
-                          authenticated={this.props.authenticated}
-                          getInitialData={this.props.getInitialData}
-                          projectOrder={this.state.projectOrder}
-                          projectOrderData={this.state.projectOrderData}
-                          // projects={this.props.projects}
-                          user={this.props.user}
-                        />
-                      )}
-                    </UploadLogic>
+                      projectOrder={this.state.projectOrder}
+                      projectOrderData={this.state.projectOrderData}
+                      user={this.props.user}
+                    />
                     // 'loading' prevents the login form from flashing on the screen while the app checks if a user already has a session cookie upon first page load
                   ) : (
                     !this.props.loading &&
                     <Authenticate getInitialData={this.props.getInitialData} />
                   )
               )}
-            </ModalLogic>
+            </ImageUploader>
           </Container>
         </Page>
       </DragDropContext>

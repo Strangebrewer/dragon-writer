@@ -113,6 +113,7 @@ module.exports = {
       userObject.email = user.email;
       userObject._id = user._id;
       userObject.order = user.order;
+      userObject.projects = user.projects;
       res.json(userObject)
     };
   },

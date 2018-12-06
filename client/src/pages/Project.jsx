@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from "styled-components";
-import { Page } from "../components/PageElements"
-import { ModalLogic } from "../components/Renderers";
+import { ImageUploader, Page } from "../components/PageElements"
 import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/Slate/Editors";
 import { DragonNest, DragonTextNest } from "../components/Dragons";
 import { DragonLair } from "../components/Dragons/DragonElements";
@@ -59,7 +58,6 @@ class Project extends Component {
     this.saveOrder();
   };
 
-  // keep
   toggleSingleNewEditor = () => {
     const { editorOn, dropZoneOn } = this.state;
     const newState = {
@@ -69,7 +67,6 @@ class Project extends Component {
     this.executeToggles(newState)
   };
 
-  // keep
   toggleInlineNew = subject => {
     this.setState({
       singleSubject: subject,
@@ -79,7 +76,6 @@ class Project extends Component {
     })
   }
 
-  // keep
   toggleSingleEdit = (subject, text) => {
     this.setState({
       singleSubject: subject,
@@ -90,12 +86,10 @@ class Project extends Component {
     })
   };
 
-  // keep
   toggleSubject = async id => {
     this.executeDragonStateChanges({ [id]: !this.state[id] });
   };
 
-  // keep
   toggleDragonText = id => {
     const stateObject = {}
     if (id) {
@@ -106,13 +100,11 @@ class Project extends Component {
     this.executeDragonStateChanges(stateObject);
   }
 
-  // keep
   clearAllTopics = async () => {
     const stateObject = Scales.clearTopicsHelper(this.state.subjectOrder);
     this.executeDragonStateChanges(stateObject)
   };
 
-  // keep
   // This hasn't been tested yet. I know it's being used, but... 
   // I think it can be cleaned up and simplified.
   toggleSubjectForm = async (created, subject) => {
@@ -191,13 +183,29 @@ class Project extends Component {
     this.props.getInitialData(this.props.user);
   };
 
+  toggleImageInOrder = async newSubject => {
+    const newState = {
+      ...this.state,
+      subjects: {
+        ...this.state.subjects,
+        [newSubject._id]: {
+          ...this.state.subjects[newSubject._id],
+          image: newSubject.image,
+          largeImage: newSubject.largeImage,
+          publicId: newSubject.publicId
+        }
+      }
+    }
+    this.setState(newState);
+    this.saveOrder();
+  };
+
   render() {
     const { title, _id, summary } = this.props.project;
     const subjects = this.state.subjectOrder
       .map(subject => (
         { ...this.state.subjects[subject] }
       ));
-
 
     return (
       <DragDropContext
@@ -305,21 +313,24 @@ class Project extends Component {
                     />
                   </Fragment>
                 ) : (
-                  this.state.subjectOrder.map((subjectId, index) => {
-                    const subject = this.state.subjects[subjectId];
-                    const texts = subject.textIds.map(textId => this.state.texts[textId]);
-                    return this.state[subject._id] &&
-                      <ModalLogic>
-                        {modalProps => (
+                  <ImageUploader
+                    getInitialData={this.props.getInitialData}
+                    toggleImageInOrder={this.toggleImageInOrder}
+                    type="subject"
+                  >
+                    {provided => (
+                      this.state.subjectOrder.map((subjectId, index) => {
+                        const subject = this.state.subjects[subjectId];
+                        const texts = subject.textIds.map(textId => this.state.texts[textId]);
+                        return this.state[subject._id] &&
                           <DragonNest
-                            {...modalProps}
+                            {...provided}
                             deleteText={this.deleteText}
                             dragging={this.state.dragging}
                             executeDragonStateChanges={this.executeDragonStateChanges}
                             getInitialData={this.props.getInitialData}
                             index={index}
                             key={subject._id}
-                            loading={this.state.loading}
                             saveOrder={this.saveOrder}
                             state={this.state}
                             subject={subject}
@@ -330,9 +341,10 @@ class Project extends Component {
                             toggleSubject={this.toggleSubject}
                             user={this.props.user}
                           />
-                        )}
-                      </ModalLogic>
-                  })
+                      })
+                    )}
+                  </ImageUploader>
+
                 )}
             </DragonLair>}
         </Page>

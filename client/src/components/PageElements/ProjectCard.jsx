@@ -167,7 +167,7 @@ export class ProjectCard extends Component {
                               updateProjectModal={this.updateProjectModal}
                               deleteProjectModal={this.deleteProjectModal}
                               imageModal={this.props.imageModal}
-                              disabled={this.props.loading}
+                              loading={this.props.loading}
                               project={thisProject}
                               uploadImageModal={this.props.uploadImageModal}
                             />

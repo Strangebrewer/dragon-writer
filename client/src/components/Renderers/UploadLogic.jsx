@@ -27,7 +27,6 @@ export class UploadLogic extends Component {
       body: this.state.data
     });
     const file = await res.json();
-    console.log(file);
     const updateObject = {
       image: file.secure_url,
       largeImage: file.eager[0].secure_url,
@@ -81,19 +80,16 @@ export class UploadLogic extends Component {
   deleteImage = async (projectId, imageId) => {
     await this.setState({ loading: true });
     this.props.closeModal();
-    console.log(projectId);
     const deleteObj = { imageId };
-    console.log(deleteObj);
-    let result;
     switch (this.props.type) {
       case 'project':
-        result = await API.removeProjectImage(projectId, deleteObj);
+        await API.removeProjectImage(projectId, deleteObj);
         break;
       case 'subject':
-        result = await API.removeSubjectImage(projectId, deleteObj);
+        await API.removeSubjectImage(projectId, deleteObj);
         break;
       default:
-        result = await API.removeTextImage(projectId, deleteObj);
+        await API.removeTextImage(projectId, deleteObj);
     }
     await this.props.getInitialData(this.props.user);
     this.setState({ loading: false });
@@ -103,8 +99,6 @@ export class UploadLogic extends Component {
     let body;
     if (!image) body = <p>There is no image associated with this project.</p>;
     else body = <img src={image} alt="nothing" style={{ maxWidth: '70vw', maxHeight: '70vh', width: 'auto', height: 'auto'}} />;
-    console.log(image);
-    console.log(imageId);
     this.props.setModal({
       body,
       buttons: (

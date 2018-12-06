@@ -1,11 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../Slate/utils/Renderers";
 import { DateDiv, ItemButtons } from "./DragonElements";
-import { Modal } from "../PageElements";
 import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
@@ -57,46 +56,15 @@ const editorStyle = {
   maxHeight: "300px",
 }
 
-export class DragonItem extends Component {
-  state = {
-    modal: {
-      isOpen: false,
-      body: "",
-      buttons: "",
-      style: {}
-    },
-  };
-
-  closeModal = () => {
-    this.setState({
-      modal: { isOpen: false }
-    });
-  };
-
-  setModal = modalInput => {
-    this.setState({
-      modal: {
-        isOpen: true,
-        body: modalInput.body,
-        buttons: modalInput.buttons,
-        style: modalInput.style
-      }
-    });
-  };
-
-  outsideClick = event => {
-    // the space in this is necessary because the outer div is the only one that will have a space after 'modal' in the classname.
-    if (event.target.className.includes("modal "))
-      this.closeModal();
-  };
+export class DragonEgg extends PureComponent {
 
   deleteTextModal = (textId, subjectId, index) => {
-    this.setModal({
+    this.props.setModal({
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
         <React.Fragment>
           <button onClick={() => this.props.deleteText(textId, subjectId, index)}>Yes, delete it</button>
-          <button onClick={this.closeModal}>Cancel</button>
+          <button onClick={this.props.closeModal}>Cancel</button>
         </React.Fragment>
       )
     })
@@ -104,7 +72,7 @@ export class DragonItem extends Component {
 
   seeFullText = text => {
     console.log(text);
-    this.setModal({
+    this.props.setModal({
       body: (
         <Fragment>
           <ModalH2>{text.title}</ModalH2>
@@ -118,7 +86,7 @@ export class DragonItem extends Component {
         </Fragment>
       ),
       buttons: (
-        <Button onClick={this.closeModal}>Close</Button>
+        <Button onClick={this.props.closeModal}>Close</Button>
       ),
       style: { maxHeight: '80vh', overflow: 'auto' }
     })
@@ -128,14 +96,6 @@ export class DragonItem extends Component {
     const { index, text, subject } = this.props;
     return (
       <Fragment>
-        <Modal
-          style={this.state.modal.style}
-          show={this.state.modal.isOpen}
-          closeModal={this.closeModal}
-          body={this.state.modal.body}
-          buttons={this.state.modal.buttons}
-          outsideClick={this.outsideClick}
-        />
         <Draggable
           draggableId={text._id}
           index={index}

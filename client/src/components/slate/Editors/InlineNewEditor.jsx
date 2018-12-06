@@ -5,8 +5,7 @@ import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
-import { API, Scales } from "../../../utils";
-import {DragonColumnFake} from "../../Dragons";
+import { DragonNestFake } from "../../Dragons";
 
 const editorStyle = {
   borderRadius: "6px",
@@ -77,26 +76,11 @@ const DragHeader = styled.div`
 
 export class InlineNewEditor extends Component {
 
-  // createText = async () => {
-  //   const { given, projectId, state, } = this.props;
-  //   const textObject = {
-  //     projectId: projectId,
-  //     subjectId: given.state.subject._id,
-  //     title: given.state.title,
-  //     thesis: given.state.thesis,
-  //     text: JSON.stringify(given.state.value.toJSON())
-  //   }
-  //   const newText = await API.createText(textObject)
-  //   const newState = Scales.insertTextHelper(given.state.subject._id, newText.data, state);
-  //   this.props.toggleInlineNew();
-  //   this.props.executeDragonStateChanges(newState);
-  // };
-
   render() {
     const { given, texts } = this.props;
     return (
       <OuterContainer>
-        <DragonColumnFake
+        <DragonNestFake
           subject={given.state.subject}
           texts={texts}
         />
@@ -125,7 +109,7 @@ export class InlineNewEditor extends Component {
               placeholder="(22 char max)"
               onChange={given.handleInputChange}
             />
-            
+
             <Label>Summary:</Label>
             <Input
               style={{ maxWidth: "300px" }}

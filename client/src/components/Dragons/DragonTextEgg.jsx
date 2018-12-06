@@ -5,7 +5,7 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../Slate/utils/Renderers";
 import { EditorStyles } from "../Slate/utils/EditorStyles";
-import { Modal, LinkBtn } from "../PageElements";
+import { LinkBtn } from "../PageElements";
 import initialValue from "../Slate/utils/value.json"
 
 const Container = styled.div`
@@ -42,44 +42,15 @@ const TextThesis = styled.p`
   padding: 4px 0 6px 0;
 `;
 
-export class DragonTextItem extends Component {
-  state = {
-    modal: {
-      isOpen: false,
-      body: "",
-      buttons: ""
-    },
-  }
-
-  closeModal = () => {
-    this.setState({
-      modal: { isOpen: false }
-    });
-  };
-
-  setModal = modalInput => {
-    this.setState({
-      modal: {
-        isOpen: true,
-        body: modalInput.body,
-        buttons: modalInput.buttons
-      }
-    });
-  };
-
-  outsideClick = event => {
-    // the space in this is necessary because the outer div is the only one that will have a space after 'modal' in the classname.
-    if (event.target.className.includes("modal "))
-      this.closeModal();
-  };
+export class DragonTextEgg extends Component {
 
   deleteTextModal = (textId, subjectId, index) => {
-    this.setModal({
+    this.props.setModal({
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
         <React.Fragment>
           <button onClick={() => this.props.deleteText(textId, subjectId, index)}>Yes, delete it</button>
-          <button onClick={this.closeModal}>Cancel</button>
+          <button onClick={this.props.closeModal}>Cancel</button>
         </React.Fragment>
       )
     })
@@ -89,16 +60,8 @@ export class DragonTextItem extends Component {
     const { index, text, subject, toggleEditable } = this.props;
     const thisValue = text.text ? JSON.parse(text.text) : initialValue;
     text.parentSubject = subject;
-    console.log(text);
     return (
       <React.Fragment>
-        <Modal
-          show={this.state.modal.isOpen}
-          closeModal={this.closeModal}
-          body={this.state.modal.body}
-          buttons={this.state.modal.buttons}
-          outsideClick={this.outsideClick}
-        />
         <Draggable key={text} draggableId={text._id} index={index}>
           {(provided, snapshot) => (
             <Container

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import { ModalLogic } from "../Renderers";
 import { LinkBtn } from "../PageElements";
-import { DragonTextItem } from "./DragonTextItem";
+import { DragonTextEgg } from "./DragonTextEgg";
 import { DragonTextEditable } from "./DragonTextEditable";
 
 const TextColumn = styled.div`
@@ -37,7 +38,7 @@ const DragonTextList = styled.div`
   flex-grow: 1;
 `;
 
-export class DragonTextColumn extends Component {
+export class DragonTextNest extends Component {
   state = {}
 
   toggleEditable = textId => {
@@ -93,15 +94,21 @@ export class DragonTextColumn extends Component {
                       getInitialData={this.props.getInitialData}
                     />
                   ) : (
-                    <DragonTextItem
-                      key={text._id}
-                      subject={this.props.subject}
-                      subjects={this.props.subjects}
-                      text={text}
-                      index={index}
-                      toggleEditable={this.toggleEditable}
-                      deleteText={this.props.deleteText}
-                    />
+                    <ModalLogic>
+                      {modalProps => (
+                        <DragonTextEgg
+                          {...modalProps}
+                          key={text._id}
+                          subject={this.props.subject}
+                          subjects={this.props.subjects}
+                          text={text}
+                          index={index}
+                          toggleEditable={this.toggleEditable}
+                          deleteText={this.props.deleteText}
+                        />
+                      )}
+                    </ModalLogic>
+
                   )
               })}
               {provided.placeholder}

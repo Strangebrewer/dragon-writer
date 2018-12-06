@@ -1,10 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { ProjectButtons } from "../Dragons/DragonElements";
 import { Button, Input, TextArea } from "../Forms/FormElements";
 import { NewProject } from "../Forms";
 import { API } from '../../utils';
+
+const DropZone = styled.div`
+  width: 100%;  
+`;
 
 const Container = styled.div`
   background-color: ${props => props.theme.projectItemBG};
@@ -134,26 +139,44 @@ export class ProjectCard extends Component {
               user={this.props.user}
             />
           ) : (
-            this.props.authenticated &&
-            <Fragment>
-              {this.props.projects.map(project => (
-                <Container key={project._id}>
-                  <Link to={`/${project.link}`}>
-                    <ProjectTitle>{project.title}</ProjectTitle>
-                    <ProjectText  >{project.summary}</ProjectText>
-                  </Link>
-                  <ProjectButtons
-                    updateProjectModal={this.updateProjectModal}
-                    deleteProjectModal={this.deleteProjectModal}
-                    imageModal={this.props.imageModal}
-                    disabled={this.props.loading}
-                    project={project}
-                    uploadImageModal={this.props.uploadImageModal}
-                  />
-                </Container>
-              ))}
-              <Button full round onClick={this.toggleProjectForm}>Create New Project</Button>
-            </Fragment>
+            <Droppable droppableId={this.props.user._id} type="project">
+              {(provided, snapshot) => (
+                <DropZone
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  isDraggingOver={snapshot.isDraggingOver}
+                >
+                  {this.props.projects.map((project, index) => (
+                    <Draggable draggableId={project._id} index={index} key={project._id}>
+                      {(provided, snapshot) => (
+                        <Container
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          isDragging={snapshot.isDragging}
+                          {...provided.dragHandleProps}
+                        >
+                          <Link to={`/${project.link}`}>
+                            <ProjectTitle>{project.title}</ProjectTitle>
+                            <ProjectText  >{project.summary}</ProjectText>
+                          </Link>
+                          <ProjectButtons
+                            updateProjectModal={this.updateProjectModal}
+                            deleteProjectModal={this.deleteProjectModal}
+                            imageModal={this.props.imageModal}
+                            disabled={this.props.loading}
+                            project={project}
+                            uploadImageModal={this.props.uploadImageModal}
+                          />
+                        </Container>
+                      )}
+                    </Draggable>
+
+                  ))}
+                  <Button full round onClick={this.toggleProjectForm}>Create New Project</Button>
+                  {provided.placeholder}
+                </DropZone>
+              )}
+            </Droppable>
           )}
       </Fragment>
     )

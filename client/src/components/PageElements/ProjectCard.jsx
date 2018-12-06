@@ -24,6 +24,7 @@ const Container = styled.div`
     border: 1px solid ${props => props.theme.columnDragBorder};
     box-shadow: ${props => props.theme.columnBS};
   }
+  box-shadow: ${props => props.isDragging && props.theme.columnBS};
 `;
 
 const ProjectTitle = styled.h2`
@@ -129,6 +130,7 @@ export class ProjectCard extends Component {
   };
 
   render() {
+    const { projectOrder, projectOrderData } = this.props;
     return (
       <Fragment>
         {this.state.create
@@ -146,32 +148,34 @@ export class ProjectCard extends Component {
                   {...provided.droppableProps}
                   isDraggingOver={snapshot.isDraggingOver}
                 >
-                  {this.props.projects.map((project, index) => (
-                    <Draggable draggableId={project._id} index={index} key={project._id}>
-                      {(provided, snapshot) => (
-                        <Container
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          isDragging={snapshot.isDragging}
-                          {...provided.dragHandleProps}
-                        >
-                          <Link to={`/${project.link}`}>
-                            <ProjectTitle>{project.title}</ProjectTitle>
-                            <ProjectText  >{project.summary}</ProjectText>
-                          </Link>
-                          <ProjectButtons
-                            updateProjectModal={this.updateProjectModal}
-                            deleteProjectModal={this.deleteProjectModal}
-                            imageModal={this.props.imageModal}
-                            disabled={this.props.loading}
-                            project={project}
-                            uploadImageModal={this.props.uploadImageModal}
-                          />
-                        </Container>
-                      )}
-                    </Draggable>
-
-                  ))}
+                  {projectOrder.map((project, index) => {
+                    const thisProject = projectOrderData[project];
+                    return (
+                      <Draggable draggableId={project} index={index} key={project}>
+                        {(provided, snapshot) => (
+                          <Container
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            isDragging={snapshot.isDragging}
+                            {...provided.dragHandleProps}
+                          >
+                            <Link to={`/${thisProject.link}`}>
+                              <ProjectTitle>{thisProject.title}</ProjectTitle>
+                              <ProjectText  >{thisProject.summary}</ProjectText>
+                            </Link>
+                            <ProjectButtons
+                              updateProjectModal={this.updateProjectModal}
+                              deleteProjectModal={this.deleteProjectModal}
+                              imageModal={this.props.imageModal}
+                              disabled={this.props.loading}
+                              project={thisProject}
+                              uploadImageModal={this.props.uploadImageModal}
+                            />
+                          </Container>
+                        )}
+                      </Draggable>
+                    )
+                  })}
                   <Button full round onClick={this.toggleProjectForm}>Create New Project</Button>
                   {provided.placeholder}
                 </DropZone>

@@ -14,8 +14,18 @@ const Container = styled.div`
 
 class Home extends Component {
   state = {
-
+    projectOrder: this.props.projectOrder,
+    projectOrderData: this.props.projectOrderData
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.projectOrder !== this.props.projectOrder) {
+      this.setState({
+        projectOrder: nextProps.projectOrder,
+        projectOrderData: nextProps.projectOrderData
+      })
+    }
+  }
 
   onDragEnd = async result => {
     const { destination, source, draggableId, type } = result;
@@ -28,15 +38,18 @@ class Home extends Component {
     }
 
     // if you are dragging one of the subject columns, the type will be "subject"
-    if (type === 'subject') {
-      const newState = Scales.dragonSubjectColumns(this.state, source, destination, draggableId);
-      await this.setState(newState);
-      this.saveOrder();
-      return;
-    }
+    // if (type === 'subject') {
+    //   const newState = Scales.dragonSubjectColumns(this.state, source, destination, draggableId);
+    //   await this.setState(newState);
+    //   this.saveOrder();
+    //   return;
+    // }
 
     const newState = Scales.singleProjectDragon(this.state, source, destination, draggableId);
     console.log(newState);
+    await this.setState(newState);
+    await API.updateUserOrder({ order: JSON.stringify(this.state.projectOrder) });
+    this.props.getInitialData();
   };
 
   saveOrder = async () => {
@@ -83,7 +96,9 @@ class Home extends Component {
                           {...provided}
                           authenticated={this.props.authenticated}
                           getInitialData={this.props.getInitialData}
-                          projects={this.props.projects}
+                          projectOrder={this.state.projectOrder}
+                          projectOrderData={this.state.projectOrderData}
+                          // projects={this.props.projects}
                           user={this.props.user}
                         />
                       )}

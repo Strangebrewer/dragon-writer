@@ -11,11 +11,15 @@ router
   .route('/data')
   .put(isLoggedIn, userController.updateUserInfo);
 
+router.put('/order', userController.updateUserOrder);
+
 router.post('/login', passport.authenticate('local'), userController.login);
 
 router.post('/logout', userController.logout);
 
 router.post('/change', userController.changePw);
+
+
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())

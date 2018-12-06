@@ -54,6 +54,8 @@ class App extends Component {
     let user = userInfo;
     let error;
     let projectData = [];
+    let projectOrder = [];
+    let projectOrderData = {};
 
     if (!user)
       try {
@@ -78,11 +80,19 @@ class App extends Component {
           projectData.push(Utils.formatInitialData(project));
       });
 
+      // console.log(user);
+      if (user.order) projectOrder = JSON.parse(user.order);
+      else projectOrder = user.projects;
+
+      projectOrderData = Utils.formatProjectOrder(projects);
+
       isAuthenticated = true;
     }
 
     this.setState({
       projectData,
+      projectOrder,
+      projectOrderData,
       loading: false,
       projects,
       user,
@@ -106,6 +116,8 @@ class App extends Component {
                 <Home
                   {...routeProps}
                   authenticated={isAuthenticated}
+                  projectOrder={this.state.projectOrder}
+                  projectOrderData={this.state.projectOrderData}
                   user={this.state.user}
                   projects={this.state.projects}
                   getInitialData={this.getInitialData}

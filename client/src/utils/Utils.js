@@ -24,6 +24,19 @@ export const Utils = {
     return initialData;
   },
 
+  formatProjectOrder: function (projects) {
+    const projectOrderData = {};
+    const newProjects = JSON.parse(JSON.stringify(projects));
+    for (let i = 0; i < newProjects.length; i++) {
+      const element = newProjects[i];
+      delete element.order;
+      delete element.subjects;
+      delete element.texts;
+      projectOrderData[element._id] = element;
+    }
+    return projectOrderData;
+  },
+
   addTextsToOrder: function (project) {
     const order = JSON.parse(project.order);
     project.order = order;

@@ -108,6 +108,14 @@ export const Scales = {
     }
   },
 
+  singleProjectDragon: function (state, source, destination, draggableId) {
+    console.log(state);
+    console.log(source);
+    console.log(destination);
+    console.log(draggableId);
+    return "Boo!"
+  },
+
   dragonSubjectColumns: function (state, source, destination, draggableId) {
     // create a new subject array that has the same values as the previous subject array:
     const newSubjectOrder = Array.from(state.subjectOrder)

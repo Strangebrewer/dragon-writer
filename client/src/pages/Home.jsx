@@ -35,22 +35,8 @@ class Home extends Component {
       return;
     }
 
-    const start = this.state.subjects[source.droppableId];
-    const finish = this.state.subjects[destination.droppableId];
-
-    // if source column and destination column are the same:
-    if (start === finish) {
-      const newState = Scales.singleSubjectDragon(this.state, start, source, destination, draggableId);
-      await this.setState(newState);
-      this.saveOrder();
-      return;
-    }
-
-    // if moving to a new column:
-    const newState = Scales.multiSubjectDragon(this.state, start, finish, source, destination, draggableId);
-    await this.setState(newState);
-    this.saveOrder();
-    return;
+    const newState = Scales.singleProjectDragon(this.state, source, destination, draggableId);
+    console.log(newState);
   };
 
   saveOrder = async () => {
@@ -68,7 +54,7 @@ class Home extends Component {
 
   render() {
     return (
-      <DragDropContext>
+      <DragDropContext onDragEnd={this.onDragEnd}>
         <Page
           title="Dragon Writer"
           subtitle="Drag-and-drop storyboarding for writers"

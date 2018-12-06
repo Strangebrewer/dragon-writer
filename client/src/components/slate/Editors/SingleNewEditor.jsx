@@ -6,7 +6,6 @@ import { renderMark, renderNode } from "../utils/Renderers";
 import { EditorStyles } from "../utils/EditorStyles";
 import { Button, Input, Label, Select } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
-import { API, Scales } from "../../../utils";
 
 const editorStyle = {
   borderRadius: "6px",

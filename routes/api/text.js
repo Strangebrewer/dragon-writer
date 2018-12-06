@@ -1,16 +1,20 @@
 const router = require('express').Router();
 const textController = require('../../controllers/textController');
+const imageController = require('../../controllers/imageController');
 
 router.route('/')
   .get(textController.getTexts)
   .post(textController.createText);
 
+router.route('/image/:id')
+  .put(imageController.removeTextImage);
+
 router.route('/:id')
   .put(textController.updateText)
   .delete(textController.deleteText);
 
-  router.route('/subject/:id')
-    .put(textController.updateTextSubject);
+router.route('/subject/:id')
+  .put(textController.updateTextSubject);
 
 // function isLoggedIn(req, res, next) {
 //   if (req.isAuthenticated())

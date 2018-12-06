@@ -109,10 +109,6 @@ export const Scales = {
   },
 
   singleProjectDragon: function (state, source, destination, draggableId) {
-    console.log(state);
-    console.log(source);
-    console.log(destination);
-    console.log(draggableId);
     const newProjectOrder = Array.from(state.projectOrder);
     newProjectOrder.splice(source.index, 1);
     newProjectOrder.splice(destination.index, 0, draggableId)
@@ -120,7 +116,6 @@ export const Scales = {
       ...state,
       projectOrder: newProjectOrder
     };
-    console.log(newState);
     return newState;
   },
 

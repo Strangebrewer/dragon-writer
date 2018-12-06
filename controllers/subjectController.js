@@ -42,9 +42,10 @@ module.exports = {
   },
 
   updateSubject: async function (req, res) {
+    console.log(req.body);
     try {
-      await db.Subject.findByIdAndUpdate(req.params.id, req.body);
-      res.status(200).json({ message: "Update complete" });
+      const subject = await db.Subject.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      res.json(subject);
     }
     catch (err) {
       res.status(422).json(err);

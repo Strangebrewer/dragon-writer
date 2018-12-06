@@ -15,6 +15,10 @@ export const API = {
   updateUserInfo: function (userData) {
     return axios.put('/user/data', userData);
   },
+
+  updateUserOrder: function (order) {
+    return axios.put('/user/order', order);
+  },
   // New user signup
   signup: function (signupData) {
     return axios.post('/user', signupData);

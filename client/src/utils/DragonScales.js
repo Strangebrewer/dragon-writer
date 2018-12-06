@@ -120,6 +120,7 @@ export const Scales = {
       ...state,
       projectOrder: newProjectOrder
     };
+    console.log(newState);
     return newState;
   },
 

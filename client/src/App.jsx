@@ -80,7 +80,6 @@ class App extends Component {
           projectData.push(Utils.formatInitialData(project));
       });
 
-      // console.log(user);
       if (user.order) projectOrder = JSON.parse(user.order);
       else projectOrder = user.projects;
 
@@ -107,27 +106,31 @@ class App extends Component {
   };
 
   render() {
+    // if (this.state.loading) return null;
     return (
       <ThemeProvider theme={this.state.styleMode}>
         <Router>
           <Switch>
             <Route exact path="/">
-              {routeProps => (
-                <Home
-                  {...routeProps}
-                  authenticated={isAuthenticated}
-                  projectOrder={this.state.projectOrder}
-                  projectOrderData={this.state.projectOrderData}
-                  user={this.state.user}
-                  projects={this.state.projects}
-                  getInitialData={this.getInitialData}
-                  logout={this.logout}
-                  loading={this.state.loading}
-                  styleMode={this.state.styleMode}
-                  nextMode={this.state.nextMode}
-                  toggleStyleMode={this.toggleStyleMode}
-                />
-              )}
+              {routeProps => {
+                if (this.state.loading) return null;
+                return (
+                  <Home
+                    {...routeProps}
+                    authenticated={isAuthenticated}
+                    projectOrder={this.state.projectOrder}
+                    projectOrderData={this.state.projectOrderData}
+                    user={this.state.user}
+                    projects={this.state.projects}
+                    getInitialData={this.getInitialData}
+                    logout={this.logout}
+                    loading={this.state.loading}
+                    styleMode={this.state.styleMode}
+                    nextMode={this.state.nextMode}
+                    toggleStyleMode={this.toggleStyleMode}
+                  />
+                )
+              }}
             </Route>
 
             {this.state.projects.length > 0

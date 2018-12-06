@@ -9,6 +9,7 @@ const userSchema = new Schema({
 	username: { type: String, required: true },
 	password: { type: String, required: true, default: tempPw },
 	email: String,
+	order: String,
 	projects: [{
 		type: Schema.Types.ObjectId,
 		ref: "Project"

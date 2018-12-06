@@ -13,6 +13,7 @@ const buttonStyle = {
 const Container = styled.div`
   min-height: 150px;
   width: 165px;
+  background: transparent;
 `;
 
 const HeadingTwo = styled.h2`

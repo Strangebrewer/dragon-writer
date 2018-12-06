@@ -16,7 +16,7 @@ const Container = styled.div`
   transition: background-color .2s ease-in-out;
   box-shadow: ${props => props.theme.fieldShine};
   opacity: ${props => (
-    props.dragging || props.loading
+    props.isDragging || props.loading
       ? "0.9"
       : "1"
   )};
@@ -58,12 +58,17 @@ const editorStyle = {
 
 export class DragonEgg extends PureComponent {
 
+  deleteText = (textId, subjectId, index) => {
+    this.props.closeModal();
+    this.props.deleteText(textId, subjectId, index);
+  }
+
   deleteTextModal = (textId, subjectId, index) => {
     this.props.setModal({
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
         <React.Fragment>
-          <button onClick={() => this.props.deleteText(textId, subjectId, index)}>Yes, delete it</button>
+          <button onClick={() => this.deleteText(textId, subjectId, index)}>Yes, delete it</button>
           <button onClick={this.props.closeModal}>Cancel</button>
         </React.Fragment>
       )
@@ -107,22 +112,25 @@ export class DragonEgg extends PureComponent {
               ref={provided.innerRef}
               isDragging={snapshot.isDragging}
               loading={this.props.loading}
-              dragging={this.props.dragging}
               {...provided.dragHandleProps}
             >
               <ItemButtons
                 deleteTextModal={this.deleteTextModal}
+                imageModal={this.props.imageModal}
+                id={text._id}
                 index={index}
+                loading={this.props.loading}
                 seeFullText={this.seeFullText}
                 subject={subject}
                 text={text}
                 toggleSingleEdit={this.props.toggleSingleEdit}
+                uploadImageModal={this.props.uploadImageModal}
               />
 
               <h4>{text.title}</h4>
               <p>{text.thesis}</p>
 
-              <DateDiv text={text}/>
+              <DateDiv text={text} />
 
             </Container>
           )}

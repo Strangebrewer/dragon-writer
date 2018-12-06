@@ -58,6 +58,10 @@ export const API = {
     return axios.delete(`/api/text/${id}`);
   },
 
+  removeTextImage: function (id, data) {
+    return axios.put(`/api/text/image/${id}`, data);
+  },
+
 
   getProjects: function () {
     return axios.get('/api/project');
@@ -99,5 +103,9 @@ export const API = {
 
   deleteSubject: function (id) {
     return axios.delete(`/api/subject/${id}`);
+  },
+
+  removeSubjectImage: function (id, data) {
+    return axios.put(`/api/subject/image/${id}`, data);
   }
 };

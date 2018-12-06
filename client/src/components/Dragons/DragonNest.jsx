@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { ModalLogic } from "../Renderers";
+import { ImageUploader } from "../PageElements";
 import { Button, Input, Label } from "../Forms/FormElements";
-import { DragonEgg } from ".";
+import { DragonEgg } from "./DragonEgg";
 import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
@@ -139,13 +139,14 @@ export class DragonNest extends PureComponent {
   render() {
     const {
       deleteText,
-      dragging,
       toggleDragonText,
+      imageModal,
       index,
       loading,
       subject,
       texts,
       toggleSubject,
+      uploadImageModal,
     } = this.props;
     const { theme, _id } = subject;
     return (
@@ -157,6 +158,9 @@ export class DragonNest extends PureComponent {
               ref={provided.innerRef}
             >
               <ColumnButtons
+                uploadImageModal={uploadImageModal}
+                loading={loading}
+                imageModal={imageModal}
                 subject={subject}
                 id={_id}
                 index={index}
@@ -179,26 +183,26 @@ export class DragonNest extends PureComponent {
                     {...provided.droppableProps}
                     isDraggingOver={snapshot.isDraggingOver}
                   >
-                    {texts.map((text, index) => {
-                      return (
-                        <ModalLogic>
-                          {modalProps => (
+                    <ImageUploader
+                      getInitialData={this.props.getInitialData}
+                      type="text"
+                    >
+                      {provided => (
+                        texts.map((text, index) => {
+                          return (
                             <DragonEgg
-                              {...modalProps}
+                              {...provided}
                               deleteText={deleteText}
-                              dragging={dragging}
                               index={index}
                               key={text._id}
-                              loading={loading}
                               subject={subject}
                               text={text}
                               toggleSingleEdit={this.props.toggleSingleEdit}
                             />
-                          )}
-                        </ModalLogic>
-
-                      )
-                    })}
+                          )
+                        })
+                      )}
+                    </ImageUploader>
                     {provided.placeholder}
                   </DragonList>
                 )}

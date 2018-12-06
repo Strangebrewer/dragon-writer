@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Button, Input, Label } from "../Forms/FormElements";
 import { API } from "../../utils";
 
-export class UploadLogic extends Component {
+export class UploadLogic extends PureComponent {
   state = {
     image: '',
     largeImage: '',
@@ -13,6 +13,7 @@ export class UploadLogic extends Component {
 
   uploadImage = async event => {
     const files = event.target.files;
+    if (!files[0].type.includes('image')) return;
     const data = new FormData();
     await data.append('file', files[0]);
     await data.append('upload_preset', 'dragon-writer');
@@ -20,6 +21,14 @@ export class UploadLogic extends Component {
   };
 
   saveImage = async id => {
+    if (!this.state.data) {
+      this.props.closeModal();
+      setTimeout(() => this.props.setModal({
+        body: <p style={{ textAlign: "center" }}>Images only, please.</p>,
+        buttons: <Button onClick={this.props.closeModal}>Close</Button>
+      }), 500)
+      return;
+    }
     this.setState({ loading: true });
     this.props.closeModal();
     const res = await fetch('https://api.cloudinary.com/v1_1/dm6eoegii/image/upload/', {
@@ -36,20 +45,20 @@ export class UploadLogic extends Component {
     switch (this.props.type) {
       case 'project':
         result = await API.updateProject(id, updateObject);
+        this.props.getInitialData(this.props.user);
         break;
       case 'subject':
         result = await API.updateSubject(id, updateObject);
+        this.props.toggleImageInOrder(result.data);
         break;
       default:
         result = await API.updateText(id, updateObject);
+        this.props.getInitialData(this.props.user);
     }
-    console.log(result);
-    this.props.getInitialData(this.props.user);
     this.setState({ loading: false });
   };
 
   uploadImageModal = id => {
-    console.log(id);
     this.props.setModal({
       body: (
         <Fragment>
@@ -77,28 +86,31 @@ export class UploadLogic extends Component {
     })
   };
 
-  deleteImage = async (projectId, imageId) => {
+  deleteImage = async (id, imageId) => {
     await this.setState({ loading: true });
     this.props.closeModal();
     const deleteObj = { imageId };
     switch (this.props.type) {
       case 'project':
-        await API.removeProjectImage(projectId, deleteObj);
+        await API.removeProjectImage(id, deleteObj);
+        this.props.getInitialData(this.props.user);
         break;
       case 'subject':
-        await API.removeSubjectImage(projectId, deleteObj);
+        const result = await API.removeSubjectImage(id, deleteObj);
+        this.props.toggleImageInOrder(result.data);
         break;
       default:
-        await API.removeTextImage(projectId, deleteObj);
+        await API.removeTextImage(id, deleteObj);
+        this.props.getInitialData(this.props.user);
     }
-    await this.props.getInitialData(this.props.user);
+    // calling setState here produces an error - but it isn't necessary anyway
     this.setState({ loading: false });
   };
 
-  imageModal = (image, imageId, projectId) => {
+  imageModal = (image, imageId, id) => {
     let body;
     if (!image) body = <p>There is no image associated with this project.</p>;
-    else body = <img src={image} alt="nothing" style={{ maxWidth: '70vw', maxHeight: '70vh', width: 'auto', height: 'auto'}} />;
+    else body = <img src={image} alt="nothing" style={{ maxWidth: '70vw', maxHeight: '70vh', width: 'auto', height: 'auto' }} />;
     this.props.setModal({
       body,
       buttons: (
@@ -106,7 +118,7 @@ export class UploadLogic extends Component {
           {image &&
             <Button
               disabled={this.state.loading}
-              onClick={() => this.deleteImage(projectId, imageId)}
+              onClick={() => this.deleteImage(id, imageId)}
             >
               Delete
           </Button>

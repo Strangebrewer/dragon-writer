@@ -106,14 +106,14 @@ class App extends Component {
   };
 
   render() {
-    // if (this.state.loading) return null;
+    if (this.state.loading) return null;
     return (
       <ThemeProvider theme={this.state.styleMode}>
         <Router>
           <Switch>
             <Route exact path="/">
               {routeProps => {
-                if (this.state.loading) return null;
+                // if (this.state.loading) return null;
                 return (
                   <Home
                     {...routeProps}

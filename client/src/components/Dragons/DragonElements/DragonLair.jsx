@@ -9,7 +9,7 @@ const Container = styled.div`
   background: transparent;
 `;
 
-export const DropZone = ({ children }) => {
+export const DragonLair = ({ children }) => {
   return (
     <Droppable droppableId="all-subjects" direction="horizontal" type="subject">
       {provided => (

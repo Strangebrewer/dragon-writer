@@ -5,8 +5,7 @@ import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
-import { API, Scales } from "../../../utils";
-import { DragonColumnFake } from "../../Dragons";
+import { DragonNestFake } from "../../Dragons";
 
 const editorStyle = {
   borderRadius: "6px",
@@ -81,7 +80,7 @@ export class SingleUpdateEditor extends Component {
     const { given, texts } = this.props;
     return (
       <OuterContainer>
-        <DragonColumnFake
+        <DragonNestFake
           subject={given.state.subject}
           texts={texts}
         />

@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { LinkBtn, Modal } from "../PageElements";
+import { ModalLogic } from "../Renderers";
 import { Button, Input, Label } from "../Forms/FormElements";
-import { DragonItem } from "../Dragons";
+import { DragonEgg } from ".";
 import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
@@ -63,13 +63,8 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
-export class DragonColumn extends Component {
+export class DragonNest extends PureComponent {
   state = {
-    modal: {
-      isOpen: false,
-      body: "",
-      buttons: ""
-    },
     subject: '',
     theme: '',
   };
@@ -79,30 +74,8 @@ export class DragonColumn extends Component {
     this.setState({ [name]: value });
   };
 
-  closeModal = () => {
-    this.setState({
-      modal: { isOpen: false }
-    });
-  };
-
-  setModal = modalInput => {
-    this.setState({
-      modal: {
-        isOpen: true,
-        body: modalInput.body,
-        buttons: modalInput.buttons
-      }
-    });
-  };
-
-  outsideClick = event => {
-    // the space in this is necessary because the outer div is the only one that will have a space after 'modal' in the classname.
-    if (event.target.className.includes("modal "))
-      this.closeModal();
-  };
-
   updateSubjectModal = subject => {
-    this.setModal({
+    this.props.setModal({
       body: (
         <Fragment>
           <Label>Column Subject:</Label>
@@ -130,28 +103,28 @@ export class DragonColumn extends Component {
               theme: this.state.theme || subject.theme
             }
           )}>Submit</Button>
-          <Button onClick={this.closeModal}>Cancel</Button>
+          <Button onClick={this.props.closeModal}>Cancel</Button>
         </Fragment>
       )
     })
   };
 
   updateSubject = async (id, updateObject) => {
-    this.closeModal();
+    this.props.closeModal();
     const newState = Scales.updateSubjectHelper(id, updateObject, this.props.state);
     API.updateSubject(id, updateObject);
     this.props.executeDragonStateChanges(newState);
   };
 
   deleteSubjectModal = (id, index) => {
-    this.setModal({
+    this.props.setModal({
       body: <h2>Are you sure you want to delete this column? You will lose all texts contained inside it.</h2>,
       buttons: (
         <Fragment>
           <Button onClick={() => this.deleteSubject(id, index)}>
             Yes, delete it
           </Button>
-          <Button onClick={this.closeModal}>Cancel</Button>
+          <Button onClick={this.props.closeModal}>Cancel</Button>
         </Fragment>
       )
     })
@@ -177,13 +150,6 @@ export class DragonColumn extends Component {
     const { theme, _id } = subject;
     return (
       <Fragment>
-        <Modal
-          show={this.state.modal.isOpen}
-          closeModal={this.closeModal}
-          body={this.state.modal.body}
-          buttons={this.state.modal.buttons}
-          outsideClick={this.outsideClick}
-        />
         <Draggable draggableId={_id} index={index}>
           {provided => (
             <Container
@@ -215,16 +181,22 @@ export class DragonColumn extends Component {
                   >
                     {texts.map((text, index) => {
                       return (
-                        <DragonItem
-                          deleteText={deleteText}
-                          dragging={dragging}
-                          index={index}
-                          key={text._id}
-                          loading={loading}
-                          subject={subject}
-                          text={text}
-                          toggleSingleEdit={this.props.toggleSingleEdit}
-                        />
+                        <ModalLogic>
+                          {modalProps => (
+                            <DragonEgg
+                              {...modalProps}
+                              deleteText={deleteText}
+                              dragging={dragging}
+                              index={index}
+                              key={text._id}
+                              loading={loading}
+                              subject={subject}
+                              text={text}
+                              toggleSingleEdit={this.props.toggleSingleEdit}
+                            />
+                          )}
+                        </ModalLogic>
+
                       )
                     })}
                     {provided.placeholder}

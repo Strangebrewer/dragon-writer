@@ -3,7 +3,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
 import styled from 'styled-components';
-import { renderMark, renderNode } from "../Slate/utils/Renderers";
+import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { DateDiv, ItemButtons } from "./DragonElements";
 import { Button } from "../Forms/FormElements";
 

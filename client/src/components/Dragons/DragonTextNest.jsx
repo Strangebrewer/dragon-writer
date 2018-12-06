@@ -47,7 +47,6 @@ export class DragonTextNest extends Component {
 
   render() {
     const { subject, theme, _id } = this.props.subject
-    console.log(this.props.subjects);
     return (
       <TextColumn>
         <SubjectHeading>
@@ -76,7 +75,6 @@ export class DragonTextNest extends Component {
               isDraggingOver={snapshot.isDraggingOver}
             >
               {this.props.texts.map((text, index) => {
-                console.log(text);
                 return this.state[text._id]
                   ? (
                     <DragonTextEditable

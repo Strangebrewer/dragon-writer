@@ -56,7 +56,6 @@ class App extends Component {
     let projectData = [];
     let projectOrder = [];
     let projectOrderData = {};
-    console.log(user);
 
     if (!user)
       try {
@@ -85,7 +84,6 @@ class App extends Component {
       else projectOrder = user.projects;
 
       projectOrderData = Utils.formatProjectOrder(projects);
-      console.log(projectOrder);
 
       isAuthenticated = true;
     }
@@ -109,8 +107,6 @@ class App extends Component {
 
   render() {
     if (this.state.loading) return null;
-    console.log(this.state.projectOrder);
-    console.log(this.state.projectOrderData);
     return (
       <ThemeProvider theme={this.state.styleMode}>
         <Router>

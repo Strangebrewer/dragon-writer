@@ -21,10 +21,11 @@ module.exports = {
     req.body.userId = req.user._id;
     try {
       const project = await db.Project.create(req.body)
-      db.User.findByIdAndUpdate(req.user._id,
-        { $push: { projects: project._id } }
+      const user = await db.User.findByIdAndUpdate(req.user._id,
+        { $push: { projects: project._id } },
+        { new: true }
       )
-      res.json(project);
+      res.json(user);
     } catch (err) { res.status(422).json(err) }
   },
 

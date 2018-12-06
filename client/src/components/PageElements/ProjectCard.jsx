@@ -18,7 +18,7 @@ const Container = styled.div`
   padding: 15px;
   border: 1px solid ${props => props.theme.links};
   border-radius: 5px;
-  margin: 10px auto;
+  margin: 0 auto 10px auto;
   line-height: 1.2;
   &:hover {
     border: 1px solid ${props => props.theme.columnDragBorder};

@@ -76,7 +76,7 @@ const ItemContainer = styled.div`
   }
 `;
 
-export class DragonColumnFake extends Component {
+export class DragonNestFake extends Component {
   render() {
     const { subject, texts } = this.props;
     return (

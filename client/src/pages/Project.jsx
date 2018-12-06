@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from "styled-components";
 import { Page } from "../components/PageElements"
+import { ModalLogic } from "../components/Renderers";
 import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/Slate/Editors";
-import { DragonColumn, DragonTextColumn } from "../components/Dragons";
-import { DropZone } from "../components/Dragons/DragonElements";
+import { DragonNest, DragonTextNest } from "../components/Dragons";
+import { DragonLair } from "../components/Dragons/DragonElements";
 import { API, Scales } from '../utils';
 
 const EditorContainer = styled.div`
@@ -283,11 +284,11 @@ class Project extends Component {
             </TextEditor>}
 
           {this.state.dropZoneOn &&
-            <DropZone>
+            <DragonLair>
               {this.state.dragons
                 ? (
                   <Fragment>
-                    <DragonTextColumn
+                    <DragonTextNest
                       deleteText={this.deleteText}
                       executeDragonStateChanges={this.executeDragonStateChanges}
                       getInitialData={this.props.getInitialData}
@@ -308,27 +309,32 @@ class Project extends Component {
                     const subject = this.state.subjects[subjectId];
                     const texts = subject.textIds.map(textId => this.state.texts[textId]);
                     return this.state[subject._id] &&
-                      <DragonColumn
-                        deleteText={this.deleteText}
-                        dragging={this.state.dragging}
-                        executeDragonStateChanges={this.executeDragonStateChanges}
-                        getInitialData={this.props.getInitialData}
-                        index={index}
-                        key={subject._id}
-                        loading={this.state.loading}
-                        saveOrder={this.saveOrder}
-                        state={this.state}
-                        subject={subject}
-                        texts={texts}
-                        toggleDragonText={this.toggleDragonText}
-                        toggleInlineNew={this.toggleInlineNew}
-                        toggleSingleEdit={this.toggleSingleEdit}
-                        toggleSubject={this.toggleSubject}
-                        user={this.props.user}
-                      />
+                      <ModalLogic>
+                        {modalProps => (
+                          <DragonNest
+                            {...modalProps}
+                            deleteText={this.deleteText}
+                            dragging={this.state.dragging}
+                            executeDragonStateChanges={this.executeDragonStateChanges}
+                            getInitialData={this.props.getInitialData}
+                            index={index}
+                            key={subject._id}
+                            loading={this.state.loading}
+                            saveOrder={this.saveOrder}
+                            state={this.state}
+                            subject={subject}
+                            texts={texts}
+                            toggleDragonText={this.toggleDragonText}
+                            toggleInlineNew={this.toggleInlineNew}
+                            toggleSingleEdit={this.toggleSingleEdit}
+                            toggleSubject={this.toggleSubject}
+                            user={this.props.user}
+                          />
+                        )}
+                      </ModalLogic>
                   })
                 )}
-            </DropZone>}
+            </DragonLair>}
         </Page>
       </DragDropContext>
     );

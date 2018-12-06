@@ -123,7 +123,7 @@ export class TextEditor extends Component {
         onChange: this.onChange,
         onClickBlock: this.onClickBlock,
         onClickMark: this.onClickMark,
-        ref: this.ref,
+        thisRef: this.ref,
         state: this.state,
         updateText: this.updateText,
       })

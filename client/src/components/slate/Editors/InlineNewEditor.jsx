@@ -77,11 +77,11 @@ const DragHeader = styled.div`
 export class InlineNewEditor extends Component {
 
   render() {
-    const { given, texts } = this.props;
+    const { texts } = this.props;
     return (
       <OuterContainer>
         <DragonNestFake
-          subject={given.state.subject}
+          subject={this.props.state.subject}
           texts={texts}
         />
 
@@ -92,11 +92,11 @@ export class InlineNewEditor extends Component {
 
           <EditorInner>
             <RenderButtons
-              state={given.state}
-              onClickMark={given.onClickMark}
-              onClickBlock={given.onClickBlock}
-              hasMark={given.hasMark}
-              hasBlock={given.hasBlock}
+              state={this.props.state}
+              onClickMark={this.props.onClickMark}
+              onClickBlock={this.props.onClickBlock}
+              hasMark={this.props.hasMark}
+              hasBlock={this.props.hasBlock}
             />
 
             <Label>Title:</Label>
@@ -104,10 +104,10 @@ export class InlineNewEditor extends Component {
               style={{ maxWidth: "300px" }}
               type="text"
               name="title"
-              value={given.state.title}
+              value={this.props.state.title}
               maxLength="22"
               placeholder="(22 char max)"
-              onChange={given.handleInputChange}
+              onChange={this.props.handleInputChange}
             />
 
             <Label>Summary:</Label>
@@ -115,9 +115,9 @@ export class InlineNewEditor extends Component {
               style={{ maxWidth: "300px" }}
               type="text"
               name="thesis"
-              value={given.state.thesis}
+              value={this.props.state.thesis}
               placeholder="enter a short description"
-              onChange={given.handleInputChange}
+              onChange={this.props.handleInputChange}
             />
 
             <EditorStyles>
@@ -125,9 +125,9 @@ export class InlineNewEditor extends Component {
                 autoFocus
                 style={editorStyle}
                 plugins={plugins}
-                ref={given.ref}
-                value={given.state.value}
-                onChange={given.onChange}
+                ref={this.props.thisRef}
+                value={this.props.state.value}
+                onChange={this.props.onChange}
                 renderMark={renderMark}
                 renderNode={renderNode}
               />
@@ -135,8 +135,8 @@ export class InlineNewEditor extends Component {
 
             <Button
               style={{ marginTop: "8px", marginRight: "8px" }}
-              disabled={!given.state.title || !given.state.subject}
-              onClick={given.createText}
+              disabled={!this.props.state.title || !this.props.state.subject}
+              onClick={this.props.createText}
             >
               Save
             </Button>

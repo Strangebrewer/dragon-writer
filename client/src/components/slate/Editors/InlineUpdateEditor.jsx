@@ -51,7 +51,7 @@ const MetaDataForm = styled.div`
 export class InlineUpdateEditor extends Component {
 
   render() {
-    const { given, id, inline } = this.props;
+    const { id, inline } = this.props;
     return (
       <EditorOuter>
         <DragHeader {...this.props.dragHandle}>
@@ -61,11 +61,11 @@ export class InlineUpdateEditor extends Component {
         <EditorInner>
           <RenderButtons
             inline={inline}
-            state={given.state}
-            onClickMark={given.onClickMark}
-            onClickBlock={given.onClickBlock}
-            hasMark={given.hasMark}
-            hasBlock={given.hasBlock}
+            state={this.props.state}
+            onClickMark={this.props.onClickMark}
+            onClickBlock={this.props.onClickBlock}
+            hasMark={this.props.hasMark}
+            hasBlock={this.props.hasBlock}
           />
 
           <MetaDataForm>
@@ -74,25 +74,25 @@ export class InlineUpdateEditor extends Component {
               style={{ maxWidth: "300px" }}
               type="text"
               name="title"
-              value={given.state.title}
+              value={this.props.state.title}
               maxLength="22"
               placeholder="(22 char max)"
-              onChange={given.handleInputChange}
+              onChange={this.props.handleInputChange}
             />
             <Label>Summary:</Label>
             <Input
               style={{ maxWidth: "300px" }}
               type="text"
               name="thesis"
-              value={given.state.thesis}
+              value={this.props.state.thesis}
               placeholder="enter a short description"
-              onChange={given.handleInputChange}
+              onChange={this.props.handleInputChange}
             />
             <Button
               style={{ marginTop: "8px", marginRight: "8px" }}
-              disabled={!given.state.title || !given.state.subject}
+              disabled={!this.props.state.title || !this.props.state.subject}
               nerb="feck"
-              onClick={() => given.updateText(id)}
+              onClick={() => this.props.updateText(id)}
             >
               Save
             </Button>
@@ -114,9 +114,9 @@ export class InlineUpdateEditor extends Component {
               autoFocus
               style={editorStyle}
               plugins={plugins}
-              ref={given.ref}
-              value={given.state.value}
-              onChange={given.onChange}
+              ref={this.props.thisRef}
+              value={this.props.state.value}
+              onChange={this.props.onChange}
               renderMark={renderMark}
               renderNode={renderNode}
             />

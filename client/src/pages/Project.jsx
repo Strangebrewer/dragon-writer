@@ -242,9 +242,9 @@ class Project extends Component {
                 projectId={_id}
                 state={this.state}
               >
-                {given => (
+                {editorProps => (
                   <SingleNewEditor
-                    given={given}
+                    {...editorProps}
                     subjects={subjects}
                     toggleSingleNewEditor={this.toggleSingleNewEditor}
                   />
@@ -261,9 +261,9 @@ class Project extends Component {
               subject={this.state.singleSubject}
               state={this.state}
             >
-              {given => (
+              {editorProps => (
                 <InlineNewEditor
-                  given={given}
+                  {...editorProps}
                   texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
                   toggleInlineNew={this.toggleInlineNew}
                 />
@@ -281,9 +281,9 @@ class Project extends Component {
               title={this.state.singleText.title}
               thesis={this.state.singleText.thesis}
             >
-              {given => (
+              {editorProps => (
                 <SingleUpdateEditor
-                  given={given}
+                  {...editorProps}
                   text={this.state.singleText}
                   texts={this.state.singleSubject.textIds.map(textId => this.state.texts[textId])}
                   toggleSingleEdit={this.toggleSingleEdit}

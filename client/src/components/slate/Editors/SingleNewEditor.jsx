@@ -47,22 +47,8 @@ const MetaDataForm = styled.div`
 
 export class SingleNewEditor extends Component {
 
-  // createText = async () => {
-  //   const { given, projectId, state } = this.props;
-  //   const textObject = {
-  //     projectId: projectId,
-  //     subjectId: given.state.subject,
-  //     title: given.state.title,
-  //     thesis: given.state.thesis,
-  //     text: JSON.stringify(given.state.value.toJSON())
-  //   };
-  //   const newText = await API.createText(textObject);
-  //   const newState = Scales.insertTextHelper(given.state.subject, newText.data, state);
-  //   this.props.executeDragonStateChanges(newState);
-  // };
-
   render() {
-    const { given, subjects } = this.props;
+    const { subjects } = this.props;
     return (
       <EditorOuter>
         <DragHeader {...this.props.dragHandle}>
@@ -71,11 +57,11 @@ export class SingleNewEditor extends Component {
 
         <EditorInner>
           <RenderButtons
-            state={given.state}
-            onClickMark={given.onClickMark}
-            onClickBlock={given.onClickBlock}
-            hasMark={given.hasMark}
-            hasBlock={given.hasBlock}
+            state={this.props.state}
+            onClickMark={this.props.onClickMark}
+            onClickBlock={this.props.onClickBlock}
+            hasMark={this.props.hasMark}
+            hasBlock={this.props.hasBlock}
           />
 
           <MetaDataForm>
@@ -84,25 +70,25 @@ export class SingleNewEditor extends Component {
               style={{ maxWidth: "300px" }}
               type="text"
               name="title"
-              value={given.state.title}
+              value={this.props.state.title}
               maxLength="22"
               placeholder="(22 char max)"
-              onChange={given.handleInputChange}
+              onChange={this.props.handleInputChange}
             />
             <Label>Summary:</Label>
             <Input
               style={{ maxWidth: "300px" }}
               type="text"
               name="thesis"
-              value={given.state.thesis}
+              value={this.props.state.thesis}
               placeholder="enter a short description"
-              onChange={given.handleInputChange}
+              onChange={this.props.handleInputChange}
             />
             <Label>Column:</Label>
             <Select
               style={{ maxWidth: "300px", width: "300px", marginBottom: '10px' }}
-              value={given.state.subject}
-              onChange={given.handleInputChange}
+              value={this.props.state.subject}
+              onChange={this.props.handleInputChange}
               name="subject"
             >
               <option value="">Select a column:</option>
@@ -115,9 +101,9 @@ export class SingleNewEditor extends Component {
               autoFocus
               style={editorStyle}
               plugins={plugins}
-              ref={given.ref}
-              value={given.state.value}
-              onChange={given.onChange}
+              ref={this.props.thisRef}
+              value={this.props.state.value}
+              onChange={this.props.onChange}
               renderMark={renderMark}
               renderNode={renderNode}
             />
@@ -125,8 +111,8 @@ export class SingleNewEditor extends Component {
 
           <Button
             style={{ marginTop: "8px", marginRight: "8px" }}
-            disabled={!given.state.title || !given.state.subject}
-            onClick={given.createText}
+            disabled={!this.props.state.title || !this.props.state.subject}
+            onClick={this.props.createText}
           >
             Save
           </Button>

@@ -107,6 +107,8 @@ class App extends Component {
 
   render() {
     if (this.state.loading) return null;
+    console.log(this.state.projectOrder);
+    console.log(this.state.projectOrderData);
     return (
       <ThemeProvider theme={this.state.styleMode}>
         <Router>

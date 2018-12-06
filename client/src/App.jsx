@@ -4,7 +4,8 @@ import { ThemeProvider } from "styled-components";
 import Home from "./pages/Home";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
-import { AddPropsToRoute, API, Utils, Themes } from "./utils";
+import { Themes } from "./components/Styles";
+import { AddPropsToRoute, API, Utils } from "./utils";
 
 let isAuthenticated = false;
 

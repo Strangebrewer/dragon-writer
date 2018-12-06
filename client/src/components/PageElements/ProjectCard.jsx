@@ -9,7 +9,7 @@ import { API } from '../../utils';
 const Container = styled.div`
   background-color: ${props => props.theme.projectItemBG};
   position: relative;
-  width: 600px;
+  width: 560px;
   padding: 15px;
   border: 1px solid ${props => props.theme.links};
   border-radius: 5px;

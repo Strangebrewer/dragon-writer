@@ -40,7 +40,7 @@ class Home extends Component {
     const newState = Scales.singleProjectDragon(this.state, source, destination, draggableId);
     await this.setState(newState);
     await API.updateUserOrder({ order: JSON.stringify(this.state.projectOrder) });
-    // Call this without passing user data in it so it will request new user data, which will
+    // No need to get initial data again since it's been changed on the page already as well as saved to the db
     // this.props.getInitialData();
   };
 
@@ -64,13 +64,11 @@ class Home extends Component {
               getInitialData={this.props.getInitialData}
               type="project"
             >
-              {({ uploadImageModal, imageModal, loading }) => (
+              {provided => (
                 this.props.authenticated
                   ? (
                     <ProjectCard
-                      uploadImageModal={uploadImageModal}
-                      loading={loading}
-                      imageModal={imageModal}
+                      {...provided}
                       authenticated={this.props.authenticated}
                       getInitialData={this.props.getInitialData}
                       projectOrder={this.state.projectOrder}

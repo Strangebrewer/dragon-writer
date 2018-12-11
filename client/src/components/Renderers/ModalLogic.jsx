@@ -84,7 +84,8 @@ export class ModalLogic extends Component {
   state = {
     isOpen: false,
     body: "",
-    buttons: ""
+    buttons: "",
+    style: {}
   };
 
   closeModal = () => {
@@ -95,7 +96,8 @@ export class ModalLogic extends Component {
     this.setState({
       isOpen: true,
       body: modalInput.body,
-      buttons: modalInput.buttons
+      buttons: modalInput.buttons,
+      syle: modalInput.syle
     });
   };
 
@@ -110,7 +112,7 @@ export class ModalLogic extends Component {
       <React.Fragment>
         {this.state.isOpen &&
           <Outer className="modal" id="modal" onClick={this.outsideClick}>
-            <Content className="modal-content" style={this.props.style}>
+            <Content className="modal-content" style={this.state.style}>
               <Button className="modal-close" onClick={this.closeModal}>&times;</Button>
               <Body className="modal-body">
                 {this.state.body}

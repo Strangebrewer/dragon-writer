@@ -344,7 +344,6 @@ class Project extends Component {
                       })
                     )}
                   </ImageUploader>
-
                 )}
             </DragonLair>}
         </Page>

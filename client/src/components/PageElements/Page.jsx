@@ -97,6 +97,7 @@ export const Page = props => {
       <NavColumn>
         {props.subjects && !props.editorOn &&
           <SubjectList
+            addSubjectToOrder={props.addSubjectToOrder}
             clearAllTopics={props.clearAllTopics}
             create={props.create}
             dragons={props.dragons}

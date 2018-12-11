@@ -46,16 +46,16 @@ export class UploadLogic extends PureComponent {
       case 'project':
         result = await API.updateProject(id, updateObject);
         this.props.getInitialData(this.props.user);
+        this.setState({ loading: false });
         break;
       case 'subject':
         result = await API.updateSubject(id, updateObject);
-        this.props.toggleImageInOrder(result.data);
+        this.props.addImageToOrder(result.data);
         break;
       default:
         result = await API.updateText(id, updateObject);
         this.props.getInitialData(this.props.user);
     }
-    this.setState({ loading: false });
   };
 
   uploadImageModal = id => {
@@ -97,7 +97,7 @@ export class UploadLogic extends PureComponent {
         break;
       case 'subject':
         const result = await API.removeSubjectImage(id, deleteObj);
-        this.props.toggleImageInOrder(result.data);
+        this.props.addImageToOrder(result.data);
         break;
       default:
         await API.removeTextImage(id, deleteObj);

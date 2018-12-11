@@ -44,6 +44,7 @@ const ListItem = styled.li`
 
 const SubjectList = props => {
   const {
+    addSubjectToOrder,
     clearAllTopics,
     create,
     dragons,
@@ -91,13 +92,13 @@ const SubjectList = props => {
       {create
         ? (
           <NewSubjectForm
-            toggleSubjectForm={toggleSubjectForm}
+            addSubjectToOrder={addSubjectToOrder}
             projectId={projectId}
           />
         ) : (
           <React.Fragment>
-              <Button onClick={toggleSubjectForm} style={buttonStyle}>
-                New Column
+            <Button onClick={toggleSubjectForm} style={buttonStyle}>
+              New Column
             </Button>
             <Button onClick={toggleSingleNewEditor} style={buttonStyle}>
               New Item

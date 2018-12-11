@@ -119,13 +119,19 @@ export class ProjectCard extends Component {
 
   deleteProjectModal = async id => {
     this.props.setModal({
-      body: <h3>Are you sure you want to delete this entire project and all associated texts and topic columns?</h3>,
+      body: (
+        <Fragment>
+          <h3>Are you sure you want to delete this entire project?</h3>
+          <p>(and all associated texts and topic columns)</p>
+        </Fragment>
+      ),
       buttons: (
         <Fragment>
           <Button onClick={() => this.deleteProject(id)}>Yes, Delete</Button>
           <Button onClick={this.props.closeModal}>Cancel</Button>
         </Fragment>
-      )
+      ),
+      style: { textAlign: "center" }
     })
   };
 

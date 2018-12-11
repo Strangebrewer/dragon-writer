@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import Project from "../../pages/Project"
+import { API, Scales } from '../../utils';
 
-class DragonLogic extends Component {
+export class DragonLogic extends Component {
   // if there is a saved order, it will load that; otherwise, it will load the projectData
   // (when a project is first created, there won't be a saved order)
   state = this.props.project.order
-    ? this.props.project.order
-    : {
+    ? (
+      Object.assign({...this.props.project.order}, {
+        create: false,
+        dragons: false,
+        editorOn: false,
+        dropZoneOn: true,
+        singleSubjectId: '',
+        singleSubject: '',
+        singleText: '',
+        singleTextEdit: false,
+        inlineTextNew: false,
+      })
+    ) : {
       create: false,
       dragons: false,
       subjects: this.props.projectData.subjects,
@@ -21,103 +34,14 @@ class DragonLogic extends Component {
       inlineTextNew: false,
     }
 
-  componentDidMount() {
-    // if there is no saved order, then this will load the first three columns
-    if (!this.props.project.order) {
-      const { subjects } = this.props.projectData;
-      const keysArray = Object.keys(subjects);
-      const stateObj = {};
-      for (let i = 0; i < 3; i++) {
-        const element = keysArray[i];
-        stateObj[element] = true;
-      }
-      this.setState(stateObj);
-    }
+  executeToggles = stateObject => {
+    this.setState(stateObject);
   };
 
-  toggleSingleNewEditor = () => {
-    this.setState({
-      editorOn: !this.state.editorOn,
-      dropZoneOn: !this.state.dropZoneOn
-    })
-  };
-
-  toggleEdit = text => {
-    this.setState({
-      [text._id]: !this.state[text._id],
-      incomingSubject: '',
-      incomingText: text
-    });
-  };
-
-  toggleInlineNew = subject => {
-    this.setState({
-      singleSubject: subject,
-      inlineTextNew: !this.state.inlineTextNew,
-      singleTextEdit: false,
-      dropZoneOn: !this.state.dropZoneOn,
-    })
-  }
-
-  toggleSingleEdit = (subject, text) => {
-    this.setState({
-      singleSubject: subject,
-      singleText: text,
-      inlineTextNew: false,
-      singleTextEdit: !this.state.singleTextEdit,
-      dropZoneOn: !this.state.dropZoneOn,
-    })
-  }
-
-  toggleEditor = toggleObject => {
-    const stateObj = {
-      editorOn: !this.state.editorOn,
-      incomingSubject: '',
-      incomingText: '',
-    };
-    if (toggleObject.text) stateObj.incomingText = toggleObject;
-    if (toggleObject.subject) stateObj.incomingSubject = toggleObject;
-    this.setState(stateObj);
-  };
-
-  toggleSubject = async id => {
-    await this.setState({ [id]: !this.state[id] });
-    this.saveOrder();
-  };
-
-  dragonTextOff = async () => {
-    await this.setState({ dragons: false });
-    this.saveOrder();
-  };
-
-  dragonTextOn = async id => {
-    await this.setState({
-      dragons: true,
-      singleSubjectId: id,
-    });
-    this.saveOrder();
-  };
-
-  toggleSubjectForm = async (created, subject) => {
-    if (created === "created") {
-      const stateObject = Scales.toggleSubjectHelper(this.state, subject);
-      // make sure the new subject is set to 'true' in state so it will appear upon creation
-      stateObject[subject._id] = true;
-      await this.setState(stateObject);
-      this.saveOrder();
-    }
-    else this.setState({ create: !this.state.create });
-  };
-
-  clearAllTopics = async () => {
-    const stateObject = Scales.clearTopicsHelper(this.state.subjectOrder)
+  executeDragonStateChanges = async stateObject => {
     await this.setState(stateObject);
     this.saveOrder();
   };
-
-  onDragStart = start => {
-    if (start.type !== 'subject') this.setState({ dragging: true });
-  }
 
   onDragEnd = async result => {
     await this.setState({ loading: true });
@@ -135,8 +59,7 @@ class DragonLogic extends Component {
     // if you are dragging one of the subject columns, the type will be "subject"
     if (type === 'subject') {
       const newState = Scales.dragonSubjectColumns(this.state, source, destination, draggableId);
-      await this.setState(newState);
-      this.saveOrder();
+      this.executeDragonStateChanges(newState);
       return;
     }
 
@@ -146,34 +69,31 @@ class DragonLogic extends Component {
     // if source column and destination column are the same:
     if (start === finish) {
       const newState = Scales.singleSubjectDragon(this.state, start, source, destination, draggableId);
-      await this.setState(newState);
-      this.saveOrder();
+      this.executeDragonStateChanges(newState);
       return;
     }
 
     // if moving to a new column:
     const newState = Scales.multiSubjectDragon(this.state, start, finish, source, destination, draggableId);
-    await this.setState(newState);
-    this.saveOrder();
+    this.executeDragonStateChanges(newState);
     return;
-  };
-
-  executeToggles = stateObject => {
-    this.setState(stateObject);
-  };
-
-  executeDragonStateChanges = async stateObject => {
-    await this.setState(stateObject);
-    this.saveOrder();
   };
 
   saveOrder = async () => {
     const { _id } = this.props.project;
-    const orderObject = Object.assign({},
-      { ...this.state },
-      { editorOn: false, loading: false, dragging: false, dropZoneOn: true });
+    const orderObject = { ...this.state };
 
+    delete orderObject.create;
+    delete orderObject.dragons;
+    delete orderObject.editorOn;
+    delete orderObject.dropZoneOn;
+    delete orderObject.singleSubject;
+    delete orderObject.singleText;
+    delete orderObject.singleTextEdit;
     delete orderObject.texts;
+    delete orderObject.loading;
+    delete orderObject.dragging;
+    delete orderObject.inlineTextNew;
     const updateObj = { order: JSON.stringify(orderObject) };
 
     await API.updateProject(_id, updateObj);
@@ -182,19 +102,22 @@ class DragonLogic extends Component {
 
   render() {
     return (
-      <DragDropContext
-        onDragEnd={this.onDragEnd}
-        onDragStart={this.onDragStart}
-        onDragUpdate={this.onDragUpdate}
-      >
-        {this.props.children({
-          executeDragonStateChanges: this.executeDragonStateChanges,
-          state: this.state,
-          executeToggles: this.executeToggles
-        })}
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Project
+          authenticated={this.props.authenticated}
+          executeDragonStateChanges={this.executeDragonStateChanges}
+          executeToggles={this.executeToggles}
+          getInitialData={this.props.getInitialData}
+          loading={this.props.loading}
+          logout={this.props.logout}
+          nextMode={this.props.nextMode}
+          project={this.props.project}
+          state={this.state}
+          styleMode={this.props.styleMode}
+          toggleStyleMode={this.toggleStyleMode}
+          user={this.props.user}
+        />
       </DragDropContext>
     );
   }
-}
-
-export default DragonLogic;
+};

@@ -97,7 +97,7 @@ export class ModalLogic extends Component {
       isOpen: true,
       body: modalInput.body,
       buttons: modalInput.buttons,
-      syle: modalInput.syle
+      style: modalInput.style
     });
   };
 

@@ -1,7 +1,7 @@
 import { API } from "./API";
 
 export const Scales = {
-  toggleSubjectHelper: function (state, subject) {
+  addSubjectToOrder: function (state, subject) {
     const newSubjectOrder = [...state.subjectOrder, subject._id];
     const newSubjects = {
       ...state.subjects,
@@ -13,6 +13,8 @@ export const Scales = {
       }
     }
     return {
+      // '[subject._id]: true' to make sure the new column appears on the screen
+      [subject._id]: true,
       subjectOrder: newSubjectOrder,
       subjects: newSubjects,
       create: !state.create
@@ -103,9 +105,23 @@ export const Scales = {
       ...state.texts,
       [newText._id]: newText
     };
-    return {
-      texts: newTexts
+    return { texts: newTexts }
+  },
+
+  addImageToOrder: function (newSubject, state) {
+    const newState = {
+      ...state,
+      subjects: {
+        ...state.subjects,
+        [newSubject._id]: {
+          ...state.subjects[newSubject._id],
+          image: newSubject.image,
+          largeImage: newSubject.largeImage,
+          publicId: newSubject.publicId
+        }
+      }
     }
+    return newState;
   },
 
   singleProjectDragon: function (state, source, destination, draggableId) {

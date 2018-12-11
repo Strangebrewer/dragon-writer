@@ -26,7 +26,7 @@ class NewSubjectForm extends Component {
       theme: this.state.theme,
       projectId: this.props.projectId
     });
-    this.props.toggleSubjectForm("created", subject.data);
+    this.props.addSubjectToOrder(subject.data);
   };
 
   render() {

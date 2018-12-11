@@ -87,16 +87,14 @@ export class DragonTextNest extends Component {
                       subjects={this.props.subjects}
                       user={this.props.user}
                       toggleEditable={this.toggleEditable}
-                      saveOrder={this.props.saveOrder}
                       executeDragonStateChanges={this.props.executeDragonStateChanges}
                       getInitialData={this.props.getInitialData}
                     />
                   ) : (
-                    <ModalLogic>
+                    <ModalLogic key={text._id}>
                       {modalProps => (
                         <DragonTextEgg
                           {...modalProps}
-                          key={text._id}
                           subject={this.props.subject}
                           subjects={this.props.subjects}
                           text={text}

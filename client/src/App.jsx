@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import { DragonLogic } from "./components/Renderers";
 import Home from "./pages/Home";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
@@ -10,10 +11,10 @@ import { AddPropsToRoute, API, Utils } from "./utils";
 let isAuthenticated = false;
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest}>
+  <Route>
     {routeProps => (
       isAuthenticated
-        ? <Component {...routeProps} />
+        ? <Component {...routeProps} {...rest} />
         : <Redirect to="/" />
     )}
   </Route>
@@ -79,7 +80,7 @@ class App extends Component {
         else
           projectData.push(Utils.formatInitialData(project));
       });
-      
+
       if (user.order) projectOrder = JSON.parse(user.order);
       else projectOrder = user.projects;
 
@@ -113,7 +114,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/">
               {routeProps => {
-                // if (this.state.loading) return null;
                 return (
                   <Home
                     {...routeProps}
@@ -139,7 +139,7 @@ class App extends Component {
                   <PrivateRoute
                     key={project._id}
                     path={`/${project.link}`}
-                    component={AddPropsToRoute(Project, {
+                    component={AddPropsToRoute(DragonLogic, {
                       authenticated: isAuthenticated,
                       user: this.state.user,
                       project: project,

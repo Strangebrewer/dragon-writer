@@ -21,7 +21,7 @@ export class ProjectButtons extends PureComponent {
           ) : (
             <Links>
               <LinkBtn
-                padding="0 4px"
+                padding="0 4px 4px 4px"
                 underline
                 disabled={props.disabled}
                 onClick={() => props.updateProjectModal(props.project)}
@@ -31,7 +31,7 @@ export class ProjectButtons extends PureComponent {
               </LinkBtn>
 
               <LinkBtn
-                padding="0 4px"
+                padding="0 4px 4px 4px"
                 underline
                 disabled={props.disabled || image}
                 onClick={() => props.uploadImageModal(_id)}
@@ -41,22 +41,32 @@ export class ProjectButtons extends PureComponent {
               </LinkBtn>
 
               <LinkBtn
-                padding="0 4px"
+                padding="0 4px 4px 4px"
                 underline
                 disabled={props.disabled}
-                onClick={() => props.imageModal(image, publicId, _id)}
+                onClick={() => props.imageModal(image, publicId, _id, "project")}
                 title="see project image"
               >
                 <i className="far fa-images"></i>
               </LinkBtn>
 
               <LinkBtn
-                padding="0 4px"
+                padding="0 4px 4px 4px"
+                underline
+                disabled={props.disabled}
+                // onClick={() => props.imageModal(image, publicId, _id)}
+                title="storyboard mode"
+              >
+                <i className="fas fa-th"></i>
+              </LinkBtn>
+
+              <LinkBtn
+                padding="0 4px 4px 4px"
                 underline
                 disabled={props.disabled}
                 delete
                 onClick={() => props.deleteProjectModal(_id)}
-                title="edit project info"
+                title="delete project"
               >
                 <i className="fas fa-trash-alt"></i>
               </LinkBtn>

@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Fragment, PureComponent } from "react";
 import styled from 'styled-components';
 import { LinkBtn } from "../../PageElements";
 import { Spinner } from "../../Styles";
@@ -12,6 +12,7 @@ const Buttons = styled.div`
 `;
 
 export class ItemButtons extends PureComponent {
+
   render() {
     const { props } = this;
     const { text, subject, id, index } = props;
@@ -63,7 +64,7 @@ export class ItemButtons extends PureComponent {
               underline
               size="1rem"
               disabled={props.disabled}
-              onClick={() => props.imageModal(image, publicId, id)}
+              onClick={() => props.imageModal(image, publicId, id, "item")}
               title="see project image"
             >
               <i className="far fa-images"></i>

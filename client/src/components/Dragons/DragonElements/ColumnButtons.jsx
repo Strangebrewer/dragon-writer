@@ -60,12 +60,21 @@ export class ColumnButtons extends PureComponent {
 
               <LinkBtn
                 disabled={props.disabled}
-                onClick={() => props.imageModal(image, publicId, id)}
+                onClick={() => props.imageModal(image, publicId, id, "column")}
                 padding="0 3px 5px 3px"
                 title="see project image"
               >
                 <i className="far fa-images"></i>
               </LinkBtn>
+
+              <LinkBtn
+                disabled={props.disabled}
+                // onClick={() => props.imageModal(image, publicId, id)}
+                padding="0 3px 5px 3px"
+                title="storyboard mode"
+              >
+                <i className="fas fa-th"></i>
+              </LinkBtn>              
 
               <LinkBtn
                 delete
@@ -88,7 +97,7 @@ export class ColumnButtons extends PureComponent {
               title="close this column"
             >
               &times;
-          </LinkBtn>
+            </LinkBtn>
           </Fragment>
         )
     )

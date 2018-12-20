@@ -18,7 +18,7 @@ const EditorContainer = styled.div`
 const StoryboardContainer = styled.div`
   width: 100%;
   height: 100%;
-  padding-right: 200px;
+  padding-right: 20px;
   margin: auto;
 `;
 

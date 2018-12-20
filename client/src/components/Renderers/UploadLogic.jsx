@@ -121,7 +121,7 @@ export class UploadLogic extends PureComponent {
               onClick={() => this.deleteImage(id, imageId)}
             >
               Delete
-          </Button>
+            </Button>
           }
           <Button onClick={this.props.closeModal}>Close</Button>
         </Fragment>

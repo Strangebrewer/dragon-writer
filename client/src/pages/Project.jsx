@@ -205,15 +205,24 @@ class Project extends Component {
             ) : state.storyboardOn
               ? (
                 <StoryboardContainer>
-                  <Storyboard
-                    executeDragonStateChanges={executeDragonStateChanges}
-                    state={state}
-                    subject={state.subjects[state.singleSubjectId]}
-                    subjects={subjects}
-                    texts={state.subjects[state.singleSubjectId].textIds
-                      .map(textId => (state.texts[textId]))}
-                    toggleStoryboard={this.toggleStoryboard}
-                  />
+                  <ImageUploader
+                    getInitialData={getInitialData}
+                    addImageToOrder={this.addImageToOrder}
+                  >
+                    {provided => (
+                      <Storyboard
+                        {...provided}
+                        executeDragonStateChanges={executeDragonStateChanges}
+                        state={state}
+                        subject={state.subjects[state.singleSubjectId]}
+                        subjects={subjects}
+                        texts={state.subjects[state.singleSubjectId].textIds
+                          .map(textId => (state.texts[textId]))}
+                        toggleStoryboard={this.toggleStoryboard}
+                      />
+                    )}
+                  </ImageUploader>
+
                 </StoryboardContainer>
 
               ) : (

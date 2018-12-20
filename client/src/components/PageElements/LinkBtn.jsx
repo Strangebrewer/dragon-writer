@@ -29,7 +29,11 @@ const Button = styled.button`
   }
   &:disabled {
     cursor: default;
-    opacity: 0.6;
+    opacity: ${props => (
+      props.storyboard
+        ? 0.1
+        : 0.6
+    )};
   }
   &:disabled:hover {
     color: inherit;

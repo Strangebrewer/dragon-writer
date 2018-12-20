@@ -69,7 +69,7 @@ export class ColumnButtons extends PureComponent {
 
               <LinkBtn
                 disabled={props.disabled}
-                // onClick={() => props.imageModal(image, publicId, id)}
+                onClick={() => props.toggleStoryboard(id)}
                 padding="0 3px 5px 3px"
                 title="storyboard mode"
               >

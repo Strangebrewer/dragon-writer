@@ -32,9 +32,21 @@ export const Toggle = {
     const newState = {}
     if (id) {
       newState.singleSubjectId = id;
-      newState.dragons = true
+      newState.dragons = true;
+      newState.storyboardOn = false;
     }
     else newState.dragons = false;
+    return newState;
+  },
+
+  storyboard: function (id) {
+    const newState = {}
+    if (id) {
+      newState.singleSubjectId = id;
+      newState.storyboardOn = true;
+      newState.dragons = false;
+    }
+    else newState.storyboardOn = false;
     return newState;
   }
 

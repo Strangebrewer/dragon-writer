@@ -10,10 +10,8 @@ export class DragonLogic extends Component {
     ? (
       Object.assign({...this.props.project.order}, {
         create: false,
-        dragons: false,
         editorOn: false,
         dropZoneOn: true,
-        singleSubjectId: '',
         singleSubject: '',
         singleText: '',
         singleTextEdit: false,
@@ -26,6 +24,7 @@ export class DragonLogic extends Component {
       texts: this.props.projectData.texts,
       subjectOrder: this.props.projectData.subjectOrder,
       editorOn: false,
+      storyboardOn: false,
       dropZoneOn: true,
       singleSubjectId: '',
       singleSubject: '',
@@ -84,7 +83,6 @@ export class DragonLogic extends Component {
     const orderObject = { ...this.state };
 
     delete orderObject.create;
-    delete orderObject.dragons;
     delete orderObject.editorOn;
     delete orderObject.dropZoneOn;
     delete orderObject.singleSubject;
@@ -114,7 +112,7 @@ export class DragonLogic extends Component {
           project={this.props.project}
           state={this.state}
           styleMode={this.props.styleMode}
-          toggleStyleMode={this.toggleStyleMode}
+          toggleStyleMode={this.props.toggleStyleMode}
           user={this.props.user}
         />
       </DragDropContext>

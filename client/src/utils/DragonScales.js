@@ -210,5 +210,20 @@ export const Scales = {
     API.updateTextSubject(textId, changeObject);
 
     return newState;
-  }
+  },
+
+  storyboardDragon: function (state, subjectId, newOrder) {
+    const newSubject = {
+      ...state.subjects[subjectId],
+      textIds: newOrder
+    }
+    const newState = {
+      ...state,
+      subjects: {
+        ...state.subjects,
+        [subjectId]: newSubject
+      }
+    }
+    return newState;
+  },
 }

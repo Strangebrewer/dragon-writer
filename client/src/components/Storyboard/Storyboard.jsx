@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import styled from "styled-components";
 import { Scales } from "../../utils";
@@ -17,55 +17,87 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-  background: transparent;
-  border: 1px solid black;
+  background: ${props => props.theme.pageBGLite};
+  border: 2px solid ${props => props.theme.mainColor};
+  border-radius: 5px;
   display: flex;
   height: 280px;
+  padding: 10px;
+  position: relative;
   width: 280px;
   cursor: move;
-  button {
-    align-self: flex-start;
-  }
   img {
     align-self: center;
     margin: auto;
     max-width: 100%;
     max-height: 100%;
+  border-radius: 5px;
+  }
+  h3, p {
+    color: ${props => props.theme.mainColor};
+    font-weight: bold;
+    margin: auto;
+    opacity: 0.1;
+    position: absolute;
+    right: 0;
+    left: 0;
+    text-align: center;
+    text-shadow: 0 0 1px ${props => props.theme.pageBG},
+      0 0 2px ${props => props.theme.pageBG},
+      0 0 5px ${props => props.theme.pageBG};
+    transition: opacity .4s ease-in-out;
+  }
+  h3 {
+    font-size: 3rem;
+    top: 10px;
+  }
+  p {
+    font-size: 2rem;
+    bottom: 10px;
+  }
+  &:hover {
+    h3, p {
+      opacity: 1;
+    }
   }
 `;
 
-const SortableItem = SortableElement(({ value }) =>
+const SortableItem = SortableElement(({ text }) =>
   <Card>
-    <img src={value.image} />
+    <h3>{text.title}</h3>
+    <p>{text.thesis}</p>
+    <img src={text.image} />
   </Card>
 
 );
 
-const SortableList = SortableContainer(({ items }) =>
+const SortableList = SortableContainer(({ texts }) =>
   <Container>
-    {items.map((value, index) => {
+    {texts.map((text, index) => {
       return (
-        <SortableItem key={`item-${index}`} index={index} value={value} />
+        <SortableItem key={`item-${index}`} index={index} text={text} />
       )
     })}
   </Container>
 );
 
-export const Storyboard = props => {
+export class Storyboard extends PureComponent {
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
+  onSortEnd = ({ oldIndex, newIndex }) => {
     if (oldIndex === newIndex) return;
-    const { state, subject, texts } = props;
+    const { state, subject, texts } = this.props;
     const newArray = arrayMove(texts, oldIndex, newIndex);
     const newOrder = newArray.map(text => text._id);
     const newState = Scales.storyboardDragon(state, subject._id, newOrder);
-    props.executeDragonStateChanges(newState);
+    this.props.executeDragonStateChanges(newState);
   };
 
-  return (
-    <Fragment>
-      <SortableList items={props.texts} onSortEnd={onSortEnd} axis="xy" />
-      <button onClick={() => props.toggleStoryboard()}>Close</button>
-    </Fragment>
-  );
+  render() {
+    return (
+      <Fragment>
+        <SortableList texts={this.props.texts} onSortEnd={this.onSortEnd} axis="xy" />
+        <button onClick={() => this.props.toggleStoryboard()}>Close</button>
+      </Fragment>
+    );
+  }
 };

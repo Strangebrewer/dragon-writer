@@ -6,6 +6,7 @@ import { GlobalStyle } from "../Styles";
 
 const PageContainer = styled.div`
   min-height: 100vh;
+  /* width: 100vw; */
   display: grid;
   grid-template-columns: 200px 1fr 200px;
   grid-template-rows: auto auto 1fr auto;
@@ -102,9 +103,11 @@ export const Page = props => {
             create={props.create}
             dragons={props.dragons}
             projectId={props.projectId}
+            storyboardOn={props.storyboardOn}
             subjects={props.subjects}
             toggleDragonText={props.toggleDragonText}
             toggleSingleNewEditor={props.toggleSingleNewEditor}
+            toggleStoryboard={props.toggleStoryboard}
             toggleSubject={props.toggleSubject}
             toggleSubjectForm={props.toggleSubjectForm}
           />}

@@ -50,8 +50,10 @@ const SubjectList = props => {
     dragons,
     toggleDragonText,
     projectId,
+    storyboardOn,
     subjects,
     toggleSingleNewEditor,
+    toggleStoryboard,
     toggleSubject,
     toggleSubjectForm,
   } = props;
@@ -80,7 +82,9 @@ const SubjectList = props => {
               onClick={
                 dragons
                   ? () => toggleDragonText(subject._id)
-                  : () => toggleSubject(subject._id)
+                  : storyboardOn
+                    ? () => toggleStoryboard(subject._id)
+                    : () => toggleSubject(subject._id)
               }
             >
               {subject.subject}

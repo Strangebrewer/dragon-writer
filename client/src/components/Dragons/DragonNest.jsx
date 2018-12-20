@@ -145,6 +145,7 @@ export class DragonNest extends PureComponent {
       loading,
       subject,
       texts,
+      toggleStoryboard,
       toggleSubject,
       uploadImageModal,
     } = this.props;
@@ -168,6 +169,7 @@ export class DragonNest extends PureComponent {
                 deleteSubjectModal={this.deleteSubjectModal}
                 toggleDragonText={toggleDragonText}
                 toggleInlineNew={this.props.toggleInlineNew}
+                toggleStoryboard={this.props.toggleStoryboard}
                 toggleSubject={toggleSubject}
               />
 

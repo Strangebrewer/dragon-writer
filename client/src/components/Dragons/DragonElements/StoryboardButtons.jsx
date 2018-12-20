@@ -1,19 +1,26 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { LinkBtn } from "../../PageElements";
 import { Spinner } from "../../Styles";
 
 const Buttons = styled.div`
   position: absolute;
-  top: 10px;
+  top: 0;
+  bottom: 0;
   right: 8px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  button {
+    text-shadow: 0 0 1px ${props => props.theme.pageBG},
+      0 0 2px ${props => props.theme.pageBG},
+      0 0 5px ${props => props.theme.pageBG};
+  }
 `;
 
-class StoryboardButtons extends Component {
+export class StoryboardButtons extends PureComponent {
   render() {
+    console.log(this.props);
     const { props } = this;
     const { text, subject, id, index } = props;
     const { image, largeImage, publicId } = text;
@@ -25,9 +32,9 @@ class StoryboardButtons extends Component {
             <LinkBtn
               // onClick={() => props.seeFullText(text)}
               disabled={props.disabled}
-              padding="0 2px 10px 3px"
-              black
-              size="1rem"
+              margin="5px auto 5px auto"
+              size="1.2rem"
+              storyboard
               underline
               title="see full text"
             >
@@ -37,9 +44,9 @@ class StoryboardButtons extends Component {
             <LinkBtn
               // onClick={() => props.toggleSingleEdit(subject, text)}
               disabled={props.disabled}
-              padding="0 2px 10px 3px"
-              black
-              size="1rem"
+              margin="5px auto 5px auto"
+              size="1.2rem"
+              storyboard
               underline
               title="edit text"
             >
@@ -47,25 +54,27 @@ class StoryboardButtons extends Component {
             </LinkBtn>
 
             <LinkBtn
-              padding="0 2px 10px 3px"
-              black
+              margin="5px auto 5px auto"
+              storyboard
               underline
-              size="1rem"
+              size="1.2rem"
               disabled={props.disabled || text.image}
               onClick={() => props.uploadImageModal(id)}
-              title={text.image ? "you must delete the current image before uploading another" : "upload project image"}
+              title={text.image
+                ? "you must delete the current image before uploading another"
+                : "upload project image"}
             >
               <i className="fas fa-upload"></i>
             </LinkBtn>
 
             <LinkBtn
-              padding="0 2px 10px 3px"
-              black
+              margin="5px auto 5px auto"
+              storyboard
               underline
-              size="1rem"
+              size="1.2rem"
               disabled={props.disabled}
               onClick={() => props.imageModal(largeImage, publicId, id, "item")}
-              title="see project image"
+              title="see larger image"
             >
               <i className="far fa-images"></i>
             </LinkBtn>
@@ -73,10 +82,10 @@ class StoryboardButtons extends Component {
             <LinkBtn
               onClick={() => props.deleteTextModal(text._id, subject._id, index)}
               disabled={props.disabled}
-              padding="0 2px 10px 3px"
+              margin="5px auto 5px auto"
               delete
-              black
-              size="1rem"
+              size="1.2rem"
+              storyboard
               underline
               title={`delete ${text.title}`}
             >
@@ -86,6 +95,4 @@ class StoryboardButtons extends Component {
         )
     );
   }
-}
-
-export default StoryboardButtons;
+};

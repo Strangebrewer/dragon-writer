@@ -5,10 +5,12 @@ const Spinner = styled.span`
   top: ${props => props.top};
   right: ${props => props.right};
   left: ${props => props.left};
+  bottom: ${props => props.bottom};
   width: ${props => props.size};
   height: ${props => props.size};
+  margin: ${props => props.margin};
 
-  border: solid 2px transparent;
+  border: solid ${props => props.storyboard ? '5px' : '2px'} transparent;
   border-top-color: ${props => props.black ? props.theme.black : props.theme.mainColor};
   border-left-color: ${props => props.black ? props.theme.black : props.theme.mainColor};
   border-radius: 50%;

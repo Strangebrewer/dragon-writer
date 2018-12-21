@@ -11,7 +11,20 @@ const Card = styled.div`
   padding: 10px;
   position: relative;
   width: 280px;
-  cursor: move;
+  .fa-arrows-alt {
+    color: ${props => props.theme.mainColor};
+    cursor: move;
+    font-size: 2rem;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 9;
+    opacity: 0.1;
+    text-shadow: 0 0 1px ${props => props.theme.pageBG},
+      0 0 2px ${props => props.theme.pageBG},
+      0 0 5px ${props => props.theme.pageBG};
+    transition: opacity .4s ease-in-out;
+  }
   img {
     align-self: center;
     margin: auto;
@@ -34,7 +47,10 @@ const Card = styled.div`
     text-align: center;
     text-shadow: 0 0 1px ${props => props.theme.pageBG},
       0 0 2px ${props => props.theme.pageBG},
-      0 0 5px ${props => props.theme.pageBG};
+      0 0 3px ${props => props.theme.pageBG},
+      0 0 4px ${props => props.theme.pageBG},
+      0 0 5px ${props => props.theme.pageBG},
+      0 0 10px ${props => props.theme.pageBG};
     transition: opacity .4s ease-in-out;
   }
   h3 {
@@ -46,8 +62,8 @@ const Card = styled.div`
     bottom: 10px;
   }
   &:hover {
-    h3, p, button {
-      opacity: 1;
+    h3, p, button, .fa-arrows-alt {
+    opacity: 1;
     }
   }
 `;
@@ -55,12 +71,15 @@ const Card = styled.div`
 export class StoryboardCard extends PureComponent {
 
   render() {
+    console.log(this.props);
+    const DragHandle = this.props.dragHandle;
     return (
       <Card>
         <StoryboardButtons {...this.props} />
         <h3>{this.props.text.title}</h3>
         <p>{this.props.text.thesis}</p>
         <img src={this.props.text.image} />
+        <DragHandle />
       </Card>
     );
   }

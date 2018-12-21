@@ -20,20 +20,20 @@ const Buttons = styled.div`
 
 export class StoryboardButtons extends PureComponent {
   render() {
-    console.log(this.props);
     const { props } = this;
     const { text, subject, id, index } = props;
     const { image, largeImage, publicId } = text;
     return (
       props.loading
-        ? <Spinner top="6px" right="38px" size="10px" black />
+        ? <Spinner top="0" bottom="0" right="0" left="0" margin="auto" size="30px" storyboard />
         : (
-          <Buttons>
+
+          <Buttons >
             <LinkBtn
               // onClick={() => props.seeFullText(text)}
               disabled={props.disabled}
-              margin="5px auto 5px auto"
-              size="1.2rem"
+              margin="5px auto"
+              size="1.4rem"
               storyboard
               underline
               title="see full text"
@@ -44,8 +44,8 @@ export class StoryboardButtons extends PureComponent {
             <LinkBtn
               // onClick={() => props.toggleSingleEdit(subject, text)}
               disabled={props.disabled}
-              margin="5px auto 5px auto"
-              size="1.2rem"
+              margin="5px auto"
+              size="1.4rem"
               storyboard
               underline
               title="edit text"
@@ -54,10 +54,10 @@ export class StoryboardButtons extends PureComponent {
             </LinkBtn>
 
             <LinkBtn
-              margin="5px auto 5px auto"
+              margin="5px auto"
               storyboard
               underline
-              size="1.2rem"
+              size="1.4rem"
               disabled={props.disabled || text.image}
               onClick={() => props.uploadImageModal(id)}
               title={text.image
@@ -68,10 +68,10 @@ export class StoryboardButtons extends PureComponent {
             </LinkBtn>
 
             <LinkBtn
-              margin="5px auto 5px auto"
+              margin="5px auto"
               storyboard
               underline
-              size="1.2rem"
+              size="1.4rem"
               disabled={props.disabled}
               onClick={() => props.imageModal(largeImage, publicId, id, "item")}
               title="see larger image"
@@ -82,9 +82,9 @@ export class StoryboardButtons extends PureComponent {
             <LinkBtn
               onClick={() => props.deleteTextModal(text._id, subject._id, index)}
               disabled={props.disabled}
-              margin="5px auto 5px auto"
+              margin="5px auto"
               delete
-              size="1.2rem"
+              size="1.4rem"
               storyboard
               underline
               title={`delete ${text.title}`}

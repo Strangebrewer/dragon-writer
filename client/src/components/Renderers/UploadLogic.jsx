@@ -112,7 +112,7 @@ export class UploadLogic extends PureComponent {
     console.log("Working");
     let body;
     if (!image) body = <p>There is no image associated with this {type}.</p>;
-    else body = <img src={image} alt="nothing" style={{ maxWidth: '70vw', maxHeight: '70vh', width: 'auto', height: 'auto' }} />;
+    else body = <img src={image} alt="nothing" style={{ maxWidth: '100%', maxHeight: '70vh' }} />;
     this.props.setModal({
       body,
       buttons: (

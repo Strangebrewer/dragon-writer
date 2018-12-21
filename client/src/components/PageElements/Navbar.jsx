@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -75,25 +75,28 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Navbar = props => {
-  const { authenticated, user, logout, nextMode, toggleStyleMode } = props;
-  return (
-    <NavContainer>
-      <NavInner>
-        {authenticated && (
-          <React.Fragment>
-            <h3>Hello, {user.username}!</h3>
+export class Navbar extends PureComponent {
+  render() {
+    console.log("Navbar Rendering")
+    const { authenticated, user, logout, nextMode, toggleStyleMode } = this.props;
+    return (
+      <NavContainer>
+        <NavInner>
+          {authenticated && (
+            <React.Fragment>
+              <h3>Hello, {user.username}!</h3>
 
-            <LinkContainer>
-              <Link to="/">Home</Link>
-              <Button onClick={logout}>Logout</Button>
-            </LinkContainer>
+              <LinkContainer>
+                <Link to="/">Home</Link>
+                <Button onClick={logout}>Logout</Button>
+              </LinkContainer>
 
-          </React.Fragment>
-        )}
-      </NavInner>
+            </React.Fragment>
+          )}
+        </NavInner>
 
-      <ModeButton onClick={() => toggleStyleMode(nextMode)}>Toggle {nextMode} Mode</ModeButton>
-    </NavContainer>
-  );
+        <ModeButton onClick={() => toggleStyleMode(nextMode)}>Toggle {nextMode} Mode</ModeButton>
+      </NavContainer>
+    );
+  }
 };

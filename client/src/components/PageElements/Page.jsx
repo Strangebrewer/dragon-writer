@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Navbar } from './Navbar';
 import SubjectList from "./SubjectList";
 import styled from "styled-components";
@@ -71,53 +71,57 @@ const TitleContainer = styled.div`
   }
 `;
 
-export const Page = props => {
-  return (
-    <PageContainer >
-      <GlobalStyle />
-      <Navbar
-        authenticated={props.authenticated}
-        logout={props.logout}
-        user={props.user}
-        mode={props.mode}
-        nextMode={props.nextMode}
-        toggleStyleMode={props.toggleStyleMode}
-      />
+export class Page extends PureComponent {
+  render() {
+    console.log("Page Rendering")
+    const { props } = this;
+    return (
+      <PageContainer >
+        <GlobalStyle />
+        <Navbar
+          authenticated={props.authenticated}
+          logout={props.logout}
+          user={props.user}
+          mode={props.mode}
+          nextMode={props.nextMode}
+          toggleStyleMode={props.toggleStyleMode}
+        />
 
-      <TitleContainer
-        dragons={props.dragons}
-        home={props.home}
-        size={props.size}
-        subtitle={props.subtitle}
-        title={props.title}
-      >
-        <h2 title={props.subtitle}>{props.title}</h2>
-        {props.home && <h3>{props.subtitle}</h3>}
-      </TitleContainer>
+        <TitleContainer
+          dragons={props.dragons}
+          home={props.home}
+          size={props.size}
+          subtitle={props.subtitle}
+          title={props.title}
+        >
+          <h2 title={props.subtitle}>{props.title}</h2>
+          {props.home && <h3>{props.subtitle}</h3>}
+        </TitleContainer>
 
-      <NavColumn>
-        {props.subjects && !props.editorOn &&
-          <SubjectList
-            addSubjectToOrder={props.addSubjectToOrder}
-            clearAllTopics={props.clearAllTopics}
-            create={props.create}
-            dragons={props.dragons}
-            projectId={props.projectId}
-            storyboardOn={props.storyboardOn}
-            subjects={props.subjects}
-            toggleDragonText={props.toggleDragonText}
-            toggleSingleNewEditor={props.toggleSingleNewEditor}
-            toggleStoryboard={props.toggleStoryboard}
-            toggleSubject={props.toggleSubject}
-            toggleSubjectForm={props.toggleSubjectForm}
-          />}
-      </NavColumn>
+        <NavColumn>
+          {props.subjects && !props.editorOn &&
+            <SubjectList
+              addSubjectToOrder={props.addSubjectToOrder}
+              clearAllTopics={props.clearAllTopics}
+              create={props.create}
+              dragons={props.dragons}
+              projectId={props.projectId}
+              storyboardOn={props.storyboardOn}
+              subjects={props.subjects}
+              toggleDragonText={props.toggleDragonText}
+              toggleSingleNewEditor={props.toggleSingleNewEditor}
+              toggleStoryboard={props.toggleStoryboard}
+              toggleSubject={props.toggleSubject}
+              toggleSubjectForm={props.toggleSubjectForm}
+            />}
+        </NavColumn>
 
-      <ContentColumn>
-        {props.children}
-      </ContentColumn>
+        <ContentColumn>
+          {props.children}
+        </ContentColumn>
 
-      <FooterContainer></FooterContainer>
-    </PageContainer >
-  );
+        <FooterContainer></FooterContainer>
+      </PageContainer >
+    );
+  }
 };

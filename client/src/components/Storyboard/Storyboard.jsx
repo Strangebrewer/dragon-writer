@@ -1,7 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import styled from "styled-components";
 import { StoryboardCard } from "./StoryboardCard";
+import { ImageUploader } from "../PageElements";
 import { Scales } from "../../utils";
 
 const Container = styled.div`
@@ -17,23 +18,34 @@ const Container = styled.div`
   }
 `;
 
+const DragHandle = SortableHandle(() => <i className="fas fa-arrows-alt"></i>)
+
 const SortableItem = SortableElement(props =>
-  <StoryboardCard {...props} />
+  <StoryboardCard dragHandle={DragHandle} {...props} />
 );
 
 const SortableList = SortableContainer(props =>
   <Container>
-    {props.texts.map((text, index) => {
-      return (
-        <SortableItem
-          id={text._id}
-          index={index}
-          key={`item-${index}`}
-          {...props}
-          text={text}
-        />
-      )
-    })}
+    <ImageUploader
+      getInitialData={props.getInitialData}
+      addImageToOrder={props.addImageToOrder}
+    >
+      {provided => (
+        props.texts.map((text, index) => {
+          return (
+            <SortableItem
+              {...provided}
+              id={text._id}
+              index={index}
+              key={`item-${index}`}
+              {...props}
+              text={text}
+            />
+          )
+        })
+      )}
+    </ImageUploader>
+
   </Container>
 );
 
@@ -55,6 +67,7 @@ export class Storyboard extends PureComponent {
         <SortableList
           axis="xy"
           onSortEnd={this.onSortEnd}
+          useDragHandle={true}
           {...this.props}
         />
         <button onClick={() => this.props.toggleStoryboard()}>Close</button>

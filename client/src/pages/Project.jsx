@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
 import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/slate/Editors";
@@ -22,7 +22,7 @@ const StoryboardContainer = styled.div`
   margin: auto;
 `;
 
-class Project extends Component {
+class Project extends PureComponent {
 
   componentDidMount() {
     // if there is no saved order, then this will load the first three columns
@@ -205,24 +205,17 @@ class Project extends Component {
             ) : state.storyboardOn
               ? (
                 <StoryboardContainer>
-                  <ImageUploader
-                    getInitialData={getInitialData}
+                  <Storyboard
                     addImageToOrder={this.addImageToOrder}
-                  >
-                    {provided => (
-                      <Storyboard
-                        {...provided}
-                        executeDragonStateChanges={executeDragonStateChanges}
-                        state={state}
-                        subject={state.subjects[state.singleSubjectId]}
-                        subjects={subjects}
-                        texts={state.subjects[state.singleSubjectId].textIds
-                          .map(textId => (state.texts[textId]))}
-                        toggleStoryboard={this.toggleStoryboard}
-                      />
-                    )}
-                  </ImageUploader>
-
+                    executeDragonStateChanges={executeDragonStateChanges}
+                    getInitialData={getInitialData}
+                    state={state}
+                    subject={state.subjects[state.singleSubjectId]}
+                    subjects={subjects}
+                    texts={state.subjects[state.singleSubjectId].textIds
+                      .map(textId => (state.texts[textId]))}
+                    toggleStoryboard={this.toggleStoryboard}
+                  />
                 </StoryboardContainer>
 
               ) : (

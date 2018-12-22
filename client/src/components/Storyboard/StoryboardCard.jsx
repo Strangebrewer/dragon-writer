@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import styled from "styled-components";
+import { SortableHandle } from 'react-sortable-hoc';
 import { StoryboardButtons } from "../Dragons/DragonElements";
+
+const DragHandle = SortableHandle(props => <h3>{props.children}</h3>)
 
 const Card = styled.div`
   background: ${props => props.theme.pageBGLite};
@@ -36,11 +39,16 @@ const Card = styled.div`
     opacity: 0.1;
     transition: opacity .4s ease-in-out;
   }
+  button:disabled {
+    opacity: 0.1;
+  }
   h3, p {
     color: ${props => props.theme.mainColor};
+    font-family: ${props => props.theme.hTypeface};
     font-weight: bold;
     margin: auto;
-    opacity: 0.1;
+    opacity: 0.04;
+    padding: 0 35px;
     position: absolute;
     right: 0;
     left: 0;
@@ -54,16 +62,22 @@ const Card = styled.div`
     transition: opacity .4s ease-in-out;
   }
   h3 {
-    font-size: 3rem;
+    cursor: grab;
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 2.8rem;
     top: 10px;
   }
   p {
+    font-family: ${props => props.theme.typeface};
     font-size: 2rem;
     bottom: 10px;
   }
   &:hover {
     h3, p, button, .fa-arrows-alt {
-    opacity: 1;
+      opacity: 1;
+    }
+    button:disabled {
+      opacity: 0.6;
     }
   }
 `;
@@ -72,14 +86,14 @@ export class StoryboardCard extends PureComponent {
 
   render() {
     console.log(this.props);
-    const DragHandle = this.props.dragHandle;
+    // const DragHandle = this.props.dragHandle;
     return (
       <Card>
         <StoryboardButtons {...this.props} />
-        <h3>{this.props.text.title}</h3>
+        <DragHandle>{this.props.text.title}</DragHandle>
         <p>{this.props.text.thesis}</p>
         <img src={this.props.text.image} />
-        <DragHandle />
+        {/* <DragHandle /> */}
       </Card>
     );
   }

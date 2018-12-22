@@ -9,8 +9,8 @@ import RenderButtons from "../RenderButtons.jsx";
 
 const editorStyle = {
   borderRadius: "6px",
-  minHeight: "200px",
-  minWidth: "60%",
+  minHeight: "300px",
+  minWidth: "80%",
   padding: "10px",
   fontFamily: "Arial, Helvetica, sans-serif"
 };
@@ -83,9 +83,10 @@ export class InlineUpdateEditor extends Component {
             <Input
               style={{ maxWidth: "300px" }}
               type="text"
+              maxLength="140"
               name="thesis"
               value={this.props.state.thesis}
-              placeholder="enter a short description"
+              placeholder="(140 char max)"
               onChange={this.props.handleInputChange}
             />
             <Button

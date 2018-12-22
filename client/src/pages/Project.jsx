@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
+import { ModalLogic } from "../components/Renderers";
 import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/slate/Editors";
 import { Storyboard } from "../components/Storyboard";
 import { DragonNest, DragonTextNest } from "../components/Dragons";
@@ -9,16 +10,17 @@ import { API, Scales, Toggle } from '../utils';
 
 const EditorContainer = styled.div`
   width: 100%;
-  max-width: 1150px;
+  max-width: 1450px;
   height: 100%;
   padding-right: 200px;
   margin: auto;
 `;
 
 const StoryboardContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  padding-right: 20px;
+  padding-right: 200px;
   margin: auto;
 `;
 
@@ -205,17 +207,25 @@ class Project extends PureComponent {
             ) : state.storyboardOn
               ? (
                 <StoryboardContainer>
-                  <Storyboard
-                    addImageToOrder={this.addImageToOrder}
-                    executeDragonStateChanges={executeDragonStateChanges}
+                  <ImageUploader
                     getInitialData={getInitialData}
-                    state={state}
-                    subject={state.subjects[state.singleSubjectId]}
-                    subjects={subjects}
-                    texts={state.subjects[state.singleSubjectId].textIds
-                      .map(textId => (state.texts[textId]))}
-                    toggleStoryboard={this.toggleStoryboard}
-                  />
+                    addImageToOrder={this.addImageToOrder}
+                  >
+                    {provided => (
+                      <Storyboard
+                        {...provided}
+                        deleteText={this.deleteText}
+                        executeDragonStateChanges={executeDragonStateChanges}
+                        state={state}
+                        subject={state.subjects[state.singleSubjectId]}
+                        subjects={subjects}
+                        texts={state.subjects[state.singleSubjectId].textIds
+                          .map(textId => (state.texts[textId]))}
+                        toggleSingleEdit={this.toggleSingleEdit}
+                        toggleStoryboard={this.toggleStoryboard}
+                      />
+                    )}
+                  </ImageUploader>
                 </StoryboardContainer>
 
               ) : (

@@ -5,7 +5,7 @@ import { InlineUpdateEditor, TextEditor } from "../slate/Editors";
 
 const Container = styled.div`
   width: 100%;
-  max-width: 1150px;
+  max-width: 1450px;
   display: flex;
   height: 100%;
   position: relative;
@@ -17,7 +17,37 @@ const Container = styled.div`
   )};
 `;
 
+const ImageContainer = styled.div`
+  align-self: flex-start;
+  /* background: ${props => props.theme.pageBGLite}; */
+  /* border: 1px solid ${props => props.theme.mainColor}; */
+  /* border-radius: 5px; */
+  display: flex;
+  height: 360px;
+  margin: auto 10px auto 0;
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  right: -400px;
+  top: 0;
+  width: 360px;
+  img {
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    /* border-radius: 5px; */
+  }
+`;
+
 export class DragonTextEditable extends Component {
+
+  fullSizeImageModal = (imageUrl) => {
+    this.props.setModal({
+      body: <img src={imageUrl} alt="" style={{ maxWidth: '100%', maxHeight: '75vh' }} />,
+      buttons: <button onClick={this.props.closeModal}>Close</button>
+    })
+  };
+
   render() {
     const {
       text,
@@ -57,6 +87,10 @@ export class DragonTextEditable extends Component {
                 />
               )}
             </TextEditor>
+
+            <ImageContainer>
+              <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
+            </ImageContainer>
 
           </Container>
         )}

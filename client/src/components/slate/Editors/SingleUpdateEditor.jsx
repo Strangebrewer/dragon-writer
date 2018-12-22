@@ -113,9 +113,10 @@ export class SingleUpdateEditor extends Component {
             <Input
               style={{ maxWidth: "300px" }}
               type="text"
+              maxLength="140"
               name="thesis"
               value={this.props.state.thesis}
-              placeholder="enter a short description"
+              placeholder="(140 char max)"
               onChange={this.props.handleInputChange}
             />
 

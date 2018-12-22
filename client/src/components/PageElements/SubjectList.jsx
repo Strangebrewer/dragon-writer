@@ -67,7 +67,7 @@ const SubjectList = props => {
 
       {subjects.length === 0
         ? <Message>You don't have any columns for this project yet.</Message>
-        : dragons
+        : dragons || storyboardOn
           ? <Message>click to switch columns:</Message>
           : <Message>click to toggle on/off:</Message>}
 

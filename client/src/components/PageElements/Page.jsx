@@ -46,7 +46,7 @@ const TitleContainer = styled.div`
   grid-row: 2;
   text-align: center;
   margin: ${props => (
-    props.dragons
+    props.dragons || props.storyboardOn
       ? "30px auto 15px auto"
       : "30px auto"
   )};
@@ -91,6 +91,7 @@ export class Page extends PureComponent {
           dragons={props.dragons}
           home={props.home}
           size={props.size}
+          storyboardOn={props.storyboardOn}
           subtitle={props.subtitle}
           title={props.title}
         >

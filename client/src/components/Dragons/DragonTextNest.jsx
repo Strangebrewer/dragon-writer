@@ -5,13 +5,14 @@ import { ModalLogic } from "../Renderers";
 import { LinkBtn } from "../PageElements";
 import { DragonTextEgg } from "./DragonTextEgg";
 import { DragonTextEditable } from "./DragonTextEditable";
+import { EditorStyles } from "../slate/utils/EditorStyles";
 
 const TextColumn = styled.div`
-  width: 80%;
-  max-width: 1250px;
+  width: 100%;
+  max-width: 1350px;
   margin: 0 auto;
   border-radius: 3px;
-  padding-right: 200px;
+  padding-right: 400px;
   display: flex;
   flex-direction: column;
 `;
@@ -57,10 +58,9 @@ export class DragonTextNest extends Component {
             size="1.8rem"
             margin="auto"
             underline
-            // this must be inside an anonymous function,
+            // toggleDragonText must be inside an anonymous function,
             // otherwise it throws an error thinking it's trying to reuse
-            // the parameter passed to the argument when it was toggled on
-            // ...or something.
+            // the argument that was passed to it when it was toggled on.
             onClick={() => this.props.toggleDragonText()}
           >
             return to project overview
@@ -74,39 +74,40 @@ export class DragonTextNest extends Component {
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {this.props.texts.map((text, index) => {
-                return this.state[text._id]
-                  ? (
-                    <DragonTextEditable
-                      key={text._id}
-                      index={index}
-                      incomingSubject={this.props.incomingSubject}
-                      text={text}
-                      state={this.props.state}
-                      subject={this.props.subject}
-                      subjects={this.props.subjects}
-                      user={this.props.user}
-                      toggleEditable={this.toggleEditable}
-                      executeDragonStateChanges={this.props.executeDragonStateChanges}
-                      getInitialData={this.props.getInitialData}
-                    />
-                  ) : (
-                    <ModalLogic key={text._id}>
-                      {modalProps => (
+              <ModalLogic>
+                {modalProps => (
+                  this.props.texts.map((text, index) => {
+                    return this.state[text._id]
+                      ? (
+                        <DragonTextEditable
+                          {...modalProps}
+                          key={text._id}
+                          index={index}
+                          incomingSubject={this.props.incomingSubject}
+                          text={text}
+                          state={this.props.state}
+                          subject={this.props.subject}
+                          subjects={this.props.subjects}
+                          user={this.props.user}
+                          toggleEditable={this.toggleEditable}
+                          executeDragonStateChanges={this.props.executeDragonStateChanges}
+                          getInitialData={this.props.getInitialData}
+                        />
+                      ) : (
                         <DragonTextEgg
                           {...modalProps}
+                          deleteText={this.props.deleteText}
+                          index={index}
+                          key={text._id}
                           subject={this.props.subject}
                           subjects={this.props.subjects}
                           text={text}
-                          index={index}
                           toggleEditable={this.toggleEditable}
-                          deleteText={this.props.deleteText}
                         />
-                      )}
-                    </ModalLogic>
-
-                  )
-              })}
+                      )
+                  })
+                )}
+              </ModalLogic>
               {provided.placeholder}
             </DragonTextList>
           )}

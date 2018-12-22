@@ -139,12 +139,15 @@ export class DragonNest extends PureComponent {
   render() {
     const {
       deleteText,
-      toggleDragonText,
+      getInitialData,
       imageModal,
       index,
       loading,
       subject,
       texts,
+      toggleDragonText,
+      toggleInlineNew,
+      toggleSingleEdit,
       toggleStoryboard,
       toggleSubject,
       uploadImageModal,
@@ -168,8 +171,8 @@ export class DragonNest extends PureComponent {
                 updateSubjectModal={this.updateSubjectModal}
                 deleteSubjectModal={this.deleteSubjectModal}
                 toggleDragonText={toggleDragonText}
-                toggleInlineNew={this.props.toggleInlineNew}
-                toggleStoryboard={this.props.toggleStoryboard}
+                toggleInlineNew={toggleInlineNew}
+                toggleStoryboard={toggleStoryboard}
                 toggleSubject={toggleSubject}
               />
 
@@ -186,7 +189,7 @@ export class DragonNest extends PureComponent {
                     isDraggingOver={snapshot.isDraggingOver}
                   >
                     <ImageUploader
-                      getInitialData={this.props.getInitialData}
+                      getInitialData={getInitialData}
                       type="text"
                     >
                       {provided => (
@@ -199,7 +202,7 @@ export class DragonNest extends PureComponent {
                               key={text._id}
                               subject={subject}
                               text={text}
-                              toggleSingleEdit={this.props.toggleSingleEdit}
+                              toggleSingleEdit={toggleSingleEdit}
                             />
                           )
                         })

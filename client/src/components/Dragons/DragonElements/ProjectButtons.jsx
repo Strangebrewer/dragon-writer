@@ -50,7 +50,7 @@ export class ProjectButtons extends PureComponent {
                 <i className="far fa-images"></i>
               </LinkBtn>
 
-              <LinkBtn
+              {/* <LinkBtn
                 padding="0 4px 4px 4px"
                 underline
                 disabled={props.disabled}
@@ -58,7 +58,7 @@ export class ProjectButtons extends PureComponent {
                 title="storyboard mode"
               >
                 <i className="fas fa-th"></i>
-              </LinkBtn>
+              </LinkBtn> */}
 
               <LinkBtn
                 padding="0 4px 4px 4px"

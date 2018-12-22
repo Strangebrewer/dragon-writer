@@ -42,6 +42,10 @@ export class DragonLogic extends Component {
     this.saveOrder();
   };
 
+  onDragStart = () => {
+    console.log("WTF");
+  }
+
   onDragEnd = async result => {
     await this.setState({ loading: true });
     const { destination, source, draggableId, type } = result;
@@ -100,7 +104,7 @@ export class DragonLogic extends Component {
 
   render() {
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
+      <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart}>
         <Project
           authenticated={this.props.authenticated}
           executeDragonStateChanges={this.executeDragonStateChanges}

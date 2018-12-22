@@ -9,15 +9,17 @@ import { LinkBtn } from "../PageElements";
 import initialValue from "../slate/utils/value.json"
 
 const Container = styled.div`
-  width: 100%;
-  display: flex;
-  border-radius: 10px;
   background: ${props => (
     props.isDragging
       ? props.theme.pageBGLite
       : 'transparent'
   )};
+  border-radius: 10px;
+  display: flex;
+  min-height: 140px;
+  position: relative;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
+  width: 100%;
 `;
 
 const MetaDataContainer = styled.div`
@@ -42,6 +44,25 @@ const TextThesis = styled.p`
   padding: 4px 0 6px 0;
 `;
 
+const ImageContainer = styled.div`
+  /* background: ${props => props.theme.pageBGLite}; */
+  position: absolute;
+  right: -160px;
+  height: 120px;
+  width: 120px;
+  /* border: 1px solid ${props => props.theme.mainColor};
+  border-radius: 5px; */
+  display: flex;
+  padding: 5px;
+  img {
+    align-self: center;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    /* border-radius: 5px; */
+  }
+`;
+
 export class DragonTextEgg extends Component {
 
   deleteTextModal = (textId, subjectId, index) => {
@@ -53,6 +74,13 @@ export class DragonTextEgg extends Component {
           <button onClick={this.props.closeModal}>Cancel</button>
         </React.Fragment>
       )
+    })
+  };
+
+  fullSizeImageModal = (imageUrl) => {
+    this.props.setModal({
+      body: <img src={imageUrl} alt="" style={{ maxWidth: '100%', maxHeight: '75vh' }} />,
+      buttons: <button onClick={this.props.closeModal}>Close</button>
     })
   };
 
@@ -76,12 +104,20 @@ export class DragonTextEgg extends Component {
                 <LinkBtn
                   underline
                   padding="2px 0 10px 8px"
-                  onClick={() => toggleEditable(text._id)}>edit</LinkBtn>
+                  onClick={() => toggleEditable(text._id)}
+                  title={`edit '${text.title}'`}
+                >
+                  edit
+                </LinkBtn>
                 <LinkBtn
                   underline
                   padding="2px 0 10px 8px"
                   delete
-                  onClick={() => this.deleteTextModal(text._id, subject._id, index)}>delete</LinkBtn>
+                  onClick={() => this.deleteTextModal(text._id, subject._id, index)}
+                  title={`delete '${text.title}'`}
+                >
+                  delete
+                </LinkBtn>
               </MetaDataContainer>
 
               <EditorStyles mode="read" isDragging={snapshot.isDragging}>
@@ -94,6 +130,10 @@ export class DragonTextEgg extends Component {
                   renderNode={renderNode}
                 />
               </EditorStyles>
+
+              <ImageContainer>
+                <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
+              </ImageContainer>
             </Container>
           )}
 

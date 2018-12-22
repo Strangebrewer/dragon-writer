@@ -7,7 +7,7 @@ const Buttons = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 8px;
+  right: 3px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,6 +20,7 @@ const Buttons = styled.div`
 
 export class StoryboardButtons extends PureComponent {
   render() {
+    console.log(this.props)
     const { props } = this;
     const { text, subject, id, index } = props;
     const { image, largeImage, publicId } = text;
@@ -30,10 +31,10 @@ export class StoryboardButtons extends PureComponent {
 
           <Buttons >
             <LinkBtn
-              // onClick={() => props.seeFullText(text)}
+              onClick={() => props.toggleCurrentText(text)}
               disabled={props.disabled}
               margin="5px auto"
-              size="1.4rem"
+              size="1.2rem"
               storyboard
               underline
               title="see full text"
@@ -42,10 +43,10 @@ export class StoryboardButtons extends PureComponent {
             </LinkBtn>
 
             <LinkBtn
-              // onClick={() => props.toggleSingleEdit(subject, text)}
+              onClick={() => props.toggleSingleEdit(subject, text)}
               disabled={props.disabled}
               margin="5px auto"
-              size="1.4rem"
+              size="1.2rem"
               storyboard
               underline
               title="edit text"
@@ -57,8 +58,8 @@ export class StoryboardButtons extends PureComponent {
               margin="5px auto"
               storyboard
               underline
-              size="1.4rem"
-              disabled={props.disabled || text.image}
+              size="1.2rem"
+              disabled={props.disabled || text.image || text.largeImage}
               onClick={() => props.uploadImageModal(id)}
               title={text.image
                 ? "you must delete the current image before uploading another"
@@ -71,25 +72,12 @@ export class StoryboardButtons extends PureComponent {
               margin="5px auto"
               storyboard
               underline
-              size="1.4rem"
+              size="1.2rem"
               disabled={props.disabled}
               onClick={() => props.imageModal(largeImage, publicId, id, "item")}
               title="see larger image"
             >
               <i className="far fa-images"></i>
-            </LinkBtn>
-
-            <LinkBtn
-              onClick={() => props.deleteTextModal(text._id, subject._id, index)}
-              disabled={props.disabled}
-              margin="5px auto"
-              delete
-              size="1.4rem"
-              storyboard
-              underline
-              title={`delete ${text.title}`}
-            >
-              <i className="fas fa-trash-alt"></i>
             </LinkBtn>
           </Buttons>
         )

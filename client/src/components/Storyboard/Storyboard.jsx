@@ -1,22 +1,63 @@
-import React, { PureComponent, Fragment } from 'react';
-import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
+import React, { Fragment, PureComponent } from 'react';
+import {
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+  arrayMove
+} from 'react-sortable-hoc';
+import { Editor } from "slate-react";
+import { Value } from "slate";
 import styled from "styled-components";
 import { StoryboardCard } from "./StoryboardCard";
-import { ImageUploader } from "../PageElements";
+import { renderMark, renderNode } from "../slate/utils/Renderers";
+import { LinkBtn } from "../PageElements";
 import { Scales } from "../../utils";
 
 const Container = styled.div`
   background: transparent;
   display: grid;
-  height: 100%;
   grid-gap: 15px;
   grid-template-columns: repeat( auto-fit, minmax(200px, 280px) );
   grid-template-rows: minmax(200px, 280px);
+  padding: 10px 30px;
   width: 100%;
   button {
     justify-self: end;
   }
 `;
+
+const SubjectHeading = styled.div`
+  width: 100%;
+  padding-bottom: 5px;
+`;
+
+const Title = styled.h3`
+  font-family: ${props => props.theme.hTypeface};
+  width: 100%;
+  font-size: 3.5rem;
+  text-align: center;
+  padding-bottom: 10px;
+  color: ${props => props.theme.titleColor};
+`;
+
+const ModalH2 = styled.h2`
+  font-family: ${props => props.theme.hTypeface};
+  font-size: 3.5rem;
+`;
+
+const ModalH3 = styled.h3`
+  font-size: 2rem;
+  margin-bottom: 10px;
+  margin-top: 4px;
+  text-indent: 30px;
+`;
+
+const editorStyle = {
+  padding: "20px",
+  border: "1px solid #d8d8d8",
+  overflow: "auto",
+  maxHeight: "300px",
+}
 
 const DragHandle = SortableHandle(() => <i className="fas fa-arrows-alt"></i>)
 
@@ -26,26 +67,15 @@ const SortableItem = SortableElement(props =>
 
 const SortableList = SortableContainer(props =>
   <Container>
-    <ImageUploader
-      getInitialData={props.getInitialData}
-      addImageToOrder={props.addImageToOrder}
-    >
-      {provided => (
-        props.texts.map((text, index) => {
-          return (
-            <SortableItem
-              {...provided}
-              id={text._id}
-              index={index}
-              key={`item-${index}`}
-              {...props}
-              text={text}
-            />
-          )
-        })
-      )}
-    </ImageUploader>
-
+    {props.texts.map((text, index) => (
+      <SortableItem
+        id={text._id}
+        index={index}
+        key={`item-${index}`}
+        {...props}
+        text={text}
+      />
+    ))}
   </Container>
 );
 
@@ -60,17 +90,58 @@ export class Storyboard extends PureComponent {
     this.props.executeDragonStateChanges(newState);
   };
 
+  toggleCurrentText = text => {
+    this.props.setModal({
+      body: (
+        <Fragment>
+          <ModalH2>{text.title}</ModalH2>
+          <ModalH3>{text.thesis}</ModalH3>
+          <Editor
+            value={Value.fromJSON(JSON.parse(text.text))}
+            renderMark={renderMark}
+            renderNode={renderNode}
+            style={editorStyle}
+          />
+        </Fragment>
+      ),
+      style: { maxWidth: '600px' },
+      buttons: <button onClick={this.props.closeModal}>Close</button>
+    })
+  }
+
   render() {
     console.log(this.props);
+    const { subject, theme, _id } = this.props.subject;
     return (
       <Fragment>
+        <SubjectHeading>
+          <Title title={theme}>Topic: {subject}</Title>
+          <LinkBtn
+            block
+            fancy
+            margin="auto"
+            size="1.8rem"
+            underline
+            // toggleStoryboard must be inside an anonymous function,
+            // otherwise it throws an error thinking it's trying to reuse
+            // the parameter that was passed to it when it was toggled on.
+            onClick={() => this.props.toggleStoryboard()}
+          >
+            return to project overview
+          </LinkBtn>
+        </SubjectHeading>
+
         <SortableList
           axis="xy"
+          deleteText={this.deleteText}
+          deleteTextModal={this.deleteTextModal}
           onSortEnd={this.onSortEnd}
+          toggleCurrentText={this.toggleCurrentText}
+          toggleSingleEdit={this.props.toggleSingleEdit}
           useDragHandle={true}
           {...this.props}
         />
-        <button onClick={() => this.props.toggleStoryboard()}>Close</button>
+
       </Fragment>
     );
   }

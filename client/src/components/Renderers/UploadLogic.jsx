@@ -59,7 +59,6 @@ export class UploadLogic extends PureComponent {
   };
 
   uploadImageModal = id => {
-    console.log("Working");
     this.props.setModal({
       body: (
         <Fragment>
@@ -109,10 +108,9 @@ export class UploadLogic extends PureComponent {
   };
 
   imageModal = (image, imageId, id, type) => {
-    console.log("Working");
     let body;
     if (!image) body = <p>There is no image associated with this {type}.</p>;
-    else body = <img src={image} alt="nothing" style={{ maxWidth: '100%', maxHeight: '70vh' }} />;
+    else body = <img src={image} alt="nothing" style={{ maxWidth: '100%', maxHeight: '75vh' }} />;
     this.props.setModal({
       body,
       buttons: (

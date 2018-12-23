@@ -47,7 +47,7 @@ const TitleContainer = styled.div`
   text-align: center;
   margin: ${props => (
     props.dragons || props.storyboardOn
-      ? "30px auto 15px auto"
+      ? "30px auto 10px auto"
       : "30px auto"
   )};
   width: ${props => props.home ? '600px' : '100%'};

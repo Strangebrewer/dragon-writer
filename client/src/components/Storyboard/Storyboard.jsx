@@ -28,6 +28,9 @@ const Container = styled.div`
 
 const SubjectHeading = styled.div`
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   padding-bottom: 5px;
 `;
 
@@ -117,9 +120,7 @@ export class Storyboard extends PureComponent {
         <SubjectHeading>
           <Title title={theme}>Topic: {subject}</Title>
           <LinkBtn
-            block
             fancy
-            margin="auto"
             size="1.8rem"
             underline
             // toggleStoryboard must be inside an anonymous function,
@@ -127,7 +128,18 @@ export class Storyboard extends PureComponent {
             // the parameter that was passed to it when it was toggled on.
             onClick={() => this.props.toggleStoryboard()}
           >
-            return to project overview
+            project overview
+          </LinkBtn>
+          <LinkBtn
+            fancy
+            size="1.8rem"
+            underline
+            // toggleStoryboard must be inside an anonymous function,
+            // otherwise it throws an error thinking it's trying to reuse
+            // the parameter that was passed to it when it was toggled on.
+            onClick={() => this.props.toggleDragonText(_id)}
+          >
+            full text view
           </LinkBtn>
         </SubjectHeading>
 

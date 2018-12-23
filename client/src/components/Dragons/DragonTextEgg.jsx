@@ -14,12 +14,16 @@ const Container = styled.div`
       ? props.theme.pageBGLite
       : 'transparent'
   )};
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   display: flex;
   min-height: 140px;
   position: relative;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
-  width: 100%;
+  /* the two below allow for the parent space to be large enough for
+     when the editor is toggled */
+  margin-left: 100px;
+  width: calc(100% - 200px);
 `;
 
 const MetaDataContainer = styled.div`
@@ -45,21 +49,25 @@ const TextThesis = styled.p`
 `;
 
 const ImageContainer = styled.div`
-  /* background: ${props => props.theme.pageBGLite}; */
+  background: ${props => (
+    props.isDragging
+      ? props.theme.pageBGLite
+      : 'transparent'
+  )};
   position: absolute;
   right: -160px;
-  height: 120px;
-  width: 120px;
-  /* border: 1px solid ${props => props.theme.mainColor};
-  border-radius: 5px; */
+  height: 100%;
+  width: 160px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   display: flex;
-  padding: 5px;
+  padding: 5px 5px 5px 30px;
   img {
     align-self: center;
     margin: auto;
     max-width: 100%;
     max-height: 100%;
-    /* border-radius: 5px; */
+    border-radius: 5px;
   }
 `;
 
@@ -131,7 +139,7 @@ export class DragonTextEgg extends Component {
                 />
               </EditorStyles>
 
-              <ImageContainer>
+              <ImageContainer isDragging={snapshot.isDragging}>
                 <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
               </ImageContainer>
             </Container>

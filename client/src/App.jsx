@@ -1,24 +1,14 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { DragonLogic } from "./components/Renderers";
 import Home from "./pages/Home";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
 import { Themes } from "./components/Styles";
-import { AddPropsToRoute, API, Utils } from "./utils";
+import { API, Utils } from "./utils";
 
 let isAuthenticated = false;
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route>
-    {routeProps => (
-      isAuthenticated
-        ? <Component {...routeProps} {...rest} />
-        : <Redirect to="/" />
-    )}
-  </Route>
-);
 
 class App extends Component {
   state = {
@@ -113,63 +103,60 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/">
-              {routeProps => {
-                return (
-                  <Home
-                    {...routeProps}
-                    authenticated={isAuthenticated}
-                    projectOrder={this.state.projectOrder}
-                    projectOrderData={this.state.projectOrderData}
-                    user={this.state.user}
-                    projects={this.state.projects}
-                    getInitialData={this.getInitialData}
-                    logout={this.logout}
-                    loading={this.state.loading}
-                    styleMode={this.state.styleMode}
-                    nextMode={this.state.nextMode}
-                    toggleStyleMode={this.toggleStyleMode}
-                  />
-                )
-              }}
+              {routeProps => (
+                <Home
+                  {...routeProps}
+                  authenticated={isAuthenticated}
+                  getInitialData={this.getInitialData}
+                  loading={this.state.loading}
+                  logout={this.logout}
+                  nextMode={this.state.nextMode}
+                  projectOrder={this.state.projectOrder}
+                  projectOrderData={this.state.projectOrderData}
+                  projects={this.state.projects}
+                  styleMode={this.state.styleMode}
+                  toggleStyleMode={this.toggleStyleMode}
+                  user={this.state.user}
+                />
+              )}
             </Route>
 
+            {/* authentication is not needed for this (these) route(s);
+                this.state.projects.length will be 0 unless the user is logged in
+                and has created at least one project  */}
             {this.state.projects.length > 0
               && (
                 this.state.projects.map((project, index) => (
-                  <PrivateRoute
-                    key={project._id}
-                    path={`/${project.link}`}
-                    component={AddPropsToRoute(DragonLogic, {
-                      authenticated: isAuthenticated,
-                      user: this.state.user,
-                      project: project,
-                      projectData: this.state.projectData[index],
-                      getInitialData: this.getInitialData,
-                      logout: this.logout,
-                      loading: this.state.loading,
-                      styleMode: this.state.styleMode,
-                      nextMode: this.state.nextMode,
-                      toggleStyleMode: this.toggleStyleMode,
-                    })}
-                  />
+                  <Route key={project._id} path={`/${project.link}`}>
+                    {routeProps => (
+                      <DragonLogic
+                        getInitialData={this.getInitialData}
+                        project={project}
+                        projectData={this.state.projectData[index]}
+                      >
+                        {dragonProps => (
+                          <Project
+                            {...routeProps}
+                            {...dragonProps}
+                            authenticated={isAuthenticated}
+                            getInitialData={this.getInitialData}
+                            loading={this.state.loading}
+                            logout={this.logout}
+                            nextMode={this.state.nextMode}
+                            project={project}
+                            styleMode={this.state.styleMode}
+                            toggleStyleMode={this.toggleStyleMode}
+                            user={this.state.user}
+                          />
+                        )}
+                      </DragonLogic>
+                    )}
+                  </Route>
                 ))
               )}
 
-            <Route
-              path="*"
-              render={routeProps => (
-                !this.state.loading &&
-                <NoMatch
-                  {...routeProps}
-                  authenticated={isAuthenticated}
-                  logout={this.logout}
-                  loading={this.state.loading}
-                  styleMode={this.state.styleMode}
-                  nextMode={this.state.nextMode}
-                  toggleStyleMode={this.toggleStyleMode}
-                />
-              )}
-            />
+            <Route path="*" component={NoMatch} />
+
           </Switch>
         </Router>
       </ThemeProvider>

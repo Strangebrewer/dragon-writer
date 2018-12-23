@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
-import { ModalLogic } from "../components/Renderers";
-import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor, TextEditor } from "../components/slate/Editors";
+import { EditorLogic, ModalLogic } from "../components/Renderers";
+import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor } from "../components/slate/Editors";
 import { Storyboard } from "../components/Storyboard";
 import { DragonNest, DragonTextNest } from "../components/Dragons";
 import { DragonLair } from "../components/Dragons/DragonElements";
@@ -130,7 +130,7 @@ class Project extends PureComponent {
 
         {state.editorOn &&
           <EditorContainer>
-            <TextEditor
+            <EditorLogic
               executeDragonStateChanges={executeDragonStateChanges}
               callback={this.toggleSingleNewEditor}
               projectId={_id}
@@ -143,12 +143,12 @@ class Project extends PureComponent {
                   toggleSingleNewEditor={this.toggleSingleNewEditor}
                 />
               )}
-            </TextEditor>
+            </EditorLogic>
           </EditorContainer>
         }
 
         {state.inlineTextNew &&
-          <TextEditor
+          <EditorLogic
             callback={this.toggleInlineNew}
             executeDragonStateChanges={executeDragonStateChanges}
             projectId={this.props.project._id}
@@ -163,10 +163,10 @@ class Project extends PureComponent {
               />
             )}
 
-          </TextEditor>}
+          </EditorLogic>}
 
         {state.singleTextEdit &&
-          <TextEditor
+          <EditorLogic
             callback={this.toggleSingleEdit}
             executeDragonStateChanges={executeDragonStateChanges}
             state={state}
@@ -183,7 +183,7 @@ class Project extends PureComponent {
                 toggleSingleEdit={this.toggleSingleEdit}
               />
             )}
-          </TextEditor>}
+          </EditorLogic>}
 
         {state.dropZoneOn
           && (state.dragons

@@ -40,8 +40,7 @@ class Home extends Component {
     const newState = Scales.singleProjectDragon(this.state, source, destination, draggableId);
     await this.setState(newState);
     await API.updateUserOrder({ order: JSON.stringify(this.state.projectOrder) });
-    // No need to get initial data again since it's been changed on the page already as well as saved to the db
-    // this.props.getInitialData();
+    this.props.getInitialData();
   };
 
   render() {

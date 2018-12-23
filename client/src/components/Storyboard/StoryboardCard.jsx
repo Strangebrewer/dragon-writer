@@ -14,26 +14,11 @@ const Card = styled.div`
   padding: 10px;
   position: relative;
   width: 280px;
-  .fa-arrows-alt {
-    color: ${props => props.theme.mainColor};
-    cursor: move;
-    font-size: 2rem;
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    z-index: 9;
-    opacity: 0.1;
-    text-shadow: 0 0 1px ${props => props.theme.pageBG},
-      0 0 2px ${props => props.theme.pageBG},
-      0 0 5px ${props => props.theme.pageBG};
-    transition: opacity .4s ease-in-out;
-  }
   img {
     align-self: center;
     margin: auto;
     max-width: 100%;
     max-height: 100%;
-    /* border-radius: 5px; */
   }
   button {
     opacity: ${props => props.image ? 0.1 : 0.2};
@@ -69,6 +54,9 @@ const Card = styled.div`
     font-family: ${props => props.theme.hTypeface};
     font-size: 2.8rem;
     top: 10px;
+  }
+  h3:active {
+    cursor: grabbing;
   }
   p {
     font-family: ${props => props.theme.typeface};

@@ -62,10 +62,8 @@ const editorStyle = {
   maxHeight: "300px",
 }
 
-const DragHandle = SortableHandle(() => <i className="fas fa-arrows-alt"></i>)
-
 const SortableItem = SortableElement(props =>
-  <StoryboardCard dragHandle={DragHandle} {...props} />
+  <StoryboardCard {...props} />
 );
 
 const SortableList = SortableContainer(props =>

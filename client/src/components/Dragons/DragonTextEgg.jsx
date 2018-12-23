@@ -78,11 +78,16 @@ export class DragonTextEgg extends Component {
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
         <React.Fragment>
-          <button onClick={() => this.props.deleteText(textId, subjectId, index)}>Yes, delete it</button>
+          <button onClick={() => this.deleteText(textId, subjectId, index)}>Yes, delete it</button>
           <button onClick={this.props.closeModal}>Cancel</button>
         </React.Fragment>
       )
     })
+  };
+
+  deleteText = (textId, subjectId, index) => {
+    this.props.deleteText(textId, subjectId, index);
+    this.props.closeModal();
   };
 
   fullSizeImageModal = (imageUrl) => {

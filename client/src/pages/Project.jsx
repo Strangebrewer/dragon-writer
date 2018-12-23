@@ -201,6 +201,7 @@ class Project extends PureComponent {
                   texts={state.subjects[state.singleSubjectId].textIds
                     .map(textId => (state.texts[textId]))}
                   toggleDragonText={this.toggleDragonText}
+                  toggleStoryboard={this.toggleStoryboard}
                   user={this.props.user}
                 />
               </DragonLair>
@@ -221,6 +222,7 @@ class Project extends PureComponent {
                         subjects={subjects}
                         texts={state.subjects[state.singleSubjectId].textIds
                           .map(textId => (state.texts[textId]))}
+                        toggleDragonText={this.toggleDragonText}
                         toggleSingleEdit={this.toggleSingleEdit}
                         toggleStoryboard={this.toggleStoryboard}
                       />

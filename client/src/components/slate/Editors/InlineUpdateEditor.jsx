@@ -25,12 +25,21 @@ const EditorOuter = styled.div`
 const EditorInner = styled.div`
   width: 100%;
   padding: 5px 0 10px 10px;
+  label {
+    color: ${props => props.theme.pageBG};
+    font-size: 1.9rem;
+    /* font-weight: bold; */
+    /* text-shadow: 0 0 1px ${props => props.theme.pageBG},
+      0 0 2px ${props => props.theme.pageBG},
+      0 0 3px ${props => props.theme.pageBG}; */
+  }
 `;
 
 const DragHeader = styled.div`
   width: 100%;
   height: 30px;
-  background-color: ${props => props.theme.midGrey};
+  background-color: ${props => props.theme.bannerBG};
+  /* background-color: transparent; */
   font-family: ${props => props.theme.hTypeface};
   position: absolute;
   top: 0;
@@ -38,14 +47,14 @@ const DragHeader = styled.div`
   align-items: center;
   padding-left: 10px;
   font-size: 2.4rem;
-  color: ${props => props.theme.black};
+  color: ${props => props.theme.bannerColor};
 `;
 
 const MetaDataForm = styled.div`
   position: absolute;
-  left: 0;
+  left: 10px;
   top: 40px;
-  width: 160px;
+  width: 150px;
 `;
 
 export class InlineUpdateEditor extends Component {

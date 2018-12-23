@@ -7,7 +7,7 @@ const DragHandle = SortableHandle(props => <h3>{props.children}</h3>)
 
 const Card = styled.div`
   background: ${props => props.theme.pageBGLite};
-  border: 2px solid ${props => props.theme.mainColor};
+  border: 1px solid ${props => props.theme.projectItemBG};
   border-radius: 5px;
   display: flex;
   height: 280px;
@@ -33,10 +33,10 @@ const Card = styled.div`
     margin: auto;
     max-width: 100%;
     max-height: 100%;
-    border-radius: 5px;
+    /* border-radius: 5px; */
   }
   button {
-    opacity: 0.1;
+    opacity: ${props => props.image ? 0.1 : 0.2};
     transition: opacity .4s ease-in-out;
   }
   button:disabled {
@@ -48,6 +48,7 @@ const Card = styled.div`
     font-weight: bold;
     margin: auto;
     opacity: 0.04;
+    opacity: ${props => props.image ? 0.04 : 0.2};
     padding: 0 35px;
     position: absolute;
     right: 0;
@@ -58,7 +59,9 @@ const Card = styled.div`
       0 0 3px ${props => props.theme.pageBG},
       0 0 4px ${props => props.theme.pageBG},
       0 0 5px ${props => props.theme.pageBG},
-      0 0 10px ${props => props.theme.pageBG};
+      0 0 10px ${props => props.theme.black},
+      0 0 15px ${props => props.theme.black},
+      0 0 25px ${props => props.theme.black};
     transition: opacity .4s ease-in-out;
   }
   h3 {
@@ -79,6 +82,7 @@ const Card = styled.div`
     button:disabled {
       opacity: 0.6;
     }
+    border: 1px solid ${props => props.theme.midGrey};
   }
 `;
 
@@ -86,14 +90,12 @@ export class StoryboardCard extends PureComponent {
 
   render() {
     console.log(this.props);
-    // const DragHandle = this.props.dragHandle;
     return (
-      <Card>
+      <Card image={this.props.text.image}>
         <StoryboardButtons {...this.props} />
         <DragHandle>{this.props.text.title}</DragHandle>
         <p>{this.props.text.thesis}</p>
         <img src={this.props.text.image} />
-        {/* <DragHandle /> */}
       </Card>
     );
   }

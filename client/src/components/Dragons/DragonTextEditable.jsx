@@ -10,33 +10,47 @@ const Container = styled.div`
   height: 100%;
   position: relative;
   transition: background-color .2s ease-in-out;
-  background-color: ${props => (
+  background: ${props => (
     props.isDragging
       ? props.theme.pageBGLite
-      : props.theme.pageBG
+      : props.theme.inlineEditorBG
   )};
+  padding-right: 200px;
 `;
 
 const ImageContainer = styled.div`
   align-self: flex-start;
-  /* background: ${props => props.theme.pageBGLite}; */
-  /* border: 1px solid ${props => props.theme.mainColor}; */
-  /* border-radius: 5px; */
+  background: ${props => (
+    props.isDragging
+      ? props.theme.pageBGLite
+      : props.theme.inlineEditorBG
+  )};
   display: flex;
-  height: 360px;
+  height: 100%;
   margin: auto 10px auto 0;
-  padding: 5px;
+  padding-top: 40px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
   position: absolute;
   bottom: 0;
-  right: -400px;
+  right: -200px;
   top: 0;
-  width: 360px;
+  width: 390px;
   img {
     margin: auto;
     max-width: 100%;
     max-height: 100%;
-    /* border-radius: 5px; */
   }
+`;
+
+const Banner = styled.div`
+  height: 30px;
+  background: ${props => props.theme.bannerBG};
+  width: 390px;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 export class DragonTextEditable extends Component {
@@ -89,6 +103,7 @@ export class DragonTextEditable extends Component {
             </TextEditor>
 
             <ImageContainer>
+              <Banner />
               <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
             </ImageContainer>
 

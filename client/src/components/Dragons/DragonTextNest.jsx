@@ -9,18 +9,19 @@ import { EditorStyles } from "../slate/utils/EditorStyles";
 
 const TextColumn = styled.div`
   width: 100%;
-  max-width: 1350px;
+  max-width: 1450px;
   margin: 0 auto;
   border-radius: 3px;
-  padding-right: 400px;
+  padding-right: 300px;
   display: flex;
   flex-direction: column;
 `;
 
 const SubjectHeading = styled.div`
   width: 100%;
-  padding-bottom: 5px;
-  border-bottom: 1px solid ${props => props.theme.mainColor};
+  padding-bottom: 15px;
+  padding-left: 100px;
+  /* border-bottom: 1px solid ${props => props.theme.mainColor}; */
 `;
 
 const Title = styled.h3`
@@ -30,6 +31,11 @@ const Title = styled.h3`
   text-align: center;
   padding-bottom: 10px;
   color: ${props => props.theme.titleColor};
+`;
+
+const LinkFlexContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const DragonTextList = styled.div`
@@ -52,19 +58,33 @@ export class DragonTextNest extends Component {
       <TextColumn>
         <SubjectHeading>
           <Title title={theme}>Topic: {subject}</Title>
-          <LinkBtn
-            block
-            fancy
-            size="1.8rem"
-            margin="auto"
-            underline
-            // toggleDragonText must be inside an anonymous function,
-            // otherwise it throws an error thinking it's trying to reuse
-            // the argument that was passed to it when it was toggled on.
-            onClick={() => this.props.toggleDragonText()}
-          >
-            return to project overview
-         </LinkBtn>
+          <LinkFlexContainer>
+            <LinkBtn
+              // block
+              fancy
+              size="1.8rem"
+              underline
+              // toggleDragonText must be inside an anonymous function,
+              // otherwise it throws an error thinking it's trying to reuse
+              // the argument that was passed to it when it was toggled on.
+              onClick={() => this.props.toggleDragonText()}
+            >
+              project overview
+            </LinkBtn>
+            <LinkBtn
+              // block
+              fancy
+              size="1.8rem"
+              underline
+              // toggleDragonText must be inside an anonymous function,
+              // otherwise it throws an error thinking it's trying to reuse
+              // the argument that was passed to it when it was toggled on.
+              onClick={() => this.props.toggleStoryboard(_id)}
+            >
+              storyboard
+            </LinkBtn>
+          </LinkFlexContainer>
+
         </SubjectHeading>
 
         <Droppable droppableId={_id} >

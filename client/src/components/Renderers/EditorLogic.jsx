@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import { Value } from "slate";
-import initialValue from "../utils/value.json";
-import { API, Scales } from "../../../utils";
+import initialValue from "../slate/utils/value.json";
+import { API, Scales } from "../../utils";
 
 const DEFAULT_NODE = 'paragraph';
 
-export class TextEditor extends Component {
+export class EditorLogic extends Component {
   state = {
     value: Value.fromJSON(this.props.text ? this.props.text : initialValue),
     title: this.props.title || '',
@@ -92,8 +92,8 @@ export class TextEditor extends Component {
     }
     const text = await API.updateText(id, textObject);
     const newState = Scales.updateTextHelper(text.data, this.props.state);
+    this.props.callback(id);
     this.props.executeDragonStateChanges(newState);
-    await this.props.callback();
   };
 
   createText = async () => {

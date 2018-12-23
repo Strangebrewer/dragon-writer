@@ -8,42 +8,40 @@ export class DragonLogic extends Component {
   // (when a project is first created, there won't be a saved order)
   state = this.props.project.order
     ? (
-      Object.assign({...this.props.project.order}, {
+      Object.assign({ ...this.props.project.order }, {
         create: false,
-        editorOn: false,
         dropZoneOn: true,
+        editorOn: false,
+        inlineTextNew: false,
+        loading: false,
         singleSubject: '',
         singleText: '',
         singleTextEdit: false,
-        inlineTextNew: false,
       })
     ) : {
       create: false,
       dragons: false,
-      subjects: this.props.projectData.subjects,
-      texts: this.props.projectData.texts,
-      subjectOrder: this.props.projectData.subjectOrder,
-      editorOn: false,
-      storyboardOn: false,
       dropZoneOn: true,
-      singleSubjectId: '',
+      editorOn: false,
+      inlineTextNew: false,
+      subjects: this.props.projectData.subjects,
+      subjectOrder: this.props.projectData.subjectOrder,
       singleSubject: '',
+      singleSubjectId: '',
       singleText: '',
       singleTextEdit: false,
-      inlineTextNew: false,
+      storyboardOn: false,
+      texts: this.props.projectData.texts,
     }
 
-  executeToggles = stateObject => {
-    this.setState(stateObject);
-  };
-
-  executeDragonStateChanges = async stateObject => {
-    await this.setState(stateObject);
-    this.saveOrder();
-  };
-
-  onDragStart = () => {
-    console.log("WTF");
+  // Without this, first login will not show projects.
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.projectOrder !== this.props.projectOrder) {
+      this.setState({
+        projectOrder: nextProps.projectOrder,
+        projectOrderData: nextProps.projectOrderData
+      })
+    }
   }
 
   onDragEnd = async result => {
@@ -82,6 +80,15 @@ export class DragonLogic extends Component {
     return;
   };
 
+  executeToggles = stateObject => {
+    this.setState(stateObject);
+  };
+
+  executeDragonStateChanges = async stateObject => {
+    await this.setState(stateObject);
+    this.saveOrder();
+  };
+
   saveOrder = async () => {
     const { _id } = this.props.project;
     const orderObject = { ...this.state };
@@ -96,8 +103,8 @@ export class DragonLogic extends Component {
     delete orderObject.loading;
     delete orderObject.dragging;
     delete orderObject.inlineTextNew;
-    const updateObj = { order: JSON.stringify(orderObject) };
 
+    const updateObj = { order: JSON.stringify(orderObject) };
     await API.updateProject(_id, updateObj);
     this.props.getInitialData(this.props.user);
   };
@@ -105,20 +112,11 @@ export class DragonLogic extends Component {
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart}>
-        <Project
-          authenticated={this.props.authenticated}
-          executeDragonStateChanges={this.executeDragonStateChanges}
-          executeToggles={this.executeToggles}
-          getInitialData={this.props.getInitialData}
-          loading={this.props.loading}
-          logout={this.props.logout}
-          nextMode={this.props.nextMode}
-          project={this.props.project}
-          state={this.state}
-          styleMode={this.props.styleMode}
-          toggleStyleMode={this.props.toggleStyleMode}
-          user={this.props.user}
-        />
+        {this.props.children({
+          executeDragonStateChanges: this.executeDragonStateChanges,
+          executeToggles: this.executeToggles,
+          state: this.state
+        })}
       </DragDropContext>
     );
   }

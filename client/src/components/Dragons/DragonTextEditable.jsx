@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import styled from 'styled-components';
-import { InlineUpdateEditor, TextEditor } from "../slate/Editors";
+import { EditorLogic } from "../Renderers";
+import { InlineUpdateEditor } from "../slate/Editors";
 
 const Container = styled.div`
   width: 100%;
@@ -79,7 +80,7 @@ export class DragonTextEditable extends Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            <TextEditor
+            <EditorLogic
               callback={toggleEditable}
               executeDragonStateChanges={executeDragonStateChanges}
               incomingText={text}
@@ -100,7 +101,7 @@ export class DragonTextEditable extends Component {
                   toggleEditable={toggleEditable}
                 />
               )}
-            </TextEditor>
+            </EditorLogic>
 
             <ImageContainer>
               <Banner />

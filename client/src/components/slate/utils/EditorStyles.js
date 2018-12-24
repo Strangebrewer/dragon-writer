@@ -20,9 +20,15 @@ export const EditorStyles = styled.div`
   color: ${props => (
     props.mode === "write"
       ? props.theme.black
-      : props.theme.editorColor
+      : props.print
+        ? 'black'
+        : props.theme.editorColor
   )};
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ${props => (
+    props.print
+      ? "'Times New Roman', Times, serif"
+      : "Arial, Helvetica, sans-serif"
+  )};
   line-height: 1.4;
   margin-left: ${props => props.inline && '160px'};
   max-height: ${props => props.inline && '70vh'};
@@ -33,8 +39,16 @@ export const EditorStyles = styled.div`
     font-size: ${props => (
       props.mode === "write"
         ? "1.5rem"
-        : "2.2rem"
+        : props.print
+          ? "1.2rem"
+          : "2.2rem"
     )};
+    font-family: ${props => (
+      props.print
+        ? "'Times New Roman', Times, serif"
+        : "Arial, Helvetica, sans-serif"
+    )};
+    margin: 0;
   }
   ul {
     padding-top: 0;

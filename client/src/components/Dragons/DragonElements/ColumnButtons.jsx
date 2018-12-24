@@ -1,4 +1,5 @@
 import React, { Fragment, PureComponent } from "react";
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { LinkBtn } from "../../PageElements";
 import { Spinner } from "../../Styles";
@@ -9,12 +10,16 @@ const Buttons = styled.div`
   left: 8px;
   display: flex;
   justify-content: space-between;
+  a {
+    font-size: 1.3rem;
+    color: ${props => props.theme.mainColor};
+  }
 `;
 
 export class ColumnButtons extends PureComponent {
   render() {
     const { props } = this;
-    const { subject, id, index } = props;
+    const { subject, id, index, texts } = props;
     const { image, publicId } = subject;
     return (
       props.loading
@@ -74,7 +79,13 @@ export class ColumnButtons extends PureComponent {
                 title="storyboard mode"
               >
                 <i className="fas fa-th"></i>
-              </LinkBtn>              
+              </LinkBtn>
+
+              <Link
+                title="print mode"
+                to={{ pathname: "/print", state: { texts, subject } }}>
+                <i className="fas fa-print"></i>
+              </Link>
 
               <LinkBtn
                 delete

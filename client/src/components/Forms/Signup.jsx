@@ -4,11 +4,11 @@ import { Button, Input, Label } from "./FormElements";
 import { LinkBtn } from "../PageElements";
 
 const Container = styled.div`
-width: 300px;
-margin: auto;
-padding: 20px;
-border: 1px solid ${props => props.theme.linkHover};
-border-radius: 10px;
+  width: 300px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid ${props => props.theme.linkHover};
+  border-radius: 10px;
 `;
 
 const Heading = styled.h2`

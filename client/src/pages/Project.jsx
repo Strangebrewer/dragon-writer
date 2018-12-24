@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
-import { EditorLogic, ModalLogic } from "../components/Renderers";
+import { EditorLogic, DragonLogic, ModalLogic } from "../components/Renderers";
 import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor } from "../components/slate/Editors";
 import { Storyboard } from "../components/Storyboard";
 import { DragonNest, DragonTextNest } from "../components/Dragons";
@@ -96,6 +96,11 @@ class Project extends PureComponent {
     this.props.executeDragonStateChanges(newState);
   };
 
+  addImageToText = text => {
+    const newState = Scales.addImageToText(text, this.props.state);
+    this.props.executeDragonStateChanges(newState);
+  }
+
   render() {
     // console.log(this.props);
     const { executeDragonStateChanges, getInitialData, state } = this.props;
@@ -189,26 +194,33 @@ class Project extends PureComponent {
           && (state.dragons
             ? (
               <DragonLair>
-                <DragonTextNest
-                  deleteText={this.deleteText}
-                  executeDragonStateChanges={executeDragonStateChanges}
-                  getInitialData={getInitialData}
-                  incomingSubject={state.incomingSubject}
-                  incomingText={state.incomingText}
-                  state={state}
-                  subject={state.subjects[state.singleSubjectId]}
-                  subjects={subjects}
-                  texts={state.subjects[state.singleSubjectId].textIds
-                    .map(textId => (state.texts[textId]))}
-                  toggleDragonText={this.toggleDragonText}
-                  toggleStoryboard={this.toggleStoryboard}
-                  user={this.props.user}
-                />
+                <ModalLogic>
+                  {modalProps => (
+                    <DragonTextNest
+                      {...modalProps}
+                      deleteText={this.deleteText}
+                      executeDragonStateChanges={executeDragonStateChanges}
+                      getInitialData={getInitialData}
+                      incomingSubject={state.incomingSubject}
+                      incomingText={state.incomingText}
+                      state={state}
+                      subject={state.subjects[state.singleSubjectId]}
+                      subjects={subjects}
+                      texts={state.subjects[state.singleSubjectId].textIds
+                        .map(textId => (state.texts[textId]))}
+                      toggleDragonText={this.toggleDragonText}
+                      toggleStoryboard={this.toggleStoryboard}
+                      user={this.props.user}
+                    />
+                  )}
+                </ModalLogic>
+
               </DragonLair>
             ) : state.storyboardOn
               ? (
                 <StoryboardContainer>
                   <ImageUploader
+                    addImageToText={this.addImageToText}
                     getInitialData={getInitialData}
                     addImageToOrder={this.addImageToOrder}
                   >
@@ -244,6 +256,7 @@ class Project extends PureComponent {
                         return state[subject._id] &&
                           <DragonNest
                             {...provided}
+                            addImageToText={this.addImageToText}
                             deleteText={this.deleteText}
                             executeDragonStateChanges={executeDragonStateChanges}
                             getInitialData={getInitialData}

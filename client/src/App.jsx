@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { DragonLogic } from "./components/Renderers";
-import Home from "./pages/Home";
+import Home from "./pages/HomeOG";
+import Landing from "./pages/Landing";
+import Print from "./pages/Print";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
 import { Themes } from "./components/Styles";
@@ -66,7 +68,6 @@ class App extends Component {
       projects.forEach(project => {
         if (project.order)
           projectData.push(Utils.addTextsToOrder(project));
-
         else
           projectData.push(Utils.formatInitialData(project));
       });
@@ -75,7 +76,6 @@ class App extends Component {
       else projectOrder = user.projects;
 
       projectOrderData = Utils.formatProjectOrder(projects);
-
       isAuthenticated = true;
     }
 
@@ -104,56 +104,81 @@ class App extends Component {
           <Switch>
             <Route exact path="/">
               {routeProps => (
-                <Home
+                <Landing
                   {...routeProps}
                   authenticated={isAuthenticated}
                   getInitialData={this.getInitialData}
                   loading={this.state.loading}
-                  logout={this.logout}
+                  // logout={this.logout}
                   nextMode={this.state.nextMode}
-                  projectOrder={this.state.projectOrder}
-                  projectOrderData={this.state.projectOrderData}
-                  projects={this.state.projects}
-                  styleMode={this.state.styleMode}
+                  // projectOrder={this.state.projectOrder}
+                  // projectOrderData={this.state.projectOrderData}
+                  // projects={this.state.projects}
                   toggleStyleMode={this.toggleStyleMode}
-                  user={this.state.user}
+                // user={this.state.user}
                 />
               )}
             </Route>
 
-            {/* authentication is not needed for this (these) route(s);
-                this.state.projects.length will be 0 unless the user is logged in
-                and has created at least one project  */}
+            <Route exact path="/home">
+              {routeProps => (
+                isAuthenticated
+                  ? (
+                    <Home
+                      {...routeProps}
+                      authenticated={isAuthenticated}
+                      getInitialData={this.getInitialData}
+                      loading={this.state.loading}
+                      logout={this.logout}
+                      nextMode={this.state.nextMode}
+                      projectOrder={this.state.projectOrder}
+                      projectOrderData={this.state.projectOrderData}
+                      projects={this.state.projects}
+                      toggleStyleMode={this.toggleStyleMode}
+                      user={this.state.user}
+                    />
+                  ) : (
+                    <Redirect to="/" />
+                  )
+              )}
+            </Route>
+            
             {this.state.projects.length > 0
               && (
                 this.state.projects.map((project, index) => (
                   <Route key={project._id} path={`/${project.link}`}>
                     {routeProps => (
-                      <DragonLogic
-                        getInitialData={this.getInitialData}
-                        project={project}
-                        projectData={this.state.projectData[index]}
-                      >
-                        {dragonProps => (
-                          <Project
-                            {...routeProps}
-                            {...dragonProps}
-                            authenticated={isAuthenticated}
+                      isAuthenticated
+                        ? (
+                          <DragonLogic
                             getInitialData={this.getInitialData}
-                            loading={this.state.loading}
-                            logout={this.logout}
-                            nextMode={this.state.nextMode}
                             project={project}
-                            styleMode={this.state.styleMode}
-                            toggleStyleMode={this.toggleStyleMode}
-                            user={this.state.user}
-                          />
-                        )}
-                      </DragonLogic>
+                            projectData={this.state.projectData[index]}
+                          >
+                            {dragonProps => (
+                              <Project
+                                {...routeProps}
+                                {...dragonProps}
+                                authenticated={isAuthenticated}
+                                getInitialData={this.getInitialData}
+                                loading={this.state.loading}
+                                logout={this.logout}
+                                nextMode={this.state.nextMode}
+                                project={project}
+                                toggleStyleMode={this.toggleStyleMode}
+                                user={this.state.user}
+                              />
+                            )}
+                          </DragonLogic>
+                        ) : (
+                          <Redirect to="/" />
+                        )
                     )}
                   </Route>
                 ))
               )}
+
+            <Route path="/print" component={Print} />
 
             <Route path="*" component={NoMatch} />
 

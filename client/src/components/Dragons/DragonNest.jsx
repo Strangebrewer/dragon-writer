@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { Redirect } from "react-router-dom";
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { ImageUploader } from "../PageElements";
@@ -65,7 +66,9 @@ const Paragraph = styled.p`
 
 export class DragonNest extends PureComponent {
   state = {
+    redirectToPrint: false,
     subject: '',
+    subjectId: '',
     theme: '',
   };
 
@@ -136,8 +139,24 @@ export class DragonNest extends PureComponent {
     this.props.executeDragonStateChanges(newState);
   };
 
+  togglePrintMode = subjectId => {
+    this.setState({
+      redirectToPrint: !this.state.redirectToPrint,
+      subjectId
+    })
+  };
+
   render() {
+    if (this.state.redirectToPrint)
+      return <Redirect to={{
+        pathname: "/print",
+        state: {
+          texts: this.props.texts,
+          subject: this.props.subject
+        }
+      }} target="_blank" />
     const {
+      addImageToText,
       deleteText,
       getInitialData,
       imageModal,
@@ -170,11 +189,14 @@ export class DragonNest extends PureComponent {
                 index={index}
                 updateSubjectModal={this.updateSubjectModal}
                 deleteSubjectModal={this.deleteSubjectModal}
+                texts={texts}
                 toggleDragonText={toggleDragonText}
                 toggleInlineNew={toggleInlineNew}
+                togglePrintMode={this.togglePrintMode}
                 toggleStoryboard={toggleStoryboard}
                 toggleSubject={toggleSubject}
               />
+
 
               <SubjectHeader {...provided.dragHandleProps}>
                 <Heading3>{subject.subject}</Heading3>
@@ -189,6 +211,7 @@ export class DragonNest extends PureComponent {
                     isDraggingOver={snapshot.isDraggingOver}
                   >
                     <ImageUploader
+                      addImageToText={addImageToText}
                       getInitialData={getInitialData}
                       type="text"
                     >

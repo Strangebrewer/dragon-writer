@@ -63,8 +63,7 @@ const ImageContainer = styled.div`
   display: flex;
   padding: 5px 5px 5px 30px;
   img {
-    align-self: center;
-    margin: auto;
+    align-self: flex-start;
     max-width: 100%;
     max-height: 100%;
     border-radius: 5px;

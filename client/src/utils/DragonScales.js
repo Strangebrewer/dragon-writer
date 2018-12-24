@@ -124,6 +124,24 @@ export const Scales = {
     return newState;
   },
 
+  addImageToText: function (text, state) {
+    const { image, largeImage, publicId, updatedAt } = text;
+    const newState = {
+      ...state,
+      texts: {
+        ...state.texts,
+        [text._id]: {
+          ...state.texts[text._id],
+          image,
+          largeImage,
+          publicId,
+          updatedAt
+        }
+      }
+    }
+    return newState;
+  },
+
   singleProjectDragon: function (state, source, destination, draggableId) {
     const newProjectOrder = Array.from(state.projectOrder);
     newProjectOrder.splice(source.index, 1);

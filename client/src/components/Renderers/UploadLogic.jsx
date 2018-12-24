@@ -1,8 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button, Input, Label } from "../Forms/FormElements";
 import { API } from "../../utils";
 
-export class UploadLogic extends PureComponent {
+export class UploadLogic extends Component {
   state = {
     image: '',
     largeImage: '',
@@ -41,21 +41,21 @@ export class UploadLogic extends PureComponent {
       largeImage: file.eager[0].secure_url,
       publicId: file.public_id,
     };
-    let result;
     switch (this.props.type) {
       case 'project':
-        result = await API.updateProject(id, updateObject);
+        await API.updateProject(id, updateObject);
         this.props.getInitialData(this.props.user);
-        this.setState({ loading: false });
         break;
       case 'subject':
-        result = await API.updateSubject(id, updateObject);
-        this.props.addImageToOrder(result.data);
+        const subject = await API.updateSubject(id, updateObject);
+        this.props.addImageToOrder(subject.data);
         break;
       default:
-        result = await API.updateText(id, updateObject);
+        const text = await API.updateText(id, updateObject);
+        this.props.addImageToText(text.data)
         this.props.getInitialData(this.props.user);
     }
+    this.setState({ loading: false });
   };
 
   uploadImageModal = id => {
@@ -100,7 +100,8 @@ export class UploadLogic extends PureComponent {
         this.props.addImageToOrder(result.data);
         break;
       default:
-        await API.removeTextImage(id, deleteObj);
+        const text = await API.removeTextImage(id, deleteObj);
+        this.props.addImageToText(text.data)
         this.props.getInitialData(this.props.user);
     }
     // calling setState here produces an error - but it isn't necessary anyway

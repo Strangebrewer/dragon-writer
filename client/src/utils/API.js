@@ -36,6 +36,10 @@ export const API = {
     return axios.post('/user/change', pwData);
   },
 
+  // saveImage: function (imageData) {
+  //   return axios.post('/api/image/upload', imageData);
+  // },
+
 
 
   getTexts: function () {

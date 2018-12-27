@@ -8,7 +8,7 @@ const PageContainer = styled.div`
   min-height: 100vh;
   /* width: 100vw; */
   display: grid;
-  grid-template-columns: 200px 1fr 200px;
+  grid-template-columns: 200px 1fr 150px;
   grid-template-rows: auto auto 1fr auto;
   background: ${props => props.theme.pageBG};
   color: ${props => props.theme.mainColor};

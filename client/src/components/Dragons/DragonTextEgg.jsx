@@ -22,8 +22,11 @@ const Container = styled.div`
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
   /* the two below allow for the parent space to be large enough for
      when the editor is toggled */
-  margin-left: 100px;
+  margin: auto;
   width: calc(100% - 200px);
+  width: 100%;
+  max-width: 1100px;
+  min-width: 600px;
 `;
 
 const MetaDataContainer = styled.div`

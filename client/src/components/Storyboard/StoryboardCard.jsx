@@ -21,7 +21,7 @@ const Card = styled.div`
     max-height: 100%;
   }
   button {
-    opacity: ${props => props.image ? 0.1 : 0.2};
+    opacity: ${props => props.image ? 0.1 : 0.3};
     transition: opacity .4s ease-in-out;
   }
   button:disabled {
@@ -33,7 +33,7 @@ const Card = styled.div`
     font-weight: bold;
     margin: auto;
     opacity: 0.04;
-    opacity: ${props => props.image ? 0.04 : 0.2};
+    opacity: ${props => props.image ? 0.04 : 0.4};
     padding: 0 35px;
     position: absolute;
     right: 0;

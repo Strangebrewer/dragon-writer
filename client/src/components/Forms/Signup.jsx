@@ -25,35 +25,37 @@ const Paragraph = styled.p`
 export const Signup = props => (
   <Container>
     <Heading>Signup</Heading>
-    <Label style={{ fontWeight: "normal" }}>Username</Label>
-    <Input
-      name="username"
-      value={props.username}
-      type="text"
-      onChange={props.handleInputChange}
-    />
-    <Label>Email</Label>
-    <Input
-      name="email"
-      value={props.email}
-      type="text"
-      onChange={props.handleInputChange}
-    />
-    <Label>Password</Label>
-    <Input
-      name="password"
-      value={props.password}
-      type="password"
-      onChange={props.handleInputChange}
-    />
-    <Label>Confirm Password</Label>
-    <Input
-      name="confirmPassword"
-      value={props.confirmPassword}
-      type="password"
-      onChange={props.handleInputChange}
-    />
-    <Button round center onClick={props.signup}>Submit</Button>
+    <form>
+      <Label style={{ fontWeight: "normal" }}>Username</Label>
+      <Input
+        name="username"
+        value={props.username}
+        type="text"
+        onChange={props.handleInputChange}
+      />
+      <Label>Email</Label>
+      <Input
+        name="email"
+        value={props.email}
+        type="text"
+        onChange={props.handleInputChange}
+      />
+      <Label>Password</Label>
+      <Input
+        name="password"
+        value={props.password}
+        type="password"
+        onChange={props.handleInputChange}
+      />
+      <Label>Confirm Password</Label>
+      <Input
+        name="confirmPassword"
+        value={props.confirmPassword}
+        type="password"
+        onChange={props.handleInputChange}
+      />
+      <Button round center onClick={props.signup}>Submit</Button>
+    </form>
     <Paragraph>Already have an account?
       <LinkBtn
         size="1.5rem"

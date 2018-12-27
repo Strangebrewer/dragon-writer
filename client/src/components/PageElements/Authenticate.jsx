@@ -20,14 +20,16 @@ export class Authenticate extends Component {
     this.setState({ signup: !this.state.signup });
   };
 
-  login = async () => {
+  login = async event => {
+    if (event) event.preventDefault();
     const { username, password } = this.state;
     const user = await API.login({ username, password });
     if (user)
       this.props.getInitialData(user.data);
   };
 
-  signup = async () => {
+  signup = async event => {
+    event.preventDefault();
     const { email, password, username } = this.state;
     const user = await API.signup({
       username, email, password

@@ -31,7 +31,6 @@ export class UploadLogic extends Component {
     }
     this.setState({ loading: true });
     this.props.closeModal();
-    console.log(this.state.data);
     const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload/`, {
       method: 'POST',
       body: this.state.data
@@ -53,6 +52,27 @@ export class UploadLogic extends Component {
         break;
       default:
         const text = await API.updateText(id, updateObject);
+        this.props.addImageToText(text.data)
+        this.props.getInitialData(this.props.user);
+    }
+    this.setState({ loading: false });
+  };
+
+  deleteImage = async (id, imageId) => {
+    await this.setState({ loading: true });
+    this.props.closeModal();
+    const deleteObj = { imageId };
+    switch (this.props.type) {
+      case 'project':
+        await API.removeProjectImage(id, deleteObj);
+        this.props.getInitialData(this.props.user);
+        break;
+      case 'subject':
+        const result = await API.removeSubjectImage(id, deleteObj);
+        this.props.addImageToOrder(result.data);
+        break;
+      default:
+        const text = await API.removeTextImage(id, deleteObj);
         this.props.addImageToText(text.data)
         this.props.getInitialData(this.props.user);
     }
@@ -85,28 +105,6 @@ export class UploadLogic extends Component {
         </Fragment>
       )
     })
-  };
-
-  deleteImage = async (id, imageId) => {
-    await this.setState({ loading: true });
-    this.props.closeModal();
-    const deleteObj = { imageId };
-    switch (this.props.type) {
-      case 'project':
-        await API.removeProjectImage(id, deleteObj);
-        this.props.getInitialData(this.props.user);
-        break;
-      case 'subject':
-        const result = await API.removeSubjectImage(id, deleteObj);
-        this.props.addImageToOrder(result.data);
-        break;
-      default:
-        const text = await API.removeTextImage(id, deleteObj);
-        this.props.addImageToText(text.data)
-        this.props.getInitialData(this.props.user);
-    }
-    // calling setState here produces an error - but it isn't necessary anyway
-    this.setState({ loading: false });
   };
 
   imageModal = (image, imageId, id, type) => {

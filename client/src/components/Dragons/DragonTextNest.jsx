@@ -8,7 +8,7 @@ import { DragonTextEditable } from "./DragonTextEditable";
 
 const TextColumn = styled.div`
   width: 100%;
-  max-width: 1450px;
+  /* max-width: 1450px; */
   margin: 0 auto;
   border-radius: 3px;
   padding-right: 300px;

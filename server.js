@@ -9,18 +9,14 @@ const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const PORT = process.env.PORT || 8080;
 
-// Define middleware here
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
-// Serve up static assets (usually on heroku)
+// Serve static assets
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
-}
-// added by NICK -- double check with KEITH. Is redundant? or needed in order to reach static in dev?
-else {
-	app.use(express.static('client/public'));
 }
 
 // Sessions

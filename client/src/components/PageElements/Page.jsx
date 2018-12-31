@@ -5,29 +5,29 @@ import styled from "styled-components";
 import { GlobalStyle } from "../Styles";
 
 const PageContainer = styled.div`
-  min-height: 100vh;
-  /* width: 100vw; */
-  display: grid;
-  grid-template-columns: 200px 1fr 150px;
-  grid-template-rows: auto auto 1fr auto;
   background: ${props => props.theme.pageBG};
   color: ${props => props.theme.mainColor};
+  display: grid;
   font-family: ${props => props.theme.typeface};
+  grid-template-columns: 200px 1fr 150px;
+  grid-template-rows: auto auto 1fr auto;
+  min-height: 100vh;
+  /* width: 100vw; */
 `;
 
 const NavColumn = styled.div`
   grid-row: 3;
   grid-column: 1;
-  width: 200px;
+  padding: 0 20px 0 20px;
   position: fixed;
   top: 150px;
-  padding: 0 20px 0 20px;
+  width: 200px;
 `;
 
 const ContentColumn = styled.div`
+  display: flex;
   grid-row: 3;
   grid-column: 2 / 4;
-  display: flex;
   overflow-x: auto;
 `;
 
@@ -38,36 +38,36 @@ const FooterContainer = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  color: ${props => props.home
-    ? props.theme.homeBannerColor
-    : props.theme.bannerColor
-  };
-  grid-column: 1 / 4;
-  grid-row: 2;
-  text-align: center;
-  margin: ${props => (
-    props.dragons || props.storyboardOn
-      ? "30px auto 10px auto"
-      : "30px auto"
-  )};
-  width: ${props => props.home ? '600px' : '100%'};
-  transition: color .3s ease-in;
+  align-items: center;
   background: ${props =>
     props.home
       ? props.theme.homeBannerBG
       : props.theme.bannerBG
   };
   box-shadow: ${props => props.home ? '6px 6px 2px #000' : 'none'};
+  color: ${props => props.home
+    ? props.theme.homeBannerColor
+    : props.theme.bannerColor
+  };
+  grid-column: 1 / 4;
+  grid-row: 2;
+  margin: ${props => (
+    props.dragons || props.storyboardOn
+      ? "30px auto 10px auto"
+      : "30px auto"
+  )};
   padding: 5px 0 8px 0;
-  align-items: center;  
+  text-align: center;
+  transition: color .3s ease-in;
+  width: ${props => props.home ? '600px' : '100%'};
   h2 {
     font-family: ${props => props.theme.hTypeface};
     font-size: ${props => props.size === 'large' ? "5" : "3"}rem;
   }
   h3 {
-    margin-top: 10px;
-    font-weight: bold;
     font-size: ${props => props.size === 'large' ? "1.65" : "1.5"}rem;
+    font-weight: bold;
+    margin-top: 10px;
   }
 `;
 

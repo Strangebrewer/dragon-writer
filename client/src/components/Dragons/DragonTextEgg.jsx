@@ -17,36 +17,33 @@ const Container = styled.div`
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   display: flex;
+  margin: auto;
+  max-width: 1150px;
   min-height: 140px;
+  min-width: 600px;
   position: relative;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
-  /* the two below allow for the parent space to be large enough for
-     when the editor is toggled */
-  margin: auto;
-  width: calc(100% - 200px);
   width: 100%;
-  max-width: 1100px;
-  min-width: 600px;
 `;
 
 const MetaDataContainer = styled.div`
-  min-width: 160px;
   max-width: 160px;
-  text-align: right;
+  min-width: 160px;
   padding-right: 30px;
   padding-top: 10px;
+  text-align: right;
 `;
 
 const TextTitle = styled.h3`
   font-size: 1.8rem;
-  line-height: 1;
   font-weight: bold;
+  line-height: 1;
   margin: 0;
 `;
 
 const TextThesis = styled.p`
-  line-height: 1;
   font-size: 1.5rem;
+  line-height: 1;
   margin: 0;
   padding: 4px 0 6px 0;
 `;
@@ -57,14 +54,14 @@ const ImageContainer = styled.div`
       ? props.theme.pageBGLite
       : 'transparent'
   )};
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  height: 100%;
+  padding: 5px 5px 5px 30px;
   position: absolute;
   right: -160px;
-  height: 100%;
   width: 160px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  display: flex;
-  padding: 5px 5px 5px 30px;
   img {
     align-self: flex-start;
     max-width: 100%;

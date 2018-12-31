@@ -9,19 +9,19 @@ import { DragonLair } from "../components/Dragons/DragonElements";
 import { API, Scales, Toggle } from '../utils';
 
 const EditorContainer = styled.div`
-  width: 100%;
-  max-width: 1450px;
   height: 100%;
-  padding-right: 200px;
   margin: auto;
+  max-width: 1450px;
+  padding-right: 200px;
+  width: 100%;
 `;
 
 const StoryboardContainer = styled.div`
+  height: 100%;
+  margin: auto;
+  padding-right: 200px;
   position: relative;
   width: 100%;
-  height: 100%;
-  padding-right: 200px;
-  margin: auto;
 `;
 
 class Project extends PureComponent {
@@ -104,7 +104,7 @@ class Project extends PureComponent {
   render() {
     // console.log(this.props);
     const { executeDragonStateChanges, getInitialData, state } = this.props;
-    const { title, _id, summary } = this.props.project;
+    const { title, _id, link, summary } = this.props.project;
     const subjects = state.subjectOrder
       .map(subject => ({ ...state.subjects[subject] }));
 
@@ -203,6 +203,7 @@ class Project extends PureComponent {
                       getInitialData={getInitialData}
                       incomingSubject={state.incomingSubject}
                       incomingText={state.incomingText}
+                      projectLink={link}
                       state={state}
                       subject={state.subjects[state.singleSubjectId]}
                       subjects={subjects}

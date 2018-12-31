@@ -4,10 +4,10 @@ import { Button, Input, TextArea } from "./FormElements";
 import { API } from "../../utils";
 
 const Container = styled.div`
-  width: 300px;
+  border: 1px solid green;
   margin: auto;
   padding: 20px;
-  border: 1px solid green;
+  width: 300px;
 `;
 
 export class NewProject extends Component {

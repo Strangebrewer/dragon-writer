@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { ModalLogic } from "../Renderers";
@@ -7,51 +8,43 @@ import { DragonTextEgg } from "./DragonTextEgg";
 import { DragonTextEditable } from "./DragonTextEditable";
 
 const TextColumn = styled.div`
-  width: 100%;
-  /* max-width: 1450px; */
-  margin: 0 auto;
   border-radius: 3px;
-  padding-right: 300px;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  max-width: 1450px;
+  padding-right: 300px;
+  width: 100%;
 `;
 
 const SubjectHeading = styled.div`
-  width: 100%;
   padding-bottom: 15px;
   padding-left: 100px;
-  /* border-bottom: 1px solid ${props => props.theme.mainColor}; */
+  width: 100%;
 `;
 
 const Title = styled.h3`
-  font-family: ${props => props.theme.hTypeface};
-  width: 100%;
-  font-size: 3.5rem;
-  text-align: center;
-  padding-bottom: 10px;
   color: ${props => props.theme.titleColor};
+  font-family: ${props => props.theme.hTypeface};
+  font-size: 3.5rem;
+  padding-bottom: 10px;
+  text-align: center;
+  width: 100%;
 `;
 
 const LinkFlexContainer = styled.div`
   display: flex;
   justify-content: center;
+  a:hover {
+    color: ${props => props.theme.linkHover};
+  }
 `;
 
 const DragonTextList = styled.div`
-  padding: 8px 0;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-`;
-
-const PrintPage = styled.div`
-  height: 792px;
-  width: 612px;
-  padding: 'none';
-  background: white;
-  box-shadow: 5px 5px 5px black;
-  margin: auto;
-  overflow: hidden;
+  justify-content: flex-start;
+  padding: 8px 0;
 `;
 
 export class DragonTextNest extends Component {
@@ -62,7 +55,8 @@ export class DragonTextNest extends Component {
   }
 
   render() {
-    const { subject, theme, _id } = this.props.subject
+    const { subject, theme, _id } = this.props.subject;
+    const { texts, projectLink } = this.props;
     return (
       <TextColumn>
         <SubjectHeading>
@@ -92,64 +86,70 @@ export class DragonTextNest extends Component {
             >
               storyboard
             </LinkBtn>
+
+            <LinkBtn
+              fancy
+              size="1.8rem"
+              underline
+            >
+              <Link
+                to={{
+                  pathname: `/${projectLink}/print`,
+                  state: { texts, subject: this.props.subject }
+                }}>
+                print view
+              </Link>
+            </LinkBtn>
+
           </LinkFlexContainer>
 
         </SubjectHeading>
-
-        {this.state.printable
-          ? (
-            <React.Fragment>
-
-            </React.Fragment>
-          ) : (
-            <Droppable droppableId={_id} >
-              {(provided, snapshot) => (
-                <DragonTextList
-                  id="pdf-test"
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  isDraggingOver={snapshot.isDraggingOver}
-                >
-                  <ModalLogic>
-                    {modalProps => (
-                      this.props.texts.map((text, index) => {
-                        return this.state[text._id]
-                          ? (
-                            <DragonTextEditable
-                              {...modalProps}
-                              key={text._id}
-                              index={index}
-                              incomingSubject={this.props.incomingSubject}
-                              text={text}
-                              state={this.props.state}
-                              subject={this.props.subject}
-                              subjects={this.props.subjects}
-                              user={this.props.user}
-                              toggleEditable={this.toggleEditable}
-                              executeDragonStateChanges={this.props.executeDragonStateChanges}
-                              getInitialData={this.props.getInitialData}
-                            />
-                          ) : (
-                            <DragonTextEgg
-                              {...modalProps}
-                              deleteText={this.props.deleteText}
-                              index={index}
-                              key={text._id}
-                              subject={this.props.subject}
-                              subjects={this.props.subjects}
-                              text={text}
-                              toggleEditable={this.toggleEditable}
-                            />
-                          )
-                      })
-                    )}
-                  </ModalLogic>
-                  {provided.placeholder}
-                </DragonTextList>
-              )}
-            </Droppable>
-          )
-        }
+        <Droppable droppableId={_id} >
+          {(provided, snapshot) => (
+            <DragonTextList
+              id="pdf-test"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              <ModalLogic>
+                {modalProps => (
+                  this.props.texts.map((text, index) => {
+                    return this.state[text._id]
+                      ? (
+                        <DragonTextEditable
+                          {...modalProps}
+                          key={text._id}
+                          index={index}
+                          incomingSubject={this.props.incomingSubject}
+                          text={text}
+                          state={this.props.state}
+                          subject={this.props.subject}
+                          subjects={this.props.subjects}
+                          user={this.props.user}
+                          toggleEditable={this.toggleEditable}
+                          executeDragonStateChanges={this.props.executeDragonStateChanges}
+                          getInitialData={this.props.getInitialData}
+                        />
+                      ) : (
+                        <DragonTextEgg
+                          {...modalProps}
+                          deleteText={this.props.deleteText}
+                          index={index}
+                          key={text._id}
+                          subject={this.props.subject}
+                          subjects={this.props.subjects}
+                          text={text}
+                          toggleEditable={this.toggleEditable}
+                        />
+                      )
+                  })
+                )}
+              </ModalLogic>
+              {provided.placeholder}
+            </DragonTextList>
+          )}
+        </Droppable>
 
 
       </TextColumn>

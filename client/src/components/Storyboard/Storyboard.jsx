@@ -27,20 +27,20 @@ const Container = styled.div`
 `;
 
 const SubjectHeading = styled.div`
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding-bottom: 5px;
+  width: 100%;
 `;
 
 const Title = styled.h3`
-  font-family: ${props => props.theme.hTypeface};
-  width: 100%;
-  font-size: 3.5rem;
-  text-align: center;
-  padding-bottom: 10px;
   color: ${props => props.theme.titleColor};
+  font-family: ${props => props.theme.hTypeface};
+  font-size: 3.5rem;
+  padding-bottom: 10px;
+  text-align: center;
+  width: 100%;
 `;
 
 const ModalH2 = styled.h2`
@@ -56,10 +56,10 @@ const ModalH3 = styled.h3`
 `;
 
 const editorStyle = {
-  padding: "20px",
   border: "1px solid #d8d8d8",
-  overflow: "auto",
   maxHeight: "300px",
+  overflow: "auto",
+  padding: "20px",
 }
 
 const SortableItem = SortableElement(props =>

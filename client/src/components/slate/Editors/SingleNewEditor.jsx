@@ -9,36 +9,36 @@ import RenderButtons from "../RenderButtons.jsx";
 
 const editorStyle = {
   borderRadius: "6px",
+  fontFamily: "Arial, Helvetica, sans-serif",
   minHeight: "200px",
   minWidth: "60%",
   padding: "10px",
-  fontFamily: "Arial, Helvetica, sans-serif"
 };
 
 const EditorOuter = styled.div`
-  width: 100%;
   border: 1px solid ${props => props.theme.mainColor};
   border-radius: 2px;
   position: relative;
+  width: 100%;
 `;
 
 const EditorInner = styled.div`
-  width: 100%;
   padding: 10px;
+  width: 100%;
 `;
 
 const DragHeader = styled.div`
-  width: 100%;
-  height: 30px;
+  align-items: center;
   background-color: ${props => props.theme.midGrey};
+  color: ${props => props.theme.black};
+  display: flex;
   font-family: ${props => props.theme.hTypeface};
+  font-size: 2.4rem;
+  height: 30px;
+  padding-left: 10px;
   position: absolute;
   top: 0;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  font-size: 2.4rem;
-  color: ${props => props.theme.black};
+  width: 100%;
 `;
 
 const MetaDataForm = styled.div`

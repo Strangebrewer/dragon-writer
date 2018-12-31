@@ -9,22 +9,23 @@ import RenderButtons from "../RenderButtons.jsx";
 
 const editorStyle = {
   borderRadius: "6px",
+  cursor: 'text',
+  fontFamily: "Arial, Helvetica, sans-serif",
   minHeight: "300px",
   minWidth: "80%",
   padding: "10px",
-  fontFamily: "Arial, Helvetica, sans-serif"
 };
 
 const EditorOuter = styled.div`
-  width: 100%;
   border: none;
   border-radius: 2px;
   position: relative;
+  width: 100%;
 `;
 
 const EditorInner = styled.div`
-  width: 100%;
   padding: 5px 0 10px 10px;
+  width: 100%;
   label {
     color: ${props => props.theme.pageBG};
     font-size: 1.9rem;
@@ -36,18 +37,19 @@ const EditorInner = styled.div`
 `;
 
 const DragHeader = styled.div`
-  width: 100%;
-  height: 30px;
+  align-items: center;
   background-color: ${props => props.theme.bannerBG};
   /* background-color: transparent; */
+  color: ${props => props.theme.bannerColor};
+  display: flex;
   font-family: ${props => props.theme.hTypeface};
+  font-size: 2.4rem;
+  height: 30px;
+  padding-left: 10px;
   position: absolute;
   top: 0;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  font-size: 2.4rem;
-  color: ${props => props.theme.bannerColor};
+  text-align: center;
+  width: 100%;
 `;
 
 const MetaDataForm = styled.div`
@@ -65,7 +67,7 @@ export class InlineUpdateEditor extends Component {
     return (
       <EditorOuter>
         <DragHeader {...this.props.dragHandle}>
-          <p>{`Edit ${this.props.title}`}</p>
+          <p>{`Edit: ${this.props.title}`}</p>
         </DragHeader>
 
         <EditorInner>

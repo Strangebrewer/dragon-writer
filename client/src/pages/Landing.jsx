@@ -5,13 +5,13 @@ import { Authenticate } from "../components/PageElements";
 import { GlobalStyle } from "../components/Styles";
 
 const LandingContainer = styled.div`
-  /* position: relative; */
-  display: flex;
-  overflow-x: auto;
-  min-height: 100vh;
-  justify-content: center;
   align-items: center;
+  display: flex;
+  justify-content: center;
   margin: auto;
+  min-height: 100vh;
+  overflow-x: auto;
+  /* position: relative; */
 `;
 
 class Landing extends Component {

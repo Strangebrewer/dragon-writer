@@ -8,24 +8,24 @@ import { DateDiv, ItemButtons } from "./DragonElements";
 import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
-  position: relative;
-  width: 100%;
-  margin-bottom: 8px;
-  border-radius: 5px;
-  padding: 6px 8px 4px 8px;
-  transition: background-color .2s ease-in-out;
-  box-shadow: ${props => props.theme.fieldShine};
-  opacity: ${props => (
-    props.isDragging || props.loading
-      ? "0.9"
-      : "1"
-  )};
   background: ${props => (
     props.isDragging
       ? props.theme.itemDragBG
       : props.theme.itemBG
   )};
+  border-radius: 5px;
+  box-shadow: ${props => props.theme.fieldShine};
   color: ${props => props.theme.itemColor};
+  margin-bottom: 8px;
+  opacity: ${props => (
+    props.isDragging || props.loading
+      ? "0.9"
+      : "1"
+  )};
+  padding: 6px 8px 4px 8px;
+  position: relative;
+  transition: background-color .2s ease-in-out;
+  width: 100%;
   h4 {
     font-size: 1.8rem;
     font-weight: bold;
@@ -50,10 +50,10 @@ const ModalH3 = styled.h3`
 `;
 
 const editorStyle = {
-  padding: "20px",
   border: "1px solid black",
-  overflow: "auto",
   maxHeight: "300px",
+  overflow: "auto",
+  padding: "20px",
 }
 
 export class DragonEgg extends PureComponent {

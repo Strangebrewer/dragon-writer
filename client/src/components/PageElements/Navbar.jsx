@@ -3,28 +3,28 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavContainer = styled.div`
-  grid-row: 1;
+  background-color: ${props => props.theme.pageBG};
   grid-column: 1 / 4;
-  min-width: 100%;
+  grid-row: 1;
   height: 30px;
+  min-width: 100%;
   position: fixed;
   top: 0;
-  background-color: ${props => props.theme.pageBG};
   z-index: 99999;
 `;
 
 const NavInner = styled.div`
-  width: 1000px;
-  margin: auto;
-  height: 30px;
   display: flex;
+  height: 30px;
   justify-content: center;
+  margin: auto;
   padding: 0 20px;
+  width: 1000px;
   a, button {
+    color: ${props => props.theme.links};
+    font-family: ${props => props.theme.typeface};
     font-size: 1.6rem;
     font-weight: bold;
-    font-family: ${props => props.theme.typeface};
-    color: ${props => props.theme.links};
   }
   a:hover, button:hover {
     color: ${props => props.theme.linkHover};
@@ -36,10 +36,10 @@ const NavInner = styled.div`
      border-right: 1px solid ${props => props.theme.mainColor};
   }
   h3 {
-    font-size: 1.8rem;
-    font-weight: bold;
     color: ${props => props.theme.mainColor};
     align-self: center;
+    font-size: 1.8rem;
+    font-weight: bold;
   }
 `;
 
@@ -48,31 +48,31 @@ const LinkContainer = styled.div`
 `;
 
 const ModeButton = styled.button`
-  padding: 0 20px 0 0;
-  margin: 0;
   background: transparent;
   border: none;
-  outline: transparent;
+  color: ${props => props.theme.links};
   cursor: pointer;
+  font-family: ${props => props.theme.typeface};
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 0;
+  outline: transparent;
+  padding: 0 20px 0 0;
   position: absolute;
   top: 7px;
   right: 0;
-  font-size: 1.6rem;
-  font-weight: bold;
-  font-family: ${props => props.theme.typeface};
-  color: ${props => props.theme.links};
   &:hover {
     color: ${props => props.theme.linkHover};
   }
 `;
 
 const Button = styled.button`
-  padding: 0;
-  margin: 0;
   background: transparent;
   border: none;
-  outline: transparent;
   cursor: pointer;
+  margin: 0;
+  outline: transparent;
+  padding: 0;
 `;
 
 export class Navbar extends PureComponent {

@@ -3,27 +3,25 @@ import styled from 'styled-components';
 import { ColumnButtons, DateDiv, ItemButtons } from "./DragonElements";
 
 const ColumnContainer = styled.div`
-  position: relative;
-  width: 260px;
-  min-width: 260px;
-  margin: 10px;
+  background: ${props => props.theme.pageBGLite};
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.pageBGLite};
+  margin: 10px;
+  min-width: 260px;
+  position: relative;
+  width: 260px;
 `;
 
 const ListContainer = styled.div`
-  padding: 8px;
-  padding-top: 136px;
+  border: 2px solid ${props => props.theme.links};
+  box-shadow: ${props => props.theme.columnBS};
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  padding: 8px;
+  padding-top: 136px;
   border-radius: 5px;
   transition: all .2s ease-in-out;
-  border-color: ${props => props.theme.links};
-  border-width: 2px;
-  border-style: solid;
-  box-shadow: ${props => props.theme.columnBS};
 `;
 
 const SubjectHeader = styled.div`
@@ -33,38 +31,38 @@ const SubjectHeader = styled.div`
 `;
 
 const Heading3 = styled.div`
-  font-weight: bold;
   font-size: 2rem;
-  text-align: center;
-  padding: 0 8px;
+  font-weight: bold;
   margin: 5px 0 10px 0;
+  padding: 0 8px;
+  text-align: center;
 `;
 
 const Paragraph = styled.p`
-  margin: 0 10px;
-  font-size: 1.5rem;
-  padding: 8px;
   border-top: 1px solid ${props => props.theme.mainColor};
-  min-height: 75px;
   color: ${props => props.theme.mainColor};
+  font-size: 1.5rem;
+  margin: 0 10px;
+  min-height: 75px;
+  padding: 8px;
   text-align: center;
 `;
 
 const ItemContainer = styled.div`
-  position: relative;
-  width: 100%;
-  margin-bottom: 8px;
+  background: ${props => props.theme.itemBG};
   border-radius: 5px;
-  padding: 6px 8px 4px 8px;
-  transition: background-color .2s ease-in-out;
   box-shadow: ${props => props.theme.fieldShine};
+  color: ${props => props.theme.itemColor};
+  margin-bottom: 8px;
   opacity: ${props => (
     props.dragging || props.loading
       ? "0.9"
       : "1"
   )};
-  background: ${props => props.theme.itemBG};
-  color: ${props => props.theme.itemColor};
+  padding: 6px 8px 4px 8px;
+  position: relative;
+  transition: background-color .2s ease-in-out;
+  width: 100%;
   h4 {
     font-size: 1.8rem;
     font-weight: bold;

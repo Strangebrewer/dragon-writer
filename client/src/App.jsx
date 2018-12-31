@@ -142,7 +142,15 @@ class App extends Component {
                   )
               )}
             </Route>
-            
+
+            {this.state.projects.length > 0
+              && (
+                this.state.projects.map((project, index) => (
+                  <Route path={`/${project.link}/print`} component={Print} />
+                ))
+              )
+            }
+
             {this.state.projects.length > 0
               && (
                 this.state.projects.map((project, index) => (
@@ -177,8 +185,6 @@ class App extends Component {
                   </Route>
                 ))
               )}
-
-            <Route path="/print" component={Print} />
 
             <Route path="*" component={NoMatch} />
 

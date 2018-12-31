@@ -4,9 +4,9 @@ import { Button, Input, Label, TextArea } from "./FormElements";
 import { API } from "../../utils";
 
 const Container = styled.div`
-  width: 100%;
   margin: auto;
   padding-top: 8px;
+  width: 100%;
 `;
 
 class NewSubjectForm extends Component {

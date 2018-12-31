@@ -142,14 +142,8 @@ class App extends Component {
                   )
               )}
             </Route>
-
-            {this.state.projects.length > 0
-              && (
-                this.state.projects.map((project, index) => (
-                  <Route path={`/${project.link}/print`} component={Print} />
-                ))
-              )
-            }
+            
+                  <Route path="/print" component={Print} />
 
             {this.state.projects.length > 0
               && (

@@ -56,7 +56,7 @@ class Print extends Component {
               <i className="fas fa-print"></i>
             </LinkBtn>
           </PrintNav>
-          <Heading onClick={this.props.history.goBack}>{subject.subject}</Heading>
+          <Heading>{subject.subject}</Heading>
           <EditorStyles mode="read" print>
             {texts.map((text, index) => (
               <Editor

@@ -33,8 +33,11 @@ const Title = styled.h3`
 const LinkFlexContainer = styled.div`
   display: flex;
   justify-content: center;
-  a:hover {
-    color: ${props => props.theme.linkHover};
+  a {
+    color: ${props => props.theme.mainColor};
+    &:hover {
+      color: ${props => props.theme.linkHover};
+    }
   }
 `;
 
@@ -92,7 +95,7 @@ export class DragonTextNest extends Component {
             >
               <Link
                 to={{
-                  pathname: `/${projectLink}/print`,
+                  pathname: "/print",
                   state: { texts, subject: this.props.subject }
                 }}>
                 print view

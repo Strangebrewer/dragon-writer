@@ -12,14 +12,12 @@ const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 1450px;
-  padding-right: 300px;
   width: 100%;
 `;
 
 const SubjectHeading = styled.div`
   padding-bottom: 15px;
-  padding-left: 100px;
+  padding-right: 200px;
   width: 100%;
 `;
 

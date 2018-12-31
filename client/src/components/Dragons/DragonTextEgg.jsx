@@ -18,9 +18,9 @@ const Container = styled.div`
   border-bottom-left-radius: 10px;
   display: flex;
   margin: auto;
-  max-width: 1150px;
   min-height: 140px;
   min-width: 600px;
+  padding-right: 200px;
   position: relative;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
   width: 100%;
@@ -58,15 +58,13 @@ const ImageContainer = styled.div`
   border-top-right-radius: 10px;
   display: flex;
   height: 100%;
-  padding: 5px 5px 5px 30px;
-  position: absolute;
-  right: -160px;
+  min-width: 160px;
+  padding: 5px 0 0 30px;
   width: 160px;
   img {
     align-self: flex-start;
     max-width: 100%;
     max-height: 100%;
-    border-radius: 5px;
   }
 `;
 
@@ -115,7 +113,7 @@ export class DragonTextEgg extends Component {
                 <TextThesis>{text.thesis}</TextThesis>
                 <LinkBtn
                   underline
-                  padding="2px 0 10px 8px"
+                  padding="2px 4px 10px 4px"
                   onClick={() => toggleEditable(text._id)}
                   title={`edit '${text.title}'`}
                 >
@@ -123,7 +121,7 @@ export class DragonTextEgg extends Component {
                 </LinkBtn>
                 <LinkBtn
                   underline
-                  padding="2px 0 10px 8px"
+                  padding="2px 4px 10px 4px"
                   delete
                   onClick={() => this.deleteTextModal(text._id, subject._id, index)}
                   title={`delete '${text.title}'`}

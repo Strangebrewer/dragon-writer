@@ -9,10 +9,9 @@ const PageContainer = styled.div`
   color: ${props => props.theme.mainColor};
   display: grid;
   font-family: ${props => props.theme.typeface};
-  grid-template-columns: 200px 1fr 150px;
+  grid-template-columns: 200px 1fr;
   grid-template-rows: auto auto 1fr auto;
   min-height: 100vh;
-  /* width: 100vw; */
 `;
 
 const NavColumn = styled.div`
@@ -27,12 +26,12 @@ const NavColumn = styled.div`
 const ContentColumn = styled.div`
   display: flex;
   grid-row: 3;
-  grid-column: 2 / 4;
+  grid-column: 2;
   overflow-x: auto;
 `;
 
 const FooterContainer = styled.div`
-  grid-column: 1 / 4;
+  grid-column: 1 / 3;
   grid-row: 4;
   height: 90px;
 `;
@@ -49,7 +48,7 @@ const TitleContainer = styled.div`
     ? props.theme.homeBannerColor
     : props.theme.bannerColor
   };
-  grid-column: 1 / 4;
+  grid-column: 1 / 3;
   grid-row: 2;
   margin: ${props => (
     props.dragons || props.storyboardOn
@@ -73,7 +72,6 @@ const TitleContainer = styled.div`
 
 export class Page extends PureComponent {
   render() {
-    console.log("Page Rendering")
     const { props } = this;
     return (
       <PageContainer >

@@ -7,8 +7,7 @@ import { API, Scales } from "../utils"
 
 const Container = styled.div`
   margin: auto;
-  padding-left: 20px;
-  padding-right: 220px;
+  padding-right: 200px;
 `;
 
 class Home extends Component {

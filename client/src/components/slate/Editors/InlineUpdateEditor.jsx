@@ -27,35 +27,14 @@ const EditorInner = styled.div`
   padding: 5px 0 10px 10px;
   width: 100%;
   label {
-    color: ${props => props.theme.pageBG};
     font-size: 1.9rem;
-    /* font-weight: bold; */
-    /* text-shadow: 0 0 1px ${props => props.theme.pageBG},
-      0 0 2px ${props => props.theme.pageBG},
-      0 0 3px ${props => props.theme.pageBG}; */
   }
-`;
-
-const DragHeader = styled.div`
-  align-items: center;
-  background-color: ${props => props.theme.bannerBG};
-  /* background-color: transparent; */
-  color: ${props => props.theme.bannerColor};
-  display: flex;
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 2.4rem;
-  height: 30px;
-  padding-left: 10px;
-  position: absolute;
-  top: 0;
-  text-align: center;
-  width: 100%;
 `;
 
 const MetaDataForm = styled.div`
   position: absolute;
   left: 10px;
-  top: 40px;
+  top: 10px;
   width: 150px;
 `;
 
@@ -66,11 +45,8 @@ export class InlineUpdateEditor extends Component {
     const { id, inline } = this.props;
     return (
       <EditorOuter>
-        <DragHeader {...this.props.dragHandle}>
-          <p>{`Edit: ${this.props.title}`}</p>
-        </DragHeader>
 
-        <EditorInner>
+        <EditorInner {...this.props.dragHandle}>
           <RenderButtons
             inline={inline}
             state={this.props.state}
@@ -81,7 +57,7 @@ export class InlineUpdateEditor extends Component {
           />
 
           <MetaDataForm>
-            <Label>Title:</Label>
+            <Label {...this.props.dragHandle}>Title:</Label>
             <Input
               style={{ maxWidth: "300px" }}
               type="text"
@@ -91,7 +67,7 @@ export class InlineUpdateEditor extends Component {
               placeholder="(22 char max)"
               onChange={this.props.handleInputChange}
             />
-            <Label>Summary:</Label>
+            <Label {...this.props.dragHandle}>Summary:</Label>
             <Input
               style={{ maxWidth: "300px" }}
               type="text"

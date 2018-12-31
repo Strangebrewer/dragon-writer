@@ -13,6 +13,9 @@ const Buttons = styled.div`
   a {
     color: ${props => props.theme.mainColor};
     font-size: 1.3rem;
+    &:hover {
+      color: ${props => props.theme.linkHover};
+    }
   }
 `;
 
@@ -58,7 +61,10 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled || image}
                 onClick={() => props.uploadImageModal(id)}
                 padding="0 3px 5px 3px"
-                title={image ? "you must delete the current image before uploading another" : "upload project image"}
+                title={image
+                  ? "you must delete the current image before uploading another"
+                  : "upload image for this column"
+                }
               >
                 <i className="fas fa-upload"></i>
               </LinkBtn>
@@ -67,7 +73,7 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled}
                 onClick={() => props.imageModal(image, publicId, id, "column")}
                 padding="0 3px 5px 3px"
-                title="see project image"
+                title="see image for this column"
               >
                 <i className="far fa-images"></i>
               </LinkBtn>
@@ -76,13 +82,13 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled}
                 onClick={() => props.toggleStoryboard(id)}
                 padding="0 3px 5px 3px"
-                title="storyboard mode"
+                title="storyboard view"
               >
                 <i className="fas fa-th"></i>
               </LinkBtn>
 
               <Link
-                title="print mode"
+                title="print view"
                 to={{ pathname: "/print", state: { texts, subject } }}>
                 <i className="fas fa-print"></i>
               </Link>

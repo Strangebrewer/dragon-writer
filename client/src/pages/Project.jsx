@@ -231,6 +231,7 @@ class Project extends PureComponent {
                         {...provided}
                         deleteText={this.deleteText}
                         executeDragonStateChanges={executeDragonStateChanges}
+                        projectLink={link}
                         state={state}
                         subject={state.subjects[state.singleSubjectId]}
                         subjects={subjects}

@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
-import { EditorLogic, DragonLogic, ModalLogic } from "../components/Renderers";
+import { EditorLogic, ModalLogic } from "../components/Renderers";
 import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor } from "../components/slate/Editors";
 import { Storyboard } from "../components/Storyboard";
 import { DragonNest, DragonTextNest } from "../components/Dragons";
@@ -19,7 +19,7 @@ const EditorContainer = styled.div`
 const StoryboardContainer = styled.div`
   height: 100%;
   margin: auto;
-  padding-right: 200px;
+  padding-right: 150px;
   position: relative;
   width: 100%;
 `;
@@ -119,6 +119,7 @@ class Project extends PureComponent {
         logout={this.props.logout}
         mode={this.props.mode}
         nextMode={this.props.nextMode}
+        project
         projectId={_id}
         storyboardOn={state.storyboardOn}
         subjects={subjects}

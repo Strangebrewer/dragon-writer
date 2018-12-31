@@ -195,7 +195,6 @@ export class DragonNest extends PureComponent {
                 toggleSubject={toggleSubject}
               />
 
-
               <SubjectHeader {...provided.dragHandleProps}>
                 <Heading3>{subject.subject}</Heading3>
                 <Paragraph>{theme}</Paragraph>
@@ -206,7 +205,7 @@ export class DragonNest extends PureComponent {
                   <DragonList
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    isDraggingOver={snapshot.isDraggingOver}
+                    isDraggingOver={snapshot.isDraggingOver}  
                   >
                     <ImageUploader
                       addImageToText={addImageToText}

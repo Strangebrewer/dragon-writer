@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from "react";
+import React, { PureComponent } from "react";
 import styled from 'styled-components';
 import { LinkBtn } from "../../PageElements";
 import { Spinner } from "../../Styles";
@@ -53,7 +53,10 @@ export class ItemButtons extends PureComponent {
               size="1rem"
               disabled={props.disabled || text.image}
               onClick={() => props.uploadImageModal(id)}
-              title={text.image ? "you must delete the current image before uploading another" : "upload project image"}
+              title={text.image
+                ? "you must delete the current image before uploading another"
+                : "upload image for this text"
+              }
             >
               <i className="fas fa-upload"></i>
             </LinkBtn>
@@ -65,7 +68,7 @@ export class ItemButtons extends PureComponent {
               size="1rem"
               disabled={props.disabled}
               onClick={() => props.imageModal(image, publicId, id, "item")}
-              title="see project image"
+              title="see image for this text"
             >
               <i className="far fa-images"></i>
             </LinkBtn>

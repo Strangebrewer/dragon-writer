@@ -1,8 +1,8 @@
 import React, { Fragment, PureComponent } from 'react';
+import { Link } from "react-router-dom";
 import {
   SortableContainer,
   SortableElement,
-  SortableHandle,
   arrayMove
 } from 'react-sortable-hoc';
 import { Editor } from "slate-react";
@@ -17,7 +17,7 @@ const Container = styled.div`
   background: transparent;
   display: grid;
   grid-gap: 15px;
-  grid-template-columns: repeat( auto-fit, minmax(200px, 280px) );
+  grid-template-columns: repeat(auto-fit, minmax(200px, 280px) );
   grid-template-rows: minmax(200px, 280px);
   padding: 10px 30px;
   width: 100%;
@@ -31,7 +31,14 @@ const SubjectHeading = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   padding-bottom: 5px;
+  padding: 0 50px 5px 0;
   width: 100%;
+  a {
+    color: ${props => props.theme.mainColor};
+    &:hover {
+      color: ${props => props.theme.linkHover};
+    }
+  }
 `;
 
 const Title = styled.h3`
@@ -113,6 +120,7 @@ export class Storyboard extends PureComponent {
   render() {
     console.log(this.props);
     const { subject, theme, _id } = this.props.subject;
+    const { projectLink, texts } = this.props;
     return (
       <Fragment>
         <SubjectHeading>
@@ -138,6 +146,21 @@ export class Storyboard extends PureComponent {
             onClick={() => this.props.toggleDragonText(_id)}
           >
             full text view
+          </LinkBtn>
+
+          <LinkBtn
+            fancy
+            size="1.8rem"
+            underline
+          >
+            <Link
+              to={{
+                pathname: "/print",
+                state: { texts, subject: this.props.subject }
+              }}
+            >
+              print view
+            </Link>
           </LinkBtn>
         </SubjectHeading>
 

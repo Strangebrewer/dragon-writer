@@ -2,10 +2,16 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const EditorBtnArray = styled.div`
+  cursor: default;
   margin: 5px 0 0 0;  
-  margin-left: ${props => props.inline && '160px'};
-  padding-top: 26px;
-  text-align: center;
+  margin-left: ${props => props.inline && '170px'};
+  /* padding-top: 26px; */
+  padding-top: ${props => (
+    props.inline
+      ? '10px'
+      : '26px'
+  )};
+  text-align: left;
   button span {
     font-family: 'Times New Roman', Times, serif;
     font-size: ${props => (
@@ -21,6 +27,7 @@ const EditorBtnArray = styled.div`
 `;
 
 const EditorBtn = styled.button`
+  cursor: pointer;
   font-size: ${props => (
     props.inline
       ? "1rem"

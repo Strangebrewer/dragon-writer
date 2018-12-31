@@ -8,12 +8,9 @@ const Container = styled.div`
   background: ${props => (
     props.isDragging
       ? props.theme.pageBGLite
-      : props.theme.inlineEditorBG
+      : 'transparent'
   )};
   display: flex;
-  height: 100%;
-  max-width: 1450px;
-  position: relative;
   transition: background-color .2s ease-in-out;
   width: 100%;
 `;
@@ -23,19 +20,14 @@ const ImageContainer = styled.div`
   background: ${props => (
     props.isDragging
       ? props.theme.pageBGLite
-      : props.theme.inlineEditorBG
+      : 'transparent'
   )};
   display: flex;
   height: 100%;
-  margin: auto 10px auto 0;
-  padding-top: 40px;
-  padding-right: 20px;
-  padding-bottom: 10px;
+  min-width: 390px;
+  padding-top: 10px;
+  padding-right: 30px;
   padding-left: 20px;
-  position: absolute;
-  bottom: 0;
-  right: -400px;
-  top: 0;
   width: 390px;
   img {
     margin: auto;
@@ -103,7 +95,7 @@ export class DragonTextEditable extends Component {
             </EditorLogic>
 
             <ImageContainer isDragging={snapshot.isDragging}>
-              <Banner />
+              {/* <Banner /> */}
               <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
             </ImageContainer>
 

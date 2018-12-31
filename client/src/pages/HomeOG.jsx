@@ -6,9 +6,9 @@ import { Authenticate, ProjectCard } from "../components/PageElements";
 import { API, Scales } from "../utils"
 
 const Container = styled.div`
-  padding-right: 220px;
-  padding-left: 20px;
   margin: auto;
+  padding-left: 20px;
+  padding-right: 220px;
 `;
 
 class Home extends Component {

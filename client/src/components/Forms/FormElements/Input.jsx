@@ -2,16 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const InputField = styled.input`
-  display: block;
-  border: 2px solid ${props => props.theme.links};
   background-color: ${props => props.theme.fieldBG};
-  color: ${props => props.theme.fieldColor};
+  border: 2px solid ${props => props.theme.links};
   border-radius: 5px;
-  padding: 5px;
-  width: 100%;
+  box-shadow: ${props => props.theme.fieldShadow};
+  color: ${props => props.theme.fieldColor};
+  display: block;
   margin-bottom: 5px;
   outline: transparent;
-  box-shadow: ${props => props.theme.fieldShadow};
+  padding: 5px;
+  width: 100%;
 `;
 
 export const Input = props => (

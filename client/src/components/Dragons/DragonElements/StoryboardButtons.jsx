@@ -4,13 +4,13 @@ import { LinkBtn } from "../../PageElements";
 import { Spinner } from "../../Styles";
 
 const Buttons = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   position: absolute;
   top: 0;
   bottom: 0;
   right: 3px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   button {
     text-shadow: 0 0 1px ${props => props.theme.pageBG},
       0 0 2px ${props => props.theme.pageBG},

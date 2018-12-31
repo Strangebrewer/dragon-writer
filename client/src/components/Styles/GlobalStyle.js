@@ -8,11 +8,11 @@ export const GlobalStyle = createGlobalStyle`
   caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details,
   embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby,
   section, summary, time, mark, audio, video {
+    border: 0;
+    font: inherit;
+    font-size: 100%;
     margin: 0;
     padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
     vertical-align: baseline;
   }
   article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -26,12 +26,12 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
-    margin: 0;
-    padding: 0;
     border: 0;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5rem;
     line-height: 1;
-    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
   }
   blockquote, q {
     quotes: none;
@@ -51,8 +51,8 @@ export const GlobalStyle = createGlobalStyle`
     font-style: italic;
   }
   a {
-    text-decoration: none;
     color: ${props => props.theme.black};
+    text-decoration: none;
   }
   u {
     text-decoration: underline;

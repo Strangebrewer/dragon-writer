@@ -11,22 +11,22 @@ const buttonStyle = {
 }
 
 const Container = styled.div`
+  background: transparent;
   min-height: 150px;
   width: 165px;
-  background: transparent;
 `;
 
 const HeadingTwo = styled.h2`
-  color: ${props => props.theme.headingColor};
-  padding: 0;
-  margin: 0;
-  font-family: ${props => props.theme.hTypeface};
-  line-height: 1;
-  padding-bottom: 5px;
   border-bottom: 1px solid ${props => props.theme.headingColor};
+  color: ${props => props.theme.headingColor};
+  font-family: ${props => props.theme.hTypeface};
   font-size: 2.3rem;
-  text-shadow: 1px 1px 0 ${props => props.theme.midGrey};
   /* font-weight: bold; */
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 5px;
+  text-shadow: 1px 1px 0 ${props => props.theme.midGrey};
 `;
 
 const Message = styled.p`
@@ -98,6 +98,7 @@ const SubjectList = props => {
           <NewSubjectForm
             addSubjectToOrder={addSubjectToOrder}
             projectId={projectId}
+            toggleSubjectForm={toggleSubjectForm}
           />
         ) : (
           <React.Fragment>

@@ -5,14 +5,14 @@ import { LinkBtn } from "../../PageElements";
 import { Spinner } from "../../Styles";
 
 const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
   position: absolute;
   top: 6px;
   left: 8px;
-  display: flex;
-  justify-content: space-between;
   a {
-    font-size: 1.3rem;
     color: ${props => props.theme.mainColor};
+    font-size: 1.3rem;
   }
 `;
 

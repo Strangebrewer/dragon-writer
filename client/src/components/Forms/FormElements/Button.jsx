@@ -16,7 +16,6 @@ const FormButton = styled.button`
   padding: 8px 12px;
 	transition: all 0.2s ease-in-out;
   width: ${props => props.full && '100%'};
-
   &:active, &:enabled:hover {
     background-color: ${props => props.theme.buttonHoverBG};
     box-shadow: inset 0 0 5px 3px ${props => props.theme.buttonBG}, 0 0 5px ${props => props.theme.buttonBG};

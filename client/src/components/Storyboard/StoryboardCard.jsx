@@ -59,18 +59,18 @@ const Card = styled.div`
     cursor: grabbing;
   }
   p {
+    bottom: 10px;
     font-family: ${props => props.theme.typeface};
     font-size: 2rem;
-    bottom: 10px;
   }
   &:hover {
+    border: 1px solid ${props => props.theme.midGrey};
     h3, p, button, .fa-arrows-alt {
       opacity: 1;
     }
     button:disabled {
       opacity: 0.6;
     }
-    border: 1px solid ${props => props.theme.midGrey};
   }
 `;
 

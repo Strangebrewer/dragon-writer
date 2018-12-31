@@ -2,46 +2,46 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const EditorBtnArray = styled.div`
-  padding-top: 26px;
   margin: 5px 0 0 0;  
   margin-left: ${props => props.inline && '160px'};
+  padding-top: 26px;
   text-align: center;
   button span {
+    font-family: 'Times New Roman', Times, serif;
     font-size: ${props => (
       props.inline
         ? "1rem"
         : "1.6rem"
     )};
-    line-height: 0.5;
     font-weight: bold;
-    padding: 0;
+    line-height: 0.5;
     margin: 0;
-    font-family: 'Times New Roman', Times, serif;
+    padding: 0;
   }
 `;
 
 const EditorBtn = styled.button`
-  width: ${props => (
-    props.inline === "true"
-      ? "30px"
-      : "40px"
-  )};
-  padding: 0;
-  margin: 0 5px 5px 0;
-  height: ${props => (
-    props.inline
-      ? "30px"
-      : "40px"
-  )};
   font-size: ${props => (
     props.inline
       ? "1rem"
       : "1.6rem"
   )};
+  height: ${props => (
+    props.inline
+      ? "30px"
+      : "40px"
+  )};
+  margin: 0 5px 5px 0;
   opacity: ${props => (
     props.snarky
       ? 1
       : 0.6
+  )};
+  padding: 0;
+  width: ${props => (
+    props.inline === "true"
+      ? "30px"
+      : "40px"
   )};
   &:last-of-type {
     margin-right: 0;

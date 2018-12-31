@@ -2,33 +2,33 @@ import React, { Component } from "react";
 import styled from 'styled-components';
 
 const Outer = styled.div`
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
+  height: 100%;
+  overflow: auto;
   position: fixed;
-  z-index: 99;
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
 `;
 
 const Content = styled.div`
-  max-width: 60%;
-  min-width: 300px;
-  position: relative;
-  background-color: ${props => props.theme.modalBG};
-  margin: auto;
-  padding: 0;
-  border: 1px solid ${props => props.theme.links};
-  box-shadow: 0 0 10px #fff, 0 0 10px #cacaca, 0 0 20px #a3a3a3, 0 0 30px #777777;
-  animation-name: fadein;
   animation-duration: 0.4s;
+  animation-name: fadein;
+  background-color: ${props => props.theme.modalBG};
+  border: 1px solid ${props => props.theme.links};
   border-radius: 12px;
+  box-shadow: 0 0 10px #fff, 0 0 10px #cacaca, 0 0 20px #a3a3a3, 0 0 30px #777777;
   color: ${props => props.theme.modalColor};
   font-size: 1.8rem;
   font-weight: bold;
+  max-width: 60%;
+  min-width: 300px;
+  margin: auto;
+  padding: 0;
+  position: relative;
   @keyframes fadein {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -36,24 +36,24 @@ const Content = styled.div`
 `;
 
 const Button = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  background-color: transparent;
+  border: none;
   color: ${props => props.theme.buttonBG};
   font-size: 20px;
   outline: transparent;
-  background-color: transparent;
-  border: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
   &:hover, &:focus {
     color: black;
-    text-decoration: none;
     cursor: pointer;
+    text-decoration: none;
   }
 `;
 
 const Body = styled.div`
-  max-width: 100%;
   margin: auto;
+  max-width: 100%;
   padding: 40px 30px 30px 30px;
   z-index: 999;
 `;
@@ -62,16 +62,17 @@ const Buttons = styled.div`
   display: flex;
   justify-content: space-evenly;
   button, a {
-    font-size: 1.8rem;
     border: 1px solid ${props => props.theme.buttonBG};
-    padding: 7px 14px;
-    margin-top: 20px;
     border-radius: 5px;
+    box-shadow: 0 0 20px 20px ${props => props.theme.buttonBG} inset,
+      0 0 0 0 ${props => props.theme.buttonBG};
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 20px 20px ${props => props.theme.buttonBG} inset, 0 0 0 0 ${props => props.theme.buttonBG};
-	  transition: all 150ms ease-in-out;
+    font-size: 1.8rem;
+    margin-top: 20px;
+    padding: 7px 14px;
 	  text-decoration: none;
+	  transition: all 150ms ease-in-out;
   }
   button:hover, a:hover {
     background-color: ${props => props.theme.buttonHoverBG};

@@ -13,18 +13,18 @@ const DropZone = styled.div`
 
 const Container = styled.div`
   background-color: ${props => props.theme.projectItemBG};
-  position: relative;
-  width: 560px;
-  padding: 15px;
   border: 1px solid ${props => props.theme.links};
   border-radius: 5px;
-  margin: 0 auto 10px auto;
+  box-shadow: ${props => props.isDragging && props.theme.columnBS};
   line-height: 1.2;
+  margin: 0 auto 10px auto;
+  padding: 15px;
+  position: relative;
+  width: 560px;
   &:hover {
     border: 1px solid ${props => props.theme.columnDragBorder};
     box-shadow: ${props => props.theme.columnBS};
   }
-  box-shadow: ${props => props.isDragging && props.theme.columnBS};
 `;
 
 const ProjectTitle = styled.h2`
@@ -35,8 +35,8 @@ const ProjectTitle = styled.h2`
 
 const ProjectText = styled.p`
   color: ${props => props.theme.projectItemColor};
-  text-indent: 25px;
   font-size: 2rem;
+  text-indent: 25px;
 `;
 
 export class ProjectCard extends Component {

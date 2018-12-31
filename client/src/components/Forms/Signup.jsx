@@ -4,22 +4,22 @@ import { Button, Input, Label } from "./FormElements";
 import { LinkBtn } from "../PageElements";
 
 const Container = styled.div`
-  width: 300px;
-  margin: auto;
-  padding: 20px;
   border: 1px solid ${props => props.theme.linkHover};
   border-radius: 10px;
+  margin: auto;
+  padding: 20px;
+  width: 300px;
 `;
 
 const Heading = styled.h2`
   font-size: 2.2rem;
-  text-align: center;
   font-weight: bold;
+  text-align: center;
 `;
 
 const Paragraph = styled.p`
-  text-align: center;
   padding-top: 10px;
+  text-align: center;
 `;
 
 export const Signup = props => (

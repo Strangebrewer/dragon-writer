@@ -6,12 +6,12 @@ export const EditorStyles = styled.div`
       ? props.theme.editorBG
       : 'transparent'
   )};
-  border-radius: 8px;
   border: ${props => (
     props.mode === "write"
       ? "2px solid " + props.theme.links
       : "none"
   )};
+  border-radius: 8px;
   box-shadow: ${props => (
     props.mode === "write"
       ? props.theme.fieldShadow
@@ -35,7 +35,6 @@ export const EditorStyles = styled.div`
   overflow: auto;
   transition: background-color .2s ease-in-out;
   p {
-    text-indent: 25px;
     font-size: ${props => (
       props.mode === "write"
         ? "1.5rem"
@@ -49,9 +48,10 @@ export const EditorStyles = styled.div`
         : "Arial, Helvetica, sans-serif"
     )};
     margin: 0;
+    text-indent: 25px;
   }
   ul {
-    padding-top: 0;
     margin-top: 0;
+    padding-top: 0;
   }
 `;

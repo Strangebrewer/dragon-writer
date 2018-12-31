@@ -9,13 +9,13 @@ import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
 const Container = styled.div`
-  position: relative;
-  width: 260px;
-  min-width: 260px;
-  margin: 10px;
+  background: ${props => props.theme.pageBGLite};
   display: flex;
   flex-direction: column;
-  background: ${props => props.theme.pageBGLite};
+  margin: 10px;
+  min-width: 260px;
+  position: relative;
+  width: 260px;
 `;
 
 const SubjectHeader = styled.div`
@@ -25,42 +25,40 @@ const SubjectHeader = styled.div`
 `;
 
 const DragonList = styled.div`
-  padding: 8px;
-  padding-top: 136px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  border-radius: 5px;
-  transition: all .2s ease-in-out;
-  border-color: ${props => (
+  border: 2px solid ${props => (
     props.isDraggingOver
       ? props.theme.columnDragBorder
       : props.theme.links
   )};
-  border-width: 2px;
-  border-style: solid;
+  border-radius: 5px;
   box-shadow: ${props => (
     props.isDraggingOver
       ? props.theme.columnBS
       : "none"
   )};
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 8px;
+  padding-top: 136px;
+  transition: all .2s ease-in-out;
 `;
 
 const Heading3 = styled.div`
-  font-weight: bold;
   font-size: 2rem;
-  text-align: center;
-  padding: 0 8px;
+  font-weight: bold;
   margin: 5px 0 10px 0;
+  padding: 0 8px;
+  text-align: center;
 `;
 
 const Paragraph = styled.p`
-  margin: 0 10px;
-  font-size: 1.5rem;
-  padding: 8px;
   border-top: 1px solid ${props => props.theme.mainColor};
-  min-height: 75px;
   color: ${props => props.theme.mainColor};
+  font-size: 1.5rem;
+  margin: 0 10px;
+  min-height: 75px;
+  padding: 8px;
   text-align: center;
 `;
 

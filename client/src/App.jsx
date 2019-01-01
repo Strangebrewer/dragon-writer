@@ -22,8 +22,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // this.getInitialData();
-    this.getProjectData();
+    this.getInitialData();
   };
 
   toggleStyleMode = modeInput => {
@@ -42,70 +41,6 @@ class App extends Component {
     }
     this.setState(stateObj);
   }
-
-  getProjectData = async () => {
-    let user;
-    let error;
-    let projectOrder = [];
-    let projectOrderData = {};
-
-    try {
-      const userResponse = await API.getUserWithProjects();
-      // do this (immediately below) to keep user consistent with the way
-      // userInfo is passed to this function in order to avoid excess db requests.
-      user = userResponse.data;
-    }
-    catch (err) {
-      error = err;
-    }
-
-    if (!error && user._id) {
-
-      if (user.order) projectOrder = JSON.parse(user.order);
-      else projectOrder = user.projects.map(project => project._id);
-
-      projectOrderData = Utils.formatProjectOrder(user.projects);
-      isAuthenticated = true;
-    }
-
-    const projects = user.projects;
-    projects.forEach(project => {
-      console.log(JSON.parse(project.order));
-      // const order = JSON.parse(project.order);
-      // project.order = order;
-    });
-    
-    console.log(projects);
-
-    await this.setState({
-      projectOrder,
-      projectOrderData,
-      loading: false,
-      projects,
-      user,
-    });
-
-    this.getRestOfTheData();
-  };
-
-  getRestOfTheData = async () => {
-    let projectData = [];
-
-    const projectsRes = await API.getProjectsWithAll();
-    const projects = projectsRes.data;
-
-    projects.forEach(project => {
-      if (project.order) {
-        projectData.push(Utils.addTextsToOrder(project));
-      }
-      else
-        projectData.push(Utils.formatInitialData(project));
-    });
-
-    console.log(projectData);
-
-    this.setState({ projectData });
-  };
 
   getInitialData = async (userInfo) => {
     let projects = [];
@@ -194,13 +129,12 @@ class App extends Component {
                       {...sharedProps}
                       projectOrder={this.state.projectOrder}
                       projectOrderData={this.state.projectOrderData}
-                    // projects={this.state.projects}
                     />
                   ) : <Redirect to="/" />
               )}
             </Route>
 
-            {(this.state.projects.length > 0 && this.state.projectData)
+            {this.state.projects.length > 0
               && (
                 this.state.projects.map((project, index) => (
                   <Route key={project._id} path={`/${project.link}`}>

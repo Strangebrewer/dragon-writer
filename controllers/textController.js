@@ -7,7 +7,7 @@ function CustomError(error) {
 module.exports = {
 
   getTexts: function (req, res) {
-    db.Text.find({})
+    db.Text.find({ userId: req.user._id })
       .then(response => res.json(response))
       .catch(err => res.send(err));
   },

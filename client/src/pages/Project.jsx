@@ -244,7 +244,7 @@ class Project extends PureComponent {
                   </ImageUploader>
                 </StoryboardContainer>
 
-              ) : (
+              ) : (state.texts &&
                 <DragonLair>
                   <ImageUploader
                     getInitialData={getInitialData}

@@ -6,6 +6,9 @@ router.route('/')
   .get(projectController.getProjects)
   .post(projectController.createProject);
 
+router.route('/only')
+  .get(projectController.getProjectsOnly);
+
 router.route('/image/:id')
   .put(imageController.removeProjectImage);
 

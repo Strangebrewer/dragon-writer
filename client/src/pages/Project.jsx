@@ -102,9 +102,10 @@ class Project extends PureComponent {
   }
 
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     const { executeDragonStateChanges, getInitialData, state } = this.props;
     const { title, _id, link, summary } = this.props.project;
+    // map the subject data to the subject order array:
     const subjects = state.subjectOrder
       .map(subject => ({ ...state.subjects[subject] }));
 
@@ -117,9 +118,7 @@ class Project extends PureComponent {
         dragons={state.dragons}
         editorOn={state.editorOn}
         logout={this.props.logout}
-        mode={this.props.mode}
         nextMode={this.props.nextMode}
-        project
         projectId={_id}
         storyboardOn={state.storyboardOn}
         subjects={subjects}
@@ -157,7 +156,7 @@ class Project extends PureComponent {
           <EditorLogic
             callback={this.toggleInlineNew}
             executeDragonStateChanges={executeDragonStateChanges}
-            projectId={this.props.project._id}
+            projectId={_id}
             subject={state.singleSubject}
             state={state}
           >
@@ -168,8 +167,8 @@ class Project extends PureComponent {
                 toggleInlineNew={this.toggleInlineNew}
               />
             )}
-
-          </EditorLogic>}
+          </EditorLogic>
+        }
 
         {state.singleTextEdit &&
           <EditorLogic
@@ -189,7 +188,8 @@ class Project extends PureComponent {
                 toggleSingleEdit={this.toggleSingleEdit}
               />
             )}
-          </EditorLogic>}
+          </EditorLogic>
+        }
 
         {state.dropZoneOn
           && (state.dragons
@@ -216,7 +216,6 @@ class Project extends PureComponent {
                     />
                   )}
                 </ModalLogic>
-
               </DragonLair>
             ) : state.storyboardOn
               ? (

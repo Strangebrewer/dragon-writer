@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const db = require("../models");
-mongoose.Promise = global.Promise;
+// mongoose.Promise = global.Promise;
 const bcrypt = require('bcryptjs');
 
 const pw = bcrypt.hashSync("1234", bcrypt.genSaltSync(10), null);
 
-// This file empties the User collection and inserts the users below
+// This file empties the database and inserts the data below
 
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/writing_tool"
@@ -89,7 +89,7 @@ async function seedDb() {
 
   // insert users and assign to variable:
   const users = await db.User.collection.insertMany(userSeed);
-  // add user id to each project:
+  // add user id to each seed project:
   projectSeed.forEach(project => (
     project.userId = users.ops[0]._id
   ));
@@ -106,7 +106,9 @@ async function seedDb() {
   );
   // log the user to verify:
   console.log("***********User with projects added:*************");
-  console.log(thisUser)
+  console.log(thisUser);
+
+  // add user id and project id to each seed subject:
   subjectSeed.forEach(subject => (
     subject.userId = users.ops[0]._id,
     subject.projectId = projects.ops[0]._id

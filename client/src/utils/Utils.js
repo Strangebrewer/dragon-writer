@@ -40,6 +40,7 @@ export const Utils = {
       project.order.texts[text._id] = text;
       project.order.texts[text._id].text = text.text;
     });
+    console.log(project);
     return project;
   }
 }

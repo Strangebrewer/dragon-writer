@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { ProjectButtons } from "../Dragons/DragonElements";
 import { Button, Input, TextArea } from "../Forms/FormElements";
-import { NewProject } from "../Forms";
+import { NewProjectForm } from "../Forms";
 import { API } from '../../utils';
 
 const DropZone = styled.div`
@@ -45,7 +45,6 @@ export class ProjectCard extends Component {
     title: '',
     summary: '',
     link: '',
-    loading: false,
   };
 
   handleInputChange = event => {
@@ -57,30 +56,11 @@ export class ProjectCard extends Component {
     this.setState({ create: !this.state.create });
   };
 
-  deleteProject = async id => {
-    await this.setState({ loading: true });
+  updateProject = project => {
+    const { link, summary, title } = this.state;
+    const newProjectData = { link, summary, title }
+    this.props.updateProject(project, newProjectData, this.props.closeModal);
     this.props.closeModal();
-    await API.deleteProject(id);
-    this.props.getInitialData(this.props.user);
-    this.setState({ loading: false })
-  };
-
-  updateProject = async project => {
-    await this.setState({ loading: true });
-    this.props.closeModal();
-    const { title, summary, link } = this.state;
-    const updateObject = {};
-
-    if (title) updateObject.title = title;
-    else updateObject.title = project.title;
-    if (summary) updateObject.summary = summary;
-    else updateObject.summary = project.summary;
-    if (link) updateObject.link = link;
-    else updateObject.link = project.link;
-
-    await API.updateProject(project._id, updateObject);;
-    this.props.getInitialData(this.props.user)
-    this.setState({ loading: false });
   };
 
   updateProjectModal = project => {
@@ -127,7 +107,7 @@ export class ProjectCard extends Component {
       ),
       buttons: (
         <Fragment>
-          <Button onClick={() => this.deleteProject(id)}>Yes, Delete</Button>
+          <Button onClick={() => this.props.deleteProject(id)}>Yes, Delete</Button>
           <Button onClick={this.props.closeModal}>Cancel</Button>
         </Fragment>
       ),
@@ -141,7 +121,8 @@ export class ProjectCard extends Component {
       <Fragment>
         {this.state.create
           ? (
-            <NewProject
+            <NewProjectForm
+              addNewProjectToOrder={this.props.addNewProjectToOrder}
               getInitialData={this.props.getInitialData}
               toggleProjectForm={this.toggleProjectForm}
               user={this.props.user}
@@ -182,7 +163,9 @@ export class ProjectCard extends Component {
                       </Draggable>
                     )
                   })}
-                  <Button full round onClick={this.toggleProjectForm}>Create New Project</Button>
+                  <Button full round onClick={this.toggleProjectForm}>
+                    Create New Project
+                  </Button>
                   {provided.placeholder}
                 </DropZone>
               )}

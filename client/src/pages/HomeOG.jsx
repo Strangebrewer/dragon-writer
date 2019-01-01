@@ -12,13 +12,17 @@ const Container = styled.div`
 
 class Home extends Component {
   state = {
+    loading: false,
     projectOrder: this.props.projectOrder,
     projectOrderData: this.props.projectOrderData
   };
 
   // Without this, first login will not show projects.
   componentWillReceiveProps(nextProps) {
-    if (nextProps.projectOrder !== this.props.projectOrder) {
+    if (
+      (nextProps.projectOrder !== this.props.projectOrder)
+      || (nextProps.projectOrderData !== this.props.projectOrderData)
+    ) {
       this.setState({
         projectOrder: nextProps.projectOrder,
         projectOrderData: nextProps.projectOrderData
@@ -42,20 +46,62 @@ class Home extends Component {
     this.props.getInitialData();
   };
 
+  addNewProjectToOrder = async project => {
+    const projectOrder = Array.from(this.state.projectOrder);
+    projectOrder.unshift(project._id);
+    const newState = {
+      ...this.state,
+      projectOrder,
+      projectOrderData: {
+        ...this.state.projectOrderData,
+        [project._id]: project
+      }
+    }
+    await this.setState(newState);
+    await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
+    // this.props.getInitialData();
+  };  
+
+  updateProject = async (project, newProjectData, closeModal) => {
+    await this.setState({ loading: true });
+    const { title, summary, link } = newProjectData;
+    const updateObject = {};
+
+    if (title) updateObject.title = title;
+    else updateObject.title = project.title;
+    if (summary) updateObject.summary = summary;
+    else updateObject.summary = project.summary;
+    if (link) updateObject.link = link;
+    else updateObject.link = project.link;
+
+    await API.updateProject(project._id, updateObject);;
+    this.props.getInitialData()
+    await this.setState({ loading: false });
+    // closeModal();
+  };
+
+  deleteProject = async id => {
+    await this.setState({ loading: true });
+    // this.props.closeModal();
+    await API.deleteProject(id);
+    this.props.getInitialData(this.props.user);
+    this.setState({ loading: false })
+  };
+
   render() {
+    console.log(this.props);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Page
-          title="Dragon Writer"
-          subtitle="Drag-and-drop storyboarding for writers"
-          size="large"
-          user={this.props.user}
-          logout={this.props.logout}
           authenticated={this.props.authenticated}
-          home="true"
+          home
+          logout={this.props.logout}
           mode={this.props.mode}
           nextMode={this.props.nextMode}
+          title="Dragon Writer"
+          subtitle="Drag-and-drop storyboarding for writers"
           toggleStyleMode={this.props.toggleStyleMode}
+          user={this.props.user}
         >
           <Container>
             <ImageUploader
@@ -67,10 +113,14 @@ class Home extends Component {
                   ? (
                     <ProjectCard
                       {...provided}
+                      addNewProjectToOrder={this.addNewProjectToOrder}
                       authenticated={this.props.authenticated}
+                      deleteProject={this.deleteProject}
                       getInitialData={this.props.getInitialData}
+                      loading={this.state.loading}
                       projectOrder={this.state.projectOrder}
                       projectOrderData={this.state.projectOrderData}
+                      updateProject={this.updateProject}
                       user={this.props.user}
                     />
                     // 'loading' prevents the login form from flashing on the screen while the app checks if a user already has a session cookie upon first page load

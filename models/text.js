@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-mongoose.promise = Promise;
+// mongoose.promise = Promise;
 
 const textSchema = new Schema({
   userId: { type: Schema.Types.ObjectId },

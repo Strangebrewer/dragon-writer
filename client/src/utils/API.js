@@ -7,6 +7,9 @@ export const API = {
   getUser: function () {
     return axios.get('/user');
   },
+  getUserWithProjects: function () {
+    return axios.get('/user/projects');
+  },
   // Get user info for profile (excludes some data)
   getUserProfileData: function () {
     return axios.get('/user/data');
@@ -67,8 +70,12 @@ export const API = {
   },
 
 
-  getProjects: function () {
+  getProjectsWithAll: function () {
     return axios.get('/api/project');
+  },
+
+  getProjectsOnly: function () {
+    return axios.get('/api/project/only');
   },
 
   createProject: function (projectData) {

@@ -51,9 +51,9 @@ const TitleContainer = styled.div`
   grid-column: 1 / 3;
   grid-row: 2;
   margin: ${props => (
-    props.dragons || props.storyboardOn
-      ? "30px auto 10px auto"
-      : "30px auto"
+    props.home
+      ? "30px auto"
+      : "30px auto 10px auto"
   )};
   padding: 5px 0 8px 0;
   text-align: center;
@@ -61,10 +61,10 @@ const TitleContainer = styled.div`
   width: ${props => props.home ? '600px' : '100%'};
   h2 {
     font-family: ${props => props.theme.hTypeface};
-    font-size: ${props => props.size === 'large' ? "5" : "3"}rem;
+    font-size: ${props => props.home ? "5rem" : "3rem"};
   }
   h3 {
-    font-size: ${props => props.size === 'large' ? "1.65" : "1.5"}rem;
+    font-size: ${props => props.home ? "1.65rem" : "1.5rem"};
     font-weight: bold;
     margin-top: 10px;
   }
@@ -72,6 +72,7 @@ const TitleContainer = styled.div`
 
 export class Page extends PureComponent {
   render() {
+    console.log(this.props);
     const { props } = this;
     return (
       <PageContainer >
@@ -79,10 +80,9 @@ export class Page extends PureComponent {
         <Navbar
           authenticated={props.authenticated}
           logout={props.logout}
-          user={props.user}
-          mode={props.mode}
           nextMode={props.nextMode}
           toggleStyleMode={props.toggleStyleMode}
+          user={props.user}
         />
 
         <TitleContainer
@@ -94,6 +94,7 @@ export class Page extends PureComponent {
           title={props.title}
         >
           <h2 title={props.subtitle}>{props.title}</h2>
+          {/* only the home page shows a subtitle */}
           {props.home && <h3>{props.subtitle}</h3>}
         </TitleContainer>
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
-mongoose.promise = Promise;
+// mongoose.promise = Promise;
 
 const tempPw = bcrypt.hashSync("BootsNPants", bcrypt.genSaltSync(10), null);
 
@@ -20,7 +20,6 @@ const userSchema = new Schema({
 	}
 );
 
-// Define schema methods
 userSchema.methods.checkPassword = function (inputPassword) {
 	return bcrypt.compareSync(inputPassword, this.password);
 }

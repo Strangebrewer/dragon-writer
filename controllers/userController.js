@@ -8,7 +8,37 @@ module.exports = {
     if (req.user) {
       db.User.findOne({ _id: req.user._id })
         .then(response => {
-          res.json(response);
+          const user = {
+            projects: response.projects,
+            _id: response._id,
+            username: response.username,
+            email: response.email,
+            order: response.order,
+            updatedAt: response.updatedAt,
+          }
+          res.json(user);
+        });
+    } else {
+      res.json({ user: null })
+    }
+  },
+
+  getUserWithProjects: function (req, res) {
+    console.log('===== user!!======')
+    console.log(req.user)
+    if (req.user) {
+      db.User.findOne({ _id: req.user._id })
+        .populate('projects')
+        .then(response => {
+          const user = {
+            projects: response.projects,
+            _id: response._id,
+            username: response.username,
+            email: response.email,
+            order: response.order,
+            updatedAt: response.updatedAt,
+          }
+          res.json(user);
         });
     } else {
       res.json({ user: null })

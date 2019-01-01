@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 300px;
 `;
 
-export class NewProject extends Component {
+export class NewProjectForm extends Component {
   state = {
     title: '',
     summary: '',
@@ -25,13 +25,13 @@ export class NewProject extends Component {
   createProject = async () => {
     const { link, summary, title } = this.state;
     try {
-      const user = await API.createProject({
+      const project = await API.createProject({
         title,
         summary,
         link,
         userId: this.props.user._id
       });
-      this.props.getInitialData(user.data);
+      this.props.addNewProjectToOrder(project.data);
       this.props.toggleProjectForm();
     }
     catch (err) {

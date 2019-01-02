@@ -70,10 +70,13 @@ export class ColumnButtons extends PureComponent {
               </LinkBtn>
 
               <LinkBtn
-                disabled={props.disabled}
+                disabled={props.disabled || !image}
                 onClick={() => props.imageModal(image, publicId, id, "column")}
                 padding="0 3px 5px 3px"
-                title="see image for this column"
+                title={image
+                  ? "see image for this column"
+                  : "no image has been uploaded for this column"
+                }
               >
                 <i className="far fa-images"></i>
               </LinkBtn>

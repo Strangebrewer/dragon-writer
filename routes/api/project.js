@@ -3,16 +3,14 @@ const projectController = require('../../controllers/projectController');
 const imageController = require('../../controllers/imageController');
 
 router.route('/')
-  .get(projectController.getProjects)
+  .get(projectController.getProjectsWithAll)
   .post(projectController.createProject);
-
-router.route('/only')
-  .get(projectController.getProjectsOnly);
 
 router.route('/image/:id')
   .put(imageController.removeProjectImage);
 
 router.route('/:id')
+  .get(projectController.getSingleProject)
   .put(projectController.updateProject)
   .delete(projectController.deleteProject);
 

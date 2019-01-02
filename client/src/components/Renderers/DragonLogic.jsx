@@ -84,7 +84,7 @@ export class DragonLogic extends Component {
     this.setState(stateObject);
   };
 
-  executeDragonStateChanges = async stateObject => {
+  executeDragonStateChanges = async (stateObject, type, text) => {
     await this.setState(stateObject);
     this.saveOrder();
   };
@@ -106,7 +106,8 @@ export class DragonLogic extends Component {
 
     const updateObj = { order: JSON.stringify(orderObject) };
     await API.updateProject(_id, updateObj);
-    this.props.getInitialData(this.props.user);
+    // this.props.getInitialData(this.props.user);
+    this.props.refreshSingleProjectOrder(_id);
   };
 
   render() {

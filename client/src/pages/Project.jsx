@@ -254,6 +254,7 @@ class Project extends PureComponent {
                     {provided => (
                       state.subjectOrder.map((subjectId, index) => {
                         const subject = state.subjects[subjectId];
+                        console.log(state.texts);
                         const texts = subject.textIds.map(textId => state.texts[textId]);
                         return state[subject._id] &&
                           <DragonNest

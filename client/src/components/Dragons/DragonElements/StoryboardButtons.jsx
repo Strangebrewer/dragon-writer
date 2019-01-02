@@ -59,11 +59,12 @@ export class StoryboardButtons extends PureComponent {
               storyboard
               underline
               size="1.2rem"
-              disabled={props.disabled || text.image || text.largeImage}
+              disabled={props.disabled || image}
               onClick={() => props.uploadImageModal(id)}
               title={text.image
                 ? "you must delete the current image before uploading another"
-                : "upload project image"}
+                : "upload text image"
+              }
             >
               <i className="fas fa-upload"></i>
             </LinkBtn>
@@ -73,9 +74,12 @@ export class StoryboardButtons extends PureComponent {
               storyboard
               underline
               size="1.2rem"
-              disabled={props.disabled}
+              disabled={props.disabled || !text.largeImage}
               onClick={() => props.imageModal(largeImage, publicId, id, "item")}
-              title="see larger image"
+              title={image
+                ? "see larger image"
+                : "no image has been uploaded for this text"
+              }
             >
               <i className="far fa-images"></i>
             </LinkBtn>

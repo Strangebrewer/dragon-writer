@@ -93,7 +93,7 @@ export class EditorLogic extends Component {
     const text = await API.updateText(id, textObject);
     const newState = Scales.updateTextHelper(text.data, this.props.state);
     this.props.callback(id);
-    this.props.executeDragonStateChanges(newState);
+    this.props.executeDragonStateChanges(newState, "update-text", text.data);
   };
 
   createText = async () => {
@@ -106,10 +106,10 @@ export class EditorLogic extends Component {
       thesis: this.state.thesis,
       text: JSON.stringify(this.state.value.toJSON())
     }
-    const newText = await API.createText(textObject);
-    const newState = await Scales.insertTextHelper(id, newText.data, state);
+    const text = await API.createText(textObject);
+    const newState = await Scales.insertTextHelper(id, text.data, state);
     if (callback) this.props.callback();
-    this.props.executeDragonStateChanges(newState);
+    this.props.executeDragonStateChanges(newState, "new-text", text.data);
   };
 
   render() {

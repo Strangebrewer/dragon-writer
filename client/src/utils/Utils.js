@@ -33,6 +33,7 @@ export const Utils = {
   },
 
   addTextsToOrder: function (project) {
+    console.log(JSON.parse(project.order));
     const order = JSON.parse(project.order);
     project.order = order;
     project.order.texts = {};
@@ -40,8 +41,15 @@ export const Utils = {
       project.order.texts[text._id] = text;
       project.order.texts[text._id].text = text.text;
     });
-    console.log(project);
+    console.log(project.order);
     return project;
+  },
+
+  getArrayIndex: function (array, id) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i]._id === id)
+        return i;
+    }
   }
 }
 

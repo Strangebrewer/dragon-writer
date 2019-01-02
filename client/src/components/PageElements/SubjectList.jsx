@@ -105,7 +105,12 @@ const SubjectList = props => {
             <Button onClick={toggleSubjectForm} style={buttonStyle}>
               New Column
             </Button>
-            <Button onClick={toggleSingleNewEditor} style={buttonStyle}>
+            <Button
+              disabled={subjects.length === 0}
+              onClick={toggleSingleNewEditor}
+              style={buttonStyle}
+              title={subjects.length === 0 ? 'You must first create a column for your new item' : ''}
+            >
               New Item
             </Button>
           </React.Fragment>

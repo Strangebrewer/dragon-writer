@@ -74,8 +74,8 @@ export const API = {
     return axios.get('/api/project');
   },
 
-  getProjectsOnly: function () {
-    return axios.get('/api/project/only');
+  getSingleProject: function (projectId) {
+    return axios.get(`/api/project/${projectId}`);
   },
 
   createProject: function (projectData) {

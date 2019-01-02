@@ -135,6 +135,7 @@ export class DragonNest extends PureComponent {
     const newState = Scales.deleteSubjectHelper(id, index, this.props.state);
     await API.deleteSubject(id);
     this.props.executeDragonStateChanges(newState);
+    this.props.closeModal();
   };
 
   togglePrintMode = subjectId => {
@@ -169,6 +170,7 @@ export class DragonNest extends PureComponent {
       toggleSubject,
       uploadImageModal,
     } = this.props;
+    console.log(texts);
     const { theme, _id } = subject;
     return (
       <Fragment>

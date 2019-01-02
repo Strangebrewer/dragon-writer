@@ -88,6 +88,35 @@ class App extends Component {
       projects,
       user,
     });
+  };
+
+  // getInitialData above gets ALL data (including the overwhelmingly largest chunk: all texts)
+  // But there's no need to fetch texts every time the order is rearranged
+  // So this method only fetches the project being rearranged and then adds existing text data
+  refreshSingleProjectOrder = async (projectId) => {
+    const projectResponse = await API.getSingleProject(projectId);
+    const project = projectResponse.data;
+
+    const index = Utils.getArrayIndex(this.state.projects, projectId);
+    project.texts = this.state.projects[index].texts;
+    Utils.addTextsToOrder(project)
+    const projects = Array.from(this.state.projects)
+    // .filter(item => item._id !== projectId);
+    projects.splice(index, 1, project);
+    console.log(projects);
+    this.setState({ projects })
+  }
+
+  addTextToProject = async () => {
+    // no need to check for project.order:
+    // creating a new column creates a new project order
+    
+  }
+
+  updateTextInProject = async () => {
+    // no need to check for project.order:
+    // creating a new column creates a new project order
+    
   }
 
   logout = event => {
@@ -145,6 +174,7 @@ class App extends Component {
                             getInitialData={this.getInitialData}
                             project={project}
                             projectData={this.state.projectData[index]}
+                            refreshSingleProjectOrder={this.refreshSingleProjectOrder}
                           >
                             {dragonProps => (
                               <Project

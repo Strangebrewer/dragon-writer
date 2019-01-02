@@ -35,7 +35,10 @@ export class ProjectButtons extends PureComponent {
                 underline
                 disabled={props.disabled || image}
                 onClick={() => props.uploadImageModal(_id)}
-                title={image ? "you must delete the current image before uploading another" : "upload project image"}
+                title={image
+                  ? "you must delete the current image before uploading another"
+                  : "upload project image"
+                }
               >
                 <i className="fas fa-upload"></i>
               </LinkBtn>
@@ -43,9 +46,12 @@ export class ProjectButtons extends PureComponent {
               <LinkBtn
                 padding="0 4px 4px 4px"
                 underline
-                disabled={props.disabled}
+                disabled={props.disabled || !image}
                 onClick={() => props.imageModal(image, publicId, _id, "project")}
-                title="see project image"
+                title={image
+                  ? "see image for this project"
+                  : "no image has been uploaded for this project"
+                }
               >
                 <i className="far fa-images"></i>
               </LinkBtn>

@@ -51,9 +51,9 @@ export class ItemButtons extends PureComponent {
               black
               underline
               size="1rem"
-              disabled={props.disabled || text.image}
+              disabled={props.disabled || image}
               onClick={() => props.uploadImageModal(id)}
-              title={text.image
+              title={image
                 ? "you must delete the current image before uploading another"
                 : "upload image for this text"
               }
@@ -66,9 +66,12 @@ export class ItemButtons extends PureComponent {
               black
               underline
               size="1rem"
-              disabled={props.disabled}
+              disabled={props.disabled || !image}
               onClick={() => props.imageModal(image, publicId, id, "item")}
-              title="see image for this text"
+              title={image
+                ? "see image for this text"
+                : "no image has been uploaded for this text"
+              }
             >
               <i className="far fa-images"></i>
             </LinkBtn>

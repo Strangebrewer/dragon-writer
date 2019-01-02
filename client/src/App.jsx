@@ -110,13 +110,13 @@ class App extends Component {
   addTextToProject = async () => {
     // no need to check for project.order:
     // creating a new column creates a new project order
-    
+
   }
 
   updateTextInProject = async () => {
     // no need to check for project.order:
     // creating a new column creates a new project order
-    
+
   }
 
   logout = event => {
@@ -158,6 +158,7 @@ class App extends Component {
                       {...sharedProps}
                       projectOrder={this.state.projectOrder}
                       projectOrderData={this.state.projectOrderData}
+                      projects={this.state.projects}
                     />
                   ) : <Redirect to="/" />
               )}
@@ -171,10 +172,12 @@ class App extends Component {
                       isAuthenticated
                         ? (
                           <DragonLogic
+                            addTextToProject={this.addTextToProject}
                             getInitialData={this.getInitialData}
                             project={project}
                             projectData={this.state.projectData[index]}
                             refreshSingleProjectOrder={this.refreshSingleProjectOrder}
+                            updateTextInProject={this.updateTextInProject}
                           >
                             {dragonProps => (
                               <Project

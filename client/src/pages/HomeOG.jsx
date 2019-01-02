@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
 import { ImageUploader, Page } from "../components/PageElements";
-import { Authenticate, ProjectCard } from "../components/PageElements";
-import { API, Scales } from "../utils"
+import { Authenticate, ProjectList } from "../components/PageElements";
+import { API, Scales, Utils } from "../utils"
 
 const Container = styled.div`
   margin: auto;
@@ -21,7 +21,7 @@ class Home extends Component {
   componentWillReceiveProps(nextProps) {
     if (
       (nextProps.projectOrder !== this.props.projectOrder)
-      || (nextProps.projectOrderData !== this.props.projectOrderData)
+      // || (nextProps.projectOrderData !== this.props.projectOrderData)
     ) {
       this.setState({
         projectOrder: nextProps.projectOrder,
@@ -60,7 +60,7 @@ class Home extends Component {
     await this.setState(newState);
     await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
     // this.props.getInitialData();
-  };  
+  };
 
   updateProject = async (project, newProjectData, closeModal) => {
     await this.setState({ loading: true });
@@ -80,12 +80,18 @@ class Home extends Component {
     // closeModal();
   };
 
-  deleteProject = async id => {
+  deleteProject = async (id, closeModal) => {
     await this.setState({ loading: true });
-    // this.props.closeModal();
+    console.log(this.state.projectOrder)
+    console.log(this.state.projectOrderData)
+    const projectOrder = Array.from(this.state.projectOrder)
+      .filter(projectId => projectId !== id);
+
+    await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
     await API.deleteProject(id);
-    this.props.getInitialData(this.props.user);
-    this.setState({ loading: false })
+    this.props.getInitialData();
+    this.setState({ loading: false });
+    closeModal();
   };
 
   render() {
@@ -111,7 +117,7 @@ class Home extends Component {
               {provided => (
                 this.props.authenticated
                   ? (
-                    <ProjectCard
+                    <ProjectList
                       {...provided}
                       addNewProjectToOrder={this.addNewProjectToOrder}
                       authenticated={this.props.authenticated}

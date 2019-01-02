@@ -8,7 +8,8 @@ import { NewProjectForm } from "../Forms";
 import { API } from '../../utils';
 
 const DropZone = styled.div`
-  width: 100%;  
+  padding: 15px;
+  width: 100%;
 `;
 
 const Container = styled.div`
@@ -39,7 +40,7 @@ const ProjectText = styled.p`
   text-indent: 25px;
 `;
 
-export class ProjectCard extends Component {
+export class ProjectList extends Component {
   state = {
     create: false,
     title: '',
@@ -107,7 +108,7 @@ export class ProjectCard extends Component {
       ),
       buttons: (
         <Fragment>
-          <Button onClick={() => this.props.deleteProject(id)}>Yes, Delete</Button>
+          <Button onClick={() => this.props.deleteProject(id, this.props.closeModal)}>Yes, Delete</Button>
           <Button onClick={this.props.closeModal}>Cancel</Button>
         </Fragment>
       ),
@@ -117,6 +118,7 @@ export class ProjectCard extends Component {
 
   render() {
     const { projectOrder, projectOrderData } = this.props;
+    console.log(projectOrderData)
     return (
       <Fragment>
         {this.state.create
@@ -136,6 +138,7 @@ export class ProjectCard extends Component {
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   {projectOrder.map((project, index) => {
+                    console.log(project);
                     const thisProject = projectOrderData[project];
                     return (
                       <Draggable draggableId={project} index={index} key={project}>

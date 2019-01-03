@@ -17,28 +17,20 @@ class Home extends Component {
     projectOrderData: this.props.projectOrderData
   };
 
-  // Without this, first login will not show projects.
+  // Without this, first login will not show projects,
+  // and deleted projects will remain in view until refresh.
   componentWillReceiveProps(nextProps) {
-    if (
-      (nextProps.projectOrder !== this.props.projectOrder)
-      // || (nextProps.projectOrderData !== this.props.projectOrderData)
-    ) {
-      this.setState({
-        projectOrder: nextProps.projectOrder,
-        projectOrderData: nextProps.projectOrderData
-      })
-    }
+    const { projectOrder, projectOrderData } = nextProps;
+    if (nextProps.projectOrder !== this.props.projectOrder)
+      this.setState({ projectOrder, projectOrderData });
   }
 
   onDragEnd = async result => {
     const { destination, source, draggableId } = result;
-    if (!destination) {
-      return;
-    }
+    if (!destination) return;
     if (destination.droppableId === source.droppableId &&
-      destination.index === source.index) {
+      destination.index === source.index)
       return;
-    }
 
     const newState = Scales.singleProjectDragon(this.state, source, destination, draggableId);
     await this.setState(newState);
@@ -59,7 +51,7 @@ class Home extends Component {
     }
     await this.setState(newState);
     await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
-    // this.props.getInitialData();
+    this.props.getInitialData();
   };
 
   updateProject = async (project, newProjectData, closeModal) => {
@@ -81,16 +73,31 @@ class Home extends Component {
   };
 
   deleteProject = async (id, closeModal) => {
+    let error;
     await this.setState({ loading: true });
-    console.log(this.state.projectOrder)
-    console.log(this.state.projectOrderData)
     const projectOrder = Array.from(this.state.projectOrder)
       .filter(projectId => projectId !== id);
 
-    await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
-    await API.deleteProject(id);
-    this.props.getInitialData();
-    this.setState({ loading: false });
+    // removing the project from state prevents removes it from view
+    // while waiting for the new props from App.jsx
+    const projectOrderData = {
+      ...this.state.projectOrderData,
+    }
+    delete projectOrderData[id];
+
+    try {
+      await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
+      await API.deleteProject(id);
+    }
+    catch (err) {
+      error = err;
+    }
+
+    if (!error) {
+      this.props.removeProjectFromList(id);
+      this.setState({ loading: false });
+    }
+
     closeModal();
   };
 
@@ -123,7 +130,6 @@ class Home extends Component {
                       authenticated={this.props.authenticated}
                       deleteProject={this.deleteProject}
                       getInitialData={this.props.getInitialData}
-                      loading={this.state.loading}
                       projectOrder={this.state.projectOrder}
                       projectOrderData={this.state.projectOrderData}
                       updateProject={this.updateProject}

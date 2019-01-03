@@ -108,7 +108,11 @@ export const Scales = {
     return { texts: newTexts }
   },
 
-  addImageToOrder: function (newSubject, state) {
+  addImageToProject: function (newProject, state) {
+    
+  },
+
+  addImageToSubject: function (newSubject, state) {
     const newState = {
       ...state,
       subjects: {

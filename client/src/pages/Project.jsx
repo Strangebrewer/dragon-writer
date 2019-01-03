@@ -91,14 +91,19 @@ class Project extends PureComponent {
     this.props.executeDragonStateChanges(newState);
   };
 
-  addImageToOrder = newSubject => {
-    const newState = Scales.addImageToOrder(newSubject, this.props.state);
+  addImageToProject = project => {
+    const newState = Scales.addImageToProject(project, this.props.state);
+    this.props.executeDragonStateChanges(newState);
+  }
+
+  addImageToSubject = subject => {
+    const newState = Scales.addImageToSubject(subject, this.props.state);
     this.props.executeDragonStateChanges(newState);
   };
 
   addImageToText = text => {
     const newState = Scales.addImageToText(text, this.props.state);
-    this.props.executeDragonStateChanges(newState);
+    this.props.executeDragonStateChanges(newState, "update-text", text);
   }
 
   render() {
@@ -223,7 +228,8 @@ class Project extends PureComponent {
                   <ImageUploader
                     addImageToText={this.addImageToText}
                     getInitialData={getInitialData}
-                    addImageToOrder={this.addImageToOrder}
+                    addImageToSubject={this.addImageToSubject}
+                    type="subject"
                   >
                     {provided => (
                       <Storyboard
@@ -248,7 +254,7 @@ class Project extends PureComponent {
                 <DragonLair>
                   <ImageUploader
                     getInitialData={getInitialData}
-                    addImageToOrder={this.addImageToOrder}
+                    addImageToSubject={this.addImageToSubject}
                     type="subject"
                   >
                     {provided => (

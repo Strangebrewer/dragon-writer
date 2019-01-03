@@ -21,6 +21,7 @@ export class UploadLogic extends Component {
   };
 
   saveImage = async id => {
+    console.log(this.props.type);
     if (!this.state.data) {
       this.props.closeModal();
       setTimeout(() => this.props.setModal({
@@ -43,17 +44,17 @@ export class UploadLogic extends Component {
     };
     switch (this.props.type) {
       case 'project':
+        console.log("This is a project image upload.");
         await API.updateProject(id, updateObject);
-        this.props.getInitialData(this.props.user);
+        // this.props.getInitialData(this.props.user);
         break;
       case 'subject':
         const subject = await API.updateSubject(id, updateObject);
-        this.props.addImageToOrder(subject.data);
+        this.props.addImageToSubject(subject.data);
         break;
       default:
         const text = await API.updateText(id, updateObject);
         this.props.addImageToText(text.data)
-        this.props.getInitialData(this.props.user);
     }
     this.setState({ loading: false });
   };
@@ -69,7 +70,7 @@ export class UploadLogic extends Component {
         break;
       case 'subject':
         const result = await API.removeSubjectImage(id, deleteObj);
-        this.props.addImageToOrder(result.data);
+        this.props.addImageToSubject(result.data);
         break;
       default:
         const text = await API.removeTextImage(id, deleteObj);

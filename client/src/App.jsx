@@ -69,8 +69,9 @@ class App extends Component {
         if (project.order) {
           projectData.push(Utils.addTextsToOrder(project));
         }
-        else
+        else {
           projectData.push(Utils.formatInitialData(project));
+        }
       });
 
       if (user.order) projectOrder = JSON.parse(user.order);
@@ -94,29 +95,53 @@ class App extends Component {
   // But there's no need to fetch texts every time the order is rearranged
   // So this method only fetches the project being rearranged and then adds existing text data
   refreshSingleProjectOrder = async (projectId) => {
-    const projectResponse = await API.getSingleProject(projectId);
-    const project = projectResponse.data;
-
+    const res = await API.getSingleProject(projectId);
+    const project = res.data;
     const index = Utils.getArrayIndex(this.state.projects, projectId);
     project.texts = this.state.projects[index].texts;
-    Utils.addTextsToOrder(project)
-    const projects = Array.from(this.state.projects)
-    // .filter(item => item._id !== projectId);
+    Utils.addTextsToOrder(project);
+    const projects = Array.from(this.state.projects);
     projects.splice(index, 1, project);
-    console.log(projects);
-    this.setState({ projects })
+    this.setState({ projects });
   }
 
-  addTextToProject = async () => {
-    // no need to check for project.order:
-    // creating a new column creates a new project order
+  removeProjectFromList = async projectId => {
+    // clone state objects:
+    const projects = JSON.parse(JSON.stringify(this.state.projects));
+    const projectIndex = Utils.getArrayIndex(projects, projectId);
+    const projectOrderData = JSON.parse(JSON.stringify(this.state.projectOrderData));
 
+    // remove project from cloned state items:
+    const projectOrder = this.state.projectOrder.filter(item => item !== projectId);
+    projects.splice(projectIndex, 1);
+    delete projectOrderData[projectId];
+
+    this.setState({ projects, projectOrder, projectOrderData });
   }
 
-  updateTextInProject = async () => {
-    // no need to check for project.order:
-    // creating a new column creates a new project order
+  addTextToProject = async (projectId, text) => {
+    const projectIndex = Utils.getArrayIndex(this.state.projects, projectId);
+    const projects = JSON.parse(JSON.stringify(this.state.projects));
+    const order = projects[projectIndex].order;
+    order.texts[text._id] = text;
+    order.subjects[text.subjectId].textIds.unshift(text._id);
+    projects[projectIndex].texts.unshift(text);
+    const projectData = JSON.parse(JSON.stringify(this.state.projectData));
+    projectData[projectIndex].texts.unshift(text);
+    projectData[projectIndex].order.texts[text._id] = text;
+    this.setState({ projects, projectData });
+  }
 
+  updateTextInProject = async (projectId, text) => {
+    const projectIndex = Utils.getArrayIndex(this.state.projects, projectId);
+    const projects = JSON.parse(JSON.stringify(this.state.projects));
+    const order = projects[projectIndex].order;    
+    order.texts[text._id] = text;
+    const textIndex = Utils.getArrayIndex(projects[projectIndex].texts, text._id);
+    projects[projectIndex].texts.splice(textIndex, 1, text)
+    const projectData = JSON.parse(JSON.stringify(this.state.projectData));
+    projectData[projectIndex].order.texts[text._id] = text;
+    this.setState({ projects, projectData });
   }
 
   logout = event => {
@@ -158,7 +183,7 @@ class App extends Component {
                       {...sharedProps}
                       projectOrder={this.state.projectOrder}
                       projectOrderData={this.state.projectOrderData}
-                      projects={this.state.projects}
+                      removeProjectFromList={this.removeProjectFromList}
                     />
                   ) : <Redirect to="/" />
               )}

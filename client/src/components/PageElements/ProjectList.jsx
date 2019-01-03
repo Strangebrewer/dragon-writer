@@ -118,7 +118,6 @@ export class ProjectList extends Component {
 
   render() {
     const { projectOrder, projectOrderData } = this.props;
-    console.log(projectOrderData)
     return (
       <Fragment>
         {this.state.create

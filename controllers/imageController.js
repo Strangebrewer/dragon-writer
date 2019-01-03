@@ -12,7 +12,7 @@ module.exports = {
     try {
       const result = await cloudinary.v2.uploader.destroy(req.body.imageId, { invalidate: true });
       console.log(result.result);
-      if (result.result === 'ok') {
+      if (result.result === 'ok' || result.result === "not found") {
         removal = await db.Project.findByIdAndUpdate(req.params.id, {
           image: '',
           largeImage: '',
@@ -32,7 +32,7 @@ module.exports = {
     try {
       const result = await cloudinary.v2.uploader.destroy(req.body.imageId, { invalidate: true });
       console.log(result.result);
-      if (result.result === 'ok') {
+      if (result.result === 'ok' || result.result === "not found") {
         removal = await db.Subject.findByIdAndUpdate(req.params.id, {
           image: '',
           largeImage: '',
@@ -52,7 +52,7 @@ module.exports = {
     try {
       const result = await cloudinary.v2.uploader.destroy(req.body.imageId, { invalidate: true });
       console.log(result.result);
-      if (result.result === 'ok') {
+      if (result.result === 'ok' || result.result === "not found") {
         removal = await db.Text.findByIdAndUpdate(req.params.id, {
           image: '',
           largeImage: '',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import Project from "../../pages/Project"
+// import Project from "../../pages/Project"
 import { API, Scales } from '../../utils';
 
 export class DragonLogic extends Component {
@@ -86,10 +86,10 @@ export class DragonLogic extends Component {
 
   executeDragonStateChanges = async (stateObject, type, text) => {
     await this.setState(stateObject);
-    this.saveOrder();
+    this.saveOrder(type, text);
   };
 
-  saveOrder = async () => {
+  saveOrder = async (type, text) => {
     const { _id } = this.props.project;
     const orderObject = { ...this.state };
 
@@ -106,11 +106,22 @@ export class DragonLogic extends Component {
 
     const updateObj = { order: JSON.stringify(orderObject) };
     await API.updateProject(_id, updateObj);
-    // this.props.getInitialData(this.props.user);
-    this.props.refreshSingleProjectOrder(_id);
+    
+    switch (type) {
+      case 'new-text':
+        this.props.addTextToProject(_id, text)
+        break;
+      case 'update-text':
+        this.props.updateTextInProject(_id, text)
+        break;
+      default:
+        this.props.refreshSingleProjectOrder(_id);
+    }
+
   };
 
   render() {
+    console.log(this.props);
     return (
       <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart}>
         {this.props.children({

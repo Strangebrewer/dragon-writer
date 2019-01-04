@@ -63,7 +63,7 @@ class App extends Component {
         error = err;
       }
 
-    if (!error && user) {
+    if (!error && user._id) {
       const projectsRes = await API.getProjectsWithAll();
       projects = projectsRes.data;
 

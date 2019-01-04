@@ -123,7 +123,8 @@ export class ProjectList extends Component {
         {this.state.create
           ? (
             <NewProjectForm
-              addNewProjectToOrder={this.props.addNewProjectToOrder}
+              addNewProject={this.props.addNewProject}
+              // addNewProjectToOrder={this.props.addNewProjectToOrder}
               getInitialData={this.props.getInitialData}
               toggleProjectForm={this.toggleProjectForm}
               user={this.props.user}

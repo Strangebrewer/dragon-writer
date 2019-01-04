@@ -25,14 +25,15 @@ export class NewProjectForm extends Component {
   createProject = async () => {
     const { link, summary, title } = this.state;
     try {
+      // keep the create project here to help control app flow
       const project = await API.createProject({
         title,
         summary,
         link,
         userId: this.props.user._id
       });
-      this.props.addNewProjectToOrder(project.data);
-      this.props.toggleProjectForm();
+      this.props.addNewProject(project.data._id, this.props.toggleProjectForm);
+      // this.props.toggleProjectForm();
     }
     catch (err) {
       if (err)

@@ -9,12 +9,16 @@ import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
 import { Themes } from "./components/Styles";
 import { API, Utils } from "./utils";
+import { callbackify } from 'util';
 
 let isAuthenticated = false;
 
 class App extends Component {
   state = {
     projects: [],
+    projectData: [],
+    projectOrder: [],
+    projectOrderData: {},
     user: null,
     loading: true,
     styleMode: Themes.brightmode,
@@ -53,15 +57,13 @@ class App extends Component {
     if (!user)
       try {
         const userResponse = await API.getUser();
-        // do this (immediately below) to keep user consistent with the way
-        // userInfo is passed to this function in order to avoid excess db requests.
         user = userResponse.data;
       }
       catch (err) {
         error = err;
       }
 
-    if (!error && user._id) {
+    if (!error && user) {
       const projectsRes = await API.getProjectsWithAll();
       projects = projectsRes.data;
 
@@ -71,29 +73,68 @@ class App extends Component {
         }
         else {
           projectData.push(Utils.formatInitialData(project));
+          console.log(projectData);
         }
       });
 
       if (user.order) projectOrder = JSON.parse(user.order);
       else projectOrder = user.projects;
 
-      projectOrderData = Utils.formatProjectOrder(projects);
+      projectOrderData = Utils.formatProjectOrderData(projects);
       isAuthenticated = true;
     }
 
     this.setState({
+      loading: false,
       projectData,
       projectOrder,
       projectOrderData,
-      loading: false,
       projects,
       user,
     });
   };
 
-  // getInitialData above gets ALL data (including the overwhelmingly largest chunk: all texts)
-  // But there's no need to fetch texts every time the order is rearranged
-  // So this method only fetches the project being rearranged and then adds existing text data
+  addNewProject = async (projectId, callback) => {
+    // add new projectId to the projectOrder and then save it to DB:
+    const projectOrder = Array.from(this.state.projectOrder);    
+    projectOrder.unshift(projectId);
+    await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
+
+    // retrieve new project from DB:
+    const projectRes = await API.getSingleProjectWithAll(projectId);
+    const project = projectRes.data;
+    // copy projects from state and add new project to it:
+    const projects = JSON.parse(JSON.stringify(this.state.projects));
+    projects.unshift(project);
+
+    // copy projectData from state and add teh new project data (after formatting)
+    const projectData = JSON.parse(JSON.stringify(this.state.projectData));
+    projectData.unshift(Utils.formatInitialData(project));
+
+    // copy projectOrderData from state and add new project (and remove unneeded data):
+    const projectOrderData = JSON.parse(JSON.stringify(this.state.projectOrderData));
+    projectOrderData[project._id] = project;
+    delete projectOrderData[project._id].order;
+    delete projectOrderData[project._id].subjects;
+    delete projectOrderData[project._id].texts;
+
+    await this.setState({
+      projectData,
+      projectOrder,
+      projectOrderData,
+      projects
+    });
+    callback();
+  }
+
+  refreshProjectList = async () => {
+    const res = await API.getUserWithProjects();
+    const projects = res.data.projects;
+    const projectOrder = JSON.parse(res.data.order);
+    const projectOrderData = Utils.formatProjectOrderData(projects);
+    this.setState({ projectOrder, projectOrderData });
+  };
+
   refreshSingleProjectOrder = async (projectId) => {
     const res = await API.getSingleProject(projectId);
     const project = res.data;
@@ -103,21 +144,19 @@ class App extends Component {
     const projects = Array.from(this.state.projects);
     projects.splice(index, 1, project);
     this.setState({ projects });
-  }
+  };
 
   removeProjectFromList = async projectId => {
-    // clone state objects:
+    // clone this.state.projects and remove the project:
     const projects = JSON.parse(JSON.stringify(this.state.projects));
     const projectIndex = Utils.getArrayIndex(projects, projectId);
-    const projectOrderData = JSON.parse(JSON.stringify(this.state.projectOrderData));
-
-    // remove project from cloned state items:
-    const projectOrder = this.state.projectOrder.filter(item => item !== projectId);
     projects.splice(projectIndex, 1);
+    // clone this.state.projectOrder and this.state.projectOrderData and remove the project:
+    const projectOrderData = JSON.parse(JSON.stringify(this.state.projectOrderData));
     delete projectOrderData[projectId];
-
+    const projectOrder = this.state.projectOrder.filter(item => item !== projectId);
     this.setState({ projects, projectOrder, projectOrderData });
-  }
+  };
 
   addTextToProject = async (projectId, text) => {
     const projectIndex = Utils.getArrayIndex(this.state.projects, projectId);
@@ -130,19 +169,19 @@ class App extends Component {
     projectData[projectIndex].texts.unshift(text);
     projectData[projectIndex].order.texts[text._id] = text;
     this.setState({ projects, projectData });
-  }
+  };
 
   updateTextInProject = async (projectId, text) => {
     const projectIndex = Utils.getArrayIndex(this.state.projects, projectId);
     const projects = JSON.parse(JSON.stringify(this.state.projects));
-    const order = projects[projectIndex].order;    
+    const order = projects[projectIndex].order;
     order.texts[text._id] = text;
     const textIndex = Utils.getArrayIndex(projects[projectIndex].texts, text._id);
     projects[projectIndex].texts.splice(textIndex, 1, text)
     const projectData = JSON.parse(JSON.stringify(this.state.projectData));
     projectData[projectIndex].order.texts[text._id] = text;
     this.setState({ projects, projectData });
-  }
+  };
 
   logout = event => {
     if (event) event.preventDefault();
@@ -181,8 +220,10 @@ class App extends Component {
                     <Home
                       {...routeProps}
                       {...sharedProps}
+                      addNewProject={this.addNewProject}
                       projectOrder={this.state.projectOrder}
                       projectOrderData={this.state.projectOrderData}
+                      refreshProjectList={this.refreshProjectList}
                       removeProjectFromList={this.removeProjectFromList}
                     />
                   ) : <Redirect to="/" />

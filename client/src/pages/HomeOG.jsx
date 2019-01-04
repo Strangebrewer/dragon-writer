@@ -35,23 +35,7 @@ class Home extends Component {
     const newState = Scales.singleProjectDragon(this.state, source, destination, draggableId);
     await this.setState(newState);
     await API.updateUserOrder({ order: JSON.stringify(this.state.projectOrder) });
-    this.props.getInitialData();
-  };
-
-  addNewProjectToOrder = async project => {
-    const projectOrder = Array.from(this.state.projectOrder);
-    projectOrder.unshift(project._id);
-    const newState = {
-      ...this.state,
-      projectOrder,
-      projectOrderData: {
-        ...this.state.projectOrderData,
-        [project._id]: project
-      }
-    }
-    await this.setState(newState);
-    await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
-    this.props.getInitialData();
+    this.props.refreshProjectList();
   };
 
   updateProject = async (project, newProjectData, closeModal) => {
@@ -66,10 +50,9 @@ class Home extends Component {
     if (link) updateObject.link = link;
     else updateObject.link = project.link;
 
-    await API.updateProject(project._id, updateObject);;
-    this.props.getInitialData()
+    await API.updateProject(project._id, updateObject);
+    this.props.refreshProjectList();
     await this.setState({ loading: false });
-    // closeModal();
   };
 
   deleteProject = async (id, closeModal) => {
@@ -119,6 +102,7 @@ class Home extends Component {
           <Container>
             <ImageUploader
               getInitialData={this.props.getInitialData}
+              refreshProjectList={this.props.refreshProjectList}
               type="project"
             >
               {provided => (
@@ -126,7 +110,8 @@ class Home extends Component {
                   ? (
                     <ProjectList
                       {...provided}
-                      addNewProjectToOrder={this.addNewProjectToOrder}
+                      addNewProject={this.props.addNewProject}
+                      // addNewProjectToOrder={this.addNewProjectToOrder}
                       authenticated={this.props.authenticated}
                       deleteProject={this.deleteProject}
                       getInitialData={this.props.getInitialData}

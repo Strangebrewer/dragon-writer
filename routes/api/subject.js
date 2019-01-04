@@ -1,13 +1,9 @@
 const router = require('express').Router();
 const subjectController = require('../../controllers/subjectController');
-const imageController = require('../../controllers/imageController');
 
 router.route('/')
   .get(subjectController.getSubjects)
   .post(subjectController.createSubject);
-
-router.route('/image/:id')
-  .put(imageController.removeSubjectImage);
 
 router.route('/:id')
   .get(subjectController.getSingleSubject)

@@ -44,6 +44,9 @@ export const API = {
   // },
 
 
+  removeImage: function (id, data) {
+    return axios.put(`/api/image/${id}`, data);
+  },
 
   getTexts: function () {
     return axios.get('/api/text');
@@ -76,6 +79,10 @@ export const API = {
 
   getSingleProject: function (projectId) {
     return axios.get(`/api/project/${projectId}`);
+  },
+
+  getSingleProjectWithAll: function (projectId) {
+    return axios.get(`/api/project/all/${projectId}`);
   },
 
   createProject: function (projectData) {

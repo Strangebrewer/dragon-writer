@@ -15,11 +15,11 @@ export const Utils = {
       subjectArray.push(element._id);
     }
 
-    initialData.subjectOrder = subjectArray;
+    initialData.subjectOrder = subjectArray || [];
     return initialData;
   },
 
-  formatProjectOrder: function (projects) {
+  formatProjectOrderData: function (projects) {
     const projectOrderData = {};
     const newProjects = JSON.parse(JSON.stringify(projects));
     for (let i = 0; i < newProjects.length; i++) {

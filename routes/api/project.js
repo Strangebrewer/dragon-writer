@@ -1,13 +1,12 @@
 const router = require('express').Router();
 const projectController = require('../../controllers/projectController');
-const imageController = require('../../controllers/imageController');
 
 router.route('/')
   .get(projectController.getProjectsWithAll)
   .post(projectController.createProject);
 
-router.route('/image/:id')
-  .put(imageController.removeProjectImage);
+router.route('/all/:id')
+  .get(projectController.getSingleProjectWithAll);
 
 router.route('/:id')
   .get(projectController.getSingleProject)

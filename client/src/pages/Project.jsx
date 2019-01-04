@@ -28,10 +28,15 @@ class Project extends PureComponent {
 
   componentDidMount() {
     // if there is no saved order, then this will load the first three columns
-    if (!this.props.project.order && this.props.project.subjects.length) {
-      const { subjects } = this.props.project;
+    // This can be deleted once the project is finished (I think)
+    //   because adding a subject (a column) creates a project.order.
+    const { order, subjects } = this.props.project;
+    if (!order && subjects && subjects.length > 0) {
       const stateObj = {};
-      for (let i = 0; i < 3; i++) {
+      let length;
+      if (subjects.length < 3) length = subjects.length;
+      else length = 3;
+      for (let i = 0; i < length; i++) {
         stateObj[subjects[i]._id] = true;
       }
       this.props.executeDragonStateChanges(stateObj);

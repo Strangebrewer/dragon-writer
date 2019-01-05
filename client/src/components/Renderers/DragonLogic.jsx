@@ -105,11 +105,13 @@ export class DragonLogic extends Component {
     delete orderObject.inlineTextNew;
 
     const updateObj = { order: JSON.stringify(orderObject) };
-    await API.updateProject(_id, updateObj);
+    const project = await API.updateProject(_id, updateObj);
     
+    // passing project to new-text function to account for
+    // new texts created in a new project and new column
     switch (type) {
       case 'new-text':
-        this.props.addTextToProject(_id, text)
+        this.props.addTextToProject(_id, text, project.data)
         break;
       case 'update-text':
         this.props.updateTextInProject(_id, text)

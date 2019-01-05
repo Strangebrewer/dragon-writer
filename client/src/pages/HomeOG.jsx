@@ -61,15 +61,7 @@ class Home extends Component {
     const projectOrder = Array.from(this.state.projectOrder)
       .filter(projectId => projectId !== id);
 
-    // removing the project from state prevents removes it from view
-    // while waiting for the new props from App.jsx
-    const projectOrderData = {
-      ...this.state.projectOrderData,
-    }
-    delete projectOrderData[id];
-
     try {
-      await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
       await API.deleteProject(id);
     }
     catch (err) {
@@ -77,8 +69,22 @@ class Home extends Component {
     }
 
     if (!error) {
+      try {
+        await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
+      }
+      catch (err) {
+        error = err;
+      }
+    }
+
+    if (!error) {
       this.props.removeProjectFromList(id);
       this.setState({ loading: false });
+    }
+
+    if (error) {
+      // what? Handle the error
+      // maybe a 'try again - if this keeps occurring, please try again later' modal
     }
 
     closeModal();

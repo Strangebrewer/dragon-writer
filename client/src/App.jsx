@@ -9,7 +9,6 @@ import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
 import { Themes } from "./components/Styles";
 import { API, Utils } from "./utils";
-import { callbackify } from 'util';
 
 let isAuthenticated = false;
 
@@ -96,7 +95,7 @@ class App extends Component {
 
   addNewProject = async (projectId, callback) => {
     // add new projectId to the projectOrder and then save it to DB:
-    const projectOrder = Array.from(this.state.projectOrder);    
+    const projectOrder = Array.from(this.state.projectOrder);
     projectOrder.unshift(projectId);
     await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
 
@@ -111,7 +110,7 @@ class App extends Component {
     const projectData = JSON.parse(JSON.stringify(this.state.projectData));
     projectData.unshift(Utils.formatInitialData(project));
 
-    // copy projectOrderData from state and add new project (and remove unneeded data):
+    // copy projectOrderData from state and add new project (and remove unnecessary data):
     const projectOrderData = JSON.parse(JSON.stringify(this.state.projectOrderData));
     projectOrderData[project._id] = project;
     delete projectOrderData[project._id].order;
@@ -151,14 +150,18 @@ class App extends Component {
     const projects = JSON.parse(JSON.stringify(this.state.projects));
     const projectIndex = Utils.getArrayIndex(projects, projectId);
     projects.splice(projectIndex, 1);
+    const projectData = JSON.parse(JSON.stringify(this.state.projectData));
+    const projectDataIndex = Utils.getArrayIndex(projectData, projectId);
+    projectData.splice(projectDataIndex, 1);
+
     // clone this.state.projectOrder and this.state.projectOrderData and remove the project:
     const projectOrderData = JSON.parse(JSON.stringify(this.state.projectOrderData));
     delete projectOrderData[projectId];
     const projectOrder = this.state.projectOrder.filter(item => item !== projectId);
-    this.setState({ projects, projectOrder, projectOrderData });
+    this.setState({ projects, projectData, projectOrder, projectOrderData });
   };
 
-  addTextToProject = async (projectId, text) => {
+  addTextToProject = async (projectId, text, project) => {
     const projectIndex = Utils.getArrayIndex(this.state.projects, projectId);
     const projects = JSON.parse(JSON.stringify(this.state.projects));
     const order = projects[projectIndex].order;
@@ -166,6 +169,23 @@ class App extends Component {
     order.subjects[text.subjectId].textIds.unshift(text._id);
     projects[projectIndex].texts.unshift(text);
     const projectData = JSON.parse(JSON.stringify(this.state.projectData));
+
+    // new project, new column, new text all created at once:
+    //  - will return 'texts' from the DB as an empty object
+    //      (and for some reason that object is read-only)
+    //  - will return without an order field, and
+    //  - the order field on the project arg will not have a texts field
+    // so, to correct for all of that, the following conditionals:
+    const texts = projectData[projectIndex].texts;
+    if (!texts.length || typeof texts === 'object') {
+      delete projectData[projectIndex].texts;
+      projectData[projectIndex].texts = [];
+    }
+    if (!projectData[projectIndex].order) {
+      projectData[projectIndex].order = JSON.parse(project.order);
+      projectData[projectIndex].order.texts = {};
+    }
+
     projectData[projectIndex].texts.unshift(text);
     projectData[projectIndex].order.texts[text._id] = text;
     this.setState({ projects, projectData });

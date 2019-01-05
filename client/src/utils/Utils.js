@@ -33,15 +33,18 @@ export const Utils = {
   },
 
   addTextsToOrder: function (project) {
-    console.log(JSON.parse(project.order));
     const order = JSON.parse(project.order);
     project.order = order;
     project.order.texts = {};
+    // when a project is first created, the DB will not return anything for texts (not even an empty array)
+    // Then, when the first column is created, it saves an order string for the project
+    // Which triggers addTextsToOrder, which will throw an error when it gets to the 'forEach' below
+    // unless you add the field as an empty array:
+    if (!project.texts) project.texts = [];
     project.texts.forEach(text => {
       project.order.texts[text._id] = text;
       project.order.texts[text._id].text = text.text;
     });
-    console.log(project.order);
     return project;
   },
 

@@ -72,7 +72,6 @@ class App extends Component {
         }
         else {
           projectData.push(Utils.formatInitialData(project));
-          console.log(projectData);
         }
       });
 

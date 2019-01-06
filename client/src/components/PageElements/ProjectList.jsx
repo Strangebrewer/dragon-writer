@@ -124,8 +124,9 @@ export class ProjectList extends Component {
           ? (
             <NewProjectForm
               addNewProject={this.props.addNewProject}
-              // addNewProjectToOrder={this.props.addNewProjectToOrder}
-              getInitialData={this.props.getInitialData}
+              closeModal={this.props.closeModal}
+              projectOrder={projectOrder}
+              setModal={this.props.setModal}
               toggleProjectForm={this.toggleProjectForm}
               user={this.props.user}
             />
@@ -138,7 +139,6 @@ export class ProjectList extends Component {
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   {projectOrder.map((project, index) => {
-                    console.log(project);
                     const thisProject = projectOrderData[project];
                     return (
                       <Draggable draggableId={project} index={index} key={project}>
@@ -166,7 +166,11 @@ export class ProjectList extends Component {
                       </Draggable>
                     )
                   })}
-                  <Button full round onClick={this.toggleProjectForm}>
+                  <Button
+                    disabled={projectOrder.length > 19}
+                    full
+                    onClick={this.toggleProjectForm}
+                    round>
                     Create New Project
                   </Button>
                   {provided.placeholder}

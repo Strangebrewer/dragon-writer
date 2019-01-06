@@ -2,21 +2,21 @@ const router = require('express').Router();
 const projectController = require('../../controllers/projectController');
 
 router.route('/')
-  .get(projectController.getProjectsWithAll)
-  .post(projectController.createProject);
+  .get(isLoggedIn, projectController.getProjectsWithAll)
+  .post(isLoggedIn, projectController.createProject);
 
 router.route('/all/:id')
-  .get(projectController.getSingleProjectWithAll);
+  .get(isLoggedIn, projectController.getSingleProjectWithAll);
 
 router.route('/:id')
-  .get(projectController.getSingleProject)
-  .put(projectController.updateProject)
-  .delete(projectController.deleteProject);
+  .get(isLoggedIn, projectController.getSingleProject)
+  .put(isLoggedIn, projectController.updateProject)
+  .delete(isLoggedIn, projectController.deleteProject);
 
-// function isLoggedIn(req, res, next) {
-//   if (req.isAuthenticated())
-//     return next();
-//   res.json({ isAuthenticated: false });
-// }
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.json({ isAuthenticated: false });
+}
 
 module.exports = router;

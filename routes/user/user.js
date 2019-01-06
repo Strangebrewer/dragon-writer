@@ -11,7 +11,7 @@ router
   .route('/data')
   .put(isLoggedIn, userController.updateUserInfo);
 
-router.put('/order', userController.updateUserOrder);
+router.put('/order', isLoggedIn, userController.updateUserOrder);
 
 router.get('/projects', userController.getUserWithProjects);
 
@@ -19,7 +19,7 @@ router.post('/login', passport.authenticate('local'), userController.login);
 
 router.post('/logout', userController.logout);
 
-router.post('/change', userController.changePw);
+router.post('/change', isLoggedIn, userController.changePw);
 
 
 

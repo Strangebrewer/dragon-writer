@@ -56,16 +56,6 @@ export class ProjectButtons extends PureComponent {
                 <i className="far fa-images"></i>
               </LinkBtn>
 
-              {/* <LinkBtn
-                padding="0 4px 4px 4px"
-                underline
-                disabled={props.disabled}
-                // onClick={() => props.imageModal(image, publicId, _id)}
-                title="storyboard mode"
-              >
-                <i className="fas fa-th"></i>
-              </LinkBtn> */}
-
               <LinkBtn
                 padding="0 4px 4px 4px"
                 underline

@@ -23,25 +23,35 @@ export class NewProjectForm extends Component {
   };
 
   createProject = async () => {
+    let error;
+    let project;
     const { link, summary, title } = this.state;
     try {
       // keep the create project here to help control app flow
-      const project = await API.createProject({
+      project = await API.createProject({
         title,
         summary,
         link,
         userId: this.props.user._id
       });
-      this.props.addNewProject(project.data._id, this.props.toggleProjectForm);
-      // this.props.toggleProjectForm();
+      console.log(project.data)
+      if (project.data.customMessage) throw project.data;
     }
     catch (err) {
-      if (err)
-        this.setModal({
+      error = err;
+      if (err.customMessage)
+        this.props.setModal({
+          body: <p>{err.customMessage}</p>,
+          buttons: <Button onClick={this.props.closeModal}>OK</Button>
+        });
+      else
+        this.props.setModal({
           body: <p>Something went wrong with your request. Please try again.</p>,
           buttons: <Button onClick={this.props.closeModal}>OK</Button>
         });
     }
+    if (!error)
+      this.props.addNewProject(project.data._id, this.props.toggleProjectForm);
   }
 
   render() {
@@ -64,6 +74,7 @@ export class NewProjectForm extends Component {
         <Input
           name="link"
           value={this.state.link}
+          title="alphanumeric characters and hyphens only"
           type="text"
           maxLength="12"
           onChange={this.handleInputChange}

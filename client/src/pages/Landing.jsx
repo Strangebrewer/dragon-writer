@@ -6,6 +6,8 @@ import { GlobalStyle } from "../components/Styles";
 
 const LandingContainer = styled.div`
   align-items: center;
+  background: url('https://res.cloudinary.com/dm6eoegii/image/upload/v1546811760/dragon-writer/typewriter.jpg') no-repeat center center fixed;
+  background-size: cover;
   display: flex;
   justify-content: center;
   margin: auto;

@@ -6,7 +6,9 @@ import { GlobalStyle } from "../components/Styles";
 
 const LandingContainer = styled.div`
   align-items: center;
-  background: url('https://res.cloudinary.com/dm6eoegii/image/upload/v1546811760/dragon-writer/typewriter.jpg') no-repeat center center fixed;
+  background: linear-gradient(90deg, #000000, transparent),
+    url('https://res.cloudinary.com/dm6eoegii/image/upload/v1546811760/dragon-writer/typewriter.jpg') no-repeat center center fixed,
+    #000000;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -14,6 +16,12 @@ const LandingContainer = styled.div`
   min-height: 100vh;
   overflow-x: auto;
   /* position: relative; */
+  @media (min-width: 450px) {
+  background: linear-gradient(90deg, #000000, transparent),
+    url('https://res.cloudinary.com/dm6eoegii/image/upload/v1546811760/dragon-writer/typewriter.jpg') no-repeat center center fixed,
+    #000000;
+    background-size: cover;
+  }
 `;
 
 class Landing extends Component {

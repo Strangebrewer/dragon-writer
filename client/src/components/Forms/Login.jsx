@@ -9,7 +9,9 @@ const Container = styled.div`
   margin: auto;
   padding: 20px;
   width: 300px;
-  margin-left: 25%;
+  @media (min-width: 450px) {
+    margin-left: 25%;
+  }
 `;
 
 const Heading = styled.h2`
@@ -30,6 +32,7 @@ export const Login = props => (
       <Label style={{ fontWeight: "normal" }}>Username</Label>
       <Input
         name="username"
+        landing
         value={props.username}
         type="text"
         onChange={props.handleInputChange}
@@ -37,11 +40,12 @@ export const Login = props => (
       <Label>Password</Label>
       <Input
         name="password"
+        landing
         value={props.password}
         type="password"
         onChange={props.handleInputChange}
       />
-      <Button center round onClick={props.login}>Submit</Button>
+      <Button center landing round onClick={props.login}>Submit</Button>
     </form>
     <Paragraph>Don't have an account?
       <LinkBtn

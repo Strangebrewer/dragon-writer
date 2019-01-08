@@ -16,7 +16,7 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  align-self: flex-start;
+  /* align-self: flex-start; */
   background: ${props => (
     props.isDragging
       ? props.theme.pageBGLite
@@ -30,7 +30,7 @@ const ImageContainer = styled.div`
   padding-left: 20px;
   width: 390px;
   img {
-    margin: auto;
+    align-self: flex-start;
     max-width: 100%;
     max-height: 100%;
   }

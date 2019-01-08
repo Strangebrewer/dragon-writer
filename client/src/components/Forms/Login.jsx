@@ -10,7 +10,7 @@ const Container = styled.div`
   padding: 20px;
   width: 300px;
   @media (min-width: 450px) {
-    margin-left: 25%;
+    /* margin-left: 25%; */
   }
 `;
 
@@ -29,7 +29,7 @@ export const Login = props => (
   <Container>
     <Heading>Login</Heading>
     <form>
-      <Label style={{ fontWeight: "normal" }}>Username</Label>
+      <Label>Username</Label>
       <Input
         name="username"
         landing

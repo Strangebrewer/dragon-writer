@@ -34,6 +34,7 @@ export const EditorStyles = styled.div`
   max-height: ${props => props.inline && '70vh'};
   overflow: auto;
   transition: background-color .2s ease-in-out;
+  width: ${props => props.inline ? 'calc(100% -160px)' : '100%'};
   p {
     font-size: ${props => (
       props.mode === "write"

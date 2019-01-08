@@ -26,7 +26,7 @@ export class ItemButtons extends PureComponent {
               onClick={() => props.seeFullText(text)}
               disabled={props.disabled}
               padding="0 2px 10px 3px"
-              black
+              color="#000"
               size="1rem"
               underline
               title="see full text"
@@ -38,7 +38,7 @@ export class ItemButtons extends PureComponent {
               onClick={() => props.toggleSingleEdit(subject, text)}
               disabled={props.disabled}
               padding="0 2px 10px 3px"
-              black
+              color="#000"
               size="1rem"
               underline
               title="edit text"
@@ -48,7 +48,7 @@ export class ItemButtons extends PureComponent {
 
             <LinkBtn
               padding="0 2px 10px 3px"
-              black
+              color="#000"
               underline
               size="1rem"
               disabled={props.disabled || image}
@@ -63,7 +63,7 @@ export class ItemButtons extends PureComponent {
 
             <LinkBtn
               padding="0 2px 10px 3px"
-              black
+              color="#000"
               underline
               size="1rem"
               disabled={props.disabled || !image}
@@ -81,7 +81,7 @@ export class ItemButtons extends PureComponent {
               disabled={props.disabled}
               padding="0 2px 10px 3px"
               delete
-              black
+              color="#000"
               size="1rem"
               underline
               title={`delete ${text.title}`}

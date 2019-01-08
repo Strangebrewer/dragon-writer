@@ -5,7 +5,8 @@ const Button = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  color: ${props => props.black ? props.theme.black : props.theme.mainColor};
+  /* color: ${props => props.black ? props.theme.black : props.theme.mainColor}; */
+  color: ${props => props.color ? props.color : props.theme.mainColor};
   display: ${props => props.block ? 'block' : 'inline'};
   font-family: ${props => props.fancy ? props.theme.typeface : 'default'};
   font-size: ${props => props.size ? props.size : '1.3rem'};

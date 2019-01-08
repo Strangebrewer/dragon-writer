@@ -17,6 +17,7 @@ const Container = styled.div`
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   display: flex;
+  justify-content: space-between;
   margin: auto;
   min-height: 140px;
   min-width: 600px;

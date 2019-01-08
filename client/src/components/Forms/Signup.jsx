@@ -9,7 +9,7 @@ const Container = styled.div`
   margin: auto;
   padding: 20px;
   width: 300px;
-  margin-left: 25%;
+  /* margin-left: 25%; */
 `;
 
 const Heading = styled.h2`
@@ -27,7 +27,7 @@ export const Signup = props => (
   <Container>
     <Heading>Signup</Heading>
     <form>
-      <Label style={{ fontWeight: "normal" }}>Username</Label>
+      <Label>Username</Label>
       <Input
         name="username"
         value={props.username}

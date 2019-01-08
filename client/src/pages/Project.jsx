@@ -234,7 +234,7 @@ class Project extends PureComponent {
                     addImageToText={this.addImageToText}
                     getInitialData={getInitialData}
                     addImageToSubject={this.addImageToSubject}
-                    type="subject"
+                    type="text"
                   >
                     {provided => (
                       <Storyboard

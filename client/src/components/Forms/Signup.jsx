@@ -4,9 +4,9 @@ import { Button, Input, Label } from "./FormElements";
 import { LinkBtn } from "../PageElements";
 
 const Container = styled.div`
-  background-color: #ffffff5e;
+  background-color: #ffffff27;
   border-radius: 10px;
-  margin: auto;
+  /* margin: auto; */
   padding: 20px;
   width: 300px;
   /* margin-left: 25%; */
@@ -61,6 +61,7 @@ export const Signup = props => (
       <LinkBtn
         size="1.5rem"
         bold
+        shadow
         onClick={props.toggleSignupForm}
       >
         Log in.

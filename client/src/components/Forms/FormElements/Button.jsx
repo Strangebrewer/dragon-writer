@@ -14,7 +14,7 @@ const FormButton = styled.button`
   margin: ${props => props.center ? '10px auto 0 auto' : '10px 10px 0 0'};
   outline: transparent;
   padding: 8px 12px;
-	transition: all 0.2s ease-in-out;
+	transition: box-shadow 0.2s ease-in-out, color 0.2s ease-in-out, background-color 0.2s ease-in-out;
   width: ${props => props.full && '100%'};
   &:active, &:enabled:hover {
     background-color: ${props => props.theme.buttonHoverBG};

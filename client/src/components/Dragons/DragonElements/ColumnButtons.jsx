@@ -13,6 +13,7 @@ const Buttons = styled.div`
   a {
     color: ${props => props.theme.mainColor};
     font-size: 1.3rem;
+    transition: ${props => props.theme.colorTrans};
     &:hover {
       color: ${props => props.theme.linkHover};
     }

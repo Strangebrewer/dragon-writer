@@ -4,9 +4,9 @@ import { Button, Input, Label } from "./FormElements";
 import { LinkBtn } from "../PageElements";
 
 const Container = styled.div`
-  background-color: #ffffff5e;
+  background-color: #ffffff28;
   border-radius: 10px;
-  margin: auto;
+  /* margin: auto; */
   padding: 20px;
   width: 300px;
   @media (min-width: 450px) {
@@ -32,7 +32,6 @@ export const Login = props => (
       <Label>Username</Label>
       <Input
         name="username"
-        landing
         value={props.username}
         type="text"
         onChange={props.handleInputChange}
@@ -40,7 +39,6 @@ export const Login = props => (
       <Label>Password</Label>
       <Input
         name="password"
-        landing
         value={props.password}
         type="password"
         onChange={props.handleInputChange}
@@ -51,6 +49,7 @@ export const Login = props => (
       <LinkBtn
         size="1.5rem"
         bold
+        shadow
         onClick={props.toggleSignupForm}
       >
         Create one.

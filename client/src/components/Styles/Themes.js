@@ -7,6 +7,7 @@ export const Themes = {
     buttonColor: '#fff',
     buttonHoverBG: '#fff',
     buttonHoverColor: '#000',
+    colorTrans: 'color 0.15s ease-in-out',
     columnBS: '0 0 20px #0892D0, 0 0 15px #0892D0, 0 0 10px #0892D0, 0 0 5px #0892D0, 0 0 2px #0892D0, inset 0 0 5px 0 #0892D0',
     columnDragBorder: '#0892D0',
     deleteLinkHover: '#a80b0b',
@@ -34,8 +35,8 @@ export const Themes = {
     projectItemBG: '#062333',
     projectItemColor: '#d7d7d7',
     titleColor: '#ededed',
-    typeface: "'Josefin Slab', 'Times New Roman', Times, serif",
-    hTypeface: "'Fredericka the Great', 'Times New Roman', Times, serif",
+    typeface: "'Raleway', 'Times New Roman', Times, serif",
+    hTypeface: "'Abril Fatface', 'Times New Roman', Times, serif",
   },
 
   brightmode: {
@@ -46,6 +47,7 @@ export const Themes = {
     buttonColor: '#fff',
     buttonHoverBG: '#fff',
     buttonHoverColor: '#000',
+    colorTrans: 'color 0.15s ease-in-out',
     columnBS: '0 0 18px #083eacce, 0 0 10px #083eacce, 0 0 5px #083eacce, 0 0 2px #083eacce',
     columnDragBorder: '#083eac',
     deleteLinkHover: '#c90000',
@@ -73,8 +75,8 @@ export const Themes = {
     projectItemBG: '#eeeeee',
     projectItemColor: '#06245e',
     titleColor: '#06245e',
-    typeface: "'Josefin Slab', 'Times New Roman', Times, serif",
-    hTypeface: "'Fredericka the Great', 'Times New Roman', Times, serif",
+    typeface: "'Raleway', 'Times New Roman', Times, serif",
+    hTypeface: "'Abril Fatface', 'Times New Roman', Times, serif",
   },
 
   frightmode: {
@@ -85,6 +87,7 @@ export const Themes = {
     buttonColor: '#fff',
     buttonHoverBG: '#fff',
     buttonHoverColor: '#450000',
+    colorTrans: 'color 0.15s ease-in-out',
     columnBS: '0 0 18px #fff, 0 0 10px #fff, 0 0 5px #fff, 0 0 2px #fff',
     columnDragBorder: '#083eac',
     deleteLinkHover: '#c90000',
@@ -112,7 +115,7 @@ export const Themes = {
     projectItemBG: '#8aa7e2',
     projectItemColor: '#450000',
     titleColor: '#fff',
-    typeface: "'Josefin Slab', 'Times New Roman', Times, serif",
-    hTypeface: "'Fredericka the Great', 'Times New Roman', Times, serif",
+    typeface: "'Raleway', 'Times New Roman', Times, serif",
+    hTypeface: "'Abril Fatface', 'Times New Roman', Times, serif",
   },
 };

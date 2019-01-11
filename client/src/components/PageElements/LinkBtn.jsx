@@ -21,6 +21,8 @@ const Button = styled.button`
     left: ${props => props.left};
     right: ${props => props.right};
   text-decoration: ${props => props.underline ? 'underline' : 'none'};
+  text-shadow: ${props => props.shadow && '1px 1px 2px #999'};
+  transition: ${props => props.theme.colorTrans}, text-shadow 0.15s ease-in-out;
   z-index: 9;
   &:hover, &:focus {
     color: ${props => (
@@ -28,6 +30,7 @@ const Button = styled.button`
         ? props.theme.deleteLinkHover
         : props.theme.linkHover
     )};
+    text-shadow: ${props => props.shadow && '2px 2px 3px #000'};
   }
   &:disabled {
     cursor: default;

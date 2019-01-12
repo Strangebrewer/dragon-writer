@@ -33,11 +33,10 @@ const Container = styled.div`
     font-family: ${props => props.theme.hTypeface};
     font-size: 1.75rem;
     padding-bottom: 4px;
-    text-shadow: 2px 2px 2px #000;
   }
   p {
     font-size: 1.25rem;
-    line-height: 1.1;
+    line-height: 1.2;
     padding-left: 12px;
     padding-bottom: 5px;
   }

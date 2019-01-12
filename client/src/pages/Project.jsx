@@ -128,7 +128,6 @@ class Project extends PureComponent {
         dragons={state.dragons}
         editorOn={state.editorOn}
         logout={this.props.logout}
-        nextMode={this.props.nextMode}
         projectId={_id}
         storyboardOn={state.storyboardOn}
         subjects={subjects}
@@ -139,7 +138,6 @@ class Project extends PureComponent {
         toggleStoryboard={this.toggleStoryboard}
         toggleSubject={this.toggleSubject}
         toggleSubjectForm={this.toggleSubjectForm}
-        toggleStyleMode={this.props.toggleStyleMode}
         user={this.props.user}
       >
 

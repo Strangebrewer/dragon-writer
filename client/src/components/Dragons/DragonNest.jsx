@@ -15,6 +15,7 @@ const Container = styled.div`
   margin: 10px;
   min-width: 260px;
   position: relative;
+  text-shadow: 2px 2px 2px #000;
   width: 300px;
 `;
 
@@ -44,7 +45,6 @@ const Heading3 = styled.div`
   margin: 5px 0 8px 0;
   padding: 0 8px;
   text-align: center;
-  text-shadow: 2px 2px 2px #000;
 `;
 
 const Paragraph = styled.p`

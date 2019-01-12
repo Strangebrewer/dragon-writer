@@ -10,8 +10,7 @@ const Container = styled.div`
 
 const DateText = styled.h5`
     display: inline-block;
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: 1rem;
     margin-top: 8px;
 `;
 

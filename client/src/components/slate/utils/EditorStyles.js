@@ -4,7 +4,7 @@ export const EditorStyles = styled.div`
   background: ${props => (
     props.mode === "write"
       ? props.theme.editorBG
-      : 'transparent'
+      : 'linear-gradient(90deg, #00000000, #00000044, #00000000)'
   )};
   border: ${props => (
     props.mode === "write"
@@ -22,7 +22,7 @@ export const EditorStyles = styled.div`
       ? props.theme.black
       : props.print
         ? 'black'
-        : props.theme.editorColor
+        : 'props.theme.editorColor'
   )};
   font-family: ${props => (
     props.print
@@ -30,11 +30,11 @@ export const EditorStyles = styled.div`
       : "Arial, Helvetica, sans-serif"
   )};
   line-height: 1.4;
-  margin-left: ${props => props.inline && '160px'};
+  margin-left: ${props => props.inline && '200px'};
   max-height: ${props => props.inline && '70vh'};
   overflow: auto;
   transition: background-color .2s ease-in-out;
-  width: ${props => props.inline ? 'calc(100% -160px)' : '100%'};
+  width: ${props => props.inline ? 'calc(100% -200px)' : '100%'};
   p {
     font-size: ${props => (
       props.mode === "write"

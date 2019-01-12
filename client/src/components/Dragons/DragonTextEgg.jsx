@@ -11,8 +11,8 @@ import initialValue from "../slate/utils/value.json"
 const Container = styled.div`
   background: ${props => (
     props.isDragging
-      ? props.theme.pageBGLite
-      : 'transparent'
+      ? '#ffffff17'
+      : 'linear-gradient(90deg, #00000000, #000000cb, #00000000)'
   )};
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -28,10 +28,9 @@ const Container = styled.div`
 `;
 
 const MetaDataContainer = styled.div`
-  max-width: 160px;
-  min-width: 160px;
-  padding-right: 30px;
-  padding-top: 10px;
+  max-width: 240px;
+  min-width: 240px;
+  padding: 10px 30px 0 30px;
   text-align: right;
 `;
 
@@ -50,18 +49,13 @@ const TextThesis = styled.p`
 `;
 
 const ImageContainer = styled.div`
-  background: ${props => (
-    props.isDragging
-      ? props.theme.pageBGLite
-      : 'transparent'
-  )};
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
   height: 100%;
-  min-width: 160px;
-  padding: 5px 0 0 30px;
-  width: 160px;
+  min-width: 200px;
+  padding: 5px 10px 20px 30px;
+  width: 200px;
   img {
     align-self: flex-start;
     max-width: 100%;

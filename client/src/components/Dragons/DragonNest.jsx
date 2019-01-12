@@ -9,13 +9,13 @@ import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
 const Container = styled.div`
-  background: ${props => props.theme.pageBGLite};
+  background: #ffffff22;
   display: flex;
   flex-direction: column;
   margin: 10px;
   min-width: 260px;
   position: relative;
-  width: 260px;
+  width: 300px;
 `;
 
 const SubjectHeader = styled.div`
@@ -25,15 +25,9 @@ const SubjectHeader = styled.div`
 `;
 
 const DragonList = styled.div`
-  border: 2px solid ${props => (
-    props.isDraggingOver
-      ? props.theme.columnDragBorder
-      : props.theme.links
-  )};
-  border-radius: 5px;
   box-shadow: ${props => (
     props.isDraggingOver
-      ? props.theme.columnBS
+      ? '0 0 15px #26d4cc, 0 0 10px #26d4cc, 0 0 5px #26d4cc, 0 0 2px #26d4cc, inset 0 0 10px 0 #26d4cc'
       : "none"
   )};
   display: flex;
@@ -45,17 +39,18 @@ const DragonList = styled.div`
 `;
 
 const Heading3 = styled.div`
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 5px 0 10px 0;
+  font-family: ${props => props.theme.hTypeface};
+  font-size: 2.4rem;
+  margin: 5px 0 8px 0;
   padding: 0 8px;
   text-align: center;
+  text-shadow: 2px 2px 2px #000;
 `;
 
 const Paragraph = styled.p`
   border-top: 1px solid ${props => props.theme.mainColor};
   color: ${props => props.theme.mainColor};
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin: 0 10px;
   min-height: 75px;
   padding: 8px;

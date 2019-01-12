@@ -22,14 +22,17 @@ const Button = styled.button`
     right: ${props => props.right};
   text-decoration: ${props => props.underline ? 'underline' : 'none'};
   text-shadow: ${props => props.shadow && '1px 1px 2px #999'};
+  text-shadow: 2px 2px 2px #000;
   transition: ${props => props.theme.colorTrans}, text-shadow 0.15s ease-in-out;
+  vertical-align: middle;
   z-index: 9;
   &:hover, &:focus {
     color: ${props => (
       props.delete
         ? props.theme.deleteLinkHover
-        : props.theme.linkHover
+        : '#26d4cc'
     )};
+    /* color: #26d4cc; */
     text-shadow: ${props => props.shadow && '2px 2px 3px #000'};
   }
   &:disabled {

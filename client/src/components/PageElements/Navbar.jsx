@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavContainer = styled.div`
-  background-color: ${props => props.theme.pageBG};
   grid-column: 1 / 4;
   grid-row: 1;
   height: 30px;
@@ -28,9 +27,20 @@ const NavInner = styled.div`
   }
   a:hover, button:hover {
     color: ${props => props.theme.linkHover};
+    color: #26d4cc;
   }
   a, button, h3 {
-     padding: 0 10px;
+    padding: 0 10px;
+    text-shadow: 0 0 1px #000,
+      0 0 2px #000,
+      0 0 3px #000,
+      0 0 4px #000,
+      0 0 5px #000,
+      0 0 6px #000,
+      0 0 7px #000,
+      0 0 8px #000,
+      0 0 9px #000,
+      0 0 10px #000;
   }
   a {
      border-right: 1px solid ${props => props.theme.mainColor};
@@ -47,25 +57,6 @@ const LinkContainer = styled.div`
   align-self: center;
 `;
 
-const ModeButton = styled.button`
-  background: transparent;
-  border: none;
-  color: ${props => props.theme.links};
-  cursor: pointer;
-  font-family: ${props => props.theme.typeface};
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin: 0;
-  outline: transparent;
-  padding: 0 20px 0 0;
-  position: absolute;
-  top: 7px;
-  right: 0;
-  &:hover {
-    color: ${props => props.theme.linkHover};
-  }
-`;
-
 const Button = styled.button`
   background: transparent;
   border: none;
@@ -78,13 +69,13 @@ const Button = styled.button`
 export class Navbar extends PureComponent {
   render() {
     console.log("Navbar Rendering")
-    const { authenticated, user, logout, nextMode, toggleStyleMode } = this.props;
+    const { authenticated, user, logout } = this.props;
     return (
       <NavContainer>
         <NavInner>
           {authenticated && (
             <React.Fragment>
-              <h3>Hello, {user.username}!</h3>
+              <h3>Hello, {user.username}</h3>
 
               <LinkContainer>
                 <Link to="/">Home</Link>
@@ -94,8 +85,6 @@ export class Navbar extends PureComponent {
             </React.Fragment>
           )}
         </NavInner>
-
-        <ModeButton onClick={() => toggleStyleMode(nextMode)}>Toggle {nextMode} Mode</ModeButton>
       </NavContainer>
     );
   }

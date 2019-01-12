@@ -7,6 +7,7 @@ import { EditorStyles } from "../components/slate/utils/EditorStyles";
 import { LinkBtn } from "../components/PageElements";
 
 const Container = styled.div`
+  background: #fff;
   margin: auto;
   width: 800px;
   @media print {

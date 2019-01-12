@@ -35,7 +35,7 @@ export const Themes = {
     projectItemBG: '#062333',
     projectItemColor: '#d7d7d7',
     titleColor: '#ededed',
-    typeface: "'Raleway', 'Times New Roman', Times, serif",
+    typeface: "'Roboto', serif",
     hTypeface: "'Abril Fatface', 'Times New Roman', Times, serif",
   },
 

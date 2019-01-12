@@ -15,7 +15,7 @@ const Buttons = styled.div`
     font-size: 1.3rem;
     transition: ${props => props.theme.colorTrans};
     &:hover {
-      color: ${props => props.theme.linkHover};
+      color: #26d4cc;
     }
   }
 `;

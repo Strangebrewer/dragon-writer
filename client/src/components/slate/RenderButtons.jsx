@@ -4,8 +4,7 @@ import styled from 'styled-components';
 const EditorBtnArray = styled.div`
   cursor: default;
   margin: 5px 0 0 0;  
-  margin-left: ${props => props.inline && '170px'};
-  /* padding-top: 26px; */
+  margin-left: ${props => props.inline && '250px'};
   padding-top: ${props => (
     props.inline
       ? '10px'
@@ -40,13 +39,13 @@ const EditorBtn = styled.button`
   )};
   margin: 0 5px 5px 0;
   opacity: ${props => (
-    props.snarky
+    props.isActive
       ? 1
       : 0.6
   )};
   padding: 0;
   width: ${props => (
-    props.inline === "true"
+    props.inline
       ? "30px"
       : "40px"
   )};
@@ -69,7 +68,7 @@ class RenderButtons extends Component {
     return (
       <EditorBtn
         inline={this.props.inline}
-        snarky={isActive}
+        isActive={isActive}
         style={{ color }}
         key={`icon-${type}`}
         onClick={() => this.props.onClickMark(type)}
@@ -97,7 +96,7 @@ class RenderButtons extends Component {
     return (
       <EditorBtn
         inline={this.props.inline}
-        snarky={isActive}
+        isActive={isActive}
         key={`icon-${type}`}
         onClick={() => this.props.onClickBlock(type)}
       >

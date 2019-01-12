@@ -26,11 +26,12 @@ const HeadingTwo = styled.h2`
   margin: 0;
   padding: 0;
   padding-bottom: 5px;
-  text-shadow: 1px 1px 0 ${props => props.theme.midGrey};
+  /* text-shadow: 1px 1px 0 ${props => props.theme.midGrey}; */
 `;
 
 const Message = styled.p`
   padding: 10px 0 0 10px;
+  font-size: 1.3rem;
 `;
 
 const List = styled.ul`
@@ -61,8 +62,14 @@ const SubjectList = props => {
   return (
     <Container>
       <HeadingTwo>
-        Columns {subjects.length > 0 &&
-          <LinkBtn underline onClick={clearAllTopics}> clear all</LinkBtn>}
+        Columns &nbsp;{subjects.length > 0 &&
+          <LinkBtn
+            underline
+            size="1.2rem"
+            onClick={clearAllTopics}
+          >
+            clear all
+             </LinkBtn>}
       </HeadingTwo>
 
       {subjects.length === 0
@@ -77,7 +84,7 @@ const SubjectList = props => {
             <LinkBtn
               underline
               fancy
-              size="1.5rem"
+              size="1.25rem"
               lineHeight="1.5"
               onClick={
                 dragons

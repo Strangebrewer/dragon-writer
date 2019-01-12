@@ -7,7 +7,7 @@ import { InlineUpdateEditor } from "../slate/Editors";
 const Container = styled.div`
   background: ${props => (
     props.isDragging
-      ? props.theme.pageBGLite
+      ? '#ffffff17'
       : 'transparent'
   )};
   display: flex;
@@ -16,17 +16,12 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  /* align-self: flex-start; */
-  background: ${props => (
-    props.isDragging
-      ? props.theme.pageBGLite
-      : 'transparent'
-  )};
   display: flex;
   height: 100%;
   min-width: 390px;
-  padding-top: 10px;
+  padding-top: 55px;
   padding-right: 30px;
+  padding-bottom: 20px;
   padding-left: 20px;
   width: 390px;
   img {
@@ -34,15 +29,6 @@ const ImageContainer = styled.div`
     max-width: 100%;
     max-height: 100%;
   }
-`;
-
-const Banner = styled.div`
-  background: ${props => props.theme.bannerBG};
-  height: 30px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 390px;
 `;
 
 export class DragonTextEditable extends Component {
@@ -95,7 +81,6 @@ export class DragonTextEditable extends Component {
             </EditorLogic>
 
             <ImageContainer isDragging={snapshot.isDragging}>
-              {/* <Banner /> */}
               <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
             </ImageContainer>
 

@@ -26,6 +26,9 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
+    background: linear-gradient(90deg, #000000, #00000000, #000000) fixed,
+      linear-gradient(#000000, #00000000, #000000) fixed,
+      url('/static/assets/images/background-two.jpg') repeat fixed;
     border: 0;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5rem;

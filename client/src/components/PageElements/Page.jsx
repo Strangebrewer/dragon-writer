@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { GlobalStyle } from "../Styles";
 
 const PageContainer = styled.div`
-  background: ${props => props.theme.pageBG};
   color: ${props => props.theme.mainColor};
   display: grid;
   font-family: ${props => props.theme.typeface};
@@ -38,16 +37,7 @@ const FooterContainer = styled.div`
 
 const TitleContainer = styled.div`
   align-items: center;
-  background: ${props =>
-    props.home
-      ? props.theme.homeBannerBG
-      : props.theme.bannerBG
-  };
-  box-shadow: ${props => props.home ? '6px 6px 2px #000' : 'none'};
-  color: ${props => props.home
-    ? props.theme.homeBannerColor
-    : props.theme.bannerColor
-  };
+  color: #fff;
   grid-column: 1 / 3;
   grid-row: 2;
   margin: ${props => (
@@ -61,10 +51,10 @@ const TitleContainer = styled.div`
   width: ${props => props.home ? '600px' : '100%'};
   h2 {
     font-family: ${props => props.theme.hTypeface};
-    font-size: ${props => props.home ? "5rem" : "3rem"};
+    font-size: ${props => props.home ? "7rem" : "3rem"};
   }
   h3 {
-    font-size: ${props => props.home ? "1.65rem" : "1.5rem"};
+    font-size: ${props => props.home ? "2.2rem" : "1.5rem"};
     font-weight: bold;
     margin-top: 10px;
   }
@@ -80,8 +70,6 @@ export class Page extends PureComponent {
         <Navbar
           authenticated={props.authenticated}
           logout={props.logout}
-          nextMode={props.nextMode}
-          toggleStyleMode={props.toggleStyleMode}
           user={props.user}
         />
 

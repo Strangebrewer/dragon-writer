@@ -13,27 +13,33 @@ const Container = styled.div`
       ? props.theme.itemDragBG
       : props.theme.itemBG
   )};
+  background: #16888256;
   border-radius: 5px;
-  box-shadow: ${props => props.theme.fieldShine};
+  box-shadow: 2px 2px 4px #000;
   color: ${props => props.theme.itemColor};
+  color: #fff;
   margin-bottom: 8px;
   opacity: ${props => (
     props.isDragging || props.loading
       ? "0.9"
       : "1"
   )};
-  padding: 6px 8px 4px 8px;
+  padding: 6px 8px 4px 10px;
+  padding: 20px 20px 4px 20px;
   position: relative;
   transition: background-color .2s ease-in-out;
   width: 100%;
   h4 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    padding-bottom: 2px;
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 1.75rem;
+    padding-bottom: 4px;
+    text-shadow: 2px 2px 2px #000;
   }
   p {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.1;
     padding-left: 12px;
+    padding-bottom: 5px;
   }
 `;
 

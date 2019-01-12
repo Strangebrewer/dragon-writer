@@ -105,8 +105,8 @@ export class SingleUpdateEditor extends Component {
               type="text"
               name="title"
               value={this.props.state.title}
-              maxLength="22"
-              placeholder="(22 char max)"
+              maxLength="20"
+              placeholder="(20 char max)"
               onChange={this.props.handleInputChange}
             />
             <Label>Summary:</Label>

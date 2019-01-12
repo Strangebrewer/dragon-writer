@@ -7,7 +7,7 @@ const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;
-  top: 6px;
+  top: 4px;
   right: 8px;
 `;
 
@@ -26,9 +26,7 @@ export class ItemButtons extends PureComponent {
               onClick={() => props.seeFullText(text)}
               disabled={props.disabled}
               padding="0 2px 10px 3px"
-              color="#000"
               size="1rem"
-              underline
               title="see full text"
             >
               <i className="far fa-eye"></i>
@@ -38,9 +36,7 @@ export class ItemButtons extends PureComponent {
               onClick={() => props.toggleSingleEdit(subject, text)}
               disabled={props.disabled}
               padding="0 2px 10px 3px"
-              color="#000"
               size="1rem"
-              underline
               title="edit text"
             >
               <i className="fas fa-edit"></i>
@@ -48,8 +44,6 @@ export class ItemButtons extends PureComponent {
 
             <LinkBtn
               padding="0 2px 10px 3px"
-              color="#000"
-              underline
               size="1rem"
               disabled={props.disabled || image}
               onClick={() => props.uploadImageModal(id)}
@@ -63,8 +57,6 @@ export class ItemButtons extends PureComponent {
 
             <LinkBtn
               padding="0 2px 10px 3px"
-              color="#000"
-              underline
               size="1rem"
               disabled={props.disabled || !image}
               onClick={() => props.imageModal(image, publicId, id, "item")}
@@ -81,9 +73,7 @@ export class ItemButtons extends PureComponent {
               disabled={props.disabled}
               padding="0 2px 10px 3px"
               delete
-              color="#000"
               size="1rem"
-              underline
               title={`delete ${text.title}`}
             >
               <i className="fas fa-trash-alt"></i>

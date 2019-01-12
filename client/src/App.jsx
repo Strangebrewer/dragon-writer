@@ -20,30 +20,11 @@ class App extends Component {
     projectOrderData: {},
     user: null,
     loading: true,
-    styleMode: Themes.brightmode,
-    nextMode: 'Night'
   };
 
   componentDidMount() {
     this.getInitialData();
   };
-
-  toggleStyleMode = modeInput => {
-    let stateObj = {};
-    if (modeInput === "Bright") {
-      stateObj.styleMode = Themes.brightmode;
-      stateObj.nextMode = "Night";
-    }
-    if (modeInput === "Night") {
-      stateObj.styleMode = Themes.nightmode;
-      stateObj.nextMode = "Fright";
-    }
-    if (modeInput === "Fright") {
-      stateObj.styleMode = Themes.frightmode;
-      stateObj.nextMode = "Bright";
-    }
-    this.setState(stateObj);
-  }
 
   getInitialData = async (userInfo) => {
     let projects = [];
@@ -215,15 +196,13 @@ class App extends Component {
       getInitialData: this.getInitialData,
       loading: this.state.loading,
       logout: this.logout,
-      nextMode: this.state.nextMode,
-      toggleStyleMode: this.toggleStyleMode,
       user: this.state.user
     }
 
     if (this.state.loading) return null;
 
     return (
-      <ThemeProvider theme={this.state.styleMode}>
+      <ThemeProvider theme={Themes.nightmode}>
         <Router>
           <Switch>
             <Route exact path="/">

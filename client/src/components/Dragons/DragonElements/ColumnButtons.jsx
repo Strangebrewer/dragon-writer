@@ -15,7 +15,7 @@ const Buttons = styled.div`
     font-size: 1.3rem;
     transition: ${props => props.theme.colorTrans};
     &:hover {
-      color: #26d4cc;
+      color: ${props => !props.disabled && "#26d4cc"};
     }
   }
 `;
@@ -35,7 +35,7 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled}
                 padding="0 3px 5px 3px"
                 onClick={() => props.toggleInlineNew(subject)}
-                title={`create new item for ${subject.subject} column`}
+                title={!props.disabled && `create new item for ${subject.subject} column`}
               >
                 <i className="far fa-file-alt"></i>
               </LinkBtn>
@@ -44,7 +44,7 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled}
                 onClick={() => props.toggleDragonText(id)}
                 padding="0 3px 5px 3px"
-                title="expand column to read all full texts"
+                title={!props.disabled && "expand column to read all full texts"}
               >
                 <i className="far fa-eye"></i>
               </LinkBtn>
@@ -53,7 +53,7 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled}
                 onClick={() => props.updateSubjectModal(subject)}
                 padding="0 3px 5px 3px"
-                title="update column name"
+                title={!props.disabled && "update column name"}
               >
                 <i className="fas fa-edit"></i>
               </LinkBtn>
@@ -62,10 +62,11 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled || image}
                 onClick={() => props.uploadImageModal(id)}
                 padding="0 3px 5px 3px"
-                title={image
-                  ? "you must delete the current image before uploading another"
-                  : "upload image for this column"
-                }
+                title={!props.disabled && (
+                  image
+                    ? "you must delete the current image before uploading another"
+                    : "upload image for this column"
+                )}
               >
                 <i className="fas fa-upload"></i>
               </LinkBtn>
@@ -74,10 +75,11 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled || !image}
                 onClick={() => props.imageModal(image, publicId, id, "column")}
                 padding="0 3px 5px 3px"
-                title={image
-                  ? "see image for this column"
-                  : "no image has been uploaded for this column"
-                }
+                title={!props.disabled && (
+                  image
+                    ? "see image for this column"
+                    : "no image has been uploaded for this column"
+                )}
               >
                 <i className="far fa-images"></i>
               </LinkBtn>
@@ -86,23 +88,33 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled}
                 onClick={() => props.toggleStoryboard(id)}
                 padding="0 3px 5px 3px"
-                title="storyboard view"
+                title={!props.disabled && "storyboard view"}
               >
                 <i className="fas fa-th"></i>
               </LinkBtn>
 
-              <Link
-                title="print view"
-                to={{ pathname: "/print", state: { texts, subject } }}>
-                <i className="fas fa-print"></i>
-              </Link>
+              {/* when buttons are disabled, make this a button so the link won't work */}
+              {props.disabled
+                ? (
+                  <LinkBtn disabled={props.disabled} padding="0 3px 5px 3px">
+                    <i className="fas fa-print"></i>
+                  </LinkBtn>
+                ) : (
+                  <Link
+                    style={{ padding: "1px 3px 5px 3px" }}
+                    title={!props.disabled && "print view"}
+                    to={{ pathname: "/print", state: { texts, subject } }}>
+                    <i className="fas fa-print"></i>
+                  </Link>
+                )
+              }
 
               <LinkBtn
                 delete
                 disabled={props.disabled}
                 onClick={() => props.deleteSubjectModal(id, index)}
                 padding="0 3px 5px 3px"
-                title="delete this column"
+                title={!props.disabled && "delete this column"}
               >
                 <i className="fas fa-trash-alt"></i>
               </LinkBtn>
@@ -115,7 +127,7 @@ export class ColumnButtons extends PureComponent {
               top="2px"
               right="3px"
               size="2rem"
-              title="close this column"
+              title={!props.disabled && "close this column"}
             >
               &times;
             </LinkBtn>

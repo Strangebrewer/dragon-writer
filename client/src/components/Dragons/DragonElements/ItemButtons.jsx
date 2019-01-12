@@ -17,6 +17,7 @@ export class ItemButtons extends PureComponent {
     const { props } = this;
     const { text, subject, id, index } = props;
     const { image, publicId } = text;
+    const size = "1.1rem"
     return (
       props.loading
         ? <Spinner top="6px" right="38px" size="10px" black />
@@ -26,8 +27,8 @@ export class ItemButtons extends PureComponent {
               onClick={() => props.seeFullText(text)}
               disabled={props.disabled}
               padding="0 2px 10px 3px"
-              size="1rem"
-              title="see full text"
+              size={size}
+              title={!props.disabled && "see full text"}
             >
               <i className="far fa-eye"></i>
             </LinkBtn>
@@ -36,34 +37,36 @@ export class ItemButtons extends PureComponent {
               onClick={() => props.toggleSingleEdit(subject, text)}
               disabled={props.disabled}
               padding="0 2px 10px 3px"
-              size="1rem"
-              title="edit text"
+              size={size}
+              title={!props.disabled && "edit text"}
             >
               <i className="fas fa-edit"></i>
             </LinkBtn>
 
             <LinkBtn
               padding="0 2px 10px 3px"
-              size="1rem"
+              size={size}
               disabled={props.disabled || image}
               onClick={() => props.uploadImageModal(id)}
-              title={image
-                ? "you must delete the current image before uploading another"
-                : "upload image for this text"
-              }
+              title={!props.disabled && (
+                image
+                  ? "you must delete the current image before uploading another"
+                  : "upload image for this text"
+              )}
             >
               <i className="fas fa-upload"></i>
             </LinkBtn>
 
             <LinkBtn
               padding="0 2px 10px 3px"
-              size="1rem"
+              size={size}
               disabled={props.disabled || !image}
               onClick={() => props.imageModal(image, publicId, id, "item")}
-              title={image
-                ? "see image for this text"
-                : "no image has been uploaded for this text"
-              }
+              title={!props.disabled && (
+                image
+                  ? "see image for this text"
+                  : "no image has been uploaded for this text"
+              )}
             >
               <i className="far fa-images"></i>
             </LinkBtn>
@@ -73,8 +76,8 @@ export class ItemButtons extends PureComponent {
               disabled={props.disabled}
               padding="0 2px 10px 3px"
               delete
-              size="1rem"
-              title={`delete ${text.title}`}
+              size={size}
+              title={!props.disabled && `delete ${text.title}`}
             >
               <i className="fas fa-trash-alt"></i>
             </LinkBtn>

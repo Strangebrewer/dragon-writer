@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { ColumnButtons, DateDiv, ItemButtons } from "./DragonElements";
+import { ColumnButtons, ItemButtons } from "./DragonElements";
 
 const ColumnContainer = styled.div`
-  background: ${props => props.theme.pageBGLite};
+  background: #ffffff22;
   display: flex;
   flex-direction: column;
   margin: 10px;
-  min-width: 260px;
+  min-width: 300px;
   position: relative;
-  width: 260px;
+  text-shadow: 2px 2px 2px #000;
+  width: 300px;
 `;
 
 const ListContainer = styled.div`
-  border: 2px solid ${props => props.theme.links};
-  box-shadow: ${props => props.theme.columnBS};
+  box-shadow: 0 0 15px #26d4cc,
+    0 0 10px #26d4cc,
+    0 0 5px #26d4cc,
+    0 0 2px #26d4cc,
+    inset 0 0 10px 0 #26d4cc;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -31,9 +35,9 @@ const SubjectHeader = styled.div`
 `;
 
 const Heading3 = styled.div`
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 5px 0 10px 0;
+  font-family: ${props => props.theme.hTypeface};
+  font-size: 2.4rem;
+  margin: 5px 0 8px 0;
   padding: 0 8px;
   text-align: center;
 `;
@@ -41,7 +45,7 @@ const Heading3 = styled.div`
 const Paragraph = styled.p`
   border-top: 1px solid ${props => props.theme.mainColor};
   color: ${props => props.theme.mainColor};
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin: 0 10px;
   min-height: 75px;
   padding: 8px;
@@ -49,28 +53,30 @@ const Paragraph = styled.p`
 `;
 
 const ItemContainer = styled.div`
-  background: ${props => props.theme.itemBG};
+  background: #16888256;
   border-radius: 5px;
-  box-shadow: ${props => props.theme.fieldShine};
-  color: ${props => props.theme.itemColor};
+  box-shadow: 2px 2px 4px #000;
+  color: #fff;
   margin-bottom: 8px;
   opacity: ${props => (
     props.dragging || props.loading
       ? "0.9"
       : "1"
   )};
-  padding: 6px 8px 4px 8px;
+  padding: 20px 20px 4px 20px;
   position: relative;
   transition: background-color .2s ease-in-out;
   width: 100%;
   h4 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    padding-bottom: 2px;
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 1.75rem;
+    padding-bottom: 4px;
   }
   p {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.2;
     padding-left: 12px;
+    padding-bottom: 5px;
   }
 `;
 
@@ -80,15 +86,10 @@ export class DragonNestFake extends Component {
     return (
       <ColumnContainer>
         <ColumnButtons
-          deleteSubjectModal="nothing"
           disabled={true}
-          dragonTextOn="nothing"
           id={subject._id}
           index={subject._id}
           subject={subject}
-          toggleEditor="nothing"
-          toggleInlineNew="nothing"
-          updateSubjectModal="nothing"
         />
 
         <SubjectHeader>
@@ -100,20 +101,13 @@ export class DragonNestFake extends Component {
           {texts.map((text, index) => (
             <ItemContainer key={text._id}>
               <ItemButtons
-                deleteTextModal="nothing"
                 disabled={true}
                 index={index}
-                seeFullText="nothing"
                 subject={subject}
                 text={text}
-                toggleEditor="nothing"
-                toggleInlineEdit="nothing"
               />
-
               <h4>{text.title}</h4>
               <p>{text.thesis}</p>
-
-              <DateDiv text={text} />
             </ItemContainer>
           ))}
         </ListContainer>

@@ -21,12 +21,10 @@ const HeadingTwo = styled.h2`
   color: ${props => props.theme.headingColor};
   font-family: ${props => props.theme.hTypeface};
   font-size: 2.3rem;
-  /* font-weight: bold; */
   line-height: 1;
   margin: 0;
   padding: 0;
   padding-bottom: 5px;
-  /* text-shadow: 1px 1px 0 ${props => props.theme.midGrey}; */
 `;
 
 const Message = styled.p`
@@ -62,14 +60,17 @@ const SubjectList = props => {
   return (
     <Container>
       <HeadingTwo>
-        Columns &nbsp;{subjects.length > 0 &&
-          <LinkBtn
-            underline
-            size="1.2rem"
-            onClick={clearAllTopics}
-          >
-            clear all
-             </LinkBtn>}
+        Columns &nbsp;{
+          (subjects.length > 0 && !storyboardOn)
+            ? (
+              <LinkBtn
+                underline
+                size="1.2rem"
+                onClick={clearAllTopics}
+              >
+                clear all
+          </LinkBtn>
+            ) : null}
       </HeadingTwo>
 
       {subjects.length === 0

@@ -37,7 +37,7 @@ export class StoryboardButtons extends PureComponent {
               size="1.2rem"
               storyboard
               underline
-              title="see full text"
+              title={!props.disabled ? "see full text" : null}
             >
               <i className="far fa-eye"></i>
             </LinkBtn>
@@ -49,7 +49,7 @@ export class StoryboardButtons extends PureComponent {
               size="1.2rem"
               storyboard
               underline
-              title="edit text"
+              title={!props.disabled ? "edit text" : null}
             >
               <i className="fas fa-edit"></i>
             </LinkBtn>
@@ -61,10 +61,12 @@ export class StoryboardButtons extends PureComponent {
               size="1.2rem"
               disabled={props.disabled || image}
               onClick={() => props.uploadImageModal(id)}
-              title={text.image
-                ? "you must delete the current image before uploading another"
-                : "upload text image"
-              }
+              title={!props.disabled
+                ? (
+                  image
+                    ? "you must delete the current image before uploading another"
+                    : "upload text image"
+                ) : null}
             >
               <i className="fas fa-upload"></i>
             </LinkBtn>
@@ -76,10 +78,12 @@ export class StoryboardButtons extends PureComponent {
               size="1.2rem"
               disabled={props.disabled || !text.largeImage}
               onClick={() => props.imageModal(largeImage, publicId, id, "item")}
-              title={image
-                ? "see larger image"
-                : "no image has been uploaded for this text"
-              }
+              title={!props.disabled
+                ? (
+                  image
+                    ? "see larger image"
+                    : "no image has been uploaded for this text"
+                ) : null}
             >
               <i className="far fa-images"></i>
             </LinkBtn>

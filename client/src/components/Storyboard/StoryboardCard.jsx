@@ -77,12 +77,13 @@ export class StoryboardCard extends PureComponent {
 
   render() {
     console.log(this.props);
+    const { image, thesis, title } = this.props.text;
     return (
-      <Card image={this.props.text.image}>
+      <Card image={image}>
         <StoryboardButtons {...this.props} />
-        <DragHandle>{this.props.text.title}</DragHandle>
-        <p>{this.props.text.thesis}</p>
-        <img src={this.props.text.image} />
+        <DragHandle>{title}</DragHandle>
+        <p>{thesis}</p>
+        {image && <img src={image} />}
       </Card>
     );
   }

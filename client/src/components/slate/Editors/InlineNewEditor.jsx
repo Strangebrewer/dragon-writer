@@ -77,7 +77,8 @@ const DragHeader = styled.div`
 export class InlineNewEditor extends Component {
 
   render() {
-    const { texts } = this.props;
+    const { createText, texts, toggleInlineNew } = this.props;
+    const { subject, title } = this.props.state;
     return (
       <OuterContainer>
         <DragonNestFake
@@ -134,19 +135,12 @@ export class InlineNewEditor extends Component {
               />
             </EditorStyles>
 
-            <Button
-              style={{ marginTop: "8px", marginRight: "8px" }}
-              disabled={!this.props.state.title || !this.props.state.subject}
-              onClick={this.props.createText}
-            >
+            <Button disabled={!title || !subject} onClick={createText}>
               Save
             </Button>
 
-            <Button
-              style={{ marginTop: "8px", marginRight: "8px" }}
-              // if I don't place this in an anonymous function, it creates an error
-              onClick={() => this.props.toggleInlineNew()}
-            >
+            {/* if I don't place this in an anonymous function, it creates an error */}
+            <Button onClick={() => toggleInlineNew()}>
               Cancel
             </Button>
           </EditorInner>

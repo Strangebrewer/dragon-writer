@@ -3,27 +3,13 @@ import { Editor } from "slate-react";
 import styled from 'styled-components';
 import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
-import { EditorStyles } from "../utils/EditorStyles";
 import { Button, Input, Label, Select } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
-
-const editorStyle = {
-  borderRadius: "6px",
-  fontFamily: "Arial, Helvetica, sans-serif",
-  minHeight: "200px",
-  minWidth: "60%",
-  padding: "10px",
-};
 
 const EditorOuter = styled.div`
   border: 1px solid ${props => props.theme.mainColor};
   border-radius: 2px;
   position: relative;
-  width: 100%;
-`;
-
-const EditorInner = styled.div`
-  padding: 10px;
   width: 100%;
 `;
 
@@ -41,14 +27,46 @@ const DragHeader = styled.div`
   width: 100%;
 `;
 
+const EditorInner = styled.div`
+  padding: 10px;
+  width: 100%;
+`;
+
 const MetaDataForm = styled.div`
   position: inherit;
+`;
+
+const EditorStyles = styled.div`
+  background: ${props => props.theme.editorBG};
+  border: 2px solid ${props => props.theme.links};
+  border-radius: px;
+  box-shadow: ${props => props.theme.fieldShadow};
+  color: ${props => props.theme.black};
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
+  min-height: 200px;
+  min-width: 60%;
+  overflow: auto;
+  padding: 10px;
+  transition: background-color .2s ease-in-out;
+  width: 100%;
+  p {
+    font-size: 1.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    text-indent: 25px;
+  }
+  ul {
+    margin-top: 0;
+    padding-top: 0;
+  }
 `;
 
 export class SingleNewEditor extends Component {
 
   render() {
-    const { subjects } = this.props;
+    const { createText, subjects } = this.props;
+    const { subject, title } = this.props.state;
     return (
       <EditorOuter>
         <DragHeader {...this.props.dragHandle}>
@@ -87,20 +105,22 @@ export class SingleNewEditor extends Component {
             />
             <Label>Column:</Label>
             <Select
-              style={{ maxWidth: "300px", width: "300px", marginBottom: '10px' }}
+              style={{ maxWidth: "300px", width: "300px" }}
               value={this.props.state.subject}
               onChange={this.props.handleInputChange}
               name="subject"
             >
               <option value="">Select a column:</option>
-              {subjects.map(subject => <option key={subject._id} value={subject._id}>{subject.subject}</option>)}
+              {subjects.map(subject => {
+                const { _id } = subject;
+                return <option key={_id} value={_id}>{subject.subject}</option>
+              })}
             </Select>
           </MetaDataForm>
 
-          <EditorStyles mode="write">
+          <EditorStyles>
             <Editor
               autoFocus
-              style={editorStyle}
               plugins={plugins}
               ref={this.props.thisRef}
               value={this.props.state.value}
@@ -110,18 +130,11 @@ export class SingleNewEditor extends Component {
             />
           </EditorStyles>
 
-          <Button
-            style={{ marginTop: "8px", marginRight: "8px" }}
-            disabled={!this.props.state.title || !this.props.state.subject}
-            onClick={this.props.createText}
-          >
+          <Button disabled={!title || !subject} onClick={createText}>
             Save
           </Button>
 
-          <Button
-            style={{ marginTop: "8px", marginRight: "8px" }}
-            onClick={this.props.toggleSingleNewEditor}
-          >
+          <Button onClick={this.props.toggleSingleNewEditor}>
             Cancel
           </Button>
         </EditorInner>

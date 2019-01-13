@@ -54,6 +54,7 @@ const TitleContainer = styled.div`
     font-size: ${props => props.home ? "7rem" : "3rem"};
   }
   h3 {
+    display: ${props => !props.home && 'none'};
     font-size: ${props => props.home ? "2.2rem" : "1.5rem"};
     font-weight: bold;
     margin-top: 10px;
@@ -73,17 +74,9 @@ export class Page extends PureComponent {
           user={props.user}
         />
 
-        <TitleContainer
-          dragons={props.dragons}
-          home={props.home}
-          size={props.size}
-          storyboardOn={props.storyboardOn}
-          subtitle={props.subtitle}
-          title={props.title}
-        >
+        <TitleContainer home={props.home}>
           <h2 title={props.subtitle}>{props.title}</h2>
-          {/* only the home page shows a subtitle */}
-          {props.home && <h3>{props.subtitle}</h3>}
+          <h3>{props.subtitle}</h3>
         </TitleContainer>
 
         <NavColumn>

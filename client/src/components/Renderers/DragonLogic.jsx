@@ -125,7 +125,7 @@ export class DragonLogic extends Component {
   render() {
     console.log(this.props);
     return (
-      <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart}>
+      <DragDropContext onDragEnd={this.onDragEnd}>
         {this.props.children({
           executeDragonStateChanges: this.executeDragonStateChanges,
           executeToggles: this.executeToggles,

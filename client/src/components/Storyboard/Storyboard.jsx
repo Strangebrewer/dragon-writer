@@ -78,10 +78,15 @@ const SortableList = SortableContainer(props =>
     {props.texts.map((text, index) => (
       <SortableItem
         id={text._id}
+        imageModal={props.imageModal}
         index={index}
         key={`item-${index}`}
         {...props}
+        subject={props.subject}
         text={text}
+        toggleCurrentText={props.toggleCurrentText}
+        toggleSingleEdit={props.toggleSingleEdit}
+        uploadImageModal={props.uploadImageModal}
       />
     ))}
   </Container>
@@ -166,13 +171,14 @@ export class Storyboard extends PureComponent {
 
         <SortableList
           axis="xy"
-          deleteText={this.deleteText}
-          deleteTextModal={this.deleteTextModal}
+          imageModal={this.props.imageModal}
           onSortEnd={this.onSortEnd}
+          subject={this.props.subject}
+          texts={texts}
           toggleCurrentText={this.toggleCurrentText}
           toggleSingleEdit={this.props.toggleSingleEdit}
+          uploadImageModal={this.props.uploadImageModal}
           useDragHandle={true}
-          {...this.props}
         />
 
       </Fragment>

@@ -62,7 +62,9 @@ export class InlineUpdateEditor extends Component {
 
   render() {
     console.log(this.props);
-    const { id } = this.props;
+    // const { id } = this.props;
+    const { id, toggleEditable, updateText } = this.props;
+    const { subject, title } = this.props.state;
     return (
       <EditorOuter>
 
@@ -95,13 +97,10 @@ export class InlineUpdateEditor extends Component {
               placeholder="(140 char max)"
               onChange={this.props.handleInputChange}
             />
-            <Button
-              disabled={!this.props.state.title || !this.props.state.subject}
-              onClick={() => this.props.updateText(id)}
-            >
+            <Button disabled={!title || !subject} onClick={() => updateText(id)}>
               Save
             </Button>
-            <Button onClick={() => this.props.toggleEditable(id)}>
+            <Button onClick={() => toggleEditable(id)}>
               Cancel
             </Button>
           </MetaDataForm>

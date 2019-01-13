@@ -72,7 +72,7 @@ class Print extends Component {
             </LinkBtn>
           </PrintNav>
           <Heading>{subject.subject}</Heading>
-          <EditorStyles mode="read" print>
+          <EditorStyles>
             {texts.map((text, index) => (
               <Editor
                 key={text._id}

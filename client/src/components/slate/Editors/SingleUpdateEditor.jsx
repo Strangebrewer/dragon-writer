@@ -7,16 +7,6 @@ import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { DragonNestFake } from "../../Dragons";
 
-const editorStyle = {
-  borderRadius: "6px",
-  fontFamily: "Arial, Helvetica, sans-serif",
-  maxHeight: "35vh",
-  minHeight: "200px",
-  minWidth: "60%",
-  overflow: 'autor',
-  padding: "10px",
-};
-
 const EditorStyles = styled.div`
   background: ${props => props.theme.editorBG};
   border: 2px solid ${props => props.theme.links};
@@ -26,9 +16,11 @@ const EditorStyles = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
   margin-left: ${props => props.inline && '160px'};
-  max-height: ${props => props.inline && '70vh'};
+  max-height: 35vh;
+  min-height: 200px;
+  min-width: 60%;
   overflow: auto;
-  transition: background-color .2s ease-in-out;
+  padding: 10px;
   p {
     font-size: 1.5rem;
     text-indent: 25px;
@@ -77,7 +69,9 @@ const DragHeader = styled.div`
 export class SingleUpdateEditor extends Component {
 
   render() {
-    const { texts } = this.props;
+    const { texts, toggleSingleEdit, updateText } = this.props;
+    const { subject, title } = this.props.state;
+    const { _id } = this.props.text;
     return (
       <OuterContainer>
         <DragonNestFake
@@ -123,7 +117,6 @@ export class SingleUpdateEditor extends Component {
             <EditorStyles>
               <Editor
                 autoFocus
-                style={editorStyle}
                 plugins={plugins}
                 ref={this.props.thisRef}
                 value={this.props.state.value}
@@ -132,18 +125,12 @@ export class SingleUpdateEditor extends Component {
                 renderNode={renderNode}
               />
             </EditorStyles>
-            <Button
-              style={{ marginTop: "8px", marginRight: "8px" }}
-              disabled={!this.props.state.title || !this.props.state.subject}
-              onClick={() => this.props.updateText(this.props.text._id)}
-            >
+            <Button disabled={!title || !subject} onClick={() => updateText(_id)}>
               Save
             </Button>
-            <Button
-              style={{ marginTop: "8px", marginRight: "8px" }}
-              // if I don't place this in an anonymous function, it creates an error
-              onClick={() => this.props.toggleSingleEdit()}
-            >
+
+            {/* if this is not place this in an anonymous function, it creates an error */}
+            <Button onClick={() => toggleSingleEdit()}>
               Cancel
             </Button>
           </EditorInner>

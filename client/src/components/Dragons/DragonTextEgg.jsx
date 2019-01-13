@@ -4,7 +4,6 @@ import { Editor } from "slate-react";
 import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../slate/utils/Renderers";
-import { EditorStyles } from "../slate/utils/EditorStyles";
 import { LinkBtn } from "../PageElements";
 import initialValue from "../slate/utils/value.json"
 
@@ -46,6 +45,29 @@ const TextThesis = styled.p`
   line-height: 1;
   margin: 0;
   padding: 4px 0 6px 0;
+`;
+
+const EditorStyles = styled.div`
+  background: linear-gradient(90deg, #00000000, #00000044, #00000000);
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  color: ${props => props.theme.editorColor};
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
+  overflow: auto;
+  transition: background-color .2s ease-in-out;
+  width: 100%;
+  p {
+    font-size: 2.2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    text-indent: 25px;
+  }
+  ul {
+    margin-top: 0;
+    padding-top: 0;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -125,7 +147,7 @@ export class DragonTextEgg extends Component {
                 </LinkBtn>
               </MetaDataContainer>
 
-              <EditorStyles mode="read" isDragging={snapshot.isDragging}>
+              <EditorStyles>
                 <Editor
                   key={text._id}
                   index={index}

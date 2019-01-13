@@ -28,7 +28,7 @@ export class ItemButtons extends PureComponent {
               disabled={props.disabled}
               padding="0 2px 10px 3px"
               size={size}
-              title={!props.disabled && "see full text"}
+              title={!props.disabled ? "see full text" : null}
             >
               <i className="far fa-eye"></i>
             </LinkBtn>
@@ -38,7 +38,7 @@ export class ItemButtons extends PureComponent {
               disabled={props.disabled}
               padding="0 2px 10px 3px"
               size={size}
-              title={!props.disabled && "edit text"}
+              title={!props.disabled ? "edit text" : null}
             >
               <i className="fas fa-edit"></i>
             </LinkBtn>
@@ -48,11 +48,12 @@ export class ItemButtons extends PureComponent {
               size={size}
               disabled={props.disabled || image}
               onClick={() => props.uploadImageModal(id)}
-              title={!props.disabled && (
-                image
-                  ? "you must delete the current image before uploading another"
-                  : "upload image for this text"
-              )}
+              title={!props.disabled
+                ? (
+                  image
+                    ? "you must delete the current image before uploading another"
+                    : "upload image for this text"
+                ) : null}
             >
               <i className="fas fa-upload"></i>
             </LinkBtn>
@@ -62,11 +63,12 @@ export class ItemButtons extends PureComponent {
               size={size}
               disabled={props.disabled || !image}
               onClick={() => props.imageModal(image, publicId, id, "item")}
-              title={!props.disabled && (
-                image
-                  ? "see image for this text"
-                  : "no image has been uploaded for this text"
-              )}
+              title={!props.disabled
+                ? (
+                  image
+                    ? "see image for this text"
+                    : "no image has been uploaded for this text"
+                ) : null}
             >
               <i className="far fa-images"></i>
             </LinkBtn>
@@ -77,7 +79,7 @@ export class ItemButtons extends PureComponent {
               padding="0 2px 10px 3px"
               delete
               size={size}
-              title={!props.disabled && `delete ${text.title}`}
+              title={!props.disabled ? `delete ${text.title}` : null}
             >
               <i className="fas fa-trash-alt"></i>
             </LinkBtn>

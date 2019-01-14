@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Navbar } from './Navbar';
-import SubjectList from "./SubjectList";
+import AnchorLink from "react-anchor-link-smooth-scroll"
 import styled from "styled-components";
+import { Navbar } from './Navbar';
+import { SubjectList } from "../PageElements";
 import { GlobalStyle } from "../Styles";
 
 const PageContainer = styled.div`
@@ -33,6 +34,29 @@ const FooterContainer = styled.div`
   grid-column: 1 / 3;
   grid-row: 4;
   height: 90px;
+  a {
+    background: #ebebeb12;
+    background: rgba(234, 234, 234, 0.071);
+    border-radius: 50%;
+    color: rgba(44, 156, 151, 0.157);
+    color: #2c9c9728;
+    font-size: 2rem;
+    height: 40px;
+    opacity: 0;
+    padding: 9px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    text-align: center;
+    transition: opacity 1s ease-in-out,
+      background-color .3s ease-in-out,
+      color .3s ease-in-out;
+    width: 40px;
+    &:hover {
+      background: #ebebeb55;
+      color: #2c9c97;
+    }
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -62,11 +86,30 @@ const TitleContainer = styled.div`
 `;
 
 export class Page extends PureComponent {
+  state = {
+    arrowStyle: {}
+  }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  };
+
+  handleScroll = () => {
+    if (window.scrollY > 100)
+      this.setState({ arrowStyle: { opacity: "1", cursor: "pointer" } });
+    if (window.scrollY < 100)
+      this.setState({ arrowStyle: { opacity: "0", cursor: "unset" } });
+  };
+
   render() {
     console.log(this.props);
     const { props } = this;
     return (
-      <PageContainer >
+      <PageContainer id="top">
         <GlobalStyle />
         <Navbar
           authenticated={props.authenticated}
@@ -75,7 +118,7 @@ export class Page extends PureComponent {
         />
 
         <TitleContainer home={props.home}>
-          <h2 title={props.subtitle}>{props.title}</h2>
+          <h2>{props.title}</h2>
           <h3>{props.subtitle}</h3>
         </TitleContainer>
 
@@ -101,8 +144,12 @@ export class Page extends PureComponent {
           {props.children}
         </ContentColumn>
 
-        <FooterContainer></FooterContainer>
-      </PageContainer >
+        <FooterContainer>
+          <AnchorLink href="#top" style={this.state.arrowStyle}>
+            <i className="fas fa-arrow-up" />
+          </AnchorLink>
+        </FooterContainer>
+      </PageContainer>
     );
   }
 };

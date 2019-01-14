@@ -13,9 +13,9 @@ const DropZone = styled.div`
 `;
 
 const Container = styled.div`
-  background: #16888256;
+  background: rgba(22, 136, 130, 0.337);
   border-radius: 5px;
-  box-shadow: ${props => props.isDragging && '0 0 15px #26d4cc, 0 0 10px #26d4cc, 0 0 5px #26d4cc, 0 0 2px #26d4cc, inset 0 0 10px 0 #26d4cc'};
+  box-shadow: ${props => props.isDragging && '0 0 15px rgb(38, 212, 204), 0 0 10px rgb(38, 212, 204), 0 0 5px rgb(38, 212, 204), 0 0 2px rgb(38, 212, 204), inset 0 0 10px 0 rgb(38, 212, 204)'};
   line-height: 1.2;
   margin: 0 auto 10px auto;
   padding: 15px;
@@ -23,7 +23,7 @@ const Container = styled.div`
   width: 560px;
   &:hover {
     /* box-shadow: ${props => props.theme.columnBS}; */
-    box-shadow: 0 0 15px #26d4cc, 0 0 10px #26d4cc, 0 0 5px #26d4cc, 0 0 2px #26d4cc, inset 0 0 10px 0 #26d4cc;
+    box-shadow: 0 0 15px rgb(38, 212, 204), 0 0 10px rgb(38, 212, 204), 0 0 5px rgb(38, 212, 204), 0 0 2px rgb(38, 212, 204), inset 0 0 10px 0 rgb(38, 212, 204);
   }
 `;
 
@@ -31,14 +31,14 @@ const ProjectTitle = styled.h2`
   color: #fff;
   font-family: ${props => props.theme.hTypeface};
   font-size: 3.5rem;
-  text-shadow: 2px 2px 3px #000;
+  text-shadow: 2px 2px 3px rgb(0,0,0);
 `;
 
 const ProjectText = styled.p`
   color: #fff;
   font-size: 2rem;
   text-indent: 25px;
-  text-shadow: 2px 2px 3px #000;
+  text-shadow: 2px 2px 3px rgb(0,0,0);
 `;
 
 export class ProjectList extends Component {

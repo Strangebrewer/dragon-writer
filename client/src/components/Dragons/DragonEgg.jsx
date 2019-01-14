@@ -8,10 +8,10 @@ import { ItemButtons } from "./DragonElements";
 import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
-  background: #16888256;
+  background: rgba(22, 136, 130, 0.337);
   border-radius: 5px;
-  box-shadow: 2px 2px 4px #000;
-  color: #fff;
+  box-shadow: 2px 2px 4px rgb(0,0,0);
+  color: rgb(255,255,255);
   margin-bottom: 8px;
   opacity: ${props => (
     props.isDragging || props.loading
@@ -47,7 +47,7 @@ const ModalH3 = styled.h3`
 `;
 
 const editorStyle = {
-  border: "1px solid black",
+  border: "1px solid rgb(0,0,0)",
   maxHeight: "300px",
   overflow: "auto",
   padding: "20px",

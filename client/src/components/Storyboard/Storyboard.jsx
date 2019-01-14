@@ -63,7 +63,7 @@ const ModalH3 = styled.h3`
 `;
 
 const editorStyle = {
-  border: "1px solid #d8d8d8",
+  border: "1px solid rgb(216,216,216)",
   maxHeight: "300px",
   overflow: "auto",
   padding: "20px",

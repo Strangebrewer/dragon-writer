@@ -35,8 +35,11 @@ const LinkFlexContainer = styled.div`
   justify-content: center;
   a {
     color: ${props => props.theme.mainColor};
+    font-size: 1.8rem;
+    margin: 3px 0 0 4px;
+    text-decoration: underline;
     &:hover {
-      color: ${props => props.theme.linkHover};
+      color: #26d4cc;
     }
   }
 `;
@@ -61,7 +64,7 @@ export class DragonTextNest extends Component {
     return (
       <TextColumn>
         <SubjectHeading>
-          <Title title={theme}>Topic: {subject}</Title>
+          <Title>Topic: {subject}</Title>
           <LinkFlexContainer>
             <LinkBtn
               // block
@@ -88,11 +91,11 @@ export class DragonTextNest extends Component {
               storyboard
             </LinkBtn>
 
-            <LinkBtn
+            {/* <LinkBtn
               fancy
               size="1.8rem"
               underline
-            >
+            > */}
               <Link
                 to={{
                   pathname: "/print",
@@ -100,8 +103,7 @@ export class DragonTextNest extends Component {
                 }}>
                 print view
               </Link>
-            </LinkBtn>
-
+            {/* </LinkBtn> */}
           </LinkFlexContainer>
 
         </SubjectHeading>

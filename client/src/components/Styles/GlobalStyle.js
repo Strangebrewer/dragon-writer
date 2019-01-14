@@ -26,15 +26,21 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
-    background: linear-gradient(90deg, #000000, #00000000, #000000) fixed,
-      linear-gradient(#000000, #00000000, #000000) fixed,
-      url('/static/assets/images/background-two.jpg') repeat fixed;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
+      linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
+      url('/static/assets/images/background-two.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
     border: 0;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.5rem;
     line-height: 1;
     margin: 0;
     padding: 0;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
   }
   blockquote, q {
     quotes: none;

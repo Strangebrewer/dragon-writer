@@ -16,9 +16,8 @@ const EditorStyles = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
   margin-left: 240px;
-  max-height: 70vh;
+  max-height: 50vh;
   min-height: 300px;
-  min-width: 80%;
   overflow: auto;
   padding: 10px;
   transition: background-color .2s ease-in-out;
@@ -62,12 +61,10 @@ export class InlineUpdateEditor extends Component {
 
   render() {
     console.log(this.props);
-    // const { id } = this.props;
     const { id, toggleEditable, updateText } = this.props;
     const { subject, title } = this.props.state;
     return (
       <EditorOuter>
-
         <EditorInner {...this.props.dragHandle}>
           <RenderButtons
             inline={true}

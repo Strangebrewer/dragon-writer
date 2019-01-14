@@ -41,7 +41,7 @@ const ListItem = styled.li`
   margin-left: 10px;
 `;
 
-const SubjectList = props => {
+export const SubjectList = props => {
   const {
     addSubjectToOrder,
     clearAllTopics,
@@ -126,5 +126,3 @@ const SubjectList = props => {
     </Container>
   )
 };
-
-export default SubjectList;

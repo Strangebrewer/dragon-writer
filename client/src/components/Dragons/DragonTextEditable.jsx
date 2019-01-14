@@ -7,10 +7,13 @@ import { InlineUpdateEditor } from "../slate/Editors";
 const Container = styled.div`
   background: ${props => (
     props.isDragging
-      ? '#ffffff17'
-      : 'transparent'
+      ? 'rgba(255, 255, 255, 0.09)'
+      : 'rgba(38, 212, 204, 0.267)'
   )};
+  border-radius: 10px;
+  box-shadow: inset 0 0 100px 30px rgb(0,0,0);
   display: flex;
+  padding: 40px 0;
   transition: background-color .2s ease-in-out;
   width: 100%;
 `;

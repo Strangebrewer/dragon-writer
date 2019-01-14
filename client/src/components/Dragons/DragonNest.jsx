@@ -9,13 +9,13 @@ import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
 const Container = styled.div`
-  background: #ffffff22;
+  background: rgba(255, 255, 255, 0.133);
   display: flex;
   flex-direction: column;
   margin: 10px;
   min-width: 260px;
   position: relative;
-  text-shadow: 2px 2px 2px #000;
+  text-shadow: 2px 2px 2px rgb(0,0,0);
   width: 300px;
 `;
 
@@ -28,7 +28,7 @@ const SubjectHeader = styled.div`
 const DragonList = styled.div`
   box-shadow: ${props => (
     props.isDraggingOver
-      ? '0 0 15px #26d4cc, 0 0 10px #26d4cc, 0 0 5px #26d4cc, 0 0 2px #26d4cc, inset 0 0 10px 0 #26d4cc'
+      ? '0 0 15px rgb(38, 212, 204), 0 0 10px rgb(38, 212, 204), 0 0 5px rgb(38, 212, 204), 0 0 2px rgb(38, 212, 204), inset 0 0 10px 0 rgb(38, 212, 204)'
       : "none"
   )};
   display: flex;

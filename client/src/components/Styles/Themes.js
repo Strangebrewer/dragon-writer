@@ -12,7 +12,7 @@ export const Themes = {
     columnDragBorder: '#0892D0',
     deleteLinkHover: '#a80b0b',
     editorBG: '#ededed',
-    editorColor: '#999',
+    editorColor: '#c0c0c0',
     fieldBG: '#ededed',
     fieldColor: '#062333',
     fieldShadow: 'inset 3px 3px 2px 0 #666, inset -3px -3px 2px 0 #fff',

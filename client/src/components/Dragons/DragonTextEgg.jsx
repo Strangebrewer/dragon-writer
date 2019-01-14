@@ -48,6 +48,10 @@ const TextThesis = styled.p`
 `;
 
 const EditorStyles = styled.div`
+  background-image: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.567), rgba(0,0,0,0.667), rgba(0,0,0,0.567), rgba(0,0,0,0));
+  /* color transparency in hex code doesn't work on Edge
+      so, I'm using the below background to deliberately force Edge to fall back to the one above
+      while using the one below on Chrome because the same rgba numbers look different on Chome and Edge */
   background: linear-gradient(90deg, #00000000, #00000044, #00000000);
   border: none;
   border-radius: 8px;
@@ -80,6 +84,7 @@ const ImageContainer = styled.div`
   width: 200px;
   img {
     align-self: flex-start;
+    cursor: pointer;
     max-width: 100%;
     max-height: 100%;
   }

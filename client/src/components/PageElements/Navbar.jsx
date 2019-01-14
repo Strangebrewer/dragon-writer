@@ -42,9 +42,6 @@ const NavInner = styled.div`
       0 0 9px #000,
       0 0 10px #000;
   }
-  a {
-     border-right: 1px solid ${props => props.theme.mainColor};
-  }
   h3 {
     color: ${props => props.theme.mainColor};
     align-self: center;
@@ -78,8 +75,8 @@ export class Navbar extends PureComponent {
               <h3>Hello, {user.username}</h3>
 
               <LinkContainer>
-                <Link to="/">Home</Link>
-                <Button onClick={logout}>Logout</Button>
+                <Link title="to home page" to="/"><i className="fas fa-home"/></Link>
+                <Button title="log out" onClick={logout}><i className="fas fa-sign-out-alt"/></Button>
               </LinkContainer>
 
             </React.Fragment>

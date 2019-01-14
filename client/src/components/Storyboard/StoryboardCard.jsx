@@ -6,7 +6,7 @@ import { StoryboardButtons } from "../Dragons/DragonElements";
 const DragHandle = SortableHandle(props => <h3>{props.children}</h3>)
 
 const Card = styled.div`
-  background: #ffffff55;
+  background: rgba(255, 255, 255, 0.333);
   border-radius: 5px;
   display: flex;
   height: 280px;

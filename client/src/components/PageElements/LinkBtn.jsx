@@ -5,10 +5,9 @@ const Button = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  /* color: ${props => props.black ? props.theme.black : props.theme.mainColor}; */
-  color: ${props => props.color ? props.color : props.theme.mainColor};
+  color: ${props => props.text ? "#26d4cc" : props.theme.mainColor};
   display: ${props => props.block ? 'block' : 'inline'};
-  font-family: ${props => props.fancy ? props.theme.typeface : 'default'};
+  font-family: ${props => props.theme.typeface};
   font-size: ${props => props.size ? props.size : '1.5rem'};
   font-weight: ${props => props.bold ? 'bold' : 'normal'};
   line-height: ${props => props.lineHeight};
@@ -29,9 +28,8 @@ const Button = styled.button`
     color: ${props => (
       props.delete
         ? props.theme.deleteLinkHover
-        : '#26d4cc'
+        : props.text ? "#fff" : "#26d4cc"
     )};
-    /* color: #26d4cc; */
     text-shadow: ${props => props.shadow && '2px 2px 3px #000'};
   }
   &:disabled {

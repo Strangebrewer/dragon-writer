@@ -34,12 +34,13 @@ const SubjectHeading = styled.div`
   padding: 0 50px 5px 0;
   width: 100%;
   a {
-    color: ${props => props.theme.mainColor};
+    color: #26d4cc;
     font-size: 1.8rem;
     margin: 3px 0 0 4px;
     text-decoration: underline;
+    transition: ${props => props.theme.colorTrans}, text-shadow 0.15s ease-in-out;
     &:hover {
-      color: #26d4cc;
+      color: #fff;
     }
   }
 `;
@@ -79,6 +80,19 @@ const EditorStyle = styled.div`
   p {
     text-indent: 25px;
   }
+`;
+
+const NothingHeading = styled.h2`
+  font-family: ${props => props.theme.hTypeface};
+  font-size: 5rem;
+  padding: 15px 50px 15px 0;
+  text-align: center;
+`;
+
+const NothingToSeeHere = styled.h3`
+  font-size: 2rem;
+  padding-right: 50px;
+  text-align: center;
 `;
 
 const SortableItem = SortableElement(props =>
@@ -138,15 +152,15 @@ export class Storyboard extends PureComponent {
   render() {
     console.log(this.props);
     const { subject, theme, _id } = this.props.subject;
-    const { projectLink, texts } = this.props;
+    const { texts } = this.props;
     return (
       <Fragment>
         <SubjectHeading>
           <Title title={theme}>Topic: {subject}</Title>
           <LinkBtn
-            fancy
             size="1.8rem"
             underline
+            text
             // toggleStoryboard must be inside an anonymous function,
             // otherwise it throws an error thinking it's trying to reuse
             // the parameter that was passed to it when it was toggled on.
@@ -155,9 +169,9 @@ export class Storyboard extends PureComponent {
             project overview
           </LinkBtn>
           <LinkBtn
-            fancy
             size="1.8rem"
             underline
+            text
             // toggleStoryboard must be inside an anonymous function,
             // otherwise it throws an error thinking it's trying to reuse
             // the parameter that was passed to it when it was toggled on.
@@ -169,24 +183,35 @@ export class Storyboard extends PureComponent {
           <Link
             to={{
               pathname: "/print",
-              state: { texts, subject }
+              state: { texts, subject: this.props.subject }
             }}
           >
             print view
-            </Link>
+          </Link>
         </SubjectHeading>
 
-        <SortableList
-          axis="xy"
-          imageModal={this.props.imageModal}
-          onSortEnd={this.onSortEnd}
-          subject={this.props.subject}
-          texts={texts}
-          toggleCurrentText={this.toggleCurrentText}
-          toggleSingleEdit={this.props.toggleSingleEdit}
-          uploadImageModal={this.props.uploadImageModal}
-          useDragHandle={true}
-        />
+        {texts.length > 0
+          ? (
+            <SortableList
+              axis="xy"
+              imageModal={this.props.imageModal}
+              onSortEnd={this.onSortEnd}
+              subject={this.props.subject}
+              texts={texts}
+              toggleCurrentText={this.toggleCurrentText}
+              toggleSingleEdit={this.props.toggleSingleEdit}
+              uploadImageModal={this.props.uploadImageModal}
+              useDragHandle={true}
+            />
+          ) : (
+            <Fragment>
+              <NothingHeading>Storyboard View</NothingHeading>
+              <NothingToSeeHere>(You don't have any texts under this topic yet)</NothingToSeeHere>
+            </Fragment>
+          )
+        }
+
+
 
       </Fragment>
     );

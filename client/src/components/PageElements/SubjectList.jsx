@@ -92,7 +92,6 @@ export const SubjectList = props => {
           <ListItem key={subject._id}>
             <LinkBtn
               underline
-              fancy
               size="1.25rem"
               lineHeight="1.5"
               style={linkStyle}
@@ -128,7 +127,7 @@ export const SubjectList = props => {
               style={buttonStyle}
               title={subjects.length === 0 ? 'You must first create a column for your new item' : ''}
             >
-              New Item
+              New Text
             </Button>
           </React.Fragment>
         )}

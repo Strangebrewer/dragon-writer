@@ -35,7 +35,7 @@ export class ColumnButtons extends PureComponent {
                 disabled={props.disabled}
                 padding="0 3px 5px 3px"
                 onClick={() => props.toggleInlineNew(subject)}
-                title={!props.disabled ? `create new item for ${subject.subject} column` : null}
+                title={!props.disabled ? `create new text for ${subject.subject}` : null}
               >
                 <i className="far fa-file-alt"></i>
               </LinkBtn>

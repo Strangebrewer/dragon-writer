@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import { Button, Input, TextArea } from "./FormElements";
+import { Button, Input, Label, TextArea } from "./FormElements";
 import { API } from "../../utils";
 
-const Container = styled.div`
-  border: 1px solid green;
+const Container = styled.form`
+  background: linear-gradient(rgba(38, 212, 204, 0.267), rgba(38, 212, 204, 0.267)),
+   linear-gradient(rgb(0,0,0), rgb(0,0,0));
+  border: 1px solid rgb(38, 212, 204);
+  border-radius: 12px;
+  box-shadow: 0 0 1px #000,
+    0 0 2px #000,
+    0 0 4px #000,
+    0 0 8px #111,
+    0 0 10px #111,
+    0 0 20px #222,
+    0 0 40px #aaa,
+    inset 0 0 100px 30px rgb(0,0,0);
   margin: auto;
-  padding: 20px;
+  padding: 30px;
   width: 300px;
 `;
 
@@ -22,7 +33,8 @@ export class NewProjectForm extends Component {
     this.setState({ [name]: value });
   };
 
-  createProject = async () => {
+  createProject = async e => {
+    e.preventDefault();
     let error;
     let project;
     const { link, summary, title } = this.state;
@@ -57,30 +69,34 @@ export class NewProjectForm extends Component {
   render() {
     return (
       <Container>
+        <Label>Project Title:</Label>
         <Input
           name="title"
           value={this.state.title}
           type="text"
+          maxLength="40"
           onChange={this.handleInputChange}
-          placeholder="project title"
+          placeholder="40-character limit"
         />
+        <Label>Project Summary:</Label>
         <TextArea
           name="summary"
           value={this.state.summary}
           type="text"
+          maxLength="140"
           onChange={this.handleInputChange}
-          placeholder="project summary"
+          placeholder="140-character limit"
         />
+        <Label title="alphanumeric characters and hyphens only">Project Keyword:</Label>
         <Input
           name="link"
           value={this.state.link}
-          title="alphanumeric characters and hyphens only"
           type="text"
           maxLength="12"
           onChange={this.handleInputChange}
-          placeholder="project keyword (12 characters or less)"
+          placeholder="12-character limit"
         />
-        <Button onClick={this.createProject}>Create</Button>
+        <Button onClick={e => this.createProject(e)}>Create</Button>
         <Button onClick={this.props.toggleProjectForm}>Cancel</Button>
       </Container>
     );

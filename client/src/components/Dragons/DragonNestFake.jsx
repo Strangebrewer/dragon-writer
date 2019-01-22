@@ -53,17 +53,12 @@ const Paragraph = styled.p`
 `;
 
 const ItemContainer = styled.div`
-  background: #16888256;
+  background: rgba(22, 136, 130, 0.337);
   border-radius: 5px;
-  box-shadow: 2px 2px 4px #000;
-  color: #fff;
+  box-shadow: 2px 2px 4px rgb(0,0,0);
+  color: rgb(255,255,255);
   margin-bottom: 8px;
-  opacity: ${props => (
-    props.dragging || props.loading
-      ? "0.9"
-      : "1"
-  )};
-  padding: 20px 20px 4px 20px;
+  padding: 20px;
   position: relative;
   transition: background-color .2s ease-in-out;
   width: 100%;
@@ -71,12 +66,12 @@ const ItemContainer = styled.div`
     font-family: ${props => props.theme.hTypeface};
     font-size: 1.75rem;
     padding-bottom: 4px;
+    word-wrap: break-word;
   }
   p {
     font-size: 1.25rem;
     line-height: 1.2;
     padding-left: 12px;
-    padding-bottom: 5px;
   }
 `;
 

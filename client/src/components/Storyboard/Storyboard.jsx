@@ -35,8 +35,11 @@ const SubjectHeading = styled.div`
   width: 100%;
   a {
     color: ${props => props.theme.mainColor};
+    font-size: 1.8rem;
+    margin: 3px 0 0 4px;
+    text-decoration: underline;
     &:hover {
-      color: ${props => props.theme.linkHover};
+      color: #26d4cc;
     }
   }
 `;
@@ -53,21 +56,30 @@ const Title = styled.h3`
 const ModalH2 = styled.h2`
   font-family: ${props => props.theme.hTypeface};
   font-size: 3.5rem;
+  text-align: center;
 `;
 
 const ModalH3 = styled.h3`
   font-size: 2rem;
-  margin-bottom: 10px;
-  margin-top: 4px;
-  text-indent: 30px;
+  margin: 10px auto;
+  max-width: 800px;
+  text-align: center;
 `;
 
-const editorStyle = {
-  border: "1px solid rgb(216,216,216)",
-  maxHeight: "300px",
-  overflow: "auto",
-  padding: "20px",
-}
+const EditorStyle = styled.div`
+  background: ${props => props.theme.editorBG};
+  border: 2px solid ${props => props.theme.links};
+  border-radius: 6px;
+  box-shadow: ${props => props.theme.fieldShadow};
+  color: ${props => props.theme.black};
+  max-height: 300px;
+  overflow: auto;
+  padding: 20px;
+  text-shadow: none;
+  p {
+    text-indent: 25px;
+  }
+`;
 
 const SortableItem = SortableElement(props =>
   <StoryboardCard {...props} />
@@ -109,15 +121,16 @@ export class Storyboard extends PureComponent {
         <Fragment>
           <ModalH2>{text.title}</ModalH2>
           <ModalH3>{text.thesis}</ModalH3>
-          <Editor
-            value={Value.fromJSON(JSON.parse(text.text))}
-            renderMark={renderMark}
-            renderNode={renderNode}
-            style={editorStyle}
-          />
+          <EditorStyle>
+            <Editor
+              value={Value.fromJSON(JSON.parse(text.text))}
+              renderMark={renderMark}
+              renderNode={renderNode}
+            />
+          </EditorStyle>
         </Fragment>
       ),
-      style: { maxWidth: '600px' },
+      style: { maxHeight: '80vh', overflow: 'auto' },
       buttons: <button onClick={this.props.closeModal}>Close</button>
     })
   }
@@ -153,20 +166,14 @@ export class Storyboard extends PureComponent {
             full text view
           </LinkBtn>
 
-          <LinkBtn
-            fancy
-            size="1.8rem"
-            underline
+          <Link
+            to={{
+              pathname: "/print",
+              state: { texts, subject }
+            }}
           >
-            <Link
-              to={{
-                pathname: "/print",
-                state: { texts, subject: this.props.subject }
-              }}
-            >
-              print view
+            print view
             </Link>
-          </LinkBtn>
         </SubjectHeading>
 
         <SortableList

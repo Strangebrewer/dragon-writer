@@ -41,6 +41,14 @@ const ListItem = styled.li`
   margin-left: 10px;
 `;
 
+const linkStyle = {
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  textAlign: "left",
+  whiteSpace: "nowrap",
+  width: "140px"
+}
+
 export const SubjectList = props => {
   const {
     addSubjectToOrder,
@@ -87,6 +95,7 @@ export const SubjectList = props => {
               fancy
               size="1.25rem"
               lineHeight="1.5"
+              style={linkStyle}
               onClick={
                 dragons
                   ? () => toggleDragonText(subject._id)

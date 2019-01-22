@@ -6,12 +6,8 @@ import { LinkBtn } from "../PageElements";
 const Container = styled.div`
   background-color: #ffffff28;
   border-radius: 10px;
-  /* margin: auto; */
   padding: 20px;
   width: 300px;
-  @media (min-width: 450px) {
-    /* margin-left: 25%; */
-  }
 `;
 
 const Heading = styled.h2`

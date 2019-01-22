@@ -85,7 +85,7 @@ export class UploadLogic extends Component {
     this.props.setModal({
       body: (
         <Fragment>
-          <Label htmlFor="file">Image:</Label>
+          <Label htmlFor="file">Select Image:</Label>
           <Input
             type="file"
             id="file"

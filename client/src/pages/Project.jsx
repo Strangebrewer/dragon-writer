@@ -44,8 +44,14 @@ class Project extends PureComponent {
   };
 
   toggleSingleNewEditor = () => {
-    const { editorOn, dropZoneOn } = this.props.state;
-    const newState = Toggle.singleNew(editorOn, dropZoneOn);
+    const {
+      editorOn,
+      dropZoneOn,
+      inlineTextNew,
+      singleTextEdit
+    } = this.props.state;
+    const newState = Toggle
+      .singleNew(editorOn, dropZoneOn, inlineTextNew, singleTextEdit);
     this.props.executeToggles(newState)
   };
 
@@ -191,6 +197,7 @@ class Project extends PureComponent {
             {editorProps => (
               <SingleUpdateEditor
                 {...editorProps}
+                storyboardOn={state.storyboardOn}
                 text={state.singleText}
                 texts={state.singleSubject.textIds.map(textId => state.texts[textId])}
                 toggleSingleEdit={this.toggleSingleEdit}

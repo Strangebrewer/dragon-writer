@@ -9,10 +9,17 @@ export const Toggle = {
     return newState;
   },
 
-  singleNew: function (editor, dropZone) {
-    const newState = {
-      editorOn: !editor,
-      dropZoneOn: !dropZone
+  singleNew: function (editor, dropZone, inlineTextNew, singleTextEdit) {
+    const newState = {};
+    if (inlineTextNew || singleTextEdit) {
+      newState.editorOn = !editor;
+      newState.dropZoneOn = dropZone;
+      newState.inlineTextNew = false;
+      newState.singleTextEdit = false;
+    }
+    else {
+      newState.editorOn = !editor;
+      newState.dropZoneOn = !dropZone;
     }
     return newState;
   },

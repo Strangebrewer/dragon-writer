@@ -6,21 +6,23 @@ import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { DragonNestFake } from "../../Dragons";
+import { StoryboardCardFake } from "../../Storyboard";
 
 const EditorStyles = styled.div`
   background: ${props => props.theme.editorBG};
   border: 2px solid ${props => props.theme.links};
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: ${props => props.theme.fieldShadow};
   color: ${props => props.theme.black};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
-  margin-left: ${props => props.inline && '160px'};
   max-height: 35vh;
-  min-height: 200px;
-  min-width: 60%;
+  max-width: 1000px;
+  min-height: 35vh;
   overflow: auto;
   padding: 10px;
+  transition: background-color .2s ease-in-out;
+  width: 100%;
   p {
     font-size: 1.5rem;
     text-indent: 25px;
@@ -40,49 +42,58 @@ const OuterContainer = styled.div`
 
 const EditorOuter = styled.div`
   align-self: center;
+  background: rgba(38, 212, 204, 0.267);
   border: none;
-  border-radius: 2px;
+  border-radius: 20px;
+  box-shadow: inset 0 0 100px 30px rgb(0,0,0);
   margin-right: 200px;
+  padding: 20px;
   position: relative;
   width: 100%;
 `;
 
 const EditorInner = styled.div`
-  padding: 5px 0 10px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  max-width: 1000px;
   width: 100%;
+  label {
+    width: 100%;
+  }
 `;
 
-const DragHeader = styled.div`
-  align-items: center;
-  background-color: ${props => props.theme.midGrey};
-  color: ${props => props.theme.black};
-  display: flex;
+const Header = styled.div`
   font-family: ${props => props.theme.hTypeface};
-  font-size: 2.4rem;
-  height: 30px;
-  padding-left: 10px;
-  position: absolute;
-  top: 0;
+  font-size: 3rem;
+  text-align: center;
   width: 100%;
 `;
 
 export class SingleUpdateEditor extends Component {
 
   render() {
-    const { texts, toggleSingleEdit, updateText } = this.props;
+    const { storyboardOn, texts, toggleSingleEdit, updateText } = this.props;
     const { subject, title } = this.props.state;
     const { _id } = this.props.text;
     return (
       <OuterContainer>
-        <DragonNestFake
-          subject={this.props.state.subject}
-          texts={texts}
-        />
+        {storyboardOn
+          ? (
+            <StoryboardCardFake
+              text={this.props.text}
+            />
+          ) : (
+            <DragonNestFake
+              subject={this.props.state.subject}
+              texts={texts}
+            />
+          )}
 
         <EditorOuter>
-          <DragHeader>
-            <p>{`Edit ${this.props.state.title}`}</p>
-          </DragHeader>
+          <Header>
+            <p>Edit: &nbsp;{this.props.state.title}</p>
+          </Header>
 
           <EditorInner>
             <RenderButtons

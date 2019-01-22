@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Editor } from "slate-react";
 import { Value } from "slate";
@@ -9,7 +9,7 @@ import { GlobalStyle } from "../components/Styles";
 const Wrapper = styled.div`
   background: #fff;
   font-family: 'Times New Roman', Times, serif;
-  /* min-height: 100vh; */
+  min-height: 100vh;
   width: 100%; 
 `;
 

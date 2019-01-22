@@ -37,6 +37,7 @@ class NewSubjectForm extends Component {
           name="subject"
           value={this.state.subject}
           type="text"
+          maxLength="22"
           onChange={this.handleInputChange}
           placeholder="enter topic"
         />

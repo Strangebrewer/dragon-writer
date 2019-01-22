@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import styled from 'styled-components';
 
 const Outer = styled.div`
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   height: 100%;
@@ -17,18 +16,27 @@ const Outer = styled.div`
 const Content = styled.div`
   animation-duration: 0.4s;
   animation-name: fadein;
-  background-color: ${props => props.theme.modalBG};
-  border: 1px solid ${props => props.theme.links};
+  background: linear-gradient(rgba(38, 212, 204, 0.267), rgba(38, 212, 204, 0.267)),
+    linear-gradient(rgb(0,0,0), rgb(0,0,0));
+  border: 1px solid rgb(38, 212, 204);
   border-radius: 12px;
-  box-shadow: 0 0 10px #fff, 0 0 10px #cacaca, 0 0 20px #a3a3a3, 0 0 30px #777777;
-  color: ${props => props.theme.modalColor};
+  box-shadow: 0 0 1px #000,
+    0 0 2px #000,
+    0 0 4px #000,
+    0 0 8px #111,
+    0 0 10px #111,
+    0 0 20px #222,
+    0 0 40px #aaa,
+    inset 0 0 100px 30px rgb(0,0,0);
   font-size: 1.8rem;
-  font-weight: bold;
   max-width: 60%;
   min-width: 300px;
   margin: auto;
   padding: 0;
   position: relative;
+  img {
+    border: 1px solid black;
+  }
   @keyframes fadein {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -38,14 +46,14 @@ const Content = styled.div`
 const Button = styled.button`
   background-color: transparent;
   border: none;
-  color: ${props => props.theme.buttonBG};
+  color: #1d928c;
   font-size: 20px;
   outline: transparent;
   position: absolute;
   top: 5px;
   right: 5px;
   &:hover, &:focus {
-    color: black;
+    color: #26d4cc;
     cursor: pointer;
     text-decoration: none;
   }
@@ -54,7 +62,7 @@ const Button = styled.button`
 const Body = styled.div`
   margin: auto;
   max-width: 100%;
-  padding: 40px 30px 30px 30px;
+  padding: 50px 40px 40px 40px;
   z-index: 999;
 `;
 
@@ -62,22 +70,22 @@ const Buttons = styled.div`
   display: flex;
   justify-content: space-evenly;
   button, a {
-    border: 1px solid ${props => props.theme.buttonBG};
+    background-color: #1d928c;
+    border: none;
     border-radius: 5px;
-    box-shadow: 0 0 20px 20px ${props => props.theme.buttonBG} inset,
-      0 0 0 0 ${props => props.theme.buttonBG};
     color: #fff;
-    cursor: pointer;
-    font-size: 1.8rem;
-    margin-top: 20px;
-    padding: 7px 14px;
-	  text-decoration: none;
-	  transition: all 150ms ease-in-out;
+    display: ${props => props.center ? 'block' : 'inline'};
+    font-size: ${props => props.full && '1.8rem'};
+    height: ${props => props.full && '40px'};
+    margin: 10px auto 0 auto;
+    outline: transparent;
+    padding: 8px 12px;
+    text-shadow: 0 0 5px #000;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    width: ${props => props.full && '100%'};
   }
   button:hover, a:hover {
-    background-color: ${props => props.theme.buttonHoverBG};
-    box-shadow: 0 0 5px ${props => props.theme.buttonBG} inset, 0 0 5px ${props => props.theme.buttonBG};
-    color: ${props => props.theme.buttonHoverColor};
+    background-color: #26d4cc;
   }
 `;
 
@@ -103,8 +111,7 @@ export class ModalLogic extends Component {
   };
 
   outsideClick = event => {
-    // the space in this is necessary because the outer div is the only one that will have a space after 'modal' in the classname.
-    if (event.target.className.includes("modal "))
+    if (event.target.className.includes("modal"))
       this.closeModal();
   };
 
@@ -112,12 +119,12 @@ export class ModalLogic extends Component {
     return (
       <React.Fragment>
         {this.state.isOpen &&
-          <Outer className="modal" id="modal" onClick={this.outsideClick}>
-            <Content className="modal-content" style={this.state.style}>
-              <Button className="modal-close" onClick={this.closeModal}>&times;</Button>
-              <Body className="modal-body">
+          <Outer className="modal" onClick={this.outsideClick}>
+            <Content style={this.state.style}>
+              <Button onClick={this.closeModal}>&times;</Button>
+              <Body>
                 {this.state.body}
-                <Buttons className="modal-btn-div">
+                <Buttons>
                   {this.state.buttons}
                 </Buttons>
               </Body>

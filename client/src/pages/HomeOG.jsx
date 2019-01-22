@@ -117,7 +117,6 @@ class Home extends Component {
                     <ProjectList
                       {...provided}
                       addNewProject={this.props.addNewProject}
-                      // addNewProjectToOrder={this.addNewProjectToOrder}
                       authenticated={this.props.authenticated}
                       deleteProject={this.deleteProject}
                       getInitialData={this.props.getInitialData}

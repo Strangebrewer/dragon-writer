@@ -7,27 +7,21 @@ import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { DragonNestFake } from "../../Dragons";
 
-const editorStyle = {
-  borderRadius: "6px",
-  fontFamily: "Arial, Helvetica, sans-serif",
-  maxHeight: "35vh",
-  minHeight: "200px",
-  minWidth: "60%",
-  overflow: 'autor',
-  padding: "10px"
-};
-
 const EditorStyles = styled.div`
   background: ${props => props.theme.editorBG};
   border: 2px solid ${props => props.theme.links};
-  border-radius: 8px;
+  border-radius: 6px;
+  box-shadow: ${props => props.theme.fieldShadow};
   color: ${props => props.theme.black};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
-  margin-left: ${props => props.inline && '160px'};
-  max-height: ${props => props.inline && '70vh'};
+  max-height: 35vh;
+  max-width: 1000px;
+  min-height: 200px;
   overflow: auto;
+  padding: 10px;
   transition: background-color .2s ease-in-out;
+  width: 100%;
   p {
     font-size: 1.5rem;
     text-indent: 25px;
@@ -36,7 +30,6 @@ const EditorStyles = styled.div`
     margin-top: 0;
     padding-top: 0;
   }
-  box-shadow: ${props => props.theme.fieldShadow};
 `;
 
 const OuterContainer = styled.div`
@@ -48,29 +41,31 @@ const OuterContainer = styled.div`
 
 const EditorOuter = styled.div`
   align-self: center;
+  background: rgba(38, 212, 204, 0.267);
   border: none;
-  border-radius: 2px;
+  border-radius: 20px;
+  box-shadow: inset 0 0 100px 30px rgb(0,0,0);
   margin-right: 200px;
+  padding: 20px;
   position: relative;
   width: 100%;
 `;
 
 const EditorInner = styled.div`
-  padding: 5px 0 10px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  max-width: 1000px;
   width: 100%;
+  label {
+    width: 100%;
+  }
 `;
 
-const DragHeader = styled.div`
-  align-items: center;
-  background-color: ${props => props.theme.midGrey};
-  color: ${props => props.theme.black};
-  display: flex;
+const Header = styled.div`
   font-family: ${props => props.theme.hTypeface};
-  font-size: 2.4rem;
-  height: 30px;
-  padding-left: 10px;
-  position: absolute;
-  top: 0;
+  font-size: 3rem;
+  text-align: center;
   width: 100%;
 `;
 
@@ -87,9 +82,9 @@ export class InlineNewEditor extends Component {
         />
 
         <EditorOuter>
-          <DragHeader>
-            <p>Create New Text</p>
-          </DragHeader>
+          <Header>
+            <p>New text for: &nbsp;{subject.subject}</p>
+          </Header>
 
           <EditorInner>
             <RenderButtons
@@ -125,7 +120,6 @@ export class InlineNewEditor extends Component {
             <EditorStyles>
               <Editor
                 autoFocus
-                style={editorStyle}
                 plugins={plugins}
                 ref={this.props.thisRef}
                 value={this.props.state.value}

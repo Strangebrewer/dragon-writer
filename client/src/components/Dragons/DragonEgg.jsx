@@ -26,6 +26,7 @@ const Container = styled.div`
     font-family: ${props => props.theme.hTypeface};
     font-size: 1.75rem;
     padding-bottom: 4px;
+    word-wrap: break-word;
   }
   p {
     font-size: 1.25rem;
@@ -37,21 +38,30 @@ const Container = styled.div`
 const ModalH2 = styled.h2`
   font-family: ${props => props.theme.hTypeface};
   font-size: 3.5rem;
+  text-align: center;
 `;
 
 const ModalH3 = styled.h3`
   font-size: 2rem;
-  margin-bottom: 10px;
-  margin-top: 4px;
-  text-indent: 30px;
+  margin: 10px auto;
+  max-width: 800px;
+  text-align: center;
 `;
 
-const editorStyle = {
-  border: "1px solid rgb(0,0,0)",
-  maxHeight: "300px",
-  overflow: "auto",
-  padding: "20px",
-}
+const EditorStyle = styled.div`
+  background: ${props => props.theme.editorBG};
+  border: 2px solid ${props => props.theme.links};
+  border-radius: 6px;
+  box-shadow: ${props => props.theme.fieldShadow};
+  color: ${props => props.theme.black};
+  max-height: 300px;
+  overflow: auto;
+  padding: 30px 50px;
+  text-shadow: none;
+  p {
+    text-indent: 25px;
+  }
+`;
 
 export class DragonEgg extends PureComponent {
 
@@ -78,12 +88,13 @@ export class DragonEgg extends PureComponent {
         <Fragment>
           <ModalH2>{text.title}</ModalH2>
           <ModalH3>{text.thesis}</ModalH3>
-          <Editor
-            value={Value.fromJSON(JSON.parse(text.text))}
-            renderMark={renderMark}
-            renderNode={renderNode}
-            style={editorStyle}
-          />
+          <EditorStyle>
+            <Editor
+              value={Value.fromJSON(JSON.parse(text.text))}
+              renderMark={renderMark}
+              renderNode={renderNode}
+            />
+          </EditorStyle>
         </Fragment>
       ),
       buttons: (

@@ -59,15 +59,14 @@ export class DragonTextNest extends Component {
   }
 
   render() {
-    const { subject, theme, _id } = this.props.subject;
-    const { texts, projectLink } = this.props;
+    const { subject, _id } = this.props.subject;
+    const { texts } = this.props;
     return (
       <TextColumn>
         <SubjectHeading>
           <Title>Topic: {subject}</Title>
           <LinkFlexContainer>
             <LinkBtn
-              // block
               fancy
               size="1.8rem"
               underline
@@ -79,7 +78,6 @@ export class DragonTextNest extends Component {
               project overview
             </LinkBtn>
             <LinkBtn
-              // block
               fancy
               size="1.8rem"
               underline
@@ -91,19 +89,13 @@ export class DragonTextNest extends Component {
               storyboard
             </LinkBtn>
 
-            {/* <LinkBtn
-              fancy
-              size="1.8rem"
-              underline
-            > */}
-              <Link
-                to={{
-                  pathname: "/print",
-                  state: { texts, subject: this.props.subject }
-                }}>
-                print view
+            <Link
+              to={{
+                pathname: "/print",
+                state: { texts, subject }
+              }}>
+              print view
               </Link>
-            {/* </LinkBtn> */}
           </LinkFlexContainer>
 
         </SubjectHeading>

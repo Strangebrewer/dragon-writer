@@ -1,17 +1,23 @@
 import React, { PureComponent } from 'react';
 import styled from "styled-components";
-import { SortableHandle } from 'react-sortable-hoc';
-import { StoryboardButtons } from "../Dragons/DragonElements";
-
-const DragHandle = SortableHandle(props => <h3>{props.children}</h3>)
 
 const Card = styled.div`
   background: rgba(255, 255, 255, 0.333);
   border-radius: 2px;
+  box-shadow: 0 0 1px #26d4cc,
+    0 0 2px #26d4cc,
+    0 0 3px #26d4cc,
+    0 0 4px #26d4cc,
+    0 0 5px #26d4cc,
+    0 0 10px #26d4cc,
+    0 0 20px #26d4cc;
   display: flex;
   height: 280px;
+  min-height: 280px;
+  margin: 84px 20px 0 30px;
   padding: 10px;
   position: relative;
+  min-width: 280px;
   width: 280px;
   img {
     align-self: center;
@@ -63,7 +69,6 @@ const Card = styled.div`
     font-size: 1.5rem;
   }
   &:hover {
-    /* border: 1px solid ${props => props.theme.midGrey}; */
     h3, p, button, .fa-arrows-alt {
       opacity: 1;
     }
@@ -73,15 +78,14 @@ const Card = styled.div`
   }
 `;
 
-export class StoryboardCard extends PureComponent {
+export class StoryboardCardFake extends PureComponent {
 
   render() {
     console.log(this.props);
     const { image, thesis, title } = this.props.text;
     return (
       <Card image={image}>
-        <StoryboardButtons {...this.props} />
-        <DragHandle>{title}</DragHandle>
+        <h3>{title}</h3>
         <p>{thesis}</p>
         {image && <img src={image} />}
       </Card>

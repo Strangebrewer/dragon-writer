@@ -5,11 +5,7 @@ const EditorBtnArray = styled.div`
   cursor: default;
   margin: 5px 0 0 0;  
   margin-left: ${props => props.inline && '250px'};
-  padding-top: ${props => (
-    props.inline
-      ? '10px'
-      : '26px'
-  )};
+  padding-top: 10px;
   text-align: left;
   button span {
     font-family: 'Times New Roman', Times, serif;

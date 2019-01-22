@@ -43,8 +43,12 @@ const Heading3 = styled.div`
   font-family: ${props => props.theme.hTypeface};
   font-size: 2.4rem;
   margin: 5px 0 8px 0;
+  overflow: hidden;
   padding: 0 8px;
   text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 300px;
 `;
 
 const Paragraph = styled.p`
@@ -73,11 +77,12 @@ export class DragonNest extends PureComponent {
   updateSubjectModal = subject => {
     this.props.setModal({
       body: (
-        <Fragment>
-          <Label>Column Subject:</Label>
+        <form>
+          <Label>Column Topic:</Label>
           <Input
             type="text"
             name="subject"
+            maxLength="22"
             onChange={this.handleInputChange}
             placeholder={subject.subject}
           />
@@ -88,11 +93,8 @@ export class DragonNest extends PureComponent {
             onChange={this.handleInputChange}
             placeholder={subject.theme}
           />
-        </Fragment>
-      ),
-      buttons: (
-        <Fragment>
-          <Button onClick={() => this.updateSubject(
+          <Button onClick={e => this.updateSubject(
+            e,
             subject._id,
             {
               subject: this.state.subject || subject.subject,
@@ -100,12 +102,13 @@ export class DragonNest extends PureComponent {
             }
           )}>Submit</Button>
           <Button onClick={this.props.closeModal}>Cancel</Button>
-        </Fragment>
+        </form>
       )
     })
   };
 
-  updateSubject = async (id, updateObject) => {
+  updateSubject = async (e, id, updateObject) => {
+    e.preventDefault();
     this.props.closeModal();
     const newState = Scales.updateSubjectHelper(id, updateObject, this.props.state);
     API.updateSubject(id, updateObject);
@@ -114,7 +117,12 @@ export class DragonNest extends PureComponent {
 
   deleteSubjectModal = (id, index) => {
     this.props.setModal({
-      body: <h2>Are you sure you want to delete this column? You will lose all texts contained inside it.</h2>,
+      body: (
+        <Fragment>
+          <h2>Are you sure you want to delete this column?</h2>
+          <h2>You will lose all texts contained inside it.</h2>
+        </Fragment>
+      ),
       buttons: (
         <Fragment>
           <Button onClick={() => this.deleteSubject(id, index)}>
@@ -122,7 +130,8 @@ export class DragonNest extends PureComponent {
           </Button>
           <Button onClick={this.props.closeModal}>Cancel</Button>
         </Fragment>
-      )
+      ),
+      style: { maxWidth: "500px", textAlign: "center" }
     })
   };
 
@@ -202,7 +211,7 @@ export class DragonNest extends PureComponent {
                   <DragonList
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    isDraggingOver={snapshot.isDraggingOver}  
+                    isDraggingOver={snapshot.isDraggingOver}
                   >
                     <ImageUploader
                       addImageToText={addImageToText}

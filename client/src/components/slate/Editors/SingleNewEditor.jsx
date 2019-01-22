@@ -7,23 +7,22 @@ import { Button, Input, Label, Select } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 
 const EditorOuter = styled.div`
-  border: 1px solid ${props => props.theme.mainColor};
-  border-radius: 2px;
+  align-self: center;
+  background: rgba(38, 212, 204, 0.267);
+  border: none;
+  border-radius: 40px;
+  box-shadow: inset 0 0 100px 30px rgb(0,0,0);
+  margin: auto;
+  max-width: 1100px;
+  padding: 40px;
   position: relative;
   width: 100%;
 `;
 
-const DragHeader = styled.div`
-  align-items: center;
-  background-color: ${props => props.theme.midGrey};
-  color: ${props => props.theme.black};
-  display: flex;
+const Header = styled.div`
   font-family: ${props => props.theme.hTypeface};
-  font-size: 2.4rem;
-  height: 30px;
-  padding-left: 10px;
-  position: absolute;
-  top: 0;
+  font-size: 3rem;
+  text-align: center;
   width: 100%;
 `;
 
@@ -39,12 +38,13 @@ const MetaDataForm = styled.div`
 const EditorStyles = styled.div`
   background: ${props => props.theme.editorBG};
   border: 2px solid ${props => props.theme.links};
-  border-radius: px;
+  border-radius: 6px;
   box-shadow: ${props => props.theme.fieldShadow};
   color: ${props => props.theme.black};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
-  min-height: 200px;
+  max-height: 35vh;
+  min-height: 300px;
   min-width: 60%;
   overflow: auto;
   padding: 10px;
@@ -69,9 +69,9 @@ export class SingleNewEditor extends Component {
     const { subject, title } = this.props.state;
     return (
       <EditorOuter>
-        <DragHeader {...this.props.dragHandle}>
+        <Header>
           <p>Create New Text</p>
-        </DragHeader>
+        </Header>
 
         <EditorInner>
           <RenderButtons

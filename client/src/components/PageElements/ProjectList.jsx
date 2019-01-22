@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { ProjectButtons } from "../Dragons/DragonElements";
-import { Button, Input, TextArea } from "../Forms/FormElements";
+import { Button, Input, Label, TextArea } from "../Forms/FormElements";
 import { NewProjectForm } from "../Forms";
 import { API } from '../../utils';
 
@@ -18,11 +18,10 @@ const Container = styled.div`
   box-shadow: ${props => props.isDragging && '0 0 15px rgb(38, 212, 204), 0 0 10px rgb(38, 212, 204), 0 0 5px rgb(38, 212, 204), 0 0 2px rgb(38, 212, 204), inset 0 0 10px 0 rgb(38, 212, 204)'};
   line-height: 1.2;
   margin: 0 auto 10px auto;
-  padding: 15px;
+  padding: 20px 15px;
   position: relative;
   width: 560px;
   &:hover {
-    /* box-shadow: ${props => props.theme.columnBS}; */
     box-shadow: 0 0 15px rgb(38, 212, 204), 0 0 10px rgb(38, 212, 204), 0 0 5px rgb(38, 212, 204), 0 0 2px rgb(38, 212, 204), inset 0 0 10px 0 rgb(38, 212, 204);
   }
 `;
@@ -32,6 +31,7 @@ const ProjectTitle = styled.h2`
   font-family: ${props => props.theme.hTypeface};
   font-size: 3.5rem;
   text-shadow: 2px 2px 3px rgb(0,0,0);
+  width: 450px;
 `;
 
 const ProjectText = styled.p`
@@ -58,7 +58,8 @@ export class ProjectList extends Component {
     this.setState({ create: !this.state.create });
   };
 
-  updateProject = project => {
+  updateProject = (e, project) => {
+    e.preventDefault();
     const { link, summary, title } = this.state;
     const newProjectData = { link, summary, title }
     this.props.updateProject(project, newProjectData, this.props.closeModal);
@@ -68,33 +69,34 @@ export class ProjectList extends Component {
   updateProjectModal = project => {
     this.props.setModal({
       body: (
-        <Fragment>
+        <form>
+          <Label>Project Title:</Label>
           <Input
             type="text"
             name="title"
+            maxLength="40"
             onChange={this.handleInputChange}
-            placeholder="project title"
+            placeholder="40-character limit"
           />
+          <Label>Project Summary:</Label>
           <TextArea
             type="text"
             name="summary"
+            maxLength="140"
             onChange={this.handleInputChange}
-            placeholder="project summary"
+            placeholder="140-character limit"
           />
+          <Label title="alphanumeric characters and hyphens only">Project Keyword:</Label>
           <Input
             name="link"
             type="text"
             maxLength="12"
             onChange={this.handleInputChange}
-            placeholder="project keyword (12 characters max)"
+            placeholder="12-character limit"
           />
-        </Fragment>
-      ),
-      buttons: (
-        <Fragment>
-          <Button onClick={() => this.updateProject(project)}>Submit</Button>
+          <Button onClick={(e) => this.updateProject(e, project)}>Submit</Button>
           <Button onClick={this.props.closeModal}>Cancel</Button>
-        </Fragment>
+        </form>
       )
     })
   };

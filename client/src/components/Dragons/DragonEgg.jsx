@@ -9,12 +9,17 @@ import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
   background: rgba(22, 136, 130, 0.337);
+  background: ${props => props.isDragging
+    ? "rgba(22, 136, 130, 0.487)"
+    : "rgba(22, 136, 130, 0.337)"};
+  border-left: 1px solid rgb(18, 110, 106);
+  border-top: 1px solid rgb(22, 136, 130);
   border-radius: 5px;
   box-shadow: 2px 2px 4px rgb(0,0,0);
   color: rgb(255,255,255);
   margin-bottom: 8px;
   opacity: ${props => (
-    props.isDragging || props.loading
+    props.loading
       ? "0.9"
       : "1"
   )};
@@ -22,6 +27,9 @@ const Container = styled.div`
   position: relative;
   transition: background-color .2s ease-in-out;
   width: 100%;
+  &:hover {
+    background: rgba(22, 136, 130, 0.487);
+  }
   h4 {
     font-family: ${props => props.theme.hTypeface};
     font-size: 1.75rem;

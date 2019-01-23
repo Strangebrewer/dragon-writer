@@ -75,12 +75,12 @@ const TitleContainer = styled.div`
   width: ${props => props.home ? '600px' : '100%'};
   h2 {
     font-family: ${props => props.theme.hTypeface};
-    font-size: ${props => props.home ? "7rem" : "3rem"};
+    font-size: ${props => props.home ? "8rem" : "3rem"};
   }
   h3 {
     display: ${props => !props.home && 'none'};
-    font-size: ${props => props.home ? "2.2rem" : "1.5rem"};
-    font-weight: bold;
+    font-family: 'Raleway';
+    font-size: ${props => props.home ? "2.5rem" : "1.5rem"};
     margin-top: 10px;
   }
 `;

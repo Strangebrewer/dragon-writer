@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
 import { EditorLogic, ModalLogic } from "../components/Renderers";
@@ -22,6 +22,20 @@ const StoryboardContainer = styled.div`
   padding-right: 150px;
   position: relative;
   width: 100%;
+`;
+
+const EmptyProjectText = styled.div`
+  margin-top: 100px;
+  padding-right: 200px;
+  text-align: center;
+  width: 100%;
+  h2 {
+    font-size: 5rem;
+    padding-bottom: 12px;
+  }
+  h3 {
+    font-size: 2rem;
+  }
 `;
 
 class Project extends PureComponent {
@@ -260,40 +274,51 @@ class Project extends PureComponent {
                   </ImageUploader>
                 </StoryboardContainer>
 
-              ) : (state.texts &&
+              ) : (state.texts &&                
                 <DragonLair>
-                  <ImageUploader
-                    getInitialData={getInitialData}
-                    addImageToSubject={this.addImageToSubject}
-                    type="subject"
-                  >
-                    {provided => (
-                      state.subjectOrder.map((subjectId, index) => {
-                        const subject = state.subjects[subjectId];
-                        console.log(state.texts);
-                        const texts = subject.textIds.map(textId => state.texts[textId]);
-                        return state[subject._id] &&
-                          <DragonNest
-                            {...provided}
-                            addImageToText={this.addImageToText}
-                            deleteText={this.deleteText}
-                            executeDragonStateChanges={executeDragonStateChanges}
-                            getInitialData={getInitialData}
-                            index={index}
-                            key={subject._id}
-                            state={state}
-                            subject={subject}
-                            texts={texts}
-                            toggleDragonText={this.toggleDragonText}
-                            toggleInlineNew={this.toggleInlineNew}
-                            toggleSingleEdit={this.toggleSingleEdit}
-                            toggleStoryboard={this.toggleStoryboard}
-                            toggleSubject={this.toggleSubject}
-                            user={this.props.user}
-                          />
-                      })
+
+                  {subjects.length === 0
+                    ? (
+                      <EmptyProjectText>
+                        <h2>This project is currently empty</h2>
+                        <h3>Click the 'New Column' button to the left to get started</h3>
+                      </EmptyProjectText>
+                    ) : (
+
+                      <ImageUploader
+                        getInitialData={getInitialData}
+                        addImageToSubject={this.addImageToSubject}
+                        type="subject"
+                      >
+                        {provided => (
+                          state.subjectOrder.map((subjectId, index) => {
+                            const subject = state.subjects[subjectId];
+                            console.log(state.texts);
+                            const texts = subject.textIds.map(textId => state.texts[textId]);
+                            return state[subject._id] &&
+                              <DragonNest
+                                {...provided}
+                                addImageToText={this.addImageToText}
+                                deleteText={this.deleteText}
+                                executeDragonStateChanges={executeDragonStateChanges}
+                                getInitialData={getInitialData}
+                                index={index}
+                                key={subject._id}
+                                state={state}
+                                subject={subject}
+                                texts={texts}
+                                toggleDragonText={this.toggleDragonText}
+                                toggleInlineNew={this.toggleInlineNew}
+                                toggleSingleEdit={this.toggleSingleEdit}
+                                toggleStoryboard={this.toggleStoryboard}
+                                toggleSubject={this.toggleSubject}
+                                user={this.props.user}
+                              />
+                          })
+                        )}
+                      </ImageUploader>
                     )}
-                  </ImageUploader>
+
                 </DragonLair>
               )
           )}

@@ -4,6 +4,9 @@ import { ColumnButtons, ItemButtons } from "./DragonElements";
 
 const ColumnContainer = styled.div`
   background: #ffffff22;
+  border-left: 1px solid rgb(255, 255, 255, 0.183);
+  border-top: 1px solid rgb(255, 255, 255, 0.533);
+  box-shadow: 4px 4px 4px rgb(0,0,0);
   display: flex;
   flex-direction: column;
   margin: 10px;
@@ -24,7 +27,6 @@ const ListContainer = styled.div`
   flex-grow: 1;
   padding: 8px;
   padding-top: 136px;
-  border-radius: 5px;
   transition: all .2s ease-in-out;
 `;
 
@@ -54,6 +56,8 @@ const Paragraph = styled.p`
 
 const ItemContainer = styled.div`
   background: rgba(22, 136, 130, 0.337);
+  border-left: 1px solid rgb(18, 110, 106);
+  border-top: 1px solid rgb(22, 136, 130);
   border-radius: 5px;
   box-shadow: 2px 2px 4px rgb(0,0,0);
   color: rgb(255,255,255);

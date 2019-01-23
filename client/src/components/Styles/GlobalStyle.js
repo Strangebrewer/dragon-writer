@@ -33,7 +33,6 @@ export const GlobalStyle = createGlobalStyle`
     background-attachment: fixed;
     border: 0;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.5rem;
     line-height: 1;
     margin: 0;
     padding: 0;

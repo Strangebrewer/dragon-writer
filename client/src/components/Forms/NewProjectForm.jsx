@@ -87,7 +87,7 @@ export class NewProjectForm extends Component {
           onChange={this.handleInputChange}
           placeholder="140-character limit"
         />
-        <Label title="alphanumeric characters and hyphens only">Project Keyword:</Label>
+        <Label>Project Keyword:</Label>
         <Input
           name="link"
           value={this.state.link}

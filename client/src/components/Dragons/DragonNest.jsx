@@ -9,7 +9,12 @@ import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
 const Container = styled.div`
-  background: rgba(255, 255, 255, 0.133);
+  background: ${props => props.isDragging
+    ? "rgba(255, 255, 255, 0.183)"
+    : "rgba(255, 255, 255, 0.133)"};
+  border-left: 1px solid rgb(255, 255, 255, 0.183);
+  border-top: 1px solid rgb(255, 255, 255, 0.533);
+  box-shadow: 4px 4px 4px rgb(0,0,0);
   display: flex;
   flex-direction: column;
   margin: 10px;
@@ -26,17 +31,17 @@ const SubjectHeader = styled.div`
 `;
 
 const DragonList = styled.div`
-  box-shadow: ${props => (
-    props.isDraggingOver
-      ? '0 0 15px rgb(38, 212, 204), 0 0 10px rgb(38, 212, 204), 0 0 5px rgb(38, 212, 204), 0 0 2px rgb(38, 212, 204), inset 0 0 10px 0 rgb(38, 212, 204)'
-      : "none"
-  )};
+  box-shadow: ${props => props.isDraggingOver
+    ? `0 0 5px rgb(38, 212, 204),
+      0 0 2px rgb(38, 212, 204),
+      inset 0 0 20px 0 rgb(39, 212, 204)`
+    : "none"};
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding: 8px;
   padding-top: 136px;
-  transition: all .2s ease-in-out;
+  transition: box-shadow .2s ease-in-out;
 `;
 
 const Heading3 = styled.div`
@@ -59,6 +64,11 @@ const Paragraph = styled.p`
   min-height: 75px;
   padding: 8px;
   text-align: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 export class DragonNest extends PureComponent {
@@ -93,15 +103,18 @@ export class DragonNest extends PureComponent {
             onChange={this.handleInputChange}
             placeholder={subject.theme}
           />
-          <Button onClick={e => this.updateSubject(
-            e,
-            subject._id,
-            {
-              subject: this.state.subject || subject.subject,
-              theme: this.state.theme || subject.theme
-            }
-          )}>Submit</Button>
-          <Button onClick={this.props.closeModal}>Cancel</Button>
+          <ButtonContainer>
+            <Button onClick={e => this.updateSubject(
+              e,
+              subject._id,
+              {
+                subject: this.state.subject || subject.subject,
+                theme: this.state.theme || subject.theme
+              }
+            )}>Submit</Button>
+            <Button onClick={this.props.closeModal}>Cancel</Button>
+          </ButtonContainer>
+
         </form>
       )
     })
@@ -179,10 +192,12 @@ export class DragonNest extends PureComponent {
     return (
       <Fragment>
         <Draggable draggableId={_id} index={index}>
-          {provided => (
+          {(provided, snapshot) => (
             <Container
               {...provided.draggableProps}
               ref={provided.innerRef}
+              isDragging={snapshot.isDragging}
+              isDraggingOver={snapshot.isDraggingOver}
             >
               <ColumnButtons
                 uploadImageModal={uploadImageModal}

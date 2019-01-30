@@ -21,7 +21,7 @@ export const Login = props => (
         type="password"
         onChange={props.handleInputChange}
       />
-      <Button center landing round onClick={props.login}>Submit</Button>
+      <Button center onClick={props.login}>Submit</Button>
     </form>
     <p>Don't have an account?
       <LinkBtn

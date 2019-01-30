@@ -5,6 +5,7 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { LinkBtn } from "../PageElements";
+import { Button } from "../Forms/FormElements";
 import initialValue from "../slate/utils/value.json"
 
 const Container = styled.div`
@@ -94,10 +95,14 @@ export class DragonFullText extends Component {
     this.props.setModal({
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
-        <Fragment>
-          <button onClick={() => this.deleteText(textId, subjectId, index)}>Yes, delete it</button>
-          <button onClick={this.props.closeModal}>Cancel</button>
-        </Fragment>
+        <div>
+          <Button onClick={() => this.deleteText(textId, subjectId, index)}>
+            Yes, delete it
+          </Button>
+          <Button onClick={this.props.closeModal}>
+            Cancel
+          </Button>
+        </div>
       )
     })
   };
@@ -186,7 +191,6 @@ export class DragonFullText extends Component {
 
         </Draggable>
       </React.Fragment>
-
     );
   }
 };

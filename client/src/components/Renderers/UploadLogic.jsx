@@ -61,10 +61,14 @@ export class UploadLogic extends Component {
     this.props.setModal({
       body: <p>Are you sure you want to delete this image? This is permenent.</p>,
       buttons: (
-        <React.Fragment>
-          <button onClick={() => this.deleteImage(textId, imageId)}>Yes, delete it</button>
-          <button onClick={this.props.closeModal}>Cancel</button>
-        </React.Fragment>
+        <div>
+          <Button onClick={() => this.deleteImage(textId, imageId)}>
+            Yes, delete it
+          </Button>
+          <Button onClick={this.props.closeModal}>
+            Cancel
+          </Button>
+        </div>
       )
     })
   };
@@ -81,12 +85,12 @@ export class UploadLogic extends Component {
         this.props.refreshProjectList();
         break;
       case 'subject':
-      deleteObj.type = 'Subject'
+        deleteObj.type = 'Subject'
         const result = await API.removeImage(id, deleteObj);
         this.props.addImageToSubject(result.data);
         break;
       default:
-      deleteObj.type = 'Text'
+        deleteObj.type = 'Text'
         const text = await API.removeImage(id, deleteObj);
         this.props.addImageToText(text.data)
     }
@@ -108,15 +112,17 @@ export class UploadLogic extends Component {
         </Fragment>
       ),
       buttons: (
-        <Fragment>
+        <div>
           <Button
             disabled={this.state.loading}
             onClick={() => this.saveImage(id)}
           >
             Submit
           </Button>
-          <Button onClick={this.props.closeModal}>Cancel</Button>
-        </Fragment>
+          <Button onClick={this.props.closeModal}>
+            Cancel
+          </Button>
+        </div>
       )
     })
   };
@@ -128,7 +134,7 @@ export class UploadLogic extends Component {
     this.props.setModal({
       body,
       buttons: (
-        <Fragment>
+        <div>
           {image &&
             <Button
               disabled={this.state.loading}
@@ -137,8 +143,10 @@ export class UploadLogic extends Component {
               Delete
             </Button>
           }
-          <Button onClick={this.props.closeModal}>Close</Button>
-        </Fragment>
+          <Button onClick={this.props.closeModal}>
+            Close
+          </Button>
+        </div>
       )
     });
   };

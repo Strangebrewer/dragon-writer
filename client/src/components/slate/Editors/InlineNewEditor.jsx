@@ -5,7 +5,7 @@ import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
-import { DragonNestFake } from "../../Dragons";
+import { DragonColumnFake } from "../../Dragons";
 
 const EditorStyles = styled.div`
   background: ${props => props.theme.editorBG};
@@ -76,7 +76,7 @@ export class InlineNewEditor extends Component {
     const { subject, title } = this.props.state;
     return (
       <OuterContainer>
-        <DragonNestFake
+        <DragonColumnFake
           subject={this.props.state.subject}
           texts={texts}
         />

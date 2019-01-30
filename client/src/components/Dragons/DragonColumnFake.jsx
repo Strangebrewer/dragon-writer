@@ -33,25 +33,22 @@ const ListContainer = styled.div`
 const SubjectHeader = styled.div`
   position: absolute;
   top: 30px;
+  text-align: center;
   width: 100%;
-`;
-
-const Heading3 = styled.div`
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 2.4rem;
-  margin: 5px 0 8px 0;
-  padding: 0 8px;
-  text-align: center;
-`;
-
-const Paragraph = styled.p`
-  border-top: 1px solid ${props => props.theme.mainColor};
-  color: ${props => props.theme.mainColor};
-  font-size: 1.3rem;
-  margin: 0 10px;
-  min-height: 75px;
-  padding: 8px;
-  text-align: center;
+  h3 {
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 2.4rem;
+    margin: 5px 0 8px 0;
+    padding: 0 8px;
+  }
+  p {
+    border-top: 1px solid ${props => props.theme.mainColor};
+    color: ${props => props.theme.mainColor};
+    font-size: 1.3rem;
+    margin: 0 10px;
+    min-height: 75px;
+    padding: 8px;
+  }
 `;
 
 const ItemContainer = styled.div`
@@ -79,7 +76,7 @@ const ItemContainer = styled.div`
   }
 `;
 
-export class DragonNestFake extends Component {
+export class DragonColumnFake extends Component {
   render() {
     const { subject, texts } = this.props;
     return (
@@ -92,8 +89,8 @@ export class DragonNestFake extends Component {
         />
 
         <SubjectHeader>
-          <Heading3>{subject.subject}</Heading3>
-          <Paragraph>{subject.theme}</Paragraph>
+          <h3>{subject.subject}</h3>
+          <p>{subject.theme}</p>
         </SubjectHeader>
 
         <ListContainer>
@@ -110,7 +107,6 @@ export class DragonNestFake extends Component {
             </ItemContainer>
           ))}
         </ListContainer>
-
       </ColumnContainer>
     )
   }

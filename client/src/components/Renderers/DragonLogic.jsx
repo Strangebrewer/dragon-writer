@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-// import Project from "../../pages/Project"
 import { API, Scales } from '../../utils';
 
 export class DragonLogic extends Component {

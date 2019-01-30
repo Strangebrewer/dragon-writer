@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { LinkBtn } from "../../PageElements";
 import { Spinner } from "../../Styles";
 
-const Links = styled.div`
+const Buttons = styled.div`
   position: absolute;
   top: 8px;
   right: 8px;
@@ -12,29 +12,27 @@ const Links = styled.div`
 export class ProjectButtons extends PureComponent {
   render() {
     const { props } = this;
-    const { _id, publicId, image } = props.project;
+    const { _id, image, publicId } = props.project;
     return (
       <Fragment>
         {props.loading
           ? (
             <Spinner top="8px" right="44px" size="12px" />
           ) : (
-            <Links>
+            <Buttons>
               <LinkBtn
-                padding="0 4px 4px 4px"
-                underline
                 disabled={props.disabled}
                 onClick={() => props.updateProjectModal(props.project)}
+                padding="0 4px 4px 4px"
                 title="edit project info"
               >
                 <i className="fas fa-edit"></i>
               </LinkBtn>
 
               <LinkBtn
-                padding="0 4px 4px 4px"
-                underline
                 disabled={props.disabled || image}
                 onClick={() => props.uploadImageModal(_id)}
+                padding="0 4px 4px 4px"
                 title={image
                   ? "you must delete the current image before uploading another"
                   : "upload project image"
@@ -44,10 +42,9 @@ export class ProjectButtons extends PureComponent {
               </LinkBtn>
 
               <LinkBtn
-                padding="0 4px 4px 4px"
-                underline
                 disabled={props.disabled || !image}
                 onClick={() => props.imageModal(image, publicId, _id, "project")}
+                padding="0 4px 4px 4px"
                 title={image
                   ? "see image for this project"
                   : "no image has been uploaded for this project"
@@ -57,16 +54,15 @@ export class ProjectButtons extends PureComponent {
               </LinkBtn>
 
               <LinkBtn
-                padding="0 4px 4px 4px"
-                underline
-                disabled={props.disabled}
                 delete
+                disabled={props.disabled}
                 onClick={() => props.deleteProjectModal(_id)}
+                padding="0 4px 4px 4px"
                 title="delete project"
               >
                 <i className="fas fa-trash-alt"></i>
               </LinkBtn>
-            </Links>
+            </Buttons>
           )}
       </Fragment>
     );

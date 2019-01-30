@@ -57,6 +57,18 @@ export class UploadLogic extends Component {
     this.setState({ loading: false });
   };
 
+  deleteImageModal = (textId, imageId) => {
+    this.props.setModal({
+      body: <p>Are you sure you want to delete this image? This is permenent.</p>,
+      buttons: (
+        <React.Fragment>
+          <button onClick={() => this.deleteImage(textId, imageId)}>Yes, delete it</button>
+          <button onClick={this.props.closeModal}>Cancel</button>
+        </React.Fragment>
+      )
+    })
+  };
+
   deleteImage = async (id, imageId) => {
     await this.setState({ loading: true });
     this.props.closeModal();
@@ -120,7 +132,7 @@ export class UploadLogic extends Component {
           {image &&
             <Button
               disabled={this.state.loading}
-              onClick={() => this.deleteImage(id, imageId)}
+              onClick={() => this.deleteImageModal(id, imageId)}
             >
               Delete
             </Button>

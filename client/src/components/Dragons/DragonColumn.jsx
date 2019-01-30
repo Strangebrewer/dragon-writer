@@ -4,7 +4,7 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { ImageUploader } from "../PageElements";
 import { Button, Input, Label } from "../Forms/FormElements";
-import { DragonEgg } from "./DragonEgg";
+import { DragonText } from "./DragonText";
 import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
@@ -28,6 +28,26 @@ const SubjectHeader = styled.div`
   position: absolute;
   top: 30px;
   width: 100%;
+  h3 {
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 2.4rem;
+    margin: 5px 0 8px 0;
+    overflow: hidden;
+    padding: 0 8px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 300px;
+  }
+  p {
+    border-top: 1px solid ${props => props.theme.mainColor};
+    color: ${props => props.theme.mainColor};
+    font-size: 1.3rem;
+    margin: 0 10px;
+    min-height: 75px;
+    padding: 8px;
+    text-align: center;
+  }
 `;
 
 const DragonList = styled.div`
@@ -44,34 +64,12 @@ const DragonList = styled.div`
   transition: box-shadow .2s ease-in-out;
 `;
 
-const Heading3 = styled.div`
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 2.4rem;
-  margin: 5px 0 8px 0;
-  overflow: hidden;
-  padding: 0 8px;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 300px;
-`;
-
-const Paragraph = styled.p`
-  border-top: 1px solid ${props => props.theme.mainColor};
-  color: ${props => props.theme.mainColor};
-  font-size: 1.3rem;
-  margin: 0 10px;
-  min-height: 75px;
-  padding: 8px;
-  text-align: center;
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
 
-export class DragonNest extends PureComponent {
+export class DragonColumn extends PureComponent {
   state = {
     redirectToPrint: false,
     subject: '',
@@ -114,10 +112,9 @@ export class DragonNest extends PureComponent {
             )}>Submit</Button>
             <Button onClick={this.props.closeModal}>Cancel</Button>
           </ButtonContainer>
-
         </form>
       )
-    })
+    });
   };
 
   updateSubject = async (e, id, updateObject) => {
@@ -170,11 +167,10 @@ export class DragonNest extends PureComponent {
           texts: this.props.texts,
           subject: this.props.subject
         }
-      }} target="_blank" />
+      }} target="_blank" rel="noopener noreferrer" />
     const {
       addImageToText,
       deleteText,
-      getInitialData,
       imageModal,
       index,
       loading,
@@ -188,7 +184,7 @@ export class DragonNest extends PureComponent {
       uploadImageModal,
     } = this.props;
     console.log(texts);
-    const { theme, _id } = subject;
+    const { _id, theme } = subject;
     return (
       <Fragment>
         <Draggable draggableId={_id} index={index}>
@@ -200,25 +196,25 @@ export class DragonNest extends PureComponent {
               isDraggingOver={snapshot.isDraggingOver}
             >
               <ColumnButtons
-                uploadImageModal={uploadImageModal}
-                loading={loading}
-                imageModal={imageModal}
-                subject={subject}
-                id={_id}
-                index={index}
-                updateSubjectModal={this.updateSubjectModal}
                 deleteSubjectModal={this.deleteSubjectModal}
+                id={_id}
+                imageModal={imageModal}
+                index={index}
+                loading={loading}
+                subject={subject}
                 texts={texts}
                 toggleDragonText={toggleDragonText}
                 toggleInlineNew={toggleInlineNew}
                 togglePrintMode={this.togglePrintMode}
                 toggleStoryboard={toggleStoryboard}
                 toggleSubject={toggleSubject}
+                updateSubjectModal={this.updateSubjectModal}
+                uploadImageModal={uploadImageModal}
               />
 
               <SubjectHeader {...provided.dragHandleProps}>
-                <Heading3>{subject.subject}</Heading3>
-                <Paragraph>{theme}</Paragraph>
+                <h3>{subject.subject}</h3>
+                <p>{theme}</p>
               </SubjectHeader>
 
               <Droppable droppableId={_id} type="text">
@@ -230,13 +226,12 @@ export class DragonNest extends PureComponent {
                   >
                     <ImageUploader
                       addImageToText={addImageToText}
-                      getInitialData={getInitialData}
                       type="text"
                     >
                       {provided => (
                         texts.map((text, index) => {
                           return (
-                            <DragonEgg
+                            <DragonText
                               {...provided}
                               deleteText={deleteText}
                               index={index}

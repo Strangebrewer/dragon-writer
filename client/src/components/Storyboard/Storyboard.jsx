@@ -95,9 +95,10 @@ const NothingToSeeHere = styled.h3`
   text-align: center;
 `;
 
-const SortableItem = SortableElement(props =>
-  <StoryboardCard {...props} />
-);
+const SortableItem = SortableElement(props => {
+  console.log(props);
+  return <StoryboardCard {...props} />
+});
 
 const SortableList = SortableContainer(props =>
   <Container>
@@ -106,6 +107,7 @@ const SortableList = SortableContainer(props =>
         id={text._id}
         imageModal={props.imageModal}
         index={index}
+        textIndex={index}
         key={`item-${index}`}
         {...props}
         subject={props.subject}
@@ -129,7 +131,25 @@ export class Storyboard extends PureComponent {
     this.props.executeDragonStateChanges(newState);
   };
 
-  toggleCurrentText = text => {
+  deleteText = (textId, subjectId, index) => {
+    this.props.closeModal();
+    this.props.deleteText(textId, subjectId, index);
+  }
+
+  deleteTextModal = (textId, subjectId, index) => {
+    this.props.setModal({
+      body: <p>Are you sure you want to delete? This is permenent.</p>,
+      buttons: (
+        <React.Fragment>
+          <button onClick={() => this.deleteText(textId, subjectId, index)}>Yes, delete it</button>
+          <button onClick={this.props.closeModal}>Cancel</button>
+        </React.Fragment>
+      )
+    })
+  };
+
+  toggleCurrentText = (text, index) => {
+    const { subject, toggleSingleEdit } = this.props;
     this.props.setModal({
       body: (
         <Fragment>
@@ -145,7 +165,33 @@ export class Storyboard extends PureComponent {
         </Fragment>
       ),
       style: { maxHeight: '80vh', overflow: 'auto' },
-      buttons: <button onClick={this.props.closeModal}>Close</button>
+      buttons: (
+        <div>
+          <LinkBtn
+            style={{ background: "transparent" }}
+            onClick={this.props.closeModal}
+            title="close"
+          >
+            <i className="fas fa-times" />
+          </LinkBtn>
+          <LinkBtn
+            style={{ background: "transparent" }}
+            onClick={() => toggleSingleEdit(subject, text)}
+            title="edit text"
+          >
+            <i className="fas fa-edit" />
+          </LinkBtn>
+          <LinkBtn
+            style={{ background: "transparent" }}
+            onClick={() => this.deleteTextModal(text._id, subject._id, index)}
+            delete
+            title="delete text"
+          >
+            <i className="far fa-trash-alt" />
+          </LinkBtn>
+        </div>
+
+      )
     })
   }
 
@@ -194,6 +240,7 @@ export class Storyboard extends PureComponent {
           ? (
             <SortableList
               axis="xy"
+              deleteTextModal={this.deleteTextModal}
               imageModal={this.props.imageModal}
               onSortEnd={this.onSortEnd}
               subject={this.props.subject}
@@ -210,9 +257,6 @@ export class Storyboard extends PureComponent {
             </Fragment>
           )
         }
-
-
-
       </Fragment>
     );
   }

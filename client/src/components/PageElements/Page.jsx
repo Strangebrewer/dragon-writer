@@ -106,7 +106,6 @@ export class Page extends PureComponent {
   };
 
   render() {
-    console.log(this.props);
     const { props } = this;
     return (
       <PageContainer id="top">

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
@@ -31,27 +31,25 @@ const MetaDataContainer = styled.div`
   min-width: 240px;
   padding: 10px 30px 0 30px;
   text-align: right;
-`;
-
-const TextTitle = styled.h3`
-  font-size: 1.8rem;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0;
-`;
-
-const TextThesis = styled.p`
-  font-size: 1.5rem;
-  line-height: 1;
-  margin: 0;
-  padding: 4px 0 6px 0;
+  h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+  }
+  p {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin: 0;
+    padding: 4px 0 6px 0;
+  }
 `;
 
 const EditorStyles = styled.div`
   background-image: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.567), rgba(0,0,0,0.667), rgba(0,0,0,0.567), rgba(0,0,0,0));
   /* color transparency in hex code doesn't work on Edge
       so, I'm using the below background to deliberately force Edge to fall back to the one above
-      while using the one below on Chrome because the same rgba numbers look different on Chome and Edge */
+      while using the one below on Chrome because the same rgba numbers seem to look different on Chrome and Edge */
   background: linear-gradient(90deg, #00000000, #00000044, #00000000);
   border: none;
   border-radius: 8px;
@@ -90,16 +88,16 @@ const ImageContainer = styled.div`
   }
 `;
 
-export class DragonTextEgg extends Component {
+export class DragonFullText extends Component {
 
   deleteTextModal = (textId, subjectId, index) => {
     this.props.setModal({
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
-        <React.Fragment>
+        <Fragment>
           <button onClick={() => this.deleteText(textId, subjectId, index)}>Yes, delete it</button>
           <button onClick={this.props.closeModal}>Cancel</button>
-        </React.Fragment>
+        </Fragment>
       )
     })
   };
@@ -112,12 +110,18 @@ export class DragonTextEgg extends Component {
   fullSizeImageModal = (imageUrl) => {
     this.props.setModal({
       body: <img src={imageUrl} alt="" style={{ maxWidth: '100%', maxHeight: '75vh' }} />,
-      buttons: <button onClick={this.props.closeModal}>Close</button>
+      buttons: (
+        <Fragment>
+          {/* <button onClick={}>Delete Image</button> */}
+          <button onClick={this.props.closeModal}>Close</button>
+        </Fragment>
+      )
     })
   };
 
   render() {
-    const { index, text, subject, toggleEditable } = this.props;
+    const { index, text, subject, toggleEditable, uploadImageModal } = this.props;
+    const { _id, largeImage, publicId } = text;
     const thisValue = text.text ? JSON.parse(text.text) : initialValue;
     text.parentSubject = subject;
     return (
@@ -131,24 +135,47 @@ export class DragonTextEgg extends Component {
               {...provided.dragHandleProps}
             >
               <MetaDataContainer>
-                <TextTitle>{text.title}</TextTitle>
-                <TextThesis>{text.thesis}</TextThesis>
+                <h3>{text.title}</h3>
+                <p>{text.thesis}</p>
                 <LinkBtn
-                  underline
                   padding="2px 4px 10px 4px"
                   onClick={() => toggleEditable(text._id)}
                   title={`edit '${text.title}'`}
                 >
-                  edit
+                  <i className="fas fa-edit" />
                 </LinkBtn>
+
                 <LinkBtn
-                  underline
+                  padding="0 2px 10px 3px"
+                  onClick={() => uploadImageModal(text._id)}
+                  disabled={text.image}
+                  title={text.image
+                    ? "you must delete the current image before uploading another"
+                    : "upload image for this text"
+                  }
+                >
+                  <i className="fas fa-upload"></i>
+                </LinkBtn>
+
+                <LinkBtn
+                  padding="2px 4px 10px 4px"
+                  onClick={() => this.props.imageModal(largeImage, publicId, _id, "text")}
+                  disabled={!text.image}
+                  title={text.image
+                    ? "see image for this text"
+                    : "no image has been uploaded for this text"
+                  }
+                >
+                  <i className="far fa-images"></i>
+                </LinkBtn>
+
+                <LinkBtn
                   padding="2px 4px 10px 4px"
                   delete
                   onClick={() => this.deleteTextModal(text._id, subject._id, index)}
                   title={`delete '${text.title}'`}
                 >
-                  delete
+                  <i className="far fa-trash-alt" />
                 </LinkBtn>
               </MetaDataContainer>
 
@@ -164,7 +191,7 @@ export class DragonTextEgg extends Component {
               </EditorStyles>
 
               <ImageContainer isDragging={snapshot.isDragging}>
-                <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
+                <img src={text.image} alt="" onClick={() => this.props.imageModal(largeImage, publicId, _id, "text")} />
               </ImageContainer>
             </Container>
           )}

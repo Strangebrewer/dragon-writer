@@ -1,3 +1,4 @@
+const flash = require('connect-flash');
 const express = require('express');
 require('dotenv').config();
 const bodyParser = require('body-parser');
@@ -33,6 +34,7 @@ app.use(
 // Passport
 app.use(passport.initialize());
 app.use(passport.session()); // calls the deserializeUser
+app.use(flash());
 
 // Add routes
 app.use(routes);

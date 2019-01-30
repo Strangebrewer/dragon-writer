@@ -23,7 +23,7 @@ const Buttons = styled.div`
 export class ColumnButtons extends PureComponent {
   render() {
     const { props } = this;
-    const { subject, id, index, texts } = props;
+    const { id, index, subject, texts } = props;
     const { image, publicId } = subject;
     return (
       props.loading
@@ -33,8 +33,8 @@ export class ColumnButtons extends PureComponent {
             <Buttons>
               <LinkBtn
                 disabled={props.disabled}
-                padding="0 3px 5px 3px"
                 onClick={() => props.toggleInlineNew(subject)}
+                padding="0 3px 5px 3px"
                 title={!props.disabled ? `create new text for ${subject.subject}` : null}
               >
                 <i className="far fa-file-alt"></i>
@@ -105,7 +105,8 @@ export class ColumnButtons extends PureComponent {
                   <Link
                     style={{ padding: "1px 3px 5px 3px" }}
                     title={!props.disabled ? "print view" : null}
-                    to={{ pathname: "/print", state: { texts, subject } }}>
+                    to={{ pathname: "/print", state: { texts, subject } }}
+                  >
                     <i className="fas fa-print"></i>
                   </Link>
                 )
@@ -121,6 +122,7 @@ export class ColumnButtons extends PureComponent {
                 <i className="fas fa-trash-alt"></i>
               </LinkBtn>
             </Buttons>
+
             <LinkBtn
               disabled={props.disabled}
               onClick={() => props.toggleSubject(id)}

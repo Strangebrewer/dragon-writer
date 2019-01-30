@@ -5,10 +5,9 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { ItemButtons } from "./DragonElements";
-import { Button } from "../Forms/FormElements";
+import { LinkBtn } from "../PageElements";
 
 const Container = styled.div`
-  background: rgba(22, 136, 130, 0.337);
   background: ${props => props.isDragging
     ? "rgba(22, 136, 130, 0.487)"
     : "rgba(22, 136, 130, 0.337)"};
@@ -71,7 +70,7 @@ const EditorStyle = styled.div`
   }
 `;
 
-export class DragonEgg extends PureComponent {
+export class DragonText extends PureComponent {
 
   deleteText = (textId, subjectId, index) => {
     this.props.closeModal();
@@ -91,6 +90,7 @@ export class DragonEgg extends PureComponent {
   };
 
   seeFullText = text => {
+    const { index, subject, toggleSingleEdit } = this.props;
     this.props.setModal({
       body: (
         <Fragment>
@@ -106,14 +106,38 @@ export class DragonEgg extends PureComponent {
         </Fragment>
       ),
       buttons: (
-        <Button onClick={this.props.closeModal}>Close</Button>
+        <div>
+          <LinkBtn
+            onClick={this.props.closeModal}
+            style={{ background: "transparent" }}
+            title="close"
+          >
+            <i className="fas fa-times" />
+          </LinkBtn>
+          <LinkBtn
+            onClick={() => toggleSingleEdit(subject, text)}
+            style={{ background: "transparent" }}
+            title="edit text"
+          >
+            <i className="fas fa-edit" />
+          </LinkBtn>
+          <LinkBtn
+            delete
+            onClick={() => this.deleteTextModal(text._id, subject._id, index)}
+            style={{ background: "transparent" }}
+            title="delete text"
+          >
+            <i className="far fa-trash-alt" />
+          </LinkBtn>
+        </div>
+
       ),
       style: { maxHeight: '80vh', overflow: 'auto' }
-    })
+    });
   }
 
   render() {
-    const { disabled, index, text, subject } = this.props;
+    const { disabled, index, subject, text } = this.props;
     return (
       <Fragment>
         <Draggable

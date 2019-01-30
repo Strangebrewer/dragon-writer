@@ -60,7 +60,6 @@ const MetaDataForm = styled.div`
 export class InlineUpdateEditor extends Component {
 
   render() {
-    console.log(this.props);
     const { id, toggleEditable, updateText } = this.props;
     const { subject, title } = this.props.state;
     return (

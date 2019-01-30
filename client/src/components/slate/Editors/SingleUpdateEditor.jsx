@@ -5,7 +5,7 @@ import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
-import { DragonNestFake } from "../../Dragons";
+import { DragonColumnFake } from "../../Dragons";
 import { StoryboardCardFake } from "../../Storyboard";
 
 const EditorStyles = styled.div`
@@ -84,7 +84,7 @@ export class SingleUpdateEditor extends Component {
               text={this.props.text}
             />
           ) : (
-            <DragonNestFake
+            <DragonColumnFake
               subject={this.props.state.subject}
               texts={texts}
             />

@@ -5,7 +5,6 @@ const FormLabel = styled.label`
   display: block;
   font-size: 1.7rem;
   padding: 10px 0 5px 0;
-  /* font-weight: bold; */
 `;
 
 export const Label = props => (

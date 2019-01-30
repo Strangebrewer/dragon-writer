@@ -76,7 +76,7 @@ const Card = styled.div`
 export class StoryboardCard extends PureComponent {
 
   render() {
-    console.log(this.props);
+    console.log(this.props.textIndex);
     const { image, thesis, title } = this.props.text;
     return (
       <Card image={image}>

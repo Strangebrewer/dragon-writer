@@ -9,7 +9,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-export const DragonLair = ({ children }) => {
+export const MainDropZone = ({ children }) => {
   return (
     <Droppable droppableId="all-subjects" direction="horizontal" type="subject">
       {provided => (

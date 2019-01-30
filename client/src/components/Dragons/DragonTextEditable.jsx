@@ -45,9 +45,9 @@ export class DragonTextEditable extends Component {
 
   render() {
     const {
-      text,
       executeDragonStateChanges,
       index,
+      text,
       toggleEditable,
     } = this.props;
     return (
@@ -86,7 +86,6 @@ export class DragonTextEditable extends Component {
             <ImageContainer isDragging={snapshot.isDragging}>
               <img src={text.image} alt="" onClick={() => this.fullSizeImageModal(text.largeImage)} />
             </ImageContainer>
-
           </Container>
         )}
       </Draggable>

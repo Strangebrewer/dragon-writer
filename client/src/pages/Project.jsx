@@ -4,8 +4,8 @@ import { ImageUploader, Page } from "../components/PageElements"
 import { EditorLogic, ModalLogic } from "../components/Renderers";
 import { InlineNewEditor, SingleNewEditor, SingleUpdateEditor } from "../components/slate/Editors";
 import { Storyboard } from "../components/Storyboard";
-import { DragonNest, DragonTextNest } from "../components/Dragons";
-import { DragonLair } from "../components/Dragons/DragonElements";
+import { DragonColumn, DragonFullTextColumn } from "../components/Dragons";
+import { MainDropZone } from "../components/Dragons/DragonElements";
 import { API, Scales, Toggle } from '../utils';
 
 const EditorContainer = styled.div`
@@ -132,7 +132,6 @@ class Project extends PureComponent {
   }
 
   render() {
-    console.log(this.props);
     const { executeDragonStateChanges, getInitialData, state } = this.props;
     const { title, _id, link, summary } = this.props.project;
     // map the subject data to the subject order array:
@@ -223,11 +222,12 @@ class Project extends PureComponent {
         {state.dropZoneOn
           && (state.dragons
             ? (
-              <DragonLair>
+              <MainDropZone>
                 <ModalLogic>
                   {modalProps => (
-                    <DragonTextNest
+                    <DragonFullTextColumn
                       {...modalProps}
+                      addImageToText={this.addImageToText}
                       deleteText={this.deleteText}
                       executeDragonStateChanges={executeDragonStateChanges}
                       getInitialData={getInitialData}
@@ -245,13 +245,12 @@ class Project extends PureComponent {
                     />
                   )}
                 </ModalLogic>
-              </DragonLair>
+              </MainDropZone>
             ) : state.storyboardOn
               ? (
                 <StoryboardContainer>
                   <ImageUploader
                     addImageToText={this.addImageToText}
-                    getInitialData={getInitialData}
                     addImageToSubject={this.addImageToSubject}
                     type="text"
                   >
@@ -275,7 +274,7 @@ class Project extends PureComponent {
                 </StoryboardContainer>
 
               ) : (state.texts &&                
-                <DragonLair>
+                <MainDropZone>
 
                   {subjects.length === 0
                     ? (
@@ -293,10 +292,9 @@ class Project extends PureComponent {
                         {provided => (
                           state.subjectOrder.map((subjectId, index) => {
                             const subject = state.subjects[subjectId];
-                            console.log(state.texts);
                             const texts = subject.textIds.map(textId => state.texts[textId]);
                             return state[subject._id] &&
-                              <DragonNest
+                              <DragonColumn
                                 {...provided}
                                 addImageToText={this.addImageToText}
                                 deleteText={this.deleteText}
@@ -319,7 +317,7 @@ class Project extends PureComponent {
                       </ImageUploader>
                     )}
 
-                </DragonLair>
+                </MainDropZone>
               )
           )}
       </Page>

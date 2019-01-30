@@ -1,25 +1,6 @@
 import React, { Component } from 'react';
-import styled from "styled-components";
-import { Button, Input, Label, TextArea } from "./FormElements";
+import { Button, Form, Input, Label, TextArea } from "./FormElements";
 import { API } from "../../utils";
-
-const Container = styled.form`
-  background: linear-gradient(rgba(38, 212, 204, 0.267), rgba(38, 212, 204, 0.267)),
-   linear-gradient(rgb(0,0,0), rgb(0,0,0));
-  border: 1px solid rgb(38, 212, 204);
-  border-radius: 12px;
-  box-shadow: 0 0 1px #000,
-    0 0 2px #000,
-    0 0 4px #000,
-    0 0 8px #111,
-    0 0 10px #111,
-    0 0 20px #222,
-    0 0 40px #aaa,
-    inset 0 0 100px 30px rgb(0,0,0);
-  margin: auto;
-  padding: 30px;
-  width: 300px;
-`;
 
 export class NewProjectForm extends Component {
   state = {
@@ -46,7 +27,6 @@ export class NewProjectForm extends Component {
         link,
         userId: this.props.user._id
       });
-      console.log(project.data)
       if (project.data.customMessage) throw project.data;
     }
     catch (err) {
@@ -68,7 +48,8 @@ export class NewProjectForm extends Component {
 
   render() {
     return (
-      <Container>
+      <Form>
+        <h2>New Project</h2>
         <Label>Project Title:</Label>
         <Input
           name="title"
@@ -98,7 +79,7 @@ export class NewProjectForm extends Component {
         />
         <Button onClick={e => this.createProject(e)}>Create</Button>
         <Button onClick={this.props.toggleProjectForm}>Cancel</Button>
-      </Container>
+      </Form>
     );
   }
 };;

@@ -48,12 +48,14 @@ module.exports = {
   signup: function (req, res) {
     const { username, email } = req.body;
     let emailTest = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
-    let userTest = /^[a-zA-Z0-9]+$/.test(username);
+    let userTest = /^[a-zA-Z][a-zA-Z0-9]+$/.test(username);
+
+    let error = {};
+    if (!emailTest) error.email = "email invalid";
+    if (!userTest) error.username = "username invalid";
 
     if (!emailTest || !userTest) {
-      console.log(emailTest);
-      console.log(userTest);
-      return res.json({ error: 'did not validate' });
+      return res.json(error);
     }
 
     // ADD VALIDATION
@@ -133,8 +135,10 @@ module.exports = {
   },
 
   login: async function (req, res) {
+    console.log("Hello!");
     const { username } = req.body;
     const user = await db.User.findOne({ username });
+    console.log(user);
     if (!user)
       res.send("Error: Login failed.");
     else {

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const db = require("../models");
-// mongoose.Promise = global.Promise;
 const bcrypt = require('bcryptjs');
 
 const pw = bcrypt.hashSync("1234", bcrypt.genSaltSync(10), null);

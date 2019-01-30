@@ -37,21 +37,19 @@ const Container = styled.div`
   &:hover {
     background: rgba(22, 136, 130, 0.487);
   }
-`;
-
-const ProjectTitle = styled.h2`
-  color: #fff;
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 3.5rem;
-  text-shadow: 2px 2px 3px rgb(0,0,0);
-  width: 450px;
-`;
-
-const ProjectText = styled.p`
-  color: #fff;
-  font-size: 2rem;
-  text-indent: 25px;
-  text-shadow: 2px 2px 3px rgb(0,0,0);
+  h2 {
+    color: #fff;
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 3.5rem;
+    text-shadow: 2px 2px 3px rgb(0,0,0);
+    width: 450px;
+  }
+  p {
+    color: #fff;
+    font-size: 2rem;
+    text-indent: 25px;
+    text-shadow: 2px 2px 3px rgb(0,0,0);
+  }
 `;
 
 export class ProjectList extends Component {
@@ -166,8 +164,8 @@ export class ProjectList extends Component {
                             {...provided.dragHandleProps}
                           >
                             <Link to={`/${thisProject.link}`}>
-                              <ProjectTitle>{thisProject.title}</ProjectTitle>
-                              <ProjectText  >{thisProject.summary}</ProjectText>
+                              <h2>{thisProject.title}</h2>
+                              <p>{thisProject.summary}</p>
                             </Link>
                             <ProjectButtons
                               updateProjectModal={this.updateProjectModal}
@@ -186,7 +184,7 @@ export class ProjectList extends Component {
                     disabled={projectOrder.length > 19}
                     full
                     onClick={this.toggleProjectForm}
-                    round>
+                  >
                     Create New Project
                   </Button>
                   {provided.placeholder}

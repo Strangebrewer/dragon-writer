@@ -14,31 +14,27 @@ const Container = styled.div`
   background: transparent;
   min-height: 150px;
   width: 165px;
-`;
-
-const HeadingTwo = styled.h2`
-  border-bottom: 1px solid ${props => props.theme.headingColor};
-  color: ${props => props.theme.headingColor};
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 2.3rem;
-  line-height: 1;
-  margin: 0;
-  padding: 0;
-  padding-bottom: 5px;
-`;
-
-const Message = styled.p`
-  padding: 10px 0 0 10px;
-  font-size: 1.3rem;
-`;
-
-const List = styled.ul`
-  list-style: disc;
-  padding-left: 10px;
-`;
-
-const ListItem = styled.li`
-  margin-left: 10px;
+  h2 {
+    border-bottom: 1px solid ${props => props.theme.headingColor};
+    color: ${props => props.theme.headingColor};
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 2.3rem;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 5px;
+  }
+  p {
+    padding: 10px 0 0 10px;
+    font-size: 1.3rem;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 10px;
+  }
+  li {
+    margin-left: 10px;
+  }
 `;
 
 const linkStyle = {
@@ -67,7 +63,7 @@ export const SubjectList = props => {
 
   return (
     <Container>
-      <HeadingTwo>
+      <h2>
         Columns &nbsp;{
           (subjects.length > 0 && !storyboardOn)
             ? (
@@ -79,17 +75,17 @@ export const SubjectList = props => {
                 clear all
           </LinkBtn>
             ) : null}
-      </HeadingTwo>
+      </h2>
 
       {subjects.length === 0
-        ? <Message>You don't have any columns for this project yet.</Message>
+        ? <p>You don't have any columns for this project yet.</p>
         : dragons || storyboardOn
-          ? <Message>click to switch columns:</Message>
-          : <Message>click to toggle on/off:</Message>}
+          ? <p>click to switch columns:</p>
+          : <p>click to toggle on/off:</p>}
 
-      <List>
+      <ul>
         {subjects.map(subject => (
-          <ListItem key={subject._id}>
+          <li key={subject._id}>
             <LinkBtn
               underline
               size="1.25rem"
@@ -105,9 +101,9 @@ export const SubjectList = props => {
             >
               {subject.subject}
             </LinkBtn>
-          </ListItem>
+          </li>
         ))}
-      </List>
+      </ul>
 
       {create
         ? (

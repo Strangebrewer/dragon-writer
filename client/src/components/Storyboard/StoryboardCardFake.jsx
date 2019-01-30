@@ -78,17 +78,13 @@ const Card = styled.div`
   }
 `;
 
-export class StoryboardCardFake extends PureComponent {
-
-  render() {
-    console.log(this.props);
-    const { image, thesis, title } = this.props.text;
-    return (
-      <Card image={image}>
-        <h3>{title}</h3>
-        <p>{thesis}</p>
-        {image && <img src={image} />}
-      </Card>
-    );
-  }
+export const StoryboardCardFake = props => {
+  const { image, thesis, title } = props.text;
+  return (
+    <Card image={image}>
+      <h3>{title}</h3>
+      <p>{thesis}</p>
+      {image && <img src={image} />}
+    </Card>
+  );
 };

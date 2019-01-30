@@ -62,83 +62,80 @@ const EditorStyles = styled.div`
   }
 `;
 
-export class SingleNewEditor extends Component {
+export const SingleNewEditor = props => {
+  const { createText, subjects } = props;
+  const { subject, title } = props.state;
+  return (
+    <EditorOuter>
+      <Header>
+        <p>Create New Text</p>
+      </Header>
 
-  render() {
-    const { createText, subjects } = this.props;
-    const { subject, title } = this.props.state;
-    return (
-      <EditorOuter>
-        <Header>
-          <p>Create New Text</p>
-        </Header>
+      <EditorInner>
+        <RenderButtons
+          state={props.state}
+          onClickMark={props.onClickMark}
+          onClickBlock={props.onClickBlock}
+          hasMark={props.hasMark}
+          hasBlock={props.hasBlock}
+        />
 
-        <EditorInner>
-          <RenderButtons
-            state={this.props.state}
-            onClickMark={this.props.onClickMark}
-            onClickBlock={this.props.onClickBlock}
-            hasMark={this.props.hasMark}
-            hasBlock={this.props.hasBlock}
+        <MetaDataForm>
+          <Label>Title:</Label>
+          <Input
+            style={{ maxWidth: "300px" }}
+            type="text"
+            name="title"
+            value={props.state.title}
+            maxLength="22"
+            placeholder="(22 char max)"
+            onChange={props.handleInputChange}
           />
+          <Label>Summary:</Label>
+          <Input
+            style={{ maxWidth: "300px" }}
+            type="text"
+            maxLength="140"
+            name="thesis"
+            value={props.state.thesis}
+            placeholder="(140 char max)"
+            onChange={props.handleInputChange}
+          />
+          <Label>Column:</Label>
+          <Select
+            style={{ maxWidth: "300px", width: "300px" }}
+            value={props.state.subject}
+            onChange={props.handleInputChange}
+            name="subject"
+          >
+            <option value="">Select a column:</option>
+            {subjects.map(subject => {
+              const { _id } = subject;
+              return <option key={_id} value={_id}>{subject.subject}</option>
+            })}
+          </Select>
+        </MetaDataForm>
 
-          <MetaDataForm>
-            <Label>Title:</Label>
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              name="title"
-              value={this.props.state.title}
-              maxLength="22"
-              placeholder="(22 char max)"
-              onChange={this.props.handleInputChange}
-            />
-            <Label>Summary:</Label>
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              maxLength="140"
-              name="thesis"
-              value={this.props.state.thesis}
-              placeholder="(140 char max)"
-              onChange={this.props.handleInputChange}
-            />
-            <Label>Column:</Label>
-            <Select
-              style={{ maxWidth: "300px", width: "300px" }}
-              value={this.props.state.subject}
-              onChange={this.props.handleInputChange}
-              name="subject"
-            >
-              <option value="">Select a column:</option>
-              {subjects.map(subject => {
-                const { _id } = subject;
-                return <option key={_id} value={_id}>{subject.subject}</option>
-              })}
-            </Select>
-          </MetaDataForm>
+        <EditorStyles>
+          <Editor
+            autoFocus
+            plugins={plugins}
+            ref={props.thisRef}
+            value={props.state.value}
+            onChange={props.onChange}
+            renderMark={renderMark}
+            renderNode={renderNode}
+          />
+        </EditorStyles>
 
-          <EditorStyles>
-            <Editor
-              autoFocus
-              plugins={plugins}
-              ref={this.props.thisRef}
-              value={this.props.state.value}
-              onChange={this.props.onChange}
-              renderMark={renderMark}
-              renderNode={renderNode}
-            />
-          </EditorStyles>
-
-          <Button disabled={!title || !subject} onClick={createText}>
-            Save
+        <Button disabled={!title || !subject} onClick={createText}>
+          Save
           </Button>
 
-          <Button onClick={this.props.toggleSingleNewEditor}>
-            Cancel
+        <Button onClick={props.toggleSingleNewEditor}>
+          Cancel
           </Button>
-        </EditorInner>
-      </EditorOuter>
-    );
-  };
+      </EditorInner>
+    </EditorOuter>
+  );
 };

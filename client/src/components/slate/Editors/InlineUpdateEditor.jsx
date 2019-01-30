@@ -57,63 +57,61 @@ const MetaDataForm = styled.div`
   width: 240px;
 `;
 
-export class InlineUpdateEditor extends Component {
+export const InlineUpdateEditor = props => {
 
-  render() {
-    const { id, toggleEditable, updateText } = this.props;
-    const { subject, title } = this.props.state;
-    return (
-      <EditorOuter>
-        <EditorInner {...this.props.dragHandle}>
-          <RenderButtons
-            inline={true}
-            state={this.props.state}
-            onClickMark={this.props.onClickMark}
-            onClickBlock={this.props.onClickBlock}
-            hasMark={this.props.hasMark}
-            hasBlock={this.props.hasBlock}
+  const { id, toggleEditable, updateText } = props;
+  const { subject, title } = props.state;
+  return (
+    <EditorOuter>
+      <EditorInner {...props.dragHandle}>
+        <RenderButtons
+          inline={true}
+          state={props.state}
+          onClickMark={props.onClickMark}
+          onClickBlock={props.onClickBlock}
+          hasMark={props.hasMark}
+          hasBlock={props.hasBlock}
+        />
+
+        <MetaDataForm>
+          <Label {...props.dragHandle}>Title:</Label>
+          <Input
+            type="text"
+            name="title"
+            value={props.state.title}
+            maxLength="20"
+            placeholder="(20 char max)"
+            onChange={props.handleInputChange}
           />
-
-          <MetaDataForm>
-            <Label {...this.props.dragHandle}>Title:</Label>
-            <Input
-              type="text"
-              name="title"
-              value={this.props.state.title}
-              maxLength="20"
-              placeholder="(20 char max)"
-              onChange={this.props.handleInputChange}
-            />
-            <Label {...this.props.dragHandle}>Summary:</Label>
-            <Input
-              type="text"
-              maxLength="140"
-              name="thesis"
-              value={this.props.state.thesis}
-              placeholder="(140 char max)"
-              onChange={this.props.handleInputChange}
-            />
-            <Button disabled={!title || !subject} onClick={() => updateText(id)}>
-              Save
+          <Label {...props.dragHandle}>Summary:</Label>
+          <Input
+            type="text"
+            maxLength="140"
+            name="thesis"
+            value={props.state.thesis}
+            placeholder="(140 char max)"
+            onChange={props.handleInputChange}
+          />
+          <Button disabled={!title || !subject} onClick={() => updateText(id)}>
+            Save
             </Button>
-            <Button onClick={() => toggleEditable(id)}>
-              Cancel
+          <Button onClick={() => toggleEditable(id)}>
+            Cancel
             </Button>
-          </MetaDataForm>
+        </MetaDataForm>
 
-          <EditorStyles>
-            <Editor
-              autoFocus
-              plugins={plugins}
-              ref={this.props.thisRef}
-              value={this.props.state.value}
-              onChange={this.props.onChange}
-              renderMark={renderMark}
-              renderNode={renderNode}
-            />
-          </EditorStyles>
-        </EditorInner>
-      </EditorOuter>
-    );
-  };
+        <EditorStyles>
+          <Editor
+            autoFocus
+            plugins={plugins}
+            ref={props.thisRef}
+            value={props.state.value}
+            onChange={props.onChange}
+            renderMark={renderMark}
+            renderNode={renderNode}
+          />
+        </EditorStyles>
+      </EditorInner>
+    </EditorOuter>
+  );
 };

@@ -107,18 +107,6 @@ export class DragonFullText extends Component {
     this.props.closeModal();
   };
 
-  fullSizeImageModal = (imageUrl) => {
-    this.props.setModal({
-      body: <img src={imageUrl} alt="" style={{ maxWidth: '100%', maxHeight: '75vh' }} />,
-      buttons: (
-        <Fragment>
-          {/* <button onClick={}>Delete Image</button> */}
-          <button onClick={this.props.closeModal}>Close</button>
-        </Fragment>
-      )
-    })
-  };
-
   render() {
     const { index, text, subject, toggleEditable, uploadImageModal } = this.props;
     const { _id, largeImage, publicId } = text;

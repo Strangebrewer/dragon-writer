@@ -69,78 +69,75 @@ const Header = styled.div`
   width: 100%;
 `;
 
-export class InlineNewEditor extends Component {
+export const InlineNewEditor = props => {
+  const { createText, texts, toggleInlineNew } = props;
+  const { subject, title } = props.state;
+  return (
+    <OuterContainer>
+      <DragonColumnFake
+        subject={props.state.subject}
+        texts={texts}
+      />
 
-  render() {
-    const { createText, texts, toggleInlineNew } = this.props;
-    const { subject, title } = this.props.state;
-    return (
-      <OuterContainer>
-        <DragonColumnFake
-          subject={this.props.state.subject}
-          texts={texts}
-        />
+      <EditorOuter>
+        <Header>
+          <p>New text for: &nbsp;{subject.subject}</p>
+        </Header>
 
-        <EditorOuter>
-          <Header>
-            <p>New text for: &nbsp;{subject.subject}</p>
-          </Header>
+        <EditorInner>
+          <RenderButtons
+            state={props.state}
+            onClickMark={props.onClickMark}
+            onClickBlock={props.onClickBlock}
+            hasMark={props.hasMark}
+            hasBlock={props.hasBlock}
+          />
 
-          <EditorInner>
-            <RenderButtons
-              state={this.props.state}
-              onClickMark={this.props.onClickMark}
-              onClickBlock={this.props.onClickBlock}
-              hasMark={this.props.hasMark}
-              hasBlock={this.props.hasBlock}
+          <Label>Title:</Label>
+          <Input
+            style={{ maxWidth: "300px" }}
+            type="text"
+            name="title"
+            value={props.state.title}
+            maxLength="22"
+            placeholder="(22 char max)"
+            onChange={props.handleInputChange}
+          />
+
+          <Label>Summary:</Label>
+          <Input
+            style={{ maxWidth: "300px" }}
+            type="text"
+            maxLength="140"
+            name="thesis"
+            value={props.state.thesis}
+            placeholder="(140 char max)"
+            onChange={props.handleInputChange}
+          />
+
+          <EditorStyles>
+            <Editor
+              autoFocus
+              plugins={plugins}
+              ref={props.thisRef}
+              value={props.state.value}
+              onChange={props.onChange}
+              renderMark={renderMark}
+              renderNode={renderNode}
             />
+          </EditorStyles>
 
-            <Label>Title:</Label>
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              name="title"
-              value={this.props.state.title}
-              maxLength="22"
-              placeholder="(22 char max)"
-              onChange={this.props.handleInputChange}
-            />
-
-            <Label>Summary:</Label>
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              maxLength="140"
-              name="thesis"
-              value={this.props.state.thesis}
-              placeholder="(140 char max)"
-              onChange={this.props.handleInputChange}
-            />
-
-            <EditorStyles>
-              <Editor
-                autoFocus
-                plugins={plugins}
-                ref={this.props.thisRef}
-                value={this.props.state.value}
-                onChange={this.props.onChange}
-                renderMark={renderMark}
-                renderNode={renderNode}
-              />
-            </EditorStyles>
-
-            <Button disabled={!title || !subject} onClick={createText}>
-              Save
+          <Button disabled={!title || !subject} onClick={createText}>
+            Save
             </Button>
 
-            {/* if I don't place this in an anonymous function, it creates an error */}
-            <Button onClick={() => toggleInlineNew()}>
-              Cancel
+          {/* if I don't place this in an anonymous function, it creates an error */}
+          <Button onClick={() => toggleInlineNew()}>
+            Cancel
             </Button>
-          </EditorInner>
-        </EditorOuter>
+        </EditorInner>
+      </EditorOuter>
 
-      </OuterContainer>
-    );
-  }
+    </OuterContainer>
+  );
 };

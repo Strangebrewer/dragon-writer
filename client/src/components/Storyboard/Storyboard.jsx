@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { StoryboardCard } from "./StoryboardCard";
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { LinkBtn } from "../PageElements";
+import { Button } from "../Forms/FormElements";
 import { Scales } from "../../utils";
 
 const Container = styled.div`
@@ -82,17 +83,17 @@ const EditorStyle = styled.div`
   }
 `;
 
-const NothingHeading = styled.h2`
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 5rem;
-  padding: 15px 50px 15px 0;
+const NothingContainer = styled.div`
   text-align: center;
-`;
-
-const NothingToSeeHere = styled.h3`
-  font-size: 2rem;
-  padding-right: 50px;
-  text-align: center;
+  h2 {
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 5rem;
+    padding: 15px 50px 15px 0;
+  }
+  h3 {
+    font-size: 2rem;
+    padding-right: 50px;
+  }
 `;
 
 const SortableItem = SortableElement(props => {
@@ -140,10 +141,20 @@ export class Storyboard extends PureComponent {
     this.props.setModal({
       body: <p>Are you sure you want to delete? This is permenent.</p>,
       buttons: (
-        <React.Fragment>
-          <button onClick={() => this.deleteText(textId, subjectId, index)}>Yes, delete it</button>
-          <button onClick={this.props.closeModal}>Cancel</button>
-        </React.Fragment>
+        <div>
+          <Button
+            onClick={() => this.deleteText(textId, subjectId, index)}
+            style={{ margin: "15px 15px 0 0" }}
+          >
+            Yes, delete it
+          </Button>
+          <Button
+            onClick={this.props.closeModal}
+            style={{ margin: "15px 15px 0 0" }}
+          >
+            Cancel
+          </Button>
+        </div>
       )
     })
   };
@@ -167,28 +178,24 @@ export class Storyboard extends PureComponent {
       style: { maxHeight: '80vh', overflow: 'auto' },
       buttons: (
         <div>
-          <LinkBtn
-            style={{ background: "transparent" }}
+          <Button
             onClick={this.props.closeModal}
-            title="close"
+            style={{ margin: "15px 15px 0 0" }}
           >
-            <i className="fas fa-times" />
-          </LinkBtn>
-          <LinkBtn
-            style={{ background: "transparent" }}
+            Close
+          </Button>
+          <Button
             onClick={() => toggleSingleEdit(subject, text)}
-            title="edit text"
+            style={{ margin: "15px 15px 0 0" }}
           >
-            <i className="fas fa-edit" />
-          </LinkBtn>
-          <LinkBtn
-            style={{ background: "transparent" }}
+            Edit
+          </Button>
+          <Button
             onClick={() => this.deleteTextModal(text._id, subject._id, index)}
-            delete
-            title="delete text"
+            style={{ margin: "15px 15px 0 0" }}
           >
-            <i className="far fa-trash-alt" />
-          </LinkBtn>
+            Delete
+          </Button>
         </div>
 
       )
@@ -196,7 +203,6 @@ export class Storyboard extends PureComponent {
   }
 
   render() {
-    console.log(this.props);
     const { subject, theme, _id } = this.props.subject;
     const { texts } = this.props;
     return (
@@ -251,10 +257,10 @@ export class Storyboard extends PureComponent {
               useDragHandle={true}
             />
           ) : (
-            <Fragment>
-              <NothingHeading>Storyboard View</NothingHeading>
-              <NothingToSeeHere>(You don't have any texts under this topic yet)</NothingToSeeHere>
-            </Fragment>
+            <NothingContainer>
+              <h2>Storyboard View</h2>
+              <h3>(You don't have any texts under this topic yet)</h3>
+            </NothingContainer>
           )
         }
       </Fragment>

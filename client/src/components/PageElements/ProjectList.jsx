@@ -121,10 +121,20 @@ export class ProjectList extends Component {
         </Fragment>
       ),
       buttons: (
-        <Fragment>
-          <Button onClick={() => this.props.deleteProject(id, this.props.closeModal)}>Yes, Delete</Button>
-          <Button onClick={this.props.closeModal}>Cancel</Button>
-        </Fragment>
+        <div>
+          <Button
+            onClick={() => this.props.deleteProject(id, this.props.closeModal)}
+            style={{ margin: "15px 15px 0 0" }}
+          >
+            Yes, delete it
+           </Button>
+          <Button
+            onClick={this.props.closeModal}
+            style={{ margin: "15px 15px 0 0" }}
+          >
+            Cancel
+          </Button>
+        </div>
       ),
       style: { textAlign: "center" }
     })

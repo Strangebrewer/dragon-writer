@@ -12,7 +12,7 @@ const Buttons = styled.div`
   left: 8px;
   a {
     color: ${props => props.theme.mainColor};
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     transition: ${props => props.theme.colorTrans};
     &:hover {
       color: ${props => !props.disabled && "#26d4cc"};

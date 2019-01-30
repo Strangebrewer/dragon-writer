@@ -5,7 +5,7 @@ import { Value } from "slate";
 import styled from 'styled-components';
 import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { ItemButtons } from "./DragonElements";
-import { LinkBtn } from "../PageElements";
+import { Button } from "../Forms/FormElements";
 
 const Container = styled.div`
   background: ${props => props.isDragging
@@ -79,12 +79,22 @@ export class DragonText extends PureComponent {
 
   deleteTextModal = (textId, subjectId, index) => {
     this.props.setModal({
-      body: <p>Are you sure you want to delete? This is permenent.</p>,
+      body: <p>Are you sure you want to delete this text? This is permenent.</p>,
       buttons: (
-        <React.Fragment>
-          <button onClick={() => this.deleteText(textId, subjectId, index)}>Yes, delete it</button>
-          <button onClick={this.props.closeModal}>Cancel</button>
-        </React.Fragment>
+        <div>
+          <Button
+            onClick={() => this.deleteText(textId, subjectId, index)}
+            style={{ margin: "15px 15px 0 0" }}
+          >
+            Yes, delete it
+          </Button>
+          <Button
+            onClick={this.props.closeModal}
+            style={{ margin: "15px 15px 0 0" }}
+          >
+            Cancel
+          </Button>
+        </div>
       )
     })
   };
@@ -107,28 +117,24 @@ export class DragonText extends PureComponent {
       ),
       buttons: (
         <div>
-          <LinkBtn
+          <Button
+            style={{ margin: "15px 15px 0 0" }}
             onClick={this.props.closeModal}
-            style={{ background: "transparent" }}
-            title="close"
           >
-            <i className="fas fa-times" />
-          </LinkBtn>
-          <LinkBtn
+            Close
+          </Button>
+          <Button
+            style={{ margin: "15px 15px 0 0" }}
             onClick={() => toggleSingleEdit(subject, text)}
-            style={{ background: "transparent" }}
-            title="edit text"
           >
-            <i className="fas fa-edit" />
-          </LinkBtn>
-          <LinkBtn
-            delete
+            Edit
+          </Button>
+          <Button
+            style={{ margin: "15px 15px 0 0" }}
             onClick={() => this.deleteTextModal(text._id, subject._id, index)}
-            style={{ background: "transparent" }}
-            title="delete text"
           >
-            <i className="far fa-trash-alt" />
-          </LinkBtn>
+            Delete
+          </Button>
         </div>
 
       ),

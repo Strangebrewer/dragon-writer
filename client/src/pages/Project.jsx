@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
 import { EditorLogic, ModalLogic } from "../components/Renderers";
@@ -38,7 +39,7 @@ const EmptyProjectText = styled.div`
   }
 `;
 
-class Project extends PureComponent {
+class Project extends Component {
 
   componentDidMount() {
     // if there is no saved order, then this will load the first three columns
@@ -273,7 +274,7 @@ class Project extends PureComponent {
                   </ImageUploader>
                 </StoryboardContainer>
 
-              ) : (state.texts &&                
+              ) : (state.texts &&
                 <MainDropZone>
 
                   {subjects.length === 0

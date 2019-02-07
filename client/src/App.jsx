@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { DragonLogic } from "./components/Renderers";
-import Home from "./pages/HomeOG";
+import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Print from "./pages/Print";
 import NoMatch from "./pages/NoMatch";
@@ -23,45 +23,54 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.getInitialData();
+    if (localStorage.getItem('token'))
+      this.getCurrentUser();
+    else this.setState({ loading: false });
   };
 
-  getInitialData = async (userInfo) => {
-    let projects = [];
-    let user = userInfo;
-    let error;
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
+  getCurrentUser = async () => {
+    try {
+      const headers = this.buildHeaders();
+      const res = await API.getCurrentUser(headers);
+      console.log(res);
+      if (res.data.msg === "logged in") {
+        this.getInitialData(res.data.user);
+      } else {
+        console.log("Set up login error handling!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  getInitialData = async user => {
     let projectData = [];
     let projectOrder = [];
     let projectOrderData = {};
-
-    if (!user)
-      try {
-        const userResponse = await API.getUser();
-        user = userResponse.data;
+    const headers = this.buildHeaders();
+    const res = await API.getProjectsWithAll(headers);
+    const projects = res.data;
+    projects.forEach(project => {
+      if (project.order) {
+        projectData.push(Utils.addTextsToOrder(project));
+      } else {
+        projectData.push(Utils.formatInitialData(project));
       }
-      catch (err) {
-        error = err;
-      }
+    });
 
-    if (!error && user._id) {
-      const projectsRes = await API.getProjectsWithAll();
-      projects = projectsRes.data;
-
-      projects.forEach(project => {
-        if (project.order) {
-          projectData.push(Utils.addTextsToOrder(project));
-        }
-        else {
-          projectData.push(Utils.formatInitialData(project));
-        }
-      });
-
-      if (user.order) projectOrder = JSON.parse(user.order);
-      else projectOrder = user.projects;
-
-      projectOrderData = Utils.formatProjectOrderData(projects);
-      isAuthenticated = true;
+    if (user.order) {
+      projectOrder = JSON.parse(user.order);
+    } else {
+      projectOrder = user.projects;
     }
+
+    projectOrderData = Utils.formatProjectOrderData(projects);
+    isAuthenticated = true;
 
     this.setState({
       loading: false,
@@ -69,18 +78,19 @@ class App extends Component {
       projectOrder,
       projectOrderData,
       projects,
-      user,
+      user
     });
-  };
+  }
 
   addNewProject = async (projectId, callback) => {
     // add new projectId to the projectOrder and then save it to DB:
     const projectOrder = Array.from(this.state.projectOrder);
     projectOrder.unshift(projectId);
-    await API.updateUserOrder({ order: JSON.stringify(projectOrder) });
+    const headers = this.buildHeaders();
+    await API.updateUserOrder({ order: JSON.stringify(projectOrder) }, headers);
 
     // retrieve new project from DB:
-    const projectRes = await API.getSingleProjectWithAll(projectId);
+    const projectRes = await API.getSingleProjectWithAll(projectId, headers);
     const project = projectRes.data;
     // copy projects from state and add new project to it:
     const projects = JSON.parse(JSON.stringify(this.state.projects));
@@ -107,15 +117,18 @@ class App extends Component {
   }
 
   refreshProjectList = async () => {
-    const res = await API.getUserWithProjects();
+    const headers = this.buildHeaders();
+    const res = await API.getUserWithProjects(headers);
     const projects = res.data.projects;
+    console.log(res);
     const projectOrder = JSON.parse(res.data.order);
     const projectOrderData = Utils.formatProjectOrderData(projects);
     this.setState({ projectOrder, projectOrderData });
   };
 
   refreshSingleProjectOrder = async (projectId) => {
-    const res = await API.getSingleProject(projectId);
+    const headers = this.buildHeaders();
+    const res = await API.getSingleProject(projectId, headers);
     const project = res.data;
     const index = Utils.getArrayIndex(this.state.projects, projectId);
     project.texts = this.state.projects[index].texts;
@@ -183,16 +196,23 @@ class App extends Component {
     this.setState({ projects, projectData });
   };
 
-  logout = event => {
-    if (event) event.preventDefault();
-    API.logout();
+  logout = () => {
     isAuthenticated = false;
-    this.setState({ user: null, });
-  };
+    localStorage.removeItem('token');
+    this.setState({
+      loggedIn: false,
+      user: null,
+      projectData: [],
+      projectOrder: [],
+      projectOrderData: {},
+      projects: []
+    });
+  }
 
   render() {
     const sharedProps = {
       authenticated: isAuthenticated,
+      buildHeaders: this.buildHeaders,
       getInitialData: this.getInitialData,
       loading: this.state.loading,
       logout: this.logout,

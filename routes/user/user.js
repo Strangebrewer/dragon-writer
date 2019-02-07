@@ -1,32 +1,19 @@
 const router = require('express').Router();
-const passport = require('../../passport');
+const { passport } = require('../../passport');
 const userController = require('../../controllers/userController');
 
 router
   .route('/')
-  .get(userController.getUser)
+  .get(passport.authenticate('jwt', { session: false }), userController.getCurrentUser)
+  .put(passport.authenticate('jwt', { session: false }), userController.updateUserInfo)
   .post(userController.signup);
 
-router
-  .route('/data')
-  .put(isLoggedIn, userController.updateUserInfo);
+router.post('/login', userController.login);
 
-router.put('/order', isLoggedIn, userController.updateUserOrder);
+router.put('/order', passport.authenticate('jwt', { session: false }), userController.updateUserOrder);
 
-router.get('/projects', userController.getUserWithProjects);
+router.get('/projects',  passport.authenticate('jwt', { session: false }), userController.getUserWithProjects);
 
-router.post('/login', passport.authenticate('local'), userController.login);
-
-router.post('/logout', userController.logout);
-
-router.post('/change', isLoggedIn, userController.changePw);
-
-
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.json({ isAuthenticated: false });
-}
+router.post('/change', passport.authenticate('jwt', { session: false }), userController.changePw);
 
 module.exports = router;

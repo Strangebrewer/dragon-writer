@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from "styled-components";
 import { Button, Form, Input, Label } from "./FormElements";
 import { LinkBtn } from "../PageElements";
 
+const Paragraph = styled.p`
+  font-size: 1.2rem;
+  margin: 10px 0;
+  text-align: center;
+`;
+
 export const Login = props => (
-  <Form>
-    <h2>Login</h2>
-    <form>
+  <Fragment>
+    <Form style={{ paddingBottom: "10px" }}>
+      <h2>Login</h2>
       <Label>Username</Label>
       <Input
         name="username"
@@ -22,16 +28,16 @@ export const Login = props => (
         onChange={props.handleInputChange}
       />
       <Button center onClick={props.login}>Submit</Button>
-    </form>
-    <p>Don't have an account?
+      <Paragraph>Don't have an account?
       <LinkBtn
-        size="1.5rem"
-        shadow
-        text
-        onClick={props.toggleSignupForm}
-      >
-        Create one.
+          size="1.5rem"
+          shadow
+          text
+          onClick={props.toggleSignupForm}
+        >
+          Create one.
       </LinkBtn>
-    </p>
-  </Form>
+      </Paragraph>
+    </Form>
+  </Fragment>
 );

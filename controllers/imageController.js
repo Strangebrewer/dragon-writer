@@ -14,7 +14,7 @@ module.exports = {
       const result = await cloudinary.v2.uploader.destroy(req.body.imageId, { invalidate: true });
       console.log(result.result);
       if (result.result === 'ok' || result.result === "not found") {
-        removal = await db[req.body.type].findByIdAndUpdate(req.params.id, {
+      removal = await db[req.body.type].findByIdAndUpdate(req.params.id, {
           image: '',
           largeImage: '',
           publicId: ''

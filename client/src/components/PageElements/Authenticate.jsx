@@ -23,18 +23,23 @@ export class Authenticate extends Component {
   login = async event => {
     if (event) event.preventDefault();
     const { username, password } = this.state;
-    const user = await API.login({ username, password });
+    const res = await API.login({ username, password });
+    const { token, user } = res.data;
     if (user)
-      this.props.getInitialData(user.data);
+      localStorage.setItem('token', token)
+    this.props.getInitialData(user);
   };
 
   signup = async event => {
     event.preventDefault();
     const { email, password, username } = this.state;
-    const user = await API.signup({
+    const res = await API.signup({
       username, email, password
     });
-    if (!user.data.error && user.data._id) this.login();
+    const { token, user } = res.data;
+    if (!res.data.error && user._id)
+      localStorage.setItem('token', token)
+    this.props.getInitialData(user);
   };
 
   render() {

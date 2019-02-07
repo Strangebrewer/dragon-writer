@@ -52,6 +52,19 @@ const Container = styled.div`
   }
 `;
 
+const Form = styled.form`
+  color: #fff;
+  text-align: center;
+  h2 {
+    font-size: 2.2rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  label {
+    text-align: left;
+  }
+`;
+
 export class ProjectList extends Component {
   state = {
     create: false,
@@ -80,7 +93,8 @@ export class ProjectList extends Component {
   updateProjectModal = project => {
     this.props.setModal({
       body: (
-        <form>
+        <Form>
+          <h2>Edit Project Info</h2>
           <Label>Project Title:</Label>
           <Input
             type="text"
@@ -107,7 +121,7 @@ export class ProjectList extends Component {
           />
           <Button onClick={(e) => this.updateProject(e, project)}>Submit</Button>
           <Button onClick={this.props.closeModal}>Cancel</Button>
-        </form>
+        </Form>
       )
     })
   };
@@ -122,16 +136,10 @@ export class ProjectList extends Component {
       ),
       buttons: (
         <div>
-          <Button
-            onClick={() => this.props.deleteProject(id, this.props.closeModal)}
-            style={{ margin: "15px 15px 0 0" }}
-          >
+          <Button onClick={() => this.props.deleteProject(id, this.props.closeModal)}>
             Yes, delete it
            </Button>
-          <Button
-            onClick={this.props.closeModal}
-            style={{ margin: "15px 15px 0 0" }}
-          >
+          <Button onClick={this.props.closeModal}>
             Cancel
           </Button>
         </div>

@@ -1,22 +1,17 @@
 const router = require('express').Router();
+const { passport } = require('../../passport');
 const projectController = require('../../controllers/projectController');
 
 router.route('/')
-  .get(isLoggedIn, projectController.getProjectsWithAll)
-  .post(isLoggedIn, projectController.createProject);
+  .get(passport.authenticate('jwt', { session: false }), projectController.getProjectsWithAll)
+  .post(passport.authenticate('jwt', { session: false }), projectController.createProject);
 
 router.route('/all/:id')
-  .get(isLoggedIn, projectController.getSingleProjectWithAll);
+  .get(passport.authenticate('jwt', { session: false }), projectController.getSingleProjectWithAll);
 
 router.route('/:id')
-  .get(isLoggedIn, projectController.getSingleProject)
-  .put(isLoggedIn, projectController.updateProject)
-  .delete(isLoggedIn, projectController.deleteProject);
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.json({ isAuthenticated: false });
-}
+  .get(passport.authenticate('jwt', { session: false }), projectController.getSingleProject)
+  .put(passport.authenticate('jwt', { session: false }), projectController.updateProject)
+  .delete(passport.authenticate('jwt', { session: false }), projectController.deleteProject);
 
 module.exports = router;

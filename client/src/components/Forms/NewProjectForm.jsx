@@ -77,8 +77,8 @@ export class NewProjectForm extends Component {
           onChange={this.handleInputChange}
           placeholder="12-character limit"
         />
-        <Button onClick={e => this.createProject(e)}>Create</Button>
-        <Button onClick={this.props.toggleProjectForm}>Cancel</Button>
+        <Button onClick={e => this.createProject(e)}>Submit</Button>
+        <Button style={{ margin: "10px auto 0 auto" }} onClick={this.props.toggleProjectForm}>Cancel</Button>
       </Form>
     );
   }

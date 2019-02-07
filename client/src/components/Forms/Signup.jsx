@@ -14,11 +14,16 @@ const InfoBlock = styled.div`
   }
 `;
 
+const Paragraph = styled.p`
+  font-size: 1.2rem;
+  margin: 10px 0;
+  text-align: center;
+`;
+
 export const Signup = props => (
   <Fragment>
-    <Form>
+    <Form style={{ paddingBottom: "10px"}}>
       <h2>Signup</h2>
-      <form>
         <Label>Username</Label>
         <Input
           name="username"
@@ -48,8 +53,7 @@ export const Signup = props => (
           onChange={props.handleInputChange}
         />
         <Button round center onClick={props.signup}>Submit</Button>
-      </form>
-      <p>Already have an account?
+      <Paragraph>Already have an account?
       <LinkBtn
           size="1.5rem"
           shadow
@@ -58,7 +62,7 @@ export const Signup = props => (
         >
           Log in.
       </LinkBtn>
-      </p>
+      </Paragraph>
     </Form>
 
     <InfoBlock>

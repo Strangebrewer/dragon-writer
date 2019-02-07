@@ -1,19 +1,14 @@
 const router = require('express').Router();
+const { passport } = require('../../passport');
 const subjectController = require('../../controllers/subjectController');
 
 router.route('/')
-  .get(isLoggedIn, subjectController.getSubjects)
-  .post(isLoggedIn, subjectController.createSubject);
+  .get(passport.authenticate('jwt', { session: false }), subjectController.getSubjects)
+  .post(passport.authenticate('jwt', { session: false }), subjectController.createSubject);
 
 router.route('/:id')
-  .get(isLoggedIn, subjectController.getSingleSubject)
-  .put(isLoggedIn, subjectController.updateSubject)
-  .delete(isLoggedIn, subjectController.deleteSubject);
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.json({ isAuthenticated: false });
-}
+  .get(passport.authenticate('jwt', { session: false }), subjectController.getSingleSubject)
+  .put(passport.authenticate('jwt', { session: false }), subjectController.updateSubject)
+  .delete(passport.authenticate('jwt', { session: false }), subjectController.deleteSubject);
 
 module.exports = router;

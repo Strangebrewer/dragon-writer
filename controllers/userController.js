@@ -1,31 +1,20 @@
 const db = require('../models');
 const bcrypt = require('bcryptjs');
+const { passport, sign } = require('../passport');
 
 module.exports = {
-  getUser: function (req, res) {
-    console.log('===== user!!======')
-    console.log(req.user)
-    if (req.user) {
-      db.User.findOne({ _id: req.user._id })
-        .then(response => {
-          const user = {
-            projects: response.projects,
-            _id: response._id,
-            username: response.username,
-            email: response.email,
-            order: response.order,
-            updatedAt: response.updatedAt,
-          }
-          res.json(user);
-        });
-    } else {
-      res.json({ user: null })
+  getCurrentUser: function (req, res) {
+    const { _id, order, projects, username } = req.user;
+    const userData = {
+      _id,
+      order,
+      projects,
+      username
     }
+    res.json({ msg: "logged in", user: userData });
   },
 
   getUserWithProjects: function (req, res) {
-    console.log('===== user!!======')
-    console.log(req.user)
     if (req.user) {
       db.User.findOne({ _id: req.user._id })
         .populate('projects')
@@ -45,7 +34,7 @@ module.exports = {
     }
   },
 
-  signup: function (req, res) {
+  signup: async function (req, res) {
     const { username, email } = req.body;
     let emailTest = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
     let userTest = /^[a-zA-Z][a-zA-Z0-9]+$/.test(username);
@@ -59,30 +48,35 @@ module.exports = {
     }
 
     // ADD VALIDATION
-    db.User.findOne({ username: username }, (err, user) => {
-      if (err) {
-        res.send('User.js post error: ', err);
-      } else if (user) {
-        res.json({ error: 'username taken' });
-      } else {
-        db.User.findOne({ email: email }, (err, nextUser) => {
-          if (err) {
-            res.send('User.js post error: ', err);
-          } else if (nextUser) {
-            res.json({ error: 'email taken' });
+    const user = await db.User.findOne({ username: username })
+    if (user) res.json({ error: 'username taken' });
+    else {
+      const nextUser = await db.User.findOne({ email: email });
+      if (nextUser) res.json({ error: 'email taken' });
+      else {
+        const password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null);
+        req.body.password = password;
+        try {
+          const user = await db.User.create(req.body);
+          const { email, _id, order, projects } = user;
+          const token = sign({
+            id: user._id,
+            username,
+          });
+          const userData = {
+            _id,
+            email,
+            order,
+            projects,
+            username
           }
-          else {
-            const pw = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null);
-            req.body.password = pw;
-            const newUser = new db.User(req.body)
-            newUser.save((err, savedUser) => {
-              if (err) return res.json(err)
-              res.json(savedUser)
-            });
-          }
-        });
+          res.json({ msg: "logged in", token, user: userData });
+        } catch (e) {
+          console.log(e);
+          res.status(500).json({ msg: e.message });
+        }
       }
-    });
+    }
   },
 
   updateUserOrder: async function (req, res) {
@@ -95,71 +89,75 @@ module.exports = {
     catch (err) {
       res.status(422).json(err);
     }
-
   },
 
-  updateUserInfo: function (req, res) {
+  updateUserInfo: async function (req, res) {
     const { username, email } = req.body;
 
     let emailTest;
-    email !== undefined ? emailTest = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email) : emailTest = true;
+    email !== undefined
+      ? emailTest = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email)
+      : emailTest = true;
 
     let userTest;
-    username !== undefined ? userTest = /^[a-zA-Z0-9]+$/.test(username) : userTest = true;
+    username !== undefined
+      ? userTest = /^[a-zA-Z0-9]+$/.test(username)
+      : userTest = true;
 
-    if (!emailTest || !userTest) {
+    if (!emailTest || !userTest)
       return res.json({ error: 'did not validate' });
-    }
 
     // ADD VALIDATION
-    db.User.findOne({ username: username }, (err, user) => {
-      if (err) {
-        console.log('User.js post error: ', err)
-      } else if (user) {
-        res.json({ error: 'username taken' });
-      } else {
-        db.User.findOne({ email: email }, (err, nextUser) => {
-          if (err) {
-            console.log('User.js post error: ', err)
-          } else if (nextUser) {
-            res.json({ error: 'email taken' })
+    const user = await db.User.findOne({ username: username })
+    if (user) res.json({ error: 'username taken' });
+    else {
+      const nextUser = await db.User.findOne({ email: email });
+      if (nextUser) res.json({ error: 'email taken' });
+      else {
+        try {
+          const user = await db.User.findOneAndUpdate({ _id: req.user._id }, req.body);
+          const { email, _id, order, projects } = user;
+          const userData = {
+            _id,
+            email,
+            order,
+            projects,
+            username
           }
-          else {
-            db.User.findOneAndUpdate({ _id: req.user._id }, req.body)
-              .then(response => res.json(response))
-              .catch(err => res.json(err));
-          }
-        })
+          res.json(userData);
+        } catch (e) {
+          console.log(e);
+          res.json({ msg: e.message });
+        }
       }
-    })
+    }
   },
 
   login: async function (req, res) {
-    console.log("Hello!");
-    const { username } = req.body;
-    const user = await db.User.findOne({ username });
-    console.log(user);
-    if (!user)
-      res.send("Error: Login failed.");
-    else {
-      const userObject = {};
-      userObject.username = user.username;
-      userObject.email = user.email;
-      userObject._id = user._id;
-      userObject.order = user.order;
-      userObject.projects = user.projects;
-      res.json(userObject)
-    };
-  },
-
-  logout: function (req, res) {
-    console.log("Hi! Here's your user: ");
-    console.log(req.user);
-    if (req.user) {
-      req.session.destroy();
-      res.send({ msg: 'logging out' })
-    } else {
-      res.send({ msg: 'no user to log out' })
+    try {
+      const { username, password } = req.body;
+      const user = await db.User.findOne({ username });
+      const passwordValid = await bcrypt.compare(password, user.password);
+      const { email, _id, order, projects } = user;
+      if (passwordValid) {
+        const token = sign({
+          id: user._id,
+          username,
+        });
+        const userData = {
+          _id,
+          email,
+          order,
+          projects,
+          username
+        }
+        res.json({ msg: "logged in", token, user: userData });
+      } else {
+        throw Error('Invalid credentials');
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({ message: e.message });
     }
   },
 

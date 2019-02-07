@@ -135,16 +135,10 @@ export class DragonColumn extends PureComponent {
       ),
       buttons: (
         <div>
-          <Button
-            onClick={() => this.deleteSubject(id, index)}
-            style={{ margin: "15px 15px 0 0" }}
-          >
+          <Button onClick={() => this.deleteSubject(id, index)}>
             Yes, delete it
           </Button>
-          <Button
-            onClick={this.props.closeModal}
-            style={{ margin: "15px 15px 0 0" }}
-          >
+          <Button onClick={this.props.closeModal}>
             Cancel
           </Button>
         </div>

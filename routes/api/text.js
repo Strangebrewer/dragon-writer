@@ -1,21 +1,16 @@
 const router = require('express').Router();
+const { passport } = require('../../passport');
 const textController = require('../../controllers/textController');
 
 router.route('/')
-  .get(isLoggedIn, textController.getTexts)
-  .post(isLoggedIn, textController.createText);
+  .get(passport.authenticate('jwt', { session: false }), textController.getTexts)
+  .post(passport.authenticate('jwt', { session: false }), textController.createText);
 
 router.route('/:id')
-  .put(isLoggedIn, textController.updateText)
-  .delete(isLoggedIn, textController.deleteText);
+  .put(passport.authenticate('jwt', { session: false }), textController.updateText)
+  .delete(passport.authenticate('jwt', { session: false }), textController.deleteText);
 
 router.route('/subject/:id')
-  .put(isLoggedIn, textController.updateTextSubject);
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.json({ isAuthenticated: false });
-}
+  .put(passport.authenticate('jwt', { session: false }), textController.updateTextSubject);
 
 module.exports = router;

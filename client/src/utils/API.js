@@ -4,23 +4,21 @@ export const API = {
 
   // USER AUTHENTICATION ROUTES
   // Get user info
-  getUser: function () {
-    return axios.get('/user');
-  },
-  getUserWithProjects: function () {
-    return axios.get('/user/projects');
-  },
-  // Get user info for profile (excludes some data)
-  getUserProfileData: function () {
-    return axios.get('/user/data');
-  },
-  // User updates their own info
-  updateUserInfo: function (userData) {
-    return axios.put('/user/data', userData);
+  getCurrentUser: function (headers) {
+    return axios.get('/user', { ...headers });
   },
 
-  updateUserOrder: function (order) {
-    return axios.put('/user/order', order);
+  getUserWithProjects: function (headers) {
+    return axios.get('/user/projects', { ...headers });
+  },
+
+  // User updates their own info
+  updateUserInfo: function (userData, headers) {
+    return axios.put('/user', userData, { ...headers });
+  },
+
+  updateUserOrder: function (order, headers) {
+    return axios.put('/user/order', order, { ...headers });
   },
   // New user signup
   signup: function (signupData) {
@@ -30,13 +28,9 @@ export const API = {
   login: function (loginData) {
     return axios.post('/user/login', loginData);
   },
-  // User logout
-  logout: function () {
-    return axios.post('/user/logout');
-  },
   //  Checks current password and returns error message if incorrect, or changes it if correct
-  changePassword: function (pwData) {
-    return axios.post('/user/change', pwData);
+  changePassword: function (pwData, headers) {
+    return axios.post('/user/change', pwData, { ...headers });
   },
 
   // saveImage: function (imageData) {
@@ -44,85 +38,85 @@ export const API = {
   // },
 
 
-  removeImage: function (id, data) {
-    return axios.put(`/api/image/${id}`, data);
+  removeImage: function (id, data, headers) {
+    return axios.put(`/api/image/${id}`, data, { ...headers });
   },
 
-  getTexts: function () {
+  getTexts: function (headers) {
     return axios.get('/api/text');
   },
 
-  createText: function (textData) {
-    return axios.post('/api/text', textData);
+  createText: function (textData, headers) {
+    return axios.post('/api/text', textData, { ...headers });
   },
 
-  updateText: function (id, textData) {
-    return axios.put(`/api/text/${id}`, textData);
+  updateText: function (id, textData, headers) {
+    return axios.put(`/api/text/${id}`, textData, { ...headers });
   },
 
-  updateTextSubject: function (textId, changeData) {
-    return axios.put(`/api/text/subject/${textId}`, changeData);
+  updateTextSubject: function (textId, changeData, headers) {
+    return axios.put(`/api/text/subject/${textId}`, changeData, { ...headers });
   },
 
-  deleteText: function (id) {
-    return axios.delete(`/api/text/${id}`);
+  deleteText: function (id, headers) {
+    return axios.delete(`/api/text/${id}`, { ...headers });
   },
 
-  removeTextImage: function (id, data) {
-    return axios.put(`/api/text/image/${id}`, data);
-  },
-
-
-  getProjectsWithAll: function () {
-    return axios.get('/api/project');
-  },
-
-  getSingleProject: function (projectId) {
-    return axios.get(`/api/project/${projectId}`);
-  },
-
-  getSingleProjectWithAll: function (projectId) {
-    return axios.get(`/api/project/all/${projectId}`);
-  },
-
-  createProject: function (projectData) {
-    return axios.post('/api/project', projectData)
-  },
-
-  updateProject: function (id, projectData) {
-    return axios.put(`/api/project/${id}`, projectData)
-  },
-
-  deleteProject: function (id) {
-    return axios.delete(`/api/project/${id}`);
-  },
-
-  removeProjectImage: function (id, data) {
-    return axios.put(`/api/project/image/${id}`, data);
+  removeTextImage: function (id, data, headers) {
+    return axios.put(`/api/text/image/${id}`, data, { ...headers });
   },
 
 
-  getSubjects: function () {
-    return axios.get('/api/subject');
+  getProjectsWithAll: function (headers) {
+    return axios.get('/api/project', { ...headers });
   },
 
-  getSingleSubject: function (id) {
-    return axios.get(`/api/subject/${id}`);
+  getSingleProject: function (projectId, headers) {
+    return axios.get(`/api/project/${projectId}`, { ...headers });
   },
 
-  createSubject: function (subjectData) {
-    return axios.post('/api/subject', subjectData);
+  getSingleProjectWithAll: function (projectId, headers) {
+    return axios.get(`/api/project/all/${projectId}`, { ...headers });
   },
 
-  updateSubject: function (id, updateData) {
-    return axios.put(`/api/subject/${id}`, updateData);
+  createProject: function (projectData, headers) {
+    return axios.post('/api/project', projectData, { ...headers })
   },
 
-  deleteSubject: function (id) {
-    return axios.delete(`/api/subject/${id}`);
+  updateProject: function (id, projectData, headers) {
+    return axios.put(`/api/project/${id}`, projectData, { ...headers })
   },
 
-  removeSubjectImage: function (id, data) {
-    return axios.put(`/api/subject/image/${id}`, data);
+  deleteProject: function (id, headers) {
+    return axios.delete(`/api/project/${id}`, { ...headers });
+  },
+
+  removeProjectImage: function (id, data, headers) {
+    return axios.put(`/api/project/image/${id}`, data, { ...headers });
+  },
+
+
+  getSubjects: function (headers) {
+    return axios.get('/api/subject', { ...headers });
+  },
+
+  getSingleSubject: function (id, headers) {
+    return axios.get(`/api/subject/${id}`, { ...headers });
+  },
+
+  createSubject: function (subjectData, headers) {
+    return axios.post('/api/subject', subjectData, { ...headers });
+  },
+
+  updateSubject: function (id, updateData, headers) {
+    return axios.put(`/api/subject/${id}`, updateData, { ...headers });
+  },
+
+  deleteSubject: function (id, headers) {
+    return axios.delete(`/api/subject/${id}`, { ...headers });
+  },
+
+  removeSubjectImage: function (id, data, headers) {
+    return axios.put(`/api/subject/image/${id}`, data, { ...headers });
   }
 };

@@ -62,13 +62,13 @@ const Button = styled.button`
 const Body = styled.div`
   margin: auto;
   max-width: 100%;
-  padding: 50px 40px 40px 40px;
+  padding: 40px;
   z-index: 999;
 `;
 
 const Buttons = styled.div`
-  display: flex;
-  justify-content: space-evenly;
+  text-align: center;
+  width: 100%;
   button, a {
     background-color: #1d928c;
     border: none;
@@ -77,7 +77,7 @@ const Buttons = styled.div`
     display: ${props => props.center ? 'block' : 'inline'};
     font-size: ${props => props.full && '1.8rem'};
     height: ${props => props.full && '40px'};
-    margin: 10px auto 0 auto;
+    margin: 15px 15px 0 0;
     outline: transparent;
     padding: 8px 12px;
     text-shadow: 0 0 5px #000;
@@ -86,6 +86,9 @@ const Buttons = styled.div`
   }
   button:hover, a:hover {
     background-color: #26d4cc;
+  }
+  button:last-child {
+    margin: 15px 0 0 0;
   }
 `;
 

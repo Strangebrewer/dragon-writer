@@ -14,15 +14,19 @@ const Container = styled.form`
     0 0 40px #aaa,
     inset 0 0 100px 30px rgb(0,0,0);
   color: #fff;
-  padding: 20px;
+  padding: 30px;
+  text-align: center;
   width: 300px;
   h2 {
     font-size: 2.2rem;
     font-weight: bold;
     text-align: center;
   }
+  label {
+    text-align: left;
+  }
   p {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     padding-top: 10px;
     text-align: center;
   }

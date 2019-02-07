@@ -84,13 +84,11 @@ export class DragonText extends PureComponent {
         <div>
           <Button
             onClick={() => this.deleteText(textId, subjectId, index)}
-            style={{ margin: "15px 15px 0 0" }}
           >
             Yes, delete it
           </Button>
           <Button
             onClick={this.props.closeModal}
-            style={{ margin: "15px 15px 0 0" }}
           >
             Cancel
           </Button>
@@ -118,19 +116,16 @@ export class DragonText extends PureComponent {
       buttons: (
         <div>
           <Button
-            style={{ margin: "15px 15px 0 0" }}
             onClick={this.props.closeModal}
           >
             Close
           </Button>
           <Button
-            style={{ margin: "15px 15px 0 0" }}
             onClick={() => toggleSingleEdit(subject, text)}
           >
             Edit
           </Button>
           <Button
-            style={{ margin: "15px 15px 0 0" }}
             onClick={() => this.deleteTextModal(text._id, subject._id, index)}
           >
             Delete

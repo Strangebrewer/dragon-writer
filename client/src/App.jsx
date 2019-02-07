@@ -20,6 +20,7 @@ class App extends Component {
     projectOrderData: {},
     user: null,
     loading: true,
+    loggedIn: false
   };
 
   componentDidMount() {
@@ -74,6 +75,7 @@ class App extends Component {
 
     this.setState({
       loading: false,
+      loggedIn: true,
       projectData,
       projectOrder,
       projectOrderData,
@@ -200,12 +202,14 @@ class App extends Component {
     isAuthenticated = false;
     localStorage.removeItem('token');
     this.setState({
+      loading: false,
       loggedIn: false,
       user: null,
       projectData: [],
       projectOrder: [],
       projectOrderData: {},
-      projects: []
+      projects: [],
+      redirect: true
     });
   }
 
@@ -215,6 +219,7 @@ class App extends Component {
       buildHeaders: this.buildHeaders,
       getInitialData: this.getInitialData,
       loading: this.state.loading,
+      loggedIn: this.state.loggedIn,
       logout: this.logout,
       user: this.state.user
     }
@@ -279,6 +284,15 @@ class App extends Component {
               )}
 
             <Route path="/print" component={Print} />
+
+            {/* this forces the unknown paths (i.e. projects) to redirect to the landing page rather than simply default to the NoMatch page */}
+            {this.state.redirect && (
+              <Route path="*">
+                {routeProps => (
+                  <Redirect to="/" />
+                )}
+              </Route>
+            )}
 
             <Route path="*" component={NoMatch} />
 

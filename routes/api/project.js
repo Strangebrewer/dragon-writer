@@ -3,7 +3,7 @@ const { passport } = require('../../passport');
 const projectController = require('../../controllers/projectController');
 
 router.route('/')
-  .get(passport.authenticate('jwt', { session: false }), projectController.getProjectsWithAll)
+  .get(projectController.getProjectsWithAll)
   .post(passport.authenticate('jwt', { session: false }), projectController.createProject);
 
 router.route('/all/:id')

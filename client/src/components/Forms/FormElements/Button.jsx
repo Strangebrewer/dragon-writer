@@ -14,7 +14,7 @@ const FormButton = styled.button`
   padding: 8px 12px;
   text-shadow: 0 0 5px #000;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  width: ${props => props.full && '100%'};
+  width: ${props => props.full ? '100%' : props.width};
   &:enabled:hover {
     background-color: #26d4cc;
   }

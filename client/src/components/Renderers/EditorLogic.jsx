@@ -20,6 +20,11 @@ export class EditorLogic extends Component {
     this.setState({ [name]: value });
   };
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   onChange = ({ value }) => {
     this.setState({ value });
   };
@@ -90,7 +95,8 @@ export class EditorLogic extends Component {
       thesis: this.state.thesis,
       text: JSON.stringify(this.state.value.toJSON())
     }
-    const text = await API.updateText(id, textObject);
+    const headers = this.buildHeaders();
+    const text = await API.updateText(id, textObject, headers);
     const newState = Scales.updateTextHelper(text.data, this.props.state);
     this.props.callback(id);
     this.props.executeDragonStateChanges(newState, "update-text", text.data);
@@ -106,7 +112,8 @@ export class EditorLogic extends Component {
       thesis: this.state.thesis,
       text: JSON.stringify(this.state.value.toJSON())
     }
-    const text = await API.createText(textObject);
+    const headers = this.buildHeaders();
+    const text = await API.createText(textObject, headers);
     const newState = await Scales.insertTextHelper(id, text.data, state);
     if (callback) this.props.callback();
     this.props.executeDragonStateChanges(newState, "new-text", text.data);

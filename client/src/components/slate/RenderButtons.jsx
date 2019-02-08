@@ -103,7 +103,7 @@ const RenderButtons = props => {
   };
 
   return (
-    <EditorBtnArray inline={props.inline}>
+    <EditorBtnArray inline={props.inline} style={props.style}>
       {renderMarkButton('bold', 'bold')}
       {renderMarkButton('italic', 'italic')}
       {renderMarkButton('underline', 'underline')}

@@ -58,6 +58,11 @@ class Project extends Component {
     }
   };
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   toggleSingleNewEditor = () => {
     const {
       editorOn,
@@ -113,7 +118,8 @@ class Project extends Component {
   // This should remain here since it's used by a few components
   deleteText = async (textId, subjectId, index) => {
     const newState = Scales.deleteTextHelper(textId, subjectId, index, this.props.state);
-    await API.deleteText(textId);
+    const headers = this.buildHeaders();
+    await API.deleteText(textId, headers);
     this.props.executeDragonStateChanges(newState);
   };
 

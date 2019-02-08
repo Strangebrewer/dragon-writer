@@ -11,6 +11,11 @@ export class UploadLogic extends Component {
     loading: false,
   }
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   uploadImage = async event => {
     const files = event.target.files;
     if (!files[0].type.includes('image')) return;
@@ -41,17 +46,18 @@ export class UploadLogic extends Component {
       largeImage: file.eager[0].secure_url,
       publicId: file.public_id,
     };
+    const headers = this.buildHeaders();
     switch (this.props.type) {
       case 'project':
-        await API.updateProject(id, updateObject);
+        await API.updateProject(id, updateObject, headers);
         this.props.refreshProjectList();
         break;
       case 'subject':
-        const subject = await API.updateSubject(id, updateObject);
+        const subject = await API.updateSubject(id, updateObject, headers);
         this.props.addImageToSubject(subject.data);
         break;
       default:
-        const text = await API.updateText(id, updateObject);
+        const text = await API.updateText(id, updateObject, headers);
         this.props.addImageToText(text.data)
     }
     this.setState({ loading: false });
@@ -78,20 +84,21 @@ export class UploadLogic extends Component {
     this.props.closeModal();
 
     const deleteObj = { imageId };
+    const headers = this.buildHeaders();
     switch (this.props.type) {
       case 'project':
         deleteObj.type = 'Project'
-        await API.removeImage(id, deleteObj);
+        await API.removeImage(id, deleteObj, headers);
         this.props.refreshProjectList();
         break;
       case 'subject':
         deleteObj.type = 'Subject'
-        const result = await API.removeImage(id, deleteObj);
+        const result = await API.removeImage(id, deleteObj, headers);
         this.props.addImageToSubject(result.data);
         break;
       default:
         deleteObj.type = 'Text'
-        const text = await API.removeImage(id, deleteObj);
+        const text = await API.removeImage(id, deleteObj, headers);
         this.props.addImageToText(text.data)
     }
     this.setState({ loading: false });

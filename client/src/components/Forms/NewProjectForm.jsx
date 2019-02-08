@@ -14,11 +14,17 @@ export class NewProjectForm extends Component {
     this.setState({ [name]: value });
   };
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   createProject = async e => {
     e.preventDefault();
     let error;
     let project;
     const { link, summary, title } = this.state;
+    const headers = this.buildHeaders();
     try {
       // keep the create project here to help control app flow
       project = await API.createProject({
@@ -26,7 +32,7 @@ export class NewProjectForm extends Component {
         summary,
         link,
         userId: this.props.user._id
-      });
+      }, headers);
       if (project.data.customMessage) throw project.data;
     }
     catch (err) {

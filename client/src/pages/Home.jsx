@@ -25,6 +25,11 @@ class Home extends Component {
       this.setState({ projectOrder, projectOrderData });
   }
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   onDragEnd = async result => {
     const { destination, source, draggableId } = result;
     if (!destination) return;

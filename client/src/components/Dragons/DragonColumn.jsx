@@ -82,6 +82,11 @@ export class DragonColumn extends PureComponent {
     this.setState({ [name]: value });
   };
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   updateSubjectModal = subject => {
     this.props.setModal({
       body: (
@@ -149,7 +154,8 @@ export class DragonColumn extends PureComponent {
 
   deleteSubject = async (id, index) => {
     const newState = Scales.deleteSubjectHelper(id, index, this.props.state);
-    await API.deleteSubject(id);
+    const headers = this.buildHeaders();
+    await API.deleteSubject(id, headers);
     this.props.executeDragonStateChanges(newState);
     this.props.closeModal();
   };

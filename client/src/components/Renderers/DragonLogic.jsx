@@ -43,6 +43,11 @@ export class DragonLogic extends Component {
     }
   }
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   onDragEnd = async result => {
     await this.setState({ loading: true });
     const { destination, source, draggableId, type } = result;
@@ -104,7 +109,8 @@ export class DragonLogic extends Component {
     delete orderObject.inlineTextNew;
 
     const updateObj = { order: JSON.stringify(orderObject) };
-    const project = await API.updateProject(_id, updateObj);
+    const headers = this.buildHeaders();
+    const project = await API.updateProject(_id, updateObj, headers);
     
     // passing project to new-text function to account for
     // new texts created in a new project and new column

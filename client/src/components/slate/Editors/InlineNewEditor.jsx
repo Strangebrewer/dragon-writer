@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Editor } from "slate-react";
 import styled from 'styled-components';
 import { plugins } from "../utils/HotKeys";
@@ -6,31 +6,6 @@ import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { DragonColumnFake } from "../../Dragons";
-
-const EditorStyles = styled.div`
-  background: ${props => props.theme.editorBG};
-  border: 2px solid ${props => props.theme.links};
-  border-radius: 6px;
-  box-shadow: ${props => props.theme.fieldShadow};
-  color: ${props => props.theme.black};
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.4;
-  max-height: 35vh;
-  max-width: 1000px;
-  min-height: 200px;
-  overflow: auto;
-  padding: 10px;
-  transition: background-color .2s ease-in-out;
-  width: 100%;
-  p {
-    font-size: 1.5rem;
-    text-indent: 25px;
-  }
-  ul {
-    margin-top: 0;
-    padding-top: 0;
-  }
-`;
 
 const OuterContainer = styled.div`
   background: transparent;
@@ -46,27 +21,53 @@ const EditorOuter = styled.div`
   border-radius: 20px;
   box-shadow: inset 0 0 100px 30px rgb(0,0,0);
   margin-right: 200px;
-  padding: 20px;
+  padding: 30px;
   position: relative;
+  height: 100%;
   width: 100%;
 `;
 
 const EditorInner = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   margin: auto;
   max-width: 1000px;
+  min-height: 100%;
   width: 100%;
-  label {
-    width: 100%;
+  label, input {
+    min-width: 50%;
   }
 `;
 
 const Header = styled.div`
   font-family: ${props => props.theme.hTypeface};
   font-size: 3rem;
-  text-align: center;
   width: 100%;
+`;
+
+const EditorStyles = styled.div`
+  background: ${props => props.theme.editorBG};
+  border: 2px solid ${props => props.theme.links};
+  border-radius: 6px;
+  box-shadow: ${props => props.theme.fieldShadow};
+  color: ${props => props.theme.black};
+  flex-grow: 1;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
+  max-width: 1000px;
+  min-height: 100%;
+  overflow: auto;
+  padding: 10px;
+  transition: background-color .2s ease-in-out;
+  width: 100%;
+  p {
+    font-size: 1.5rem;
+    text-indent: 25px;
+  }
+  ul {
+    margin-top: 0;
+    padding-top: 0;
+  }
 `;
 
 export const InlineNewEditor = props => {
@@ -80,18 +81,10 @@ export const InlineNewEditor = props => {
       />
 
       <EditorOuter>
-        <Header>
-          <p>New text for: &nbsp;{subject.subject}</p>
-        </Header>
-
         <EditorInner>
-          <RenderButtons
-            state={props.state}
-            onClickMark={props.onClickMark}
-            onClickBlock={props.onClickBlock}
-            hasMark={props.hasMark}
-            hasBlock={props.hasBlock}
-          />
+          <Header>
+            <p>New text for: &nbsp;{subject.subject}</p>
+          </Header>
 
           <Label>Title:</Label>
           <Input
@@ -103,7 +96,6 @@ export const InlineNewEditor = props => {
             placeholder="(22 char max)"
             onChange={props.handleInputChange}
           />
-
           <Label>Summary:</Label>
           <Input
             style={{ maxWidth: "300px" }}
@@ -113,6 +105,16 @@ export const InlineNewEditor = props => {
             value={props.state.thesis}
             placeholder="(140 char max)"
             onChange={props.handleInputChange}
+          />
+
+
+          <RenderButtons
+            style={{ paddingLeft: "5px" }}
+            state={props.state}
+            onClickMark={props.onClickMark}
+            onClickBlock={props.onClickBlock}
+            hasMark={props.hasMark}
+            hasBlock={props.hasBlock}
           />
 
           <EditorStyles>
@@ -127,17 +129,24 @@ export const InlineNewEditor = props => {
             />
           </EditorStyles>
 
-          <Button disabled={!title || !subject} onClick={createText}>
-            Save
+          <div style={{ paddingLeft: "5px" }}>
+            <Button
+              disabled={!title || !subject}
+              onClick={createText}
+              width="70px"
+            >
+              Save
             </Button>
-
-          {/* if I don't place this in an anonymous function, it creates an error */}
-          <Button onClick={() => toggleInlineNew()}>
-            Cancel
+            {/* if I don't place this in an anonymous function, it creates an error */}
+            <Button
+              onClick={() => toggleInlineNew()}
+              width="70px"
+            >
+              Cancel
             </Button>
+          </div>
         </EditorInner>
       </EditorOuter>
-
     </OuterContainer>
   );
 };

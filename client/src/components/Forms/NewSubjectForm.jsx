@@ -20,12 +20,18 @@ class NewSubjectForm extends Component {
     this.setState({ [name]: value });
   }
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   createSubject = async () => {
+    const headers = this.buildHeaders();
     const subject = await API.createSubject({
       subject: this.state.subject,
       theme: this.state.theme,
       projectId: this.props.projectId
-    });
+    }, headers);
     this.props.addSubjectToOrder(subject.data);
   };
 

@@ -3,7 +3,8 @@ const db = require('../models');
 module.exports = {
 
   getProjectsWithAll: function (req, res) {
-    db.Project.find({ userId: req.user._id })
+    // db.Project.find({ userId: req.user._id })
+    db.Project.find({ userId: "5c09994f0ec298003e671add" })
       .populate('subjects')
       .populate('texts')
       .then(response => res.json(response))

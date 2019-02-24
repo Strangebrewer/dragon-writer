@@ -17,6 +17,7 @@ const FormButton = styled.button`
   width: ${props => props.full ? '100%' : props.width};
   &:enabled:hover {
     background-color: #26d4cc;
+    cursor: pointer;
   }
   &[disabled] {
     cursor: not-allowed;

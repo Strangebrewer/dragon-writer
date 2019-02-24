@@ -5,34 +5,15 @@ import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
+import { EditorStyles } from "./Styles";
 
-const EditorStyles = styled.div`
-  background: ${props => props.theme.editorBG};
-  border: 2px solid ${props => props.theme.links};
-  border-radius: 8px;
-  box-shadow: ${props => props.theme.fieldShadow};
-  color: ${props => props.theme.black};
-  cursor: text;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.4;
-  margin-left: 240px;
-  max-height: 50vh;
-  min-height: 300px;
-  overflow: auto;
-  padding: 10px;
-  transition: background-color .2s ease-in-out;
-  width: calc(100% -200px);
-  p {
-    font-size: 1.5rem;
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    text-indent: 25px;
-  }
-  ul {
-    margin-top: 0;
-    padding-top: 0;
-  }
-`;
+const addedStyles = {
+  maxHeight: "50vh",
+  maxWidth: "unset",
+  minHeight: "300px",
+  marginLeft: "240px",
+  width: "calc(100% - 200px)"
+}
 
 const EditorOuter = styled.div`
   border: none;
@@ -100,7 +81,7 @@ export const InlineUpdateEditor = props => {
             </Button>
         </MetaDataForm>
 
-        <EditorStyles>
+        <EditorStyles style={addedStyles}>
           <Editor
             autoFocus
             plugins={plugins}

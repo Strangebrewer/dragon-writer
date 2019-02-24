@@ -37,7 +37,7 @@ export class ColumnButtons extends PureComponent {
                 padding="0 3px 5px 3px"
                 title={!props.disabled ? `create new text for ${subject.subject}` : null}
               >
-                <i className="far fa-file-alt"></i>
+                <i className="far fa-file-alt"/>
               </LinkBtn>
 
               <LinkBtn
@@ -46,7 +46,7 @@ export class ColumnButtons extends PureComponent {
                 padding="0 3px 5px 3px"
                 title={!props.disabled ? "expand column to read all full texts" : null}
               >
-                <i className="far fa-eye"></i>
+                <i className="far fa-eye"/>
               </LinkBtn>
 
               <LinkBtn
@@ -55,7 +55,7 @@ export class ColumnButtons extends PureComponent {
                 padding="0 3px 5px 3px"
                 title={!props.disabled ? "update column name" : null}
               >
-                <i className="fas fa-edit"></i>
+                <i className="fas fa-edit"/>
               </LinkBtn>
 
               <LinkBtn
@@ -69,7 +69,7 @@ export class ColumnButtons extends PureComponent {
                       : "upload image for this column"
                   ) : null}
               >
-                <i className="fas fa-upload"></i>
+                <i className="fas fa-upload"/>
               </LinkBtn>
 
               <LinkBtn
@@ -83,7 +83,7 @@ export class ColumnButtons extends PureComponent {
                       : "no image has been uploaded for this column"
                   ) : null}
               >
-                <i className="far fa-images"></i>
+                <i className="far fa-images"/>
               </LinkBtn>
 
               <LinkBtn
@@ -92,14 +92,14 @@ export class ColumnButtons extends PureComponent {
                 padding="0 3px 5px 3px"
                 title={!props.disabled ? "storyboard view" : null}
               >
-                <i className="fas fa-th"></i>
+                <i className="fas fa-th"/>
               </LinkBtn>
 
               {/* when buttons are disabled, make this a button so the link won't work */}
               {props.disabled
                 ? (
                   <LinkBtn disabled={props.disabled} padding="0 3px 5px 3px">
-                    <i className="fas fa-print"></i>
+                    <i className="fas fa-print"/>
                   </LinkBtn>
                 ) : (
                   <Link
@@ -107,7 +107,7 @@ export class ColumnButtons extends PureComponent {
                     title={!props.disabled ? "print view" : null}
                     to={{ pathname: "/print", state: { texts, subject } }}
                   >
-                    <i className="fas fa-print"></i>
+                    <i className="fas fa-print"/>
                   </Link>
                 )
               }
@@ -119,7 +119,7 @@ export class ColumnButtons extends PureComponent {
                 padding="0 3px 5px 3px"
                 title={!props.disabled ? "delete this column" : null}
               >
-                <i className="fas fa-trash-alt"></i>
+                <i className="fas fa-trash-alt"/>
               </LinkBtn>
             </Buttons>
 

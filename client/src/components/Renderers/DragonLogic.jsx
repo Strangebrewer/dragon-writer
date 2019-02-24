@@ -55,15 +55,18 @@ export class DragonLogic extends Component {
       await this.setState({ loading: false });
       return;
     }
-    if (destination.droppableId === source.droppableId &&
-      destination.index === source.index) {
+    if (
+      destination.droppableId === source.droppableId
+      && destination.index === source.index
+    ) {
       await this.setState({ loading: false });
       return;
     }
 
     // if you are dragging one of the subject columns, the type will be "subject"
     if (type === 'subject') {
-      const newState = Scales.dragonSubjectColumns(this.state, source, destination, draggableId);
+      const newState = Scales
+        .dragonSubjectColumns(this.state, source, destination, draggableId);
       this.executeDragonStateChanges(newState);
       return;
     }
@@ -73,13 +76,20 @@ export class DragonLogic extends Component {
 
     // if source column and destination column are the same:
     if (start === finish) {
-      const newState = Scales.singleSubjectDragon(this.state, start, source, destination, draggableId);
+      const newState = Scales.singleSubjectDragon(
+        this.state,
+        start,
+        source,
+        destination,
+        draggableId
+      );
       this.executeDragonStateChanges(newState);
       return;
     }
 
     // if moving to a new column:
-    const newState = Scales.multiSubjectDragon(this.state, start, finish, source, destination, draggableId);
+    const newState = Scales
+      .multiSubjectDragon(this.state, start, finish, source, destination, draggableId);
     this.executeDragonStateChanges(newState);
     return;
   };
@@ -111,7 +121,7 @@ export class DragonLogic extends Component {
     const updateObj = { order: JSON.stringify(orderObject) };
     const headers = this.buildHeaders();
     const project = await API.updateProject(_id, updateObj, headers);
-    
+
     // passing project to new-text function to account for
     // new texts created in a new project and new column
     switch (type) {

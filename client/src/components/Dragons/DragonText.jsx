@@ -7,7 +7,7 @@ import { renderMark, renderNode } from "../slate/utils/Renderers";
 import { ItemButtons } from "./DragonElements";
 import { Button } from "../Forms/FormElements";
 
-const Container = styled.div`
+const TextContainer = styled.div`
   background: ${props => props.isDragging
     ? "rgba(22, 136, 130, 0.287)"
     : "rgba(22, 136, 130, 0.537)"};
@@ -147,7 +147,7 @@ export class DragonText extends PureComponent {
           isDragDisabled={this.props.loading}
         >
           {(provided, snapshot) => (
-            <Container
+            <TextContainer
               {...provided.draggableProps}
               ref={provided.innerRef}
               isDragging={snapshot.isDragging}
@@ -170,11 +170,14 @@ export class DragonText extends PureComponent {
 
               <h4>{text.title}</h4>
               <p>{text.thesis}</p>
-            </Container>
+            </TextContainer>
           )}
         </Draggable>
       </Fragment>
-
     );
   }
 };
+
+export {
+  TextContainer
+}

@@ -18,7 +18,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  min-width: 260px;
+  min-width: 300px;
   position: relative;
   text-shadow: 2px 2px 2px rgb(0,0,0);
   width: 300px;
@@ -52,9 +52,9 @@ const SubjectHeader = styled.div`
 
 const DragonList = styled.div`
   box-shadow: ${props => props.isDraggingOver
-    ? `0 0 5px rgb(38, 212, 204),
-      0 0 2px rgb(38, 212, 204),
-      inset 0 0 20px 0 rgb(39, 212, 204)`
+    ? `0 0 5px rgba(38, 212, 204, .5),
+      0 0 2px rgba(38, 212, 204, .5),
+      inset 0 0 20px 0 rgba(39, 212, 204, .5)`
     : "none"};
   display: flex;
   flex-direction: column;
@@ -69,7 +69,7 @@ const ButtonContainer = styled.div`
   justify-content: space-evenly;
 `;
 
-export class DragonColumn extends PureComponent {
+class DragonColumn extends PureComponent {
   state = {
     redirectToPrint: false,
     subject: '',
@@ -203,6 +203,7 @@ export class DragonColumn extends PureComponent {
               isDragging={snapshot.isDragging}
               isDraggingOver={snapshot.isDraggingOver}
             >
+              
               <ColumnButtons
                 deleteSubjectModal={this.deleteSubjectModal}
                 id={_id}
@@ -263,3 +264,10 @@ export class DragonColumn extends PureComponent {
     )
   }
 };
+
+export {
+  DragonColumn,
+  Container,
+  SubjectHeader,
+  DragonList
+}

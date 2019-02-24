@@ -22,6 +22,7 @@ const EditorBtnArray = styled.div`
 `;
 
 const EditorBtn = styled.button`
+  box-shadow: 2px 2px 1px #222;
   cursor: pointer;
   font-size: ${props => (
     props.inline
@@ -47,6 +48,10 @@ const EditorBtn = styled.button`
   )};
   &:last-of-type {
     margin-right: 0;
+  }
+  &:active {
+    box-shadow: 1px 1px 1px #222;
+    transform: translateY(1px);
   }
 `;
 
@@ -120,7 +125,7 @@ const RenderButtons = props => {
       {renderBlockButton('block-quote', 'quote-right')}
       {renderBlockButton('numbered-list', 'list-ol')}
       {renderBlockButton('bulleted-list', 'list-ul')}
-      {renderMarkButton('link', 'link')}
+      {/* {renderMarkButton('link', 'link')} */}
     </EditorBtnArray>
   );
 }

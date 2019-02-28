@@ -107,6 +107,20 @@ const RenderButtons = props => {
     )
   };
 
+  const renderLinkButton = (type, icon) => {
+    let isActive = props.hasLinks();
+    return (
+      <EditorBtn
+        inline={props.inline}
+        isActive={isActive}
+        key={`icon-${type}`}
+        onClick={props.onClickLink}
+      >
+        <i className={`fas fa-${icon}`} />
+      </EditorBtn>
+    )
+  }
+
   return (
     <EditorBtnArray inline={props.inline} style={props.style}>
       {renderMarkButton('bold', 'bold')}
@@ -125,7 +139,7 @@ const RenderButtons = props => {
       {renderBlockButton('block-quote', 'quote-right')}
       {renderBlockButton('numbered-list', 'list-ol')}
       {renderBlockButton('bulleted-list', 'list-ul')}
-      {/* {renderMarkButton('link', 'link')} */}
+      {renderLinkButton('link', 'link')}
     </EditorBtnArray>
   );
 }

@@ -74,10 +74,12 @@ export const SingleUpdateEditor = props => {
           <RenderButtons
             style={{ paddingLeft: "5px", marginBottom: '2px' }}
             state={props.state}
-            onClickMark={props.onClickMark}
             onClickBlock={props.onClickBlock}
-            hasMark={props.hasMark}
+            onClickLink={props.onClickLink}
+            onClickMark={props.onClickMark}
             hasBlock={props.hasBlock}
+            hasLinks={props.hasLinks}
+            hasMark={props.hasMark}
           />
 
           <EditorStyles style={{ maxHeight: "35vh" }}>
@@ -87,6 +89,7 @@ export const SingleUpdateEditor = props => {
               ref={props.thisRef}
               value={props.state.value}
               onChange={props.onChange}
+              onPaste={props.onPaste}
               renderMark={renderMark}
               renderNode={renderNode}
             />

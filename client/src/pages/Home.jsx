@@ -6,8 +6,8 @@ import { Authenticate, ProjectList } from "../components/PageElements";
 import { API, Scales, Utils } from "../utils"
 
 const Container = styled.div`
-  margin: auto;
-  padding-right: 200px;
+  /* margin: auto; */
+  /* padding-right: 200px; */
 `;
 
 class Home extends Component {
@@ -23,6 +23,11 @@ class Home extends Component {
     const { projectOrder, projectOrderData } = nextProps;
     if (nextProps.projectOrder !== this.props.projectOrder)
       this.setState({ projectOrder, projectOrderData });
+  }
+
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
   }
 
   onDragEnd = async result => {

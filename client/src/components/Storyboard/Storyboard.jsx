@@ -14,14 +14,19 @@ import { LinkBtn } from "../PageElements";
 import { Button } from "../Forms/FormElements";
 import { Scales } from "../../utils";
 
+const StoryboardContainer = styled.div`
+  height: 100%;
+  margin-left: 200px;
+  padding: 10px 30px;
+  position: relative;
+  width: calc(100% - 200px);
+`;
+
 const Container = styled.div`
   background: transparent;
   display: grid;
-  grid-gap: 15px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 280px) );
+  grid-template-columns: repeat(auto-fit, minmax(200px, 280px));
   grid-template-rows: minmax(200px, 280px);
-  padding: 10px 30px;
-  width: 100%;
   button {
     justify-self: end;
   }
@@ -31,9 +36,15 @@ const SubjectHeading = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-bottom: 5px;
-  padding: 0 50px 5px 0;
-  width: 100%;
+  padding: 0 200px 15px 0;
+  h3 {
+    color: ${props => props.theme.titleColor};
+    font-family: ${props => props.theme.hTypeface};
+    font-size: 3.5rem;
+    padding: 0 0 10px 0;
+    text-align: center;
+    width: 100%;
+  }
   a {
     color: #26d4cc;
     font-size: 1.8rem;
@@ -44,15 +55,6 @@ const SubjectHeading = styled.div`
       color: #fff;
     }
   }
-`;
-
-const Title = styled.h3`
-  color: ${props => props.theme.titleColor};
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 3.5rem;
-  padding-bottom: 10px;
-  text-align: center;
-  width: 100%;
 `;
 
 const ModalH2 = styled.h2`
@@ -84,15 +86,15 @@ const EditorStyle = styled.div`
 `;
 
 const NothingContainer = styled.div`
+  padding-right: 0;
   text-align: center;
   h2 {
     font-family: ${props => props.theme.hTypeface};
     font-size: 5rem;
-    padding: 15px 50px 15px 0;
+    padding: 15px 0px 15px 0;
   }
   h3 {
     font-size: 2rem;
-    padding-right: 50px;
   }
 `;
 
@@ -191,9 +193,9 @@ export class Storyboard extends PureComponent {
     const { subject, theme, _id } = this.props.subject;
     const { texts } = this.props;
     return (
-      <Fragment>
+      <StoryboardContainer>
         <SubjectHeading>
-          <Title title={theme}>Topic: {subject}</Title>
+          <h3 title={theme}>Topic: {subject}</h3>
           <LinkBtn
             size="1.8rem"
             underline
@@ -248,7 +250,7 @@ export class Storyboard extends PureComponent {
             </NothingContainer>
           )
         }
-      </Fragment>
+      </StoryboardContainer>
     );
   }
 };

@@ -22,6 +22,7 @@ const EditorBtnArray = styled.div`
 `;
 
 const EditorBtn = styled.button`
+  box-shadow: 2px 2px 1px #222;
   cursor: pointer;
   font-size: ${props => (
     props.inline
@@ -47,6 +48,10 @@ const EditorBtn = styled.button`
   )};
   &:last-of-type {
     margin-right: 0;
+  }
+  &:active {
+    box-shadow: 1px 1px 1px #222;
+    transform: translateY(1px);
   }
 `;
 
@@ -102,8 +107,22 @@ const RenderButtons = props => {
     )
   };
 
+  const renderLinkButton = (type, icon) => {
+    let isActive = props.hasLinks();
+    return (
+      <EditorBtn
+        inline={props.inline}
+        isActive={isActive}
+        key={`icon-${type}`}
+        onClick={props.onClickLink}
+      >
+        <i className={`fas fa-${icon}`} />
+      </EditorBtn>
+    )
+  }
+
   return (
-    <EditorBtnArray inline={props.inline}>
+    <EditorBtnArray inline={props.inline} style={props.style}>
       {renderMarkButton('bold', 'bold')}
       {renderMarkButton('italic', 'italic')}
       {renderMarkButton('underline', 'underline')}
@@ -120,7 +139,7 @@ const RenderButtons = props => {
       {renderBlockButton('block-quote', 'quote-right')}
       {renderBlockButton('numbered-list', 'list-ol')}
       {renderBlockButton('bulleted-list', 'list-ul')}
-      {renderMarkButton('link', 'link')}
+      {renderLinkButton('link', 'link')}
     </EditorBtnArray>
   );
 }

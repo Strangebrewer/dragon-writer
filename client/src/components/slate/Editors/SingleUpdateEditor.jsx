@@ -1,149 +1,109 @@
 import React, { Component } from 'react';
 import { Editor } from "slate-react";
-import styled from 'styled-components';
 import { plugins } from "../utils/HotKeys";
 import { renderMark, renderNode } from "../utils/Renderers";
 import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { DragonColumnFake } from "../../Dragons";
 import { StoryboardCardFake } from "../../Storyboard";
+import {
+  EditorInner,
+  EditorOuter,
+  EditorStyles,
+  Header,
+  MetaDataForm,
+  OuterContainer
+} from "./Styles";
 
-const EditorStyles = styled.div`
-  background: ${props => props.theme.editorBG};
-  border: 2px solid ${props => props.theme.links};
-  border-radius: 6px;
-  box-shadow: ${props => props.theme.fieldShadow};
-  color: ${props => props.theme.black};
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.4;
-  max-height: 35vh;
-  max-width: 1000px;
-  min-height: 35vh;
-  overflow: auto;
-  padding: 10px;
-  transition: background-color .2s ease-in-out;
-  width: 100%;
-  p {
-    font-size: 1.5rem;
-    text-indent: 25px;
-  }
-  ul {
-    margin-top: 0;
-    padding-top: 0;
-  }
-`;
-
-const OuterContainer = styled.div`
-  background: transparent;
-  display: flex;
-  height: 100%;
-  width: 100%;
-`;
-
-const EditorOuter = styled.div`
-  align-self: center;
-  background: rgba(38, 212, 204, 0.267);
-  border: none;
-  border-radius: 20px;
-  box-shadow: inset 0 0 100px 30px rgb(0,0,0);
-  margin-right: 200px;
-  padding: 20px;
-  position: relative;
-  width: 100%;
-`;
-
-const EditorInner = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin: auto;
-  max-width: 1000px;
-  width: 100%;
-  label {
-    width: 100%;
-  }
-`;
-
-const Header = styled.div`
-  font-family: ${props => props.theme.hTypeface};
-  font-size: 3rem;
-  text-align: center;
-  width: 100%;
-`;
+const addedStyles = {
+  marginLeft: "20px",
+  marginRight: "200px"
+}
 
 export const SingleUpdateEditor = props => {
-    const { storyboardOn, texts, toggleSingleEdit, updateText } = props;
-    const { subject, title } = props.state;
-    const { _id } = props.text;
-    return (
-      <OuterContainer>
-        {storyboardOn
-          ? (
-            <StoryboardCardFake
-              text={props.text}
-            />
-          ) : (
-            <DragonColumnFake
-              subject={props.state.subject}
-              texts={texts}
-            />
-          )}
+  const { storyboardOn, texts, toggleSingleEdit, updateText } = props;
+  const { subject, title } = props.state;
+  const { _id } = props.text;
+  return (
+    <OuterContainer>
+      {storyboardOn
+        ? (
+          <StoryboardCardFake
+            text={props.text}
+          />
+        ) : (
+          <DragonColumnFake
+            subject={props.state.subject}
+            texts={texts}
+          />
+        )}
 
-        <EditorOuter>
-          <Header>
-            <p>Edit: &nbsp;{props.state.title}</p>
-          </Header>
+      <EditorOuter style={addedStyles}>
+        <Header>
+          <p>Edit: &nbsp;{props.state.title}</p>
+        </Header>
 
-          <EditorInner>
-            <RenderButtons
-              state={props.state}
-              onClickMark={props.onClickMark}
-              onClickBlock={props.onClickBlock}
-              hasMark={props.hasMark}
-              hasBlock={props.hasBlock}
-            />
-
-            <Label>Title:</Label>
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              name="title"
-              value={props.state.title}
-              maxLength="20"
-              placeholder="(20 char max)"
-              onChange={props.handleInputChange}
-            />
-            <Label>Summary:</Label>
-            <Input
-              style={{ maxWidth: "300px" }}
-              type="text"
-              maxLength="140"
-              name="thesis"
-              value={props.state.thesis}
-              placeholder="(140 char max)"
-              onChange={props.handleInputChange}
-            />
-
-            <EditorStyles>
-              <Editor
-                autoFocus
-                plugins={plugins}
-                ref={props.thisRef}
-                value={props.state.value}
-                onChange={props.onChange}
-                renderMark={renderMark}
-                renderNode={renderNode}
+        <EditorInner>
+          <MetaDataForm>
+            <div>
+              <Label>Title:</Label>
+              <Input
+                type="text"
+                name="title"
+                value={props.state.title}
+                maxLength="20"
+                placeholder="(20 char max)"
+                onChange={props.handleInputChange}
               />
-            </EditorStyles>
-            <Button disabled={!title || !subject} onClick={() => updateText(_id)}>
-              Save
+            </div>
+
+            <div>
+              <Label>Summary:</Label>
+              <Input
+                type="text"
+                maxLength="140"
+                name="thesis"
+                value={props.state.thesis}
+                placeholder="(140 char max)"
+                onChange={props.handleInputChange}
+              />
+            </div>
+          </MetaDataForm>
+
+
+          <RenderButtons
+            style={{ paddingLeft: "5px", marginBottom: '2px' }}
+            state={props.state}
+            onClickBlock={props.onClickBlock}
+            onClickLink={props.onClickLink}
+            onClickMark={props.onClickMark}
+            hasBlock={props.hasBlock}
+            hasLinks={props.hasLinks}
+            hasMark={props.hasMark}
+          />
+
+          <EditorStyles style={{ maxHeight: "35vh" }}>
+            <Editor
+              autoFocus
+              plugins={plugins}
+              ref={props.thisRef}
+              value={props.state.value}
+              onChange={props.onChange}
+              onPaste={props.onPaste}
+              renderMark={renderMark}
+              renderNode={renderNode}
+            />
+          </EditorStyles>
+          <Button disabled={!title || !subject} onClick={() => updateText(_id)}>
+            Save
             </Button>
 
-            {/* if this is not place this in an anonymous function, it creates an error */}
-            <Button onClick={() => toggleSingleEdit()}>
-              Cancel
+          {/* if this is not place this in an anonymous function, it creates an error */}
+          <Button onClick={() => toggleSingleEdit()}>
+            Cancel
             </Button>
-          </EditorInner>
-        </EditorOuter>
-      </OuterContainer>
-    );
+        </EditorInner>
+      </EditorOuter>
+    </OuterContainer>
+  );
 }

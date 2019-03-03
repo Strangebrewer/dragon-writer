@@ -1,5 +1,7 @@
 import { Component } from 'react';
-import { Value } from "slate";
+import { Selection, Value } from "slate";
+import { getEventTransfer } from "slate-react";
+import isUrl from "is-url";
 import initialValue from "../slate/utils/value.json";
 import { API, Scales } from "../../utils";
 
@@ -20,13 +22,77 @@ export class EditorLogic extends Component {
     this.setState({ [name]: value });
   };
 
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
   onChange = ({ value }) => {
-    this.setState({ value });
+      this.setState({ value });
   };
 
   ref = editor => {
     this.editor = editor;
   };
+
+  wrapLink = (editor, href) => {
+    editor.wrapInline({
+      type: 'link',
+      data: { href }
+    });
+    editor.moveToEnd();
+  }
+
+  unwrapLink = editor => {
+    editor.unwrapInline('link');
+  }
+
+  hasLinks = () => {
+    const { value } = this.state;
+    return value.inlines.some(inline => inline.type === 'link');
+  }
+
+  onClickLink = event => {
+    event.preventDefault();
+    const { editor } = this;
+    const { value } = editor;
+    const hasLinks = this.hasLinks();
+
+    if (hasLinks) {
+      editor.command(this.unwrapLink)
+    } else if (value.selection.isExpanded) {
+      const href = window.prompt('Enter the URL of the link:');
+      if (href === null) return;
+
+      const text = window.prompt('Enter the text for hte link:');
+      if (text === null) return;
+
+      editor
+        .insertText(text)
+        .moveFocusBackward(text.length)
+        .command(this.wrapLink, href)
+    }
+  }
+
+  onPaste = (event, editor, next) => {
+    if (editor.value.selection.isCollapsed)
+      return next();
+
+    const transfer = getEventTransfer(event);
+    const { type, text } = transfer;
+
+    console.log(text);
+
+    if (type !== 'text' && type !== 'html')
+      return next();
+    if (!isUrl(text))
+      return next();
+
+    if (this.hasLinks())
+      editor.command(this.unwrapLink);
+
+    editor.command(this.wrapLink, text)
+  }
 
   hasMark = type => {
     const { value } = this.state;
@@ -90,7 +156,8 @@ export class EditorLogic extends Component {
       thesis: this.state.thesis,
       text: JSON.stringify(this.state.value.toJSON())
     }
-    const text = await API.updateText(id, textObject);
+    const headers = this.buildHeaders();
+    const text = await API.updateText(id, textObject, headers);
     const newState = Scales.updateTextHelper(text.data, this.props.state);
     this.props.callback(id);
     this.props.executeDragonStateChanges(newState, "update-text", text.data);
@@ -106,7 +173,8 @@ export class EditorLogic extends Component {
       thesis: this.state.thesis,
       text: JSON.stringify(this.state.value.toJSON())
     }
-    const text = await API.createText(textObject);
+    const headers = this.buildHeaders();
+    const text = await API.createText(textObject, headers);
     const newState = await Scales.insertTextHelper(id, text.data, state);
     if (callback) this.props.callback();
     this.props.executeDragonStateChanges(newState, "new-text", text.data);
@@ -118,10 +186,13 @@ export class EditorLogic extends Component {
         createText: this.createText,
         handleInputChange: this.handleInputChange,
         hasBlock: this.hasBlock,
+        hasLinks: this.hasLinks,
         hasMark: this.hasMark,
         onChange: this.onChange,
         onClickBlock: this.onClickBlock,
+        onClickLink: this.onClickLink,
         onClickMark: this.onClickMark,
+        onPaste: this.onPaste,
         thisRef: this.ref,
         state: this.state,
         updateText: this.updateText,

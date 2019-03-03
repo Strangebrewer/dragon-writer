@@ -17,8 +17,8 @@ const Container = styled.div`
   box-shadow: 4px 4px 4px rgb(0,0,0);
   display: flex;
   flex-direction: column;
-  margin: 10px;
-  min-width: 260px;
+  margin: 25px 10px 10px 10px;
+  min-width: 300px;
   position: relative;
   text-shadow: 2px 2px 2px rgb(0,0,0);
   width: 300px;
@@ -26,14 +26,14 @@ const Container = styled.div`
 
 const SubjectHeader = styled.div`
   position: absolute;
-  top: 30px;
+  top: 20px;
   width: 100%;
   h3 {
     font-family: ${props => props.theme.hTypeface};
     font-size: 2.4rem;
-    margin: 5px 0 8px 0;
+    margin: 8px 0 2px 0;
     overflow: hidden;
-    padding: 0 8px;
+    padding: 10px 8px 5px 8px;
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -52,9 +52,9 @@ const SubjectHeader = styled.div`
 
 const DragonList = styled.div`
   box-shadow: ${props => props.isDraggingOver
-    ? `0 0 5px rgb(38, 212, 204),
-      0 0 2px rgb(38, 212, 204),
-      inset 0 0 20px 0 rgb(39, 212, 204)`
+    ? `0 0 5px rgba(38, 212, 204, .5),
+      0 0 2px rgba(38, 212, 204, .5),
+      inset 0 0 20px 0 rgba(39, 212, 204, .5)`
     : "none"};
   display: flex;
   flex-direction: column;
@@ -69,7 +69,7 @@ const ButtonContainer = styled.div`
   justify-content: space-evenly;
 `;
 
-export class DragonColumn extends PureComponent {
+class DragonColumn extends PureComponent {
   state = {
     redirectToPrint: false,
     subject: '',
@@ -81,6 +81,11 @@ export class DragonColumn extends PureComponent {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   };
+
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
 
   updateSubjectModal = subject => {
     this.props.setModal({
@@ -149,7 +154,8 @@ export class DragonColumn extends PureComponent {
 
   deleteSubject = async (id, index) => {
     const newState = Scales.deleteSubjectHelper(id, index, this.props.state);
-    await API.deleteSubject(id);
+    const headers = this.buildHeaders();
+    await API.deleteSubject(id, headers);
     this.props.executeDragonStateChanges(newState);
     this.props.closeModal();
   };
@@ -197,6 +203,7 @@ export class DragonColumn extends PureComponent {
               isDragging={snapshot.isDragging}
               isDraggingOver={snapshot.isDraggingOver}
             >
+              
               <ColumnButtons
                 deleteSubjectModal={this.deleteSubjectModal}
                 id={_id}
@@ -257,3 +264,10 @@ export class DragonColumn extends PureComponent {
     )
   }
 };
+
+export {
+  DragonColumn,
+  Container,
+  SubjectHeader,
+  DragonList
+}

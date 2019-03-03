@@ -9,10 +9,11 @@ const Card = styled.div`
   background: rgba(255, 255, 255, 0.333);
   border-radius: 2px;
   display: flex;
-  height: 280px;
+  height: 260px;
+  margin: 0 10px 10px 10px;
   padding: 10px;
   position: relative;
-  width: 280px;
+  width: 260px;
   img {
     align-self: center;
     border: 1px solid black;

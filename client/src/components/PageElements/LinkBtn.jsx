@@ -24,7 +24,7 @@ const Button = styled.button`
   transition: ${props => props.theme.colorTrans}, text-shadow 0.15s ease-in-out;
   vertical-align: middle;
   z-index: 9;
-  &:hover, &:focus {
+  &:hover {
     color: ${props => (
       props.delete
         ? props.theme.deleteLinkHover

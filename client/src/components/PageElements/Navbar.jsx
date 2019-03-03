@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavContainer = styled.div`
-  grid-column: 1 / 4;
   grid-row: 1;
   height: 30px;
   min-width: 100%;

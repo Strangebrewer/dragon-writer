@@ -8,14 +8,15 @@ import { NewProjectForm } from "../Forms";
 import { API } from '../../utils';
 
 const DropZone = styled.div`
+  margin: auto;
   padding: 15px;
-  width: 100%;
+  width: 590px;
 `;
 
 const Container = styled.div`
   background: ${props => props.isDragging
-    ? "rgba(22, 136, 130, 0.487)"
-    : "rgba(22, 136, 130, 0.337)"};
+    ? "rgba(22, 136, 130, 0.587)"
+    : "rgba(22, 136, 130, 0.437)"};
   border-radius: 5px;
   box-shadow: ${props => (
     props.isDragging
@@ -25,7 +26,7 @@ const Container = styled.div`
        0 0 2px rgb(38, 212, 204),
        inset 0 0 10px 0 rgb(38, 212, 204)`
       : '4px 4px 4px rgb(0,0,0)'
-  )};  
+  )};
   border-left: 1px solid rgb(255, 255, 255, 0.283);
   border-top: 1px solid rgb(255, 255, 255, 0.533);
   line-height: 1.2;
@@ -33,9 +34,8 @@ const Container = styled.div`
   padding: 20px 15px;
   position: relative;
   transition: background-color 0.1s ease-in-out;
-  width: 560px;
   &:hover {
-    background: rgba(22, 136, 130, 0.487);
+    background: rgba(22, 136, 130, 0.587);
   }
   h2 {
     color: #fff;
@@ -203,7 +203,7 @@ export class ProjectList extends Component {
                     full
                     onClick={this.toggleProjectForm}
                   >
-                    Create New Project
+                    New Project
                   </Button>
                   {provided.placeholder}
                 </DropZone>

@@ -8,7 +8,7 @@ const Dropdown = styled.select`
   box-shadow: ${props => props.theme.fieldShadow};
   color: ${props => props.theme.fieldColor};
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   outline: transparent;
   padding: 5px;
 `;

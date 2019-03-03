@@ -6,7 +6,7 @@ const Container = styled.div`
   background: transparent;
   display: flex;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 200px);
 `;
 
 export const MainDropZone = ({ children }) => {

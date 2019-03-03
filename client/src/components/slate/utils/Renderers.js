@@ -3,12 +3,6 @@ import React from "react";
 function renderNode(props, editor, next) {
   const { attributes, children, node } = props;
   switch (node.type) {
-    case "code":
-      return (
-        <pre {...attributes} style={{ textIndent: '25px', lineHeight: '1' }}>
-          <code style={{ background: '#eeeeee', borderRadius: '2px', padding: '0', textIndent: "25px" }}>{children}</code>
-        </pre>
-      );
     case 'block-quote':
       return (
         <div
@@ -22,6 +16,23 @@ function renderNode(props, editor, next) {
           <blockquote {...attributes}>{children}</blockquote>
         </div>
       );
+    case "code":
+      return (
+        <pre {...attributes} style={{ textIndent: '25px', lineHeight: '1' }}>
+          <code style={{ background: '#eeeeee', borderRadius: '2px', padding: '0', textIndent: "25px" }}>{children}</code>
+        </pre>
+      );
+
+    case "link": {
+      const { data } = node;
+      let href = data.get('href');
+      //  Many (most? all?) https sites automatically redirect from http to https
+      //  So maybe this way I don't have to exclude http sites...?
+      if (!href.includes('http')) href = `http://${href}`;
+      return (
+        <a {...attributes} href={`${href}`} target="_blank" rel="noopener noreferrer">{children}</a>
+      )
+    }
 
     case 'paragraph':
       return <p {...attributes}>{children}</p>
@@ -65,36 +76,6 @@ function renderMark(props, editor, next) {
       return <del {...attributes}>{children}</del>;
     case 'underline':
       return <u {...attributes}>{children}</u>;
-    case 'link': {
-      let tempObj = {};
-      for (let i in children)
-        if (i !== "props")
-          tempObj[i] = children[i]
-
-      let propObj = {};
-      for (let j in children.props)
-        propObj[j] = children.props[j]
-
-      tempObj.props = propObj;
-      let str = tempObj.props.children;
-      const start = str.indexOf('(');
-      const end = str.indexOf(')');
-      const href = str.substring(start + 1, end);
-      const linkText = str.slice(0, start);
-      tempObj.props.children = linkText;
-      return (
-        <a
-          style={{ color: '#1111ff', textDecoration: 'underline' }}
-          href={href}
-          rel="noopener noreferrer"
-          target="_blank"
-          {...attributes}
-          value={linkText}
-        >
-          {tempObj}
-        </a>
-      )
-    }
     default:
       return next();
   }

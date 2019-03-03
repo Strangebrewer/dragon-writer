@@ -9,29 +9,24 @@ const PageContainer = styled.div`
   color: ${props => props.theme.mainColor};
   display: grid;
   font-family: ${props => props.theme.typeface};
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: auto auto 1fr auto;
   min-height: 100vh;
 `;
 
 const NavColumn = styled.div`
-  grid-row: 3;
-  grid-column: 1;
-  padding: 0 20px 0 20px;
-  position: fixed;
-  top: 150px;
+  padding: 65px 20px 0 20px;
+  float: left;
   width: 200px;
 `;
 
 const ContentColumn = styled.div`
-  display: flex;
   grid-row: 3;
-  grid-column: 2;
   overflow-x: auto;
+  position: relative;
 `;
 
 const FooterContainer = styled.div`
-  grid-column: 1 / 3;
   grid-row: 4;
   height: 90px;
   a {
@@ -62,17 +57,11 @@ const FooterContainer = styled.div`
 const TitleContainer = styled.div`
   align-items: center;
   color: #fff;
-  grid-column: 1 / 3;
-  grid-row: 2;
-  margin: ${props => (
-    props.home
-      ? "30px auto"
-      : "30px auto 10px auto"
-  )};
+  margin: 30px auto;
   padding: 5px 0 8px 0;
   text-align: center;
   transition: color .3s ease-in;
-  width: ${props => props.home ? '600px' : '100%'};
+  min-width: 100%;
   h2 {
     font-family: ${props => props.theme.hTypeface};
     font-size: ${props => props.home ? "8rem" : "3rem"};
@@ -121,25 +110,24 @@ export class Page extends PureComponent {
           <h3>{props.subtitle}</h3>
         </TitleContainer>
 
-        <NavColumn>
-          {props.subjects && !props.editorOn &&
-            <SubjectList
-              addSubjectToOrder={props.addSubjectToOrder}
-              clearAllTopics={props.clearAllTopics}
-              create={props.create}
-              dragons={props.dragons}
-              projectId={props.projectId}
-              storyboardOn={props.storyboardOn}
-              subjects={props.subjects}
-              toggleDragonText={props.toggleDragonText}
-              toggleSingleNewEditor={props.toggleSingleNewEditor}
-              toggleStoryboard={props.toggleStoryboard}
-              toggleSubject={props.toggleSubject}
-              toggleSubjectForm={props.toggleSubjectForm}
-            />}
-        </NavColumn>
-
         <ContentColumn>
+          <NavColumn>
+            {props.subjects && !props.editorOn &&
+              <SubjectList
+                addSubjectToOrder={props.addSubjectToOrder}
+                clearAllTopics={props.clearAllTopics}
+                create={props.create}
+                dragons={props.dragons}
+                projectId={props.projectId}
+                storyboardOn={props.storyboardOn}
+                subjects={props.subjects}
+                toggleDragonText={props.toggleDragonText}
+                toggleSingleNewEditor={props.toggleSingleNewEditor}
+                toggleStoryboard={props.toggleStoryboard}
+                toggleSubject={props.toggleSubject}
+                toggleSubjectForm={props.toggleSubjectForm}
+              />}
+          </NavColumn>
           {props.children}
         </ContentColumn>
 

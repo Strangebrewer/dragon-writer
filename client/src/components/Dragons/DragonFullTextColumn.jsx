@@ -7,30 +7,26 @@ import { DragonFullText } from "./DragonFullText";
 import { DragonTextEditable } from "./DragonTextEditable";
 
 const TextColumn = styled.div`
-  border-radius: 3px;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  padding: 10px 30px;
   width: 100%;
 `;
 
 const SubjectHeading = styled.div`
-  padding-bottom: 15px;
-  padding-right: 200px;
-  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 200px 15px 0;
   h3 {
     color: ${props => props.theme.titleColor};
     font-family: ${props => props.theme.hTypeface};
     font-size: 3.5rem;
-    padding-bottom: 10px;
+    padding: 0 0 10px 0;
     text-align: center;
     width: 100%;
   }
-`;
-
-const LinkFlexContainer = styled.div`
-  display: flex;
-  justify-content: center;
   a {
     color: #26d4cc;
     font-size: 1.8rem;
@@ -47,19 +43,18 @@ const DragonTextList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 8px 0;
 `;
 
 const NothingContainer = styled.div`
+  padding-right: 200px;
   text-align: center;
   h2 {
     font-family: ${props => props.theme.hTypeface};
     font-size: 5rem;
-    padding: 15px 200px 15px 0;
+    padding: 15px 0px 15px 0;
   }
   h3 {
     font-size: 2rem;
-    padding-right: 200px;
   }
 `;
 
@@ -77,38 +72,36 @@ export class DragonFullTextColumn extends Component {
       <TextColumn>
         <SubjectHeading>
           <h3>Topic: {subject}</h3>
-          <LinkFlexContainer>
-            <LinkBtn
-              size="1.8rem"
-              underline
-              text
-              // toggleDragonText must be inside an anonymous function,
-              // otherwise it throws an error thinking it's trying to reuse
-              // the argument that was passed to it when it was toggled on.
-              onClick={() => this.props.toggleDragonText()}
-            >
-              project overview
+          <LinkBtn
+            size="1.8rem"
+            underline
+            text
+            // toggleDragonText must be inside an anonymous function,
+            // otherwise it throws an error thinking it's trying to reuse
+            // the argument that was passed to it when it was toggled on.
+            onClick={() => this.props.toggleDragonText()}
+          >
+            project overview
             </LinkBtn>
-            <LinkBtn
-              size="1.8rem"
-              underline
-              text
-              // toggleDragonText must be inside an anonymous function,
-              // otherwise it throws an error thinking it's trying to reuse
-              // the argument that was passed to it when it was toggled on.
-              onClick={() => this.props.toggleStoryboard(_id)}
-            >
-              storyboard
+          <LinkBtn
+            size="1.8rem"
+            underline
+            text
+            // toggleDragonText must be inside an anonymous function,
+            // otherwise it throws an error thinking it's trying to reuse
+            // the argument that was passed to it when it was toggled on.
+            onClick={() => this.props.toggleStoryboard(_id)}
+          >
+            storyboard
             </LinkBtn>
 
-            <Link
-              to={{
-                pathname: "/print",
-                state: { texts, subject: this.props.subject }
-              }}>
-              print view
+          <Link
+            to={{
+              pathname: "/print",
+              state: { texts, subject: this.props.subject }
+            }}>
+            print view
               </Link>
-          </LinkFlexContainer>
         </SubjectHeading>
 
         {this.props.texts.length > 0

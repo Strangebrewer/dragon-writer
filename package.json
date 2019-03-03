@@ -37,15 +37,6 @@
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.0.17",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "react": "^16.6.1",
-    "react-adopt": "^0.6.0",
-    "react-anchor-link-smooth-scroll": "^1.0.11",
-    "react-dom": "^16.6.1",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "react-sortable-hoc": "^0.8.4",
-    "slate": "^0.44.4",
-    "slate-react": "^0.21.10"
+    "passport-jwt": "^4.0.0"
   }
 }

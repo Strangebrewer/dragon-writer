@@ -17,7 +17,7 @@ const Container = styled.div`
   box-shadow: 4px 4px 4px rgb(0,0,0);
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  margin: 25px 10px 10px 10px;
   min-width: 300px;
   position: relative;
   text-shadow: 2px 2px 2px rgb(0,0,0);
@@ -26,14 +26,14 @@ const Container = styled.div`
 
 const SubjectHeader = styled.div`
   position: absolute;
-  top: 30px;
+  top: 20px;
   width: 100%;
   h3 {
     font-family: ${props => props.theme.hTypeface};
     font-size: 2.4rem;
-    margin: 5px 0 8px 0;
+    margin: 8px 0 2px 0;
     overflow: hidden;
-    padding: 0 8px;
+    padding: 10px 8px 5px 8px;
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;

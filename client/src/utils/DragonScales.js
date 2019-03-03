@@ -1,10 +1,10 @@
 import { API } from "./API";
 
 export const Scales = {
-  addSubjectToOrder: function (state, subject) {
-    const newSubjectOrder = [...state.subjectOrder, subject._id];
+  addSubjectToOrder: function (create, subjects, subjectOrder, subject) {
+    const newSubjectOrder = [...subjectOrder, subject._id];
     const newSubjects = {
-      ...state.subjects,
+      ...subjects,
       [subject._id]: {
         subject: subject.subject,
         textIds: [],
@@ -17,7 +17,7 @@ export const Scales = {
       [subject._id]: true,
       subjectOrder: newSubjectOrder,
       subjects: newSubjects,
-      create: !state.create
+      create: !create
     }
   },
 
@@ -109,7 +109,7 @@ export const Scales = {
   },
 
   addImageToProject: function (newProject, state) {
-    
+
   },
 
   addImageToSubject: function (newSubject, state) {
@@ -157,42 +157,36 @@ export const Scales = {
     return newState;
   },
 
-  dragonSubjectColumns: function (state, source, destination, draggableId) {
+  dragonSubjectColumns: function (subjectOrderArray, source, destination, draggableId) {
     // create a new subject array that has the same values as the previous subject array:
-    const newSubjectOrder = Array.from(state.subjectOrder)
+    const subjectOrder = Array.from(subjectOrderArray)
     // remove the subject from the array:
-    newSubjectOrder.splice(source.index, 1);
+    subjectOrder.splice(source.index, 1);
     // and insert the subject into its new position:
-    newSubjectOrder.splice(destination.index, 0, draggableId);
+    subjectOrder.splice(destination.index, 0, draggableId);
     // create a new state with same properties, but new subjectOrder
-    const newState = {
-      ...state,
-      subjectOrder: newSubjectOrder
-    };
-    return newState;
+    const stateUpdate = { subjectOrder };
+    return stateUpdate;
   },
 
   singleSubjectDragon: function (state, start, source, destination, draggableId) {
-    const newTextIds = Array.from(start.textIds);
-    newTextIds.splice(source.index, 1);
-    newTextIds.splice(destination.index, 0, draggableId);
+    const textIds = Array.from(start.textIds);
+    textIds.splice(source.index, 1);
+    textIds.splice(destination.index, 0, draggableId);
     // create new subject column with the same properties as the old column, but with new textIds.
-    const newSubject = {
-      ...start,
-      textIds: newTextIds
-    };
-    // spread existing state into a new state object, and modify it with the new draggable placement:
-    const newState = {
-      ...state,
+    const newSubject = { ...start, textIds };
+    // spread existing subjects into a new state object, and modify it with the new draggable placement:
+    const stateUpdate = {
       subjects: {
         ...state.subjects,
         [newSubject._id]: newSubject,
       },
     };
-    return newState;
+    return stateUpdate;
   },
 
-  multiSubjectDragon: function (state, start, finish, source, destination, draggableId) {
+  multiSubjectDragon: function (args) {
+    const { state, start, finish, source, destination, draggableId } = args;
     // first, create a new array from the existing start array:
     const startTextIds = Array.from(start.textIds);
     // Then, splice the dragged item from the new start array:

@@ -13,15 +13,6 @@ const EditorContainer = styled.div`
   height: 100%;
   margin: auto;
   max-width: 1450px;
-  padding-right: 200px;
-  width: 100%;
-`;
-
-const StoryboardContainer = styled.div`
-  height: 100%;
-  margin: auto;
-  padding-right: 150px;
-  position: relative;
   width: 100%;
 `;
 
@@ -107,7 +98,8 @@ class Project extends Component {
   };
 
   addSubjectToOrder = (subject) => {
-    const newState = Scales.addSubjectToOrder(this.props.state, subject);
+    const { create, subjectOrder, subjects } = this.props.state;
+    const newState = Scales.addSubjectToOrder(create, subjects, subjectOrder, subject);
     this.props.executeDragonStateChanges(newState);
   }
 
@@ -255,31 +247,28 @@ class Project extends Component {
               </MainDropZone>
             ) : state.storyboardOn
               ? (
-                <StoryboardContainer>
-                  <ImageUploader
-                    addImageToText={this.addImageToText}
-                    addImageToSubject={this.addImageToSubject}
-                    type="text"
-                  >
-                    {provided => (
-                      <Storyboard
-                        {...provided}
-                        deleteText={this.deleteText}
-                        executeDragonStateChanges={executeDragonStateChanges}
-                        projectLink={link}
-                        state={state}
-                        subject={state.subjects[state.singleSubjectId]}
-                        subjects={subjects}
-                        texts={state.subjects[state.singleSubjectId].textIds
-                          .map(textId => (state.texts[textId]))}
-                        toggleDragonText={this.toggleDragonText}
-                        toggleSingleEdit={this.toggleSingleEdit}
-                        toggleStoryboard={this.toggleStoryboard}
-                      />
-                    )}
-                  </ImageUploader>
-                </StoryboardContainer>
-
+                <ImageUploader
+                  addImageToText={this.addImageToText}
+                  addImageToSubject={this.addImageToSubject}
+                  type="text"
+                >
+                  {provided => (
+                    <Storyboard
+                      {...provided}
+                      deleteText={this.deleteText}
+                      executeDragonStateChanges={executeDragonStateChanges}
+                      projectLink={link}
+                      state={state}
+                      subject={state.subjects[state.singleSubjectId]}
+                      subjects={subjects}
+                      texts={state.subjects[state.singleSubjectId].textIds
+                        .map(textId => (state.texts[textId]))}
+                      toggleDragonText={this.toggleDragonText}
+                      toggleSingleEdit={this.toggleSingleEdit}
+                      toggleStoryboard={this.toggleStoryboard}
+                    />
+                  )}
+                </ImageUploader>
               ) : (state.texts &&
                 <MainDropZone>
 

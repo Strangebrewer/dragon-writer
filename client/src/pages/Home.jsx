@@ -6,8 +6,8 @@ import { Authenticate, ProjectList } from "../components/PageElements";
 import { API, Scales, Utils } from "../utils"
 
 const Container = styled.div`
-  margin: auto;
-  padding-right: 200px;
+  /* margin: auto; */
+  /* padding-right: 200px; */
 `;
 
 class Home extends Component {

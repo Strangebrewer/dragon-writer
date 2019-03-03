@@ -14,7 +14,7 @@ const Card = styled.div`
   display: flex;
   height: 280px;
   min-height: 280px;
-  margin: 84px 20px 0 30px;
+  margin: 94px 20px 0 30px;
   padding: 10px;
   position: relative;
   min-width: 280px;

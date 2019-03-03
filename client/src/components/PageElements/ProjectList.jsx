@@ -8,8 +8,9 @@ import { NewProjectForm } from "../Forms";
 import { API } from '../../utils';
 
 const DropZone = styled.div`
+  margin: auto;
   padding: 15px;
-  width: 100%;
+  width: 590px;
 `;
 
 const Container = styled.div`
@@ -33,7 +34,6 @@ const Container = styled.div`
   padding: 20px 15px;
   position: relative;
   transition: background-color 0.1s ease-in-out;
-  width: 560px;
   &:hover {
     background: rgba(22, 136, 130, 0.587);
   }

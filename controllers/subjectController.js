@@ -42,9 +42,17 @@ module.exports = {
   },
 
   updateSubject: async function (req, res) {
-    console.log(req.body);
     try {
-      const subject = await db.Subject.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (req.body.hasOwnProperty("published")) {
+        let update;
+        if (req.body.published) update = { $push: { published: req.params.id } };
+        else update = { $pull: { published: req.params.id } };
+        await db.Project.findOneAndUpdate({ _id: req.body.projectId }, update);
+        delete req.body.projectId;
+      }
+      const subject = await db.Subject.findByIdAndUpdate(
+        req.params.id, req.body, { new: true }
+      );
       res.json(subject);
     }
     catch (err) {

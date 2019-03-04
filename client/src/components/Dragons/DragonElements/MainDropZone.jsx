@@ -4,20 +4,36 @@ import styled from "styled-components";
 
 const Container = styled.div`
   background: transparent;
+  height: calc(100%);
+  overflow: hidden;
+  padding-left: 200px;
+  /* padding-right: 250px; */
+  position: relative;
+  width: calc(100vw + 250px);
+`;
+
+const Inner = styled.div`
+  background: transparent;
   display: flex;
-  height: 100%;
-  width: calc(100% - 200px);
+  /* margin: auto; */
+  min-height: calc(100% + 20px);
+  overflow-x: auto;
+  padding-bottom: 20px;
+  padding-right: 250px;
+  width: 100%;
 `;
 
 export const MainDropZone = ({ children }) => {
   return (
-    <Droppable droppableId="all-subjects" direction="horizontal" type="subject">
-      {provided => (
-        <Container {...provided.droppableProps} ref={provided.innerRef}>
-          {children}
-          {provided.placeholder}
-        </Container>
-      )}
-    </Droppable>
+    <Container>
+      <Droppable droppableId="all-subjects" direction="horizontal" type="subject">
+        {provided => (
+          <Inner {...provided.droppableProps} ref={provided.innerRef}>
+            {children}
+            {provided.placeholder}
+          </Inner>
+        )}
+      </Droppable>
+    </Container>
   );
 }

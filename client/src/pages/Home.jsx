@@ -6,7 +6,7 @@ import { Authenticate, ProjectList } from "../components/PageElements";
 import { API, Scales, Utils } from "../utils"
 
 const Container = styled.div`
-  /* margin: auto; */
+  margin: auto;
   /* padding-right: 200px; */
 `;
 

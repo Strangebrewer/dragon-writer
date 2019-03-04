@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavContainer = styled.div`
-  grid-row: 1;
   height: 30px;
-  min-width: 100%;
-  position: fixed;
-  top: 0;
   z-index: 99999;
 `;
 
@@ -17,7 +13,6 @@ const NavInner = styled.div`
   justify-content: center;
   margin: auto;
   padding: 0 20px;
-  width: 1000px;
   a, button {
     color: ${props => props.theme.links};
     font-family: ${props => props.theme.typeface};

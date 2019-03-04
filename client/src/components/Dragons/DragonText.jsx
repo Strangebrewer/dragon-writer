@@ -8,11 +8,17 @@ import { ItemButtons } from "./DragonElements";
 import { Button } from "../Forms/FormElements";
 
 const TextContainer = styled.div`
-  background: ${props => props.isDragging
-    ? "rgba(22, 136, 130, 0.287)"
-    : "rgba(22, 136, 130, 0.537)"};
-  border-left: 1px solid rgb(18, 110, 106);
-  border-top: 1px solid rgb(22, 136, 130);
+  background: ${props => (
+    props.published
+      ? props.isDragging ? "rgba(255, 255, 255, 0.36)" : "rgba(255, 255, 255, 0.25)"
+      : props.isDragging ? "rgba(22, 136, 130, 0.55)" : "rgba(22, 136, 130, 0.287)"
+  )};
+  border-left: 1px solid ${props => (
+    props.published ? "rgba(255, 255, 255, 0.183)" : "rgb(18, 110, 106)"
+  )};
+  border-top: 1px solid ${props => (
+    props.published ? "rgba(255, 255, 255, 0.533)" : "rgb(22, 136, 130)"
+  )};
   border-radius: 5px;
   box-shadow: 2px 2px 4px rgb(0,0,0);
   color: rgb(255,255,255);
@@ -27,7 +33,9 @@ const TextContainer = styled.div`
   transition: background-color .2s ease-in-out;
   width: 100%;
   &:hover {
-    background: rgba(22, 136, 130, 0.687);
+    background: ${props => (
+    props.published ? "rgba(255, 255, 255, 0.36)" : "rgba(22, 136, 130, 0.55)"
+  )};
   }
   h4 {
     font-family: ${props => props.theme.hTypeface};
@@ -70,26 +78,22 @@ const EditorStyle = styled.div`
   }
 `;
 
-export class DragonText extends PureComponent {
+export const DragonText = React.memo(props => {
 
-  deleteText = (textId, subjectId, index) => {
-    this.props.closeModal();
-    this.props.deleteText(textId, subjectId, index);
+  const deleteText = (textId, subjectId, index) => {
+    props.closeModal();
+    props.deleteText(textId, subjectId, index);
   }
 
-  deleteTextModal = (textId, subjectId, index) => {
-    this.props.setModal({
+  const deleteTextModal = (textId, subjectId, index) => {
+    props.setModal({
       body: <p>Are you sure you want to delete this text? This is permenent.</p>,
       buttons: (
         <div>
-          <Button
-            onClick={() => this.deleteText(textId, subjectId, index)}
-          >
+          <Button onClick={() => deleteText(textId, subjectId, index)}>
             Yes, delete it
           </Button>
-          <Button
-            onClick={this.props.closeModal}
-          >
+          <Button onClick={props.closeModal}>
             Cancel
           </Button>
         </div>
@@ -97,9 +101,9 @@ export class DragonText extends PureComponent {
     })
   };
 
-  seeFullText = text => {
-    const { index, subject, toggleSingleEdit } = this.props;
-    this.props.setModal({
+  const seeFullText = text => {
+    const { index, subject, toggleSingleEdit } = props;
+    props.setModal({
       body: (
         <Fragment>
           <ModalH2>{text.title}</ModalH2>
@@ -115,68 +119,60 @@ export class DragonText extends PureComponent {
       ),
       buttons: (
         <div>
-          <Button
-            onClick={this.props.closeModal}
-          >
+          <Button onClick={props.closeModal}>
             Close
           </Button>
-          <Button
-            onClick={() => toggleSingleEdit(subject, text)}
-          >
+          <Button onClick={() => toggleSingleEdit(subject, text)}>
             Edit
           </Button>
-          <Button
-            onClick={() => this.deleteTextModal(text._id, subject._id, index)}
-          >
+          <Button onClick={() => deleteTextModal(text._id, subject._id, index)}>
             Delete
           </Button>
         </div>
-
       ),
       style: { maxHeight: '80vh', overflow: 'auto' }
     });
   }
 
-  render() {
-    const { disabled, index, subject, text } = this.props;
-    return (
-      <Fragment>
-        <Draggable
-          draggableId={text._id}
-          index={index}
-          isDragDisabled={this.props.loading}
-        >
-          {(provided, snapshot) => (
-            <TextContainer
-              {...provided.draggableProps}
-              ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
-              loading={this.props.loading}
-              {...provided.dragHandleProps}
-            >
-              <ItemButtons
-                deleteTextModal={this.deleteTextModal}
-                disabled={disabled}
-                imageModal={this.props.imageModal}
-                id={text._id}
-                index={index}
-                loading={this.props.loading}
-                seeFullText={this.seeFullText}
-                subject={subject}
-                text={text}
-                toggleSingleEdit={this.props.toggleSingleEdit}
-                uploadImageModal={this.props.uploadImageModal}
-              />
+  const { disabled, index, subject, text } = props;
+  return (
+    <Fragment>
+      <Draggable
+        draggableId={text._id}
+        index={index}
+        isDragDisabled={props.loading}
+      >
+        {(provided, snapshot) => (
+          <TextContainer
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+            published={subject.published}
+            isDragging={snapshot.isDragging}
+            loading={props.loading}
+            {...provided.dragHandleProps}
+          >
+            <ItemButtons
+              deleteTextModal={deleteTextModal}
+              disabled={disabled}
+              imageModal={props.imageModal}
+              id={text._id}
+              index={index}
+              loading={props.loading}
+              seeFullText={seeFullText}
+              subject={subject}
+              text={text}
+              toggleSingleEdit={props.toggleSingleEdit}
+              uploadImageModal={props.uploadImageModal}
+            />
 
-              <h4>{text.title}</h4>
-              <p>{text.thesis}</p>
-            </TextContainer>
-          )}
-        </Draggable>
-      </Fragment>
-    );
-  }
-};
+            <h4>{text.title}</h4>
+            <p>{text.thesis}</p>
+          </TextContainer>
+        )}
+      </Draggable>
+    </Fragment>
+  );
+});
 
 export {
   TextContainer

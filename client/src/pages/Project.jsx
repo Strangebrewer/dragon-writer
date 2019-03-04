@@ -137,6 +137,7 @@ class Project extends Component {
     const subjects = state.subjectOrder
       .map(subject => ({ ...state.subjects[subject] }));
 
+    console.log(this.props);
     return (
       <Page
         addSubjectToOrder={this.addSubjectToOrder}
@@ -279,7 +280,6 @@ class Project extends Component {
                         <h3>Click the 'New Column' button to the left to get started</h3>
                       </EmptyProjectText>
                     ) : (
-
                       <ImageUploader
                         getInitialData={getInitialData}
                         addImageToSubject={this.addImageToSubject}

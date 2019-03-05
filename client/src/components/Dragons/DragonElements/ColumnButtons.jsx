@@ -26,6 +26,7 @@ export class ColumnButtons extends PureComponent {
     const { props } = this;
     const { id, index, subject, texts } = props;
     const { image, publicId, published } = subject;
+    console.log(subject);
     return (
       props.loading
         ? <Spinner top="8px" left="54px" size="12px" />

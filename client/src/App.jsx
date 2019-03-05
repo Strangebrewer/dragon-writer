@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { DragonLogic } from "./components/Renderers";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
+import Public from "./pages/Public";
 import Print from "./pages/Print";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
@@ -56,6 +57,7 @@ class App extends Component {
     const headers = this.buildHeaders();
     const res = await API.getProjectsWithAll(headers);
     const projects = res.data;
+    console.log(projects);
     projects.forEach(project => {
       if (project.order) {
         projectData.push(Utils.addTextsToOrder(project));
@@ -252,6 +254,8 @@ class App extends Component {
                   ) : <Redirect to="/" />
               )}
             </Route>
+
+            <Route path={`/myboard/:username`} component={Public} />
 
             {this.state.projects.length > 0
               && (

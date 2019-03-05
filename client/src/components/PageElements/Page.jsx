@@ -16,7 +16,7 @@ const PageContainer = styled.div`
 
 const Header = styled.div`
   grid-row: 1;
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   width: 100vw;
 `;
@@ -28,12 +28,12 @@ const NavColumn = styled.div`
   top: 150px;
   bottom: 0;
   width: 200px;
+  z-index: 999;
 `;
 
 const ContentColumn = styled.div`
   grid-row: 2;
-  display: flex;
-  margin-top: 100px;
+  /* margin-top: 50px; */
   position: relative;
   width: 100vw;
 `;

@@ -16,4 +16,6 @@ router.get('/projects',  passport.authenticate('jwt', { session: false }), userC
 
 router.post('/change', passport.authenticate('jwt', { session: false }), userController.changePw);
 
+router.get('/public/:username', userController.fetchPublicWorks);
+
 module.exports = router;

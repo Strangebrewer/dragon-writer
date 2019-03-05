@@ -6,6 +6,7 @@ export const Scales = {
     const newSubjects = {
       ...subjects,
       [subject._id]: {
+        projectId: subject.projectId,
         subject: subject.subject,
         textIds: [],
         theme: subject.theme,

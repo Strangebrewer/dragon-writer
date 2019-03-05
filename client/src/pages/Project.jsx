@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { ImageUploader, Page } from "../components/PageElements"
 import { EditorLogic, ModalLogic } from "../components/Renderers";
@@ -131,8 +130,8 @@ class Project extends Component {
   }
 
   render() {
-    const { executeDragonStateChanges, getInitialData, state } = this.props;
-    const { title, _id, link, summary } = this.props.project;
+    const { executeDragonStateChanges, getInitialData, project, state } = this.props;
+    const { title, _id, link, summary } = project;
     // map the subject data to the subject order array:
     const subjects = state.subjectOrder
       .map(subject => ({ ...state.subjects[subject] }));
@@ -272,7 +271,6 @@ class Project extends Component {
                 </ImageUploader>
               ) : (state.texts &&
                 <MainDropZone>
-
                   {subjects.length === 0
                     ? (
                       <EmptyProjectText>

@@ -3,6 +3,30 @@ const bcrypt = require('bcryptjs');
 const { passport, sign } = require('../passport');
 
 module.exports = {
+  fetchPublicWorks: async function (req, res) {
+    // get all texts that are public
+    console.log(req.params.username);
+    try {
+      const user = await db.User.findOne({ "url": req.params.username.toLowerCase() })
+        .populate({ path: 'projects', match: { "published.0": { "$exists": true } }, populate: { path: 'published', populate: { path: 'texts' } } })
+        .exec((err, docs) => {
+          // docs.push({ userOrder: user.order });
+          res.json(docs);
+        });
+
+      // await db.Project.find({
+      //   userId: user._id,
+      //   "published.0": { "$exists": true }
+      // }).populate({ path: 'published', populate: { path: 'texts' } })
+      //   .exec((err, docs) => {
+      //     docs.push({ userOrder: user.order });
+      //     res.json(docs);
+      //   });
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
   getCurrentUser: function (req, res) {
     const { _id, order, projects, username } = req.user;
     const userData = {
@@ -57,6 +81,7 @@ module.exports = {
         const password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null);
         req.body.password = password;
         try {
+          req.body.url = username.toLowerCase();
           const user = await db.User.create(req.body);
           const { email, _id, order, projects } = user;
           const token = sign({

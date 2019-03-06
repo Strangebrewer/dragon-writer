@@ -7,6 +7,7 @@ const tempPw = bcrypt.hashSync("BootsNPants", bcrypt.genSaltSync(10), null);
 
 const userSchema = new Schema({
 	username: { type: String, required: true },
+	url: String,
 	password: { type: String, required: true, default: tempPw },
 	email: String,
 	order: String,

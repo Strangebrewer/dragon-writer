@@ -6,6 +6,7 @@ export const Scales = {
     const newSubjects = {
       ...subjects,
       [subject._id]: {
+        projectId: subject.projectId,
         subject: subject.subject,
         textIds: [],
         theme: subject.theme,
@@ -27,7 +28,8 @@ export const Scales = {
       [subjectId]: {
         ...state.subjects[subjectId],
         subject: subjectContent.subject,
-        theme: subjectContent.theme
+        theme: subjectContent.theme,
+        published: subjectContent.published
       }
     }
     return { subjects: newSubjects };

@@ -66,6 +66,7 @@ export class DragonFullTextColumn extends Component {
   }
 
   render() {
+    console.log(this.props.subject);
     const { _id, subject } = this.props.subject;
     const { texts } = this.props;
     return (

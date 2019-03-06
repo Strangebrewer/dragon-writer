@@ -10,24 +10,36 @@ const PageContainer = styled.div`
   display: grid;
   font-family: ${props => props.theme.typeface};
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 `;
 
+const Header = styled.div`
+  grid-row: 1;
+  /* position: fixed; */
+  top: 0;
+  width: 100vw;
+`;
+
 const NavColumn = styled.div`
-  padding: 65px 20px 0 20px;
-  float: left;
+  padding: 0 20px;
+  position: fixed;
+  left: 0;
+  top: 150px;
+  bottom: 0;
   width: 200px;
+  z-index: 999;
 `;
 
 const ContentColumn = styled.div`
-  grid-row: 3;
-  overflow-x: auto;
+  grid-row: 2;
+  /* margin-top: 50px; */
   position: relative;
+  width: 100vw;
 `;
 
 const FooterContainer = styled.div`
-  grid-row: 4;
+  grid-row: 3;
   height: 90px;
   a {
     background: #ebebeb12;
@@ -55,13 +67,11 @@ const FooterContainer = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  align-items: center;
   color: #fff;
-  margin: 30px auto;
-  padding: 5px 0 8px 0;
+  margin: 0 auto;
+  padding: 1px 0;
   text-align: center;
   transition: color .3s ease-in;
-  min-width: 100%;
   h2 {
     font-family: ${props => props.theme.hTypeface};
     font-size: ${props => props.home ? "8rem" : "3rem"};
@@ -99,35 +109,39 @@ export class Page extends PureComponent {
     return (
       <PageContainer id="top">
         <GlobalStyle />
-        <Navbar
-          authenticated={props.authenticated}
-          logout={props.logout}
-          user={props.user}
-        />
 
-        <TitleContainer home={props.home}>
-          <h2>{props.title}</h2>
-          <h3>{props.subtitle}</h3>
-        </TitleContainer>
+        <Header>
+          <Navbar
+            authenticated={props.authenticated}
+            logout={props.logout}
+            user={props.user}
+          />
+
+          <TitleContainer home={props.home}>
+            <h2>{props.title}</h2>
+            <h3>{props.subtitle}</h3>
+          </TitleContainer>
+        </Header>
+
+        <NavColumn>
+          {props.subjects && !props.editorOn &&
+            <SubjectList
+              addSubjectToOrder={props.addSubjectToOrder}
+              clearAllTopics={props.clearAllTopics}
+              create={props.create}
+              dragons={props.dragons}
+              projectId={props.projectId}
+              storyboardOn={props.storyboardOn}
+              subjects={props.subjects}
+              toggleDragonText={props.toggleDragonText}
+              toggleSingleNewEditor={props.toggleSingleNewEditor}
+              toggleStoryboard={props.toggleStoryboard}
+              toggleSubject={props.toggleSubject}
+              toggleSubjectForm={props.toggleSubjectForm}
+            />}
+        </NavColumn>
 
         <ContentColumn>
-          <NavColumn>
-            {props.subjects && !props.editorOn &&
-              <SubjectList
-                addSubjectToOrder={props.addSubjectToOrder}
-                clearAllTopics={props.clearAllTopics}
-                create={props.create}
-                dragons={props.dragons}
-                projectId={props.projectId}
-                storyboardOn={props.storyboardOn}
-                subjects={props.subjects}
-                toggleDragonText={props.toggleDragonText}
-                toggleSingleNewEditor={props.toggleSingleNewEditor}
-                toggleStoryboard={props.toggleStoryboard}
-                toggleSubject={props.toggleSubject}
-                toggleSubjectForm={props.toggleSubjectForm}
-              />}
-          </NavColumn>
           {props.children}
         </ContentColumn>
 

@@ -2,6 +2,10 @@ import axios from "axios";
 
 export const API = {
 
+  fetchPublicWorks: function (username) {
+    return axios.get(`/user/public/${username}`);
+  },
+
   // USER AUTHENTICATION ROUTES
   // Get user info
   getCurrentUser: function (headers) {

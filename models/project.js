@@ -7,6 +7,10 @@ const projectSchema = new Schema({
   title: { type: String, required: true },
   link: { type: String, required: true },
   image: String,
+  published: [{
+    type: Schema.Types.ObjectId,
+    ref: "Subject"
+  }],
   largeImage: String,
   publicId: String,
   summary: String,

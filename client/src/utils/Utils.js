@@ -10,8 +10,10 @@ export const Utils = {
 
     for (let i = 0; i < project.subjects.length; i++) {
       const element = project.subjects[i];
+      console.log(element)
       initialData.subjects[element._id] = element;
       initialData.subjects[element._id].textIds = element.texts || [];
+      initialData.subjects[element._id].projectId = element.projectId;
       subjectArray.push(element._id);
     }
 

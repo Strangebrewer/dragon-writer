@@ -9,15 +9,18 @@ import { ColumnButtons } from "./DragonElements";
 import { API, Scales } from '../../utils';
 
 const Container = styled.div`
-  background: ${props => props.isDragging
-    ? "rgba(255, 255, 255, 0.183)"
-    : "rgba(255, 255, 255, 0.133)"};
+  background: ${props => (
+    props.published
+      ? props.isDragging ? "rgba(22, 136, 130, 0.1)" : "rgba(22, 136, 130, 0.2)"
+      : props.isDragging ? "rgba(255, 255, 255, 0.183)" : "rgba(255, 255, 255, 0.133)"
+  )};
   border-left: 1px solid rgb(255, 255, 255, 0.183);
   border-top: 1px solid rgb(255, 255, 255, 0.533);
   box-shadow: 4px 4px 4px rgb(0,0,0);
   display: flex;
   flex-direction: column;
   margin: 25px 10px 10px 10px;
+  min-height: 600px;
   min-width: 300px;
   position: relative;
   text-shadow: 2px 2px 2px rgb(0,0,0);
@@ -88,6 +91,7 @@ class DragonColumn extends PureComponent {
   }
 
   updateSubjectModal = subject => {
+    const headers = this.buildHeaders();
     this.props.setModal({
       body: (
         <form>
@@ -125,9 +129,37 @@ class DragonColumn extends PureComponent {
   updateSubject = async (e, id, updateObject) => {
     e.preventDefault();
     this.props.closeModal();
+    const headers = this.buildHeaders();
     const newState = Scales.updateSubjectHelper(id, updateObject, this.props.state);
-    API.updateSubject(id, updateObject);
+    API.updateSubject(id, updateObject, headers);
     this.props.executeDragonStateChanges(newState);
+  };
+
+  publishModal = async (subject) => {
+    console.log(subject);
+    const change = subject.published ? "private" : "public"
+    this.props.setModal({
+      body: <h2>Are you sure you want to make this column {change}?</h2>,
+      buttons: (
+        <Fragment>
+          <Button onClick={(e) => this.updateSubject(
+            e,
+            subject._id,
+            {
+              subject: this.state.subject || subject.subject,
+              theme: this.state.theme || subject.theme,
+              published: !subject.published,
+              projectId: subject.projectId
+            }
+          )}>
+            Yes, make it {change}
+          </Button>
+          <Button onClick={this.props.closeModal}>
+            Cancel
+          </Button>
+        </Fragment>
+      )
+    })
   };
 
   deleteSubjectModal = (id, index) => {
@@ -191,76 +223,76 @@ class DragonColumn extends PureComponent {
       toggleSubject,
       uploadImageModal,
     } = this.props;
-    console.log(texts);
-    const { _id, theme } = subject;
+    console.log(this.props);
+    const { _id, published, theme } = subject;
     return (
-      <Fragment>
-        <Draggable draggableId={_id} index={index}>
-          {(provided, snapshot) => (
-            <Container
-              {...provided.draggableProps}
-              ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
-              isDraggingOver={snapshot.isDraggingOver}
-            >
-              
-              <ColumnButtons
-                deleteSubjectModal={this.deleteSubjectModal}
-                id={_id}
-                imageModal={imageModal}
-                index={index}
-                loading={loading}
-                subject={subject}
-                texts={texts}
-                toggleDragonText={toggleDragonText}
-                toggleInlineNew={toggleInlineNew}
-                togglePrintMode={this.togglePrintMode}
-                toggleStoryboard={toggleStoryboard}
-                toggleSubject={toggleSubject}
-                updateSubjectModal={this.updateSubjectModal}
-                uploadImageModal={uploadImageModal}
-              />
+      <Draggable draggableId={_id} index={index}>
+        {(provided, snapshot) => (
+          <Container
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+            published={published}
+            isDragging={snapshot.isDragging}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
 
-              <SubjectHeader {...provided.dragHandleProps}>
-                <h3>{subject.subject}</h3>
-                <p>{theme}</p>
-              </SubjectHeader>
+            <ColumnButtons
+              deleteSubjectModal={this.deleteSubjectModal}
+              id={_id}
+              imageModal={imageModal}
+              index={index}
+              loading={loading}
+              publishModal={this.publishModal}
+              subject={subject}
+              texts={texts}
+              toggleDragonText={toggleDragonText}
+              toggleInlineNew={toggleInlineNew}
+              togglePrintMode={this.togglePrintMode}
+              toggleStoryboard={toggleStoryboard}
+              toggleSubject={toggleSubject}
+              updateSubjectModal={this.updateSubjectModal}
+              uploadImageModal={uploadImageModal}
+            />
 
-              <Droppable droppableId={_id} type="text">
-                {(provided, snapshot) => (
-                  <DragonList
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    isDraggingOver={snapshot.isDraggingOver}
+            <SubjectHeader {...provided.dragHandleProps}>
+              <h3>{subject.subject}</h3>
+              <p>{theme}</p>
+            </SubjectHeader>
+
+            <Droppable droppableId={_id} type="text">
+              {(provided, snapshot) => (
+                <DragonList
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  isDraggingOver={snapshot.isDraggingOver}
+                >
+                  <ImageUploader
+                    addImageToText={addImageToText}
+                    type="text"
                   >
-                    <ImageUploader
-                      addImageToText={addImageToText}
-                      type="text"
-                    >
-                      {provided => (
-                        texts.map((text, index) => {
-                          return (
-                            <DragonText
-                              {...provided}
-                              deleteText={deleteText}
-                              index={index}
-                              key={text._id}
-                              subject={subject}
-                              text={text}
-                              toggleSingleEdit={toggleSingleEdit}
-                            />
-                          )
-                        })
-                      )}
-                    </ImageUploader>
-                    {provided.placeholder}
-                  </DragonList>
-                )}
-              </Droppable>
-            </Container>
-          )}
-        </Draggable>
-      </Fragment>
+                    {provided => (
+                      texts.map((text, index) => {
+                        return (
+                          <DragonText
+                            {...provided}
+                            deleteText={deleteText}
+                            index={index}
+                            key={text._id}
+                            subject={subject}
+                            text={text}
+                            toggleSingleEdit={toggleSingleEdit}
+                          />
+                        )
+                      })
+                    )}
+                  </ImageUploader>
+                  {provided.placeholder}
+                </DragonList>
+              )}
+            </Droppable>
+          </Container>
+        )}
+      </Draggable>
     )
   }
 };

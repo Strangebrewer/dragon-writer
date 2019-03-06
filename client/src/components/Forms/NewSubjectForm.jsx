@@ -7,18 +7,25 @@ const Container = styled.div`
   margin: auto;
   padding-top: 8px;
   width: 100%;
+  .subject-checkbox, .checkbox-label {
+    display: inline-block;
+  }
+  .subject-checkbox {
+    margin: 0 0 0 15px;
+    vertical-align: text-bottom;
+  }
 `;
 
 class NewSubjectForm extends Component {
   state = {
     subject: '',
-    theme: '',
+    theme: ''
   }
 
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
-  }
+  };
 
   buildHeaders = () => {
     const token = localStorage.getItem('token');
@@ -30,6 +37,7 @@ class NewSubjectForm extends Component {
     const subject = await API.createSubject({
       subject: this.state.subject,
       theme: this.state.theme,
+      published: this.state.published,
       projectId: this.props.projectId
     }, headers);
     this.props.addSubjectToOrder(subject.data);

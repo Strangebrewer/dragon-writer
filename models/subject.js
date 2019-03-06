@@ -7,6 +7,7 @@ const subjectSchema = new Schema({
   projectId: { type: Schema.Types.ObjectId },
   image: String,
   largeImage: String,
+  published: { type: Boolean, default: false },
   publicId: String,
   subject: String,
   theme: String,

@@ -80,6 +80,7 @@ const OuterContainer = styled.div`
   background: transparent;
   display: flex;
   height: 100%;
+  padding-left: 200px;
   width: calc(100% - 200px);
 `;
 

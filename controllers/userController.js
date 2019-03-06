@@ -8,11 +8,20 @@ module.exports = {
     console.log(req.params.username);
     try {
       const user = await db.User.findOne({ "url": req.params.username.toLowerCase() })
-      await db.Project.find({
-        userId: user._id,
-        "published.0": { "$exists": true }
-      }).populate({ path: 'published', populate: { path: 'texts' } })
-        .exec((err, docs) => res.json(docs));
+        .populate({ path: 'projects', match: { "published.0": { "$exists": true } }, populate: { path: 'published', populate: { path: 'texts' } } })
+        .exec((err, docs) => {
+          // docs.push({ userOrder: user.order });
+          res.json(docs);
+        });
+
+      // await db.Project.find({
+      //   userId: user._id,
+      //   "published.0": { "$exists": true }
+      // }).populate({ path: 'published', populate: { path: 'texts' } })
+      //   .exec((err, docs) => {
+      //     docs.push({ userOrder: user.order });
+      //     res.json(docs);
+      //   });
     } catch (e) {
       console.log(e);
     }

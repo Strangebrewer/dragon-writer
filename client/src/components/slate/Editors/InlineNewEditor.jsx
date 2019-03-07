@@ -15,8 +15,7 @@ import {
 } from "./Styles";
 
 const addedEdOuterStyles = {
-  marginLeft: "20px",
-  marginRight: "200px"
+  marginLeft: "20px"
 }
 
 export const InlineNewEditor = props => {

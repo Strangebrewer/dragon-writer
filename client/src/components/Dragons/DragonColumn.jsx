@@ -14,8 +14,8 @@ const Container = styled.div`
       ? props.isDragging ? "rgba(22, 136, 130, 0.1)" : "rgba(22, 136, 130, 0.2)"
       : props.isDragging ? "rgba(255, 255, 255, 0.183)" : "rgba(255, 255, 255, 0.133)"
   )};
-  border-left: 1px solid rgb(255, 255, 255, 0.183);
-  border-top: 1px solid rgb(255, 255, 255, 0.533);
+  border-left: 1px solid ${props => props.published ? 'rgb(18, 110, 106)': 'rgb(255, 255, 255, 0.183)'};
+  border-top: 1px solid ${props => props.published ? 'rgb(22, 136, 130)' : 'rgb(255, 255, 255, 0.533)'};
   box-shadow: 4px 4px 4px rgb(0,0,0);
   display: flex;
   flex-direction: column;

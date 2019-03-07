@@ -19,6 +19,34 @@ const Buttons = styled.div`
       color: ${props => !props.disabled && "#26d4cc"};
     }
   }
+  button {
+    position: relative;
+  }
+
+  button:first-child:hover {
+   span {
+      color: ${props => !props.disabled && "#26d4cc"};
+    }
+  }
+  span {
+    display: inline-block;
+    font-weight: bold;
+    position: absolute;
+    transition: ${props => props.theme.colorTrans}, text-shadow 0.15s ease-in-out;
+  }
+  .column-btn-plus {
+    color: lightgreen;
+    font-size: 13px;
+    top: -4px;
+    left: -1px;
+    text-shadow: 0 0 1px #000, 0 0 2px #000, 0 0 3px #000;
+  }
+  .column-btn-square {
+    font-size: 15px;
+    top: -1px;
+    left: 0;
+    right: 0
+  }
 `;
 
 export class ColumnButtons extends PureComponent {
@@ -39,7 +67,7 @@ export class ColumnButtons extends PureComponent {
                 padding="0 3px 5px 3px"
                 title={!props.disabled ? `create new text for ${subject.subject}` : null}
               >
-                <i className="far fa-file-alt" />
+                <span className="column-btn-plus">+</span><i className="far fa-file-alt" />
               </LinkBtn>
 
               <LinkBtn
@@ -48,7 +76,9 @@ export class ColumnButtons extends PureComponent {
                 padding="0 3px 5px 3px"
                 title={!props.disabled ? "expand column to read all full texts" : null}
               >
-                <i className="fas fa-expand" />
+                <span className="column-btn-square">
+                  &#9642;
+                </span><i className="fas fa-expand" />
               </LinkBtn>
 
               <LinkBtn

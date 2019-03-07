@@ -16,8 +16,7 @@ import {
 } from "./Styles";
 
 const addedStyles = {
-  marginLeft: "20px",
-  marginRight: "200px"
+  marginLeft: "20px"
 }
 
 export const SingleUpdateEditor = props => {
@@ -40,7 +39,7 @@ export const SingleUpdateEditor = props => {
 
       <EditorOuter style={addedStyles}>
         <Header>
-          <p>Edit: &nbsp;{props.state.title}</p>
+          <p>{props.state.title}</p>
         </Header>
 
         <EditorInner>
@@ -48,6 +47,7 @@ export const SingleUpdateEditor = props => {
             <div>
               <Label>Title:</Label>
               <Input
+                tabIndex="1"
                 type="text"
                 name="title"
                 value={props.state.title}
@@ -60,6 +60,7 @@ export const SingleUpdateEditor = props => {
             <div>
               <Label>Summary:</Label>
               <Input
+                tabIndex="2"
                 type="text"
                 maxLength="140"
                 name="thesis"
@@ -92,6 +93,7 @@ export const SingleUpdateEditor = props => {
               onPaste={props.onPaste}
               renderMark={renderMark}
               renderNode={renderNode}
+              tabIndex="3"
             />
           </EditorStyles>
           <Button disabled={!title || !subject} onClick={() => updateText(_id)}>

@@ -7,21 +7,14 @@ module.exports = {
     // get all texts that are public
     console.log(req.params.username);
     try {
-      const user = await db.User.findOne({ "url": req.params.username.toLowerCase() })
-        .populate({ path: 'projects', match: { "published.0": { "$exists": true } }, populate: { path: 'published', populate: { path: 'texts' } } })
-        .exec((err, docs) => {
-          // docs.push({ userOrder: user.order });
-          res.json(docs);
-        });
-
-      // await db.Project.find({
-      //   userId: user._id,
-      //   "published.0": { "$exists": true }
-      // }).populate({ path: 'published', populate: { path: 'texts' } })
-      //   .exec((err, docs) => {
-      //     docs.push({ userOrder: user.order });
-      //     res.json(docs);
-      //   });
+      const url = req.params.username.toLowerCase();
+      await db.User.findOne({ url })
+        .populate({
+          path: 'projects',
+          match: { "published.0": { "$exists": true } },
+          populate: { path: 'published', populate: { path: 'texts' } }
+        })
+        .exec((err, docs) => res.json(docs));
     } catch (e) {
       console.log(e);
     }
@@ -29,12 +22,7 @@ module.exports = {
 
   getCurrentUser: function (req, res) {
     const { _id, order, projects, username } = req.user;
-    const userData = {
-      _id,
-      order,
-      projects,
-      username
-    }
+    const userData = { _id, order, projects, username };
     res.json({ msg: "logged in", user: userData });
   },
 

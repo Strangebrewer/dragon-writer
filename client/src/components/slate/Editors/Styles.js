@@ -1,19 +1,12 @@
 import styled from 'styled-components';
 
-const EditorInner = styled.div`
-  margin: auto;
-  max-width: 1000px;
-  width: 100%;
-`;
-
-const EditorOuter = styled.div`
+const EditorWrapper = styled.div`
   align-self: center;
-  background: #999999dd;
-  border: 3px solid rgba(38, 212, 204, .267);
+  background: #999999;
+  border: 1px solid rgba(38, 212, 204, .267);
   box-shadow: inset 0 0 30px 0px rgba(38, 212, 204, 0.267), inset 0 0 40px 5px #000, inset 0 0 20px 1px #000;
   margin: auto;
-  max-width: 1100px;
-  padding: 20px 40px;
+  padding: 20px 50px 40px 50px;
   position: relative;
   width: 100%;
 `;
@@ -21,19 +14,27 @@ const EditorOuter = styled.div`
 const EditorStyles = styled.div`
   background: ${props => props.theme.editorBG};
   border: 2px solid rgba(38, 212, 204, .5);
-  border-radius: 6px;
-  box-shadow: ${props => props.theme.fieldShadow};
+  border-top: 1px solid #999;
+  border-top: 1px solid #c4c4c4;
+  background: #ffffffa6;
   color: ${props => props.theme.black};
   cursor: text;
   flex-grow: 1;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
-  max-width: 1000px;
-  min-height: 35vh;
+  height: 45vh;
   overflow: auto;
-  padding: 10px;
+  padding: 4% 0;
   transition: background-color .2s ease-in-out;
   width: 100%;
+  > div:first-child {
+    background: white;
+    box-shadow: 8px 8px 8px #111;
+    width: 80%;
+    min-height: 150vh;
+    margin: auto;
+    padding: 5% 10%;
+  }
   p {
     font-size: 1.5rem;
     text-indent: 25px;
@@ -56,6 +57,8 @@ const Header = styled.div`
 const MetaDataForm = styled.div`
   display: flex;
   position: inherit;
+  width: 100%;
+  margin: auto;
   div {
     width: 33.3%;
     padding: 0 10px;
@@ -85,8 +88,7 @@ const OuterContainer = styled.div`
 `;
 
 export {
-  EditorInner,
-  EditorOuter,
+  EditorWrapper,
   EditorStyles,
   Header,
   MetaDataForm,

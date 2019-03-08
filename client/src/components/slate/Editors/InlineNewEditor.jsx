@@ -6,8 +6,7 @@ import { Button, Input, Label } from "../../Forms/FormElements";
 import RenderButtons from "../RenderButtons.jsx";
 import { DragonColumnFake } from "../../Dragons";
 import {
-  EditorInner,
-  EditorOuter,
+  EditorWrapper,
   EditorStyles,
   Header,
   MetaDataForm,
@@ -29,12 +28,12 @@ export const InlineNewEditor = props => {
         texts={texts}
       />
 
-      <EditorOuter style={addedEdOuterStyles}>
+      <EditorWrapper style={addedEdOuterStyles}>
         <Header>
           <p>New text for: &nbsp;{subject.subject}</p>
         </Header>
 
-        <EditorInner>
+        {/* <EditorInner> */}
           <MetaDataForm>
             <div>
               <Label>Title:</Label>
@@ -65,7 +64,11 @@ export const InlineNewEditor = props => {
 
 
           <RenderButtons
-            style={{ paddingLeft: "5px" }}
+            style={{
+              background: '#ffffff87',
+              border: '2px solid rgba(38, 212, 204, .5)',
+              borderBottom: 'none'
+            }}
             state={props.state}
             onClickBlock={props.onClickBlock}
             onClickLink={props.onClickLink}
@@ -104,8 +107,8 @@ export const InlineNewEditor = props => {
               Cancel
             </Button>
           </div>
-        </EditorInner>
-      </EditorOuter>
+        {/* </EditorInner> */}
+      </EditorWrapper>
     </OuterContainer>
   );
 };

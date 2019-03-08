@@ -7,17 +7,12 @@ import RenderButtons from "../RenderButtons.jsx";
 import { DragonColumnFake } from "../../Dragons";
 import { StoryboardCardFake } from "../../Storyboard";
 import {
-  EditorInner,
-  EditorOuter,
+  EditorWrapper,
   EditorStyles,
   Header,
   MetaDataForm,
   OuterContainer
 } from "./Styles";
-
-const addedStyles = {
-  marginLeft: "20px"
-}
 
 export const SingleUpdateEditor = props => {
   const { storyboardOn, texts, toggleSingleEdit, updateText } = props;
@@ -37,53 +32,57 @@ export const SingleUpdateEditor = props => {
           />
         )}
 
-      <EditorOuter style={addedStyles}>
+      <EditorWrapper style={{ marginLeft: '20px' }}>
         <Header>
           <p>{props.state.title}</p>
         </Header>
 
-        <EditorInner>
-          <MetaDataForm>
-            <div>
-              <Label>Title:</Label>
-              <Input
-                tabIndex="1"
-                type="text"
-                name="title"
-                value={props.state.title}
-                maxLength="20"
-                placeholder="(20 char max)"
-                onChange={props.handleInputChange}
-              />
-            </div>
+        <MetaDataForm>
+          <div>
+            <Label>Title:</Label>
+            <Input
+              tabIndex="1"
+              type="text"
+              name="title"
+              value={props.state.title}
+              maxLength="20"
+              placeholder="(20 char max)"
+              onChange={props.handleInputChange}
+            />
+          </div>
 
-            <div>
-              <Label>Summary:</Label>
-              <Input
-                tabIndex="2"
-                type="text"
-                maxLength="140"
-                name="thesis"
-                value={props.state.thesis}
-                placeholder="(140 char max)"
-                onChange={props.handleInputChange}
-              />
-            </div>
-          </MetaDataForm>
+          <div>
+            <Label>Summary:</Label>
+            <Input
+              tabIndex="2"
+              type="text"
+              maxLength="140"
+              name="thesis"
+              value={props.state.thesis}
+              placeholder="(140 char max)"
+              onChange={props.handleInputChange}
+            />
+          </div>
+        </MetaDataForm>
 
 
-          <RenderButtons
-            style={{ paddingLeft: "5px", marginBottom: '2px' }}
-            state={props.state}
-            onClickBlock={props.onClickBlock}
-            onClickLink={props.onClickLink}
-            onClickMark={props.onClickMark}
-            hasBlock={props.hasBlock}
-            hasLinks={props.hasLinks}
-            hasMark={props.hasMark}
-          />
+        <RenderButtons
+          style={{
+            background: '#ffffff87',
+            border: '2px solid rgba(38, 212, 204, .5)',
+            borderBottom: 'none'
+          }}
+          state={props.state}
+          onClickBlock={props.onClickBlock}
+          onClickLink={props.onClickLink}
+          onClickMark={props.onClickMark}
+          hasBlock={props.hasBlock}
+          hasLinks={props.hasLinks}
+          hasMark={props.hasMark}
+        />
 
-          <EditorStyles style={{ maxHeight: "35vh" }}>
+        <EditorStyles>
+          <div>
             <Editor
               autoFocus
               plugins={plugins}
@@ -95,17 +94,18 @@ export const SingleUpdateEditor = props => {
               renderNode={renderNode}
               tabIndex="3"
             />
-          </EditorStyles>
-          <Button disabled={!title || !subject} onClick={() => updateText(_id)}>
-            Save
-            </Button>
+          </div>
+        </EditorStyles>
 
-          {/* if this is not place this in an anonymous function, it creates an error */}
-          <Button onClick={() => toggleSingleEdit()}>
-            Cancel
-            </Button>
-        </EditorInner>
-      </EditorOuter>
+        <Button disabled={!title || !subject} onClick={() => updateText(_id)}>
+          Save
+        </Button>
+
+        {/* if this is not place this in an anonymous function, it creates an error */}
+        <Button onClick={() => toggleSingleEdit()}>
+          Cancel
+        </Button>
+      </EditorWrapper>
     </OuterContainer>
   );
 }

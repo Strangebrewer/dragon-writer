@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 const EditorBtnArray = styled.div`
   cursor: default;
-  margin: 5px 0 0 0;  
+  margin: 10px 0 0 0;  
   margin-left: ${props => props.inline && '250px'};
-  padding-top: 10px;
+  padding: 10px 0 6px 12%;
   text-align: left;
   button span {
     font-family: 'Times New Roman', Times, serif;
@@ -34,7 +34,7 @@ const EditorBtn = styled.button`
       ? "30px"
       : "40px"
   )};
-  margin: 0 5px 5px 0;
+  margin: 0 5px 0 0;
   opacity: ${props => (
     props.isActive
       ? 1

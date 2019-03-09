@@ -167,9 +167,9 @@ class Project extends Component {
               projectId={_id}
               state={state}
             >
-              {editorProps => (
+              {editorprops => (
                 <SingleNewEditor
-                  {...editorProps}
+                  {...editorprops}
                   subjects={subjects}
                   toggleSingleNewEditor={this.toggleSingleNewEditor}
                 />
@@ -186,9 +186,9 @@ class Project extends Component {
             subject={state.singleSubject}
             state={state}
           >
-            {editorProps => (
+            {editorprops => (
               <InlineNewEditor
-                {...editorProps}
+                {...editorprops}
                 texts={state.singleSubject.textIds.map(textId => state.texts[textId])}
                 toggleInlineNew={this.toggleInlineNew}
               />
@@ -206,9 +206,9 @@ class Project extends Component {
             title={state.singleText.title}
             thesis={state.singleText.thesis}
           >
-            {editorProps => (
+            {editorprops => (
               <SingleUpdateEditor
-                {...editorProps}
+                {...editorprops}
                 storyboardOn={state.storyboardOn}
                 text={state.singleText}
                 texts={state.singleSubject.textIds.map(textId => state.texts[textId])}
@@ -223,9 +223,9 @@ class Project extends Component {
             ? (
               <MainDropZone>
                 <ModalLogic>
-                  {modalProps => (
+                  {modalprops => (
                     <DragonFullTextColumn
-                      {...modalProps}
+                      {...modalprops}
                       addImageToText={this.addImageToText}
                       deleteText={this.deleteText}
                       executeDragonStateChanges={executeDragonStateChanges}

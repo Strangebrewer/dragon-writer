@@ -216,7 +216,7 @@ class App extends Component {
   }
 
   render() {
-    const sharedProps = {
+    const sharedprops = {
       authenticated: isAuthenticated,
       buildHeaders: this.buildHeaders,
       getInitialData: this.getInitialData,
@@ -233,18 +233,18 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/">
-              {routeProps => (
-                <Landing {...routeProps} {...sharedProps} />
+              {routeprops => (
+                <Landing {...routeprops} {...sharedprops} />
               )}
             </Route>
 
             <Route exact path="/home">
-              {routeProps => (
+              {routeprops => (
                 isAuthenticated
                   ? (
                     <Home
-                      {...routeProps}
-                      {...sharedProps}
+                      {...routeprops}
+                      {...sharedprops}
                       addNewProject={this.addNewProject}
                       projectOrder={this.state.projectOrder}
                       projectOrderData={this.state.projectOrderData}
@@ -261,7 +261,7 @@ class App extends Component {
               && (
                 this.state.projects.map((project, index) => (
                   <Route key={project._id} path={`/${project.link}`}>
-                    {routeProps => (
+                    {routeprops => (
                       isAuthenticated
                         ? (
                           <DragonLogic
@@ -272,11 +272,11 @@ class App extends Component {
                             refreshSingleProjectOrder={this.refreshSingleProjectOrder}
                             updateTextInProject={this.updateTextInProject}
                           >
-                            {dragonProps => (
+                            {dragonprops => (
                               <Project
-                                {...routeProps}
-                                {...dragonProps}
-                                {...sharedProps}
+                                {...routeprops}
+                                {...dragonprops}
+                                {...sharedprops}
                                 project={project}
                               />
                             )}
@@ -292,7 +292,7 @@ class App extends Component {
             {/* this forces the unknown paths (i.e. projects) to redirect to the landing page rather than simply default to the NoMatch page */}
             {this.state.redirect && (
               <Route path="*">
-                {routeProps => (
+                {routeprops => (
                   <Redirect to="/" />
                 )}
               </Route>

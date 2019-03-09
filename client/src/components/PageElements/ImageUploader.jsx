@@ -5,12 +5,12 @@ export class ImageUploader extends PureComponent {
   render() {
     return (
       <ModalLogic>
-        {modalProps => (
-          <UploadLogic {...this.props} {...modalProps}>
-            {uploadProps => (
+        {modalprops => (
+          <UploadLogic {...this.props} {...modalprops}>
+            {uploadprops => (
               this.props.children({
-                ...modalProps,
-                ...uploadProps
+                ...modalprops,
+                ...uploadprops
               })
             )}
           </UploadLogic>

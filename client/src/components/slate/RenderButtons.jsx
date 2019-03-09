@@ -3,17 +3,14 @@ import styled from 'styled-components';
 
 const EditorBtnArray = styled.div`
   cursor: default;
-  margin: 10px 0 0 0;  
-  margin-left: ${props => props.inline && '250px'};
+  margin: 0px 0 0 0;
   padding: 10px 0 6px 12%;
+  padding-left: ${props => props.inline && '15px'};
+  padding-top: ${props => props.inline && '0px'};
   text-align: left;
   button span {
     font-family: 'Times New Roman', Times, serif;
-    font-size: ${props => (
-    props.inline
-      ? "1rem"
-      : "1.6rem"
-  )};
+    font-size: 1rem;
     font-weight: bold;
     line-height: 0.5;
     margin: 0;
@@ -24,16 +21,8 @@ const EditorBtnArray = styled.div`
 const EditorBtn = styled.button`
   box-shadow: 2px 2px 1px #222;
   cursor: pointer;
-  font-size: ${props => (
-    props.inline
-      ? "1rem"
-      : "1.6rem"
-  )};
-  height: ${props => (
-    props.inline
-      ? "30px"
-      : "40px"
-  )};
+  font-size: 1rem;
+  height: 30px;
   margin: 0 5px 0 0;
   opacity: ${props => (
     props.isActive
@@ -41,11 +30,7 @@ const EditorBtn = styled.button`
       : 0.6
   )};
   padding: 0;
-  width: ${props => (
-    props.inline
-      ? "30px"
-      : "40px"
-  )};
+  width: 30px;
   &:last-of-type {
     margin-right: 0;
   }

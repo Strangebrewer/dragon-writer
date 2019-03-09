@@ -64,7 +64,6 @@ const Card = styled.div`
     font-size: 1.5rem;
   }
   &:hover {
-    /* border: 1px solid ${props => props.theme.midGrey}; */
     h3, p, button, .fa-arrows-alt {
       opacity: 1;
     }
@@ -89,3 +88,8 @@ export class StoryboardCard extends PureComponent {
     );
   }
 };
+
+// export this component to re-use in the fake Storyboard Card
+export {
+  Card
+}

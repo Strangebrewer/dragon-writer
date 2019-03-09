@@ -167,7 +167,7 @@ export class ProjectList extends Component {
               {(provided, snapshot) => (
                 <DropZone
                   ref={provided.innerRef}
-                  {...provided.droppableProps}
+                  {...provided.droppableprops}
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   {projectOrder.map((project, index) => {

@@ -45,7 +45,7 @@ module.exports = {
   updateSubject: async function (req, res) {
     await console.log(req.body);
     try {
-      if (req.body.hasOwnProperty("published")) {
+      if (req.body.hasOwnproperty("published")) {
         let update;
         if (req.body.published) update = { $push: { published: req.params.id } };
         else update = { $pull: { published: req.params.id } };

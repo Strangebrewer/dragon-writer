@@ -9,18 +9,14 @@ import { Button } from "../Forms/FormElements";
 import initialValue from "../slate/utils/value.json"
 
 const Container = styled.div`
-  background: ${props => (
-    props.isDragging
-      ? '#ffffff17'
-      : 'linear-gradient(90deg, #00000000, #000000cb, #00000000)'
-  )};
+  background: ${props => props.isDragging && '#ffffff17'};
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   display: flex;
-  justify-content: space-between;
   margin: auto;
   min-height: 140px;
   min-width: 600px;
+  outline: transparent;
   padding-right: 200px;
   position: relative;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
@@ -47,18 +43,15 @@ const MetaDataContainer = styled.div`
 `;
 
 const EditorStyles = styled.div`
-  background-image: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.567), rgba(0,0,0,0.667), rgba(0,0,0,0.567), rgba(0,0,0,0));
-  /* color transparency in hex code doesn't work on Edge
-      so, I'm using the below background to deliberately force Edge to fall back to the one above
-      while using the one below on Chrome because the same rgba numbers seem to look different on Chrome and Edge */
-  background: linear-gradient(90deg, #00000000, #00000044, #00000000);
+  background: #000000aa;
   border: none;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   box-shadow: none;
   color: ${props => props.theme.editorColor};
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
   overflow: auto;
+  padding: 0 40px;
   transition: background-color .2s ease-in-out;
   width: 100%;
   p {
@@ -79,13 +72,13 @@ const ImageContainer = styled.div`
   display: flex;
   height: 100%;
   min-width: 200px;
-  padding: 5px 10px 20px 30px;
+  padding: 20px 10px 20px 20px;
   width: 200px;
   img {
     align-self: flex-start;
     cursor: pointer;
-    max-width: 100%;
-    max-height: 100%;
+    /* if I make this 100%, it creates a sliver of space between texts */
+    max-width: 99%;
   }
 `;
 
@@ -172,7 +165,7 @@ export class DragonFullText extends Component {
                 </LinkBtn>
               </MetaDataContainer>
 
-              <EditorStyles>
+              <EditorStyles className="dgn-txt-full">
                 <Editor
                   key={text._id}
                   index={index}

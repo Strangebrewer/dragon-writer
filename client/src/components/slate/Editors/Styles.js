@@ -22,14 +22,14 @@ const EditorStyles = styled.div`
   flex-grow: 1;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
-  height: 45vh;
+  height: 35vh;
   overflow: auto;
   padding: 4% 0;
   transition: background-color .2s ease-in-out;
   width: 100%;
   > div:first-child {
     background: white;
-    box-shadow: 8px 8px 8px #111;
+    box-shadow: 8px 8px 6px #444;
     width: 80%;
     min-height: 150vh;
     margin: auto;

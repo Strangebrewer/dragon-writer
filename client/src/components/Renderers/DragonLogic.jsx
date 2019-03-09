@@ -34,11 +34,11 @@ export class DragonLogic extends Component {
     }
 
   // Without this, first login will not show projects.
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.projectOrder !== this.props.projectOrder) {
+  componentWillReceiveProps(nextprops) {
+    if (nextprops.projectOrder !== this.props.projectOrder) {
       this.setState({
-        projectOrder: nextProps.projectOrder,
-        projectOrderData: nextProps.projectOrderData
+        projectOrder: nextprops.projectOrder,
+        projectOrderData: nextprops.projectOrderData
       })
     }
   }
@@ -77,7 +77,7 @@ export class DragonLogic extends Component {
     if (start === finish) {
       const newState = Scales.singleSubjectDragon(
         this.state,
-        start.textIds,
+        start,
         source,
         destination,
         draggableId

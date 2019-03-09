@@ -92,7 +92,7 @@ export const SingleUpdateEditor = props => {
               onPaste={props.onPaste}
               renderMark={renderMark}
               renderNode={renderNode}
-              tabIndex="3"
+              tabIndex={3}
             />
           </div>
         </EditorStyles>

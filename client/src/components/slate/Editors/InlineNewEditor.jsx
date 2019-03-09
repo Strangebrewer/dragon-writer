@@ -38,6 +38,7 @@ export const InlineNewEditor = props => {
             <div>
               <Label>Title:</Label>
               <Input
+                tabIndex="1"
                 style={{ maxWidth: "300px" }}
                 type="text"
                 name="title"
@@ -51,6 +52,7 @@ export const InlineNewEditor = props => {
             <div>
               <Label>Summary:</Label>
               <Input
+                tabIndex="2"
                 style={{ maxWidth: "300px" }}
                 type="text"
                 maxLength="140"
@@ -88,6 +90,7 @@ export const InlineNewEditor = props => {
               onPaste={props.onPaste}
               renderMark={renderMark}
               renderNode={renderNode}
+              tabIndex={3}
             />
           </EditorStyles>
 

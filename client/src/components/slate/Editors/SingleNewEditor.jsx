@@ -17,7 +17,7 @@ export const SingleNewEditor = props => {
   const { subject, title } = props.state;
   return (
     <div style={{ display: 'flex', height: "100%", width: "100%" }}>
-      <EditorWrapper>
+      <EditorWrapper style={{ maxWidth: '1100px' }}>
         <Header>
           <p>Create New Text</p>
         </Header>
@@ -26,6 +26,7 @@ export const SingleNewEditor = props => {
           <div>
             <Label>Title:</Label>
             <Input
+              tabIndex="1"
               type="text"
               name="title"
               value={props.state.title}
@@ -38,6 +39,7 @@ export const SingleNewEditor = props => {
           <div>
             <Label>Summary:</Label>
             <Input
+              tabIndex="2"
               type="text"
               maxLength="140"
               name="thesis"
@@ -50,6 +52,7 @@ export const SingleNewEditor = props => {
           <div>
             <Label>Column:</Label>
             <Select
+              tabIndex="3"
               value={props.state.subject}
               onChange={props.handleInputChange}
               name="subject"
@@ -89,6 +92,7 @@ export const SingleNewEditor = props => {
               onPaste={props.onPaste}
               renderMark={renderMark}
               renderNode={renderNode}
+              tabIndex={4}
             />
           </div>
         </EditorStyles>

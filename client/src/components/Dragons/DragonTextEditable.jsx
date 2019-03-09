@@ -7,30 +7,30 @@ import { InlineUpdateEditor } from "../slate/Editors";
 const Container = styled.div`
   background: ${props => (
     props.isDragging
-      ? 'rgba(255, 255, 255, 0.09)'
+      ? 'rgba(110, 110, 110, 0.7)'
       : 'rgba(38, 212, 204, 0.267)'
   )};
   border-radius: 10px;
   box-shadow: inset 0 0 100px 30px rgb(0,0,0);
   display: flex;
-  padding: 40px 0;
+  justify-content: space-between;
+  padding: 40px 20px;
   transition: background-color .2s ease-in-out;
   width: 100%;
 `;
 
 const ImageContainer = styled.div`
   display: flex;
-  height: 100%;
-  min-width: 390px;
-  padding-top: 55px;
-  padding-right: 30px;
-  padding-bottom: 20px;
   padding-left: 20px;
-  width: 390px;
+  height: 400px;
+  width: 400px;
+  min-width: 400px;
+  max-height: 400px;
   img {
     align-self: flex-start;
-    max-width: 100%;
-    max-height: 100%;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
   }
 `;
 
@@ -54,6 +54,7 @@ export class DragonTextEditable extends Component {
       <Draggable key={text._id} draggableId={text._id} index={index}>
         {(provided, snapshot) => (
           <Container
+            className="dgn-txt-full-edit"
             key={text._id}
             index={index}
             {...provided.draggableProps}
@@ -70,9 +71,9 @@ export class DragonTextEditable extends Component {
               thesis={text.thesis}
               title={text.title}
             >
-              {editorProps => (
+              {editorprops => (
                 <InlineUpdateEditor
-                  {...editorProps}
+                  {...editorprops}
                   dragHandle={provided.dragHandleProps}
                   id={text._id}
                   inline="true"

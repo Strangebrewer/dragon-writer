@@ -15,7 +15,7 @@ export const MainDropZone = ({ children }) => {
   return (
     <Droppable droppableId="all-subjects" direction="horizontal" type="subject">
       {provided => (
-        <Container {...provided.droppableProps} ref={provided.innerRef}>
+        <Container {...provided.droppableprops} ref={provided.innerRef}>
           {children}
           {provided.placeholder}
         </Container>

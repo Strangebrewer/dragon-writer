@@ -7,7 +7,9 @@ import { API, Scales, Utils } from "../utils"
 
 const Container = styled.div`
   margin: auto;
-  /* padding-right: 200px; */
+  display: flex;
+  /* 'height: 100%' so 'margin: auto' in child elements will vertically center them */
+  height: 100%; 
 `;
 
 class Home extends Component {
@@ -19,9 +21,9 @@ class Home extends Component {
 
   // Without this, first login will not show projects,
   // and deleted projects will remain in view until refresh.
-  componentWillReceiveProps(nextProps) {
-    const { projectOrder, projectOrderData } = nextProps;
-    if (nextProps.projectOrder !== this.props.projectOrder)
+  componentWillReceiveProps(nextprops) {
+    const { projectOrder, projectOrderData } = nextprops;
+    if (nextprops.projectOrder !== this.props.projectOrder)
       this.setState({ projectOrder, projectOrderData });
   }
 

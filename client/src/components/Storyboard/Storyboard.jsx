@@ -86,7 +86,7 @@ const EditorStyle = styled.div`
 `;
 
 const NothingContainer = styled.div`
-  padding-right: 0;
+  padding-right: 200px;
   text-align: center;
   h2 {
     font-family: ${props => props.theme.hTypeface};

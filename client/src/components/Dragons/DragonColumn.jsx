@@ -19,7 +19,7 @@ const Container = styled.div`
   box-shadow: 4px 4px 4px rgb(0,0,0);
   display: flex;
   flex-direction: column;
-  margin: 25px 10px 10px 10px;
+  margin: 20px 10px 10px 10px;
   min-height: 600px;
   min-width: 300px;
   position: relative;
@@ -263,7 +263,7 @@ class DragonColumn extends PureComponent {
               {(provided, snapshot) => (
                 <DragonList
                   ref={provided.innerRef}
-                  {...provided.droppableProps}
+                  {...provided.droppableprops}
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   <ImageUploader

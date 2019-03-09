@@ -54,7 +54,7 @@ export class NewProjectForm extends Component {
 
   render() {
     return (
-      <Form>
+      <Form style={{ margin: 'auto', justifyContent: 'center' }}>
         <h2>New Project</h2>
         <Label>Project Title:</Label>
         <Input

@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
@@ -23,11 +23,7 @@ const TextContainer = styled.div`
   box-shadow: 2px 2px 4px rgb(0,0,0);
   color: rgb(255,255,255);
   margin-bottom: 8px;
-  opacity: ${props => (
-    props.loading
-      ? "0.9"
-      : "1"
-  )};
+  opacity: ${props => props.loading ? "0.9" : "1"};
   padding: 20px;
   position: relative;
   transition: background-color .2s ease-in-out;

@@ -112,7 +112,7 @@ export class DragonFullTextColumn extends Component {
                 <DragonTextList
                   id="pdf-test"
                   ref={provided.innerRef}
-                  {...provided.droppableProps}
+                  {...provided.droppableprops}
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   <ImageUploader

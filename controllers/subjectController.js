@@ -28,7 +28,6 @@ module.exports = {
 
   createSubject: async function (req, res) {
     req.body.userId = req.user._id;
-    console.log(req.body)
     try {
       const subject = await db.Subject.create(req.body);
       await db.Project.findOneAndUpdate(
@@ -43,14 +42,13 @@ module.exports = {
   },
 
   updateSubject: async function (req, res) {
-    await console.log(req.body);
     try {
-      if (req.body.hasOwnproperty("published")) {
+      if (req.body.hasOwnProperty("published")) {
         let update;
         if (req.body.published) update = { $push: { published: req.params.id } };
         else update = { $pull: { published: req.params.id } };
-        await db.Project.findOneAndUpdate({ _id: req.body.projectId }, update);
-        // delete req.body.projectId;
+        await db.Project.findOneAndUpdate({ _id: req.body.projectId }, update, { new: true });
+        delete req.body.projectId;
       }
       const subject = await db.Subject.findByIdAndUpdate(
         req.params.id, req.body, { new: true }
@@ -58,7 +56,7 @@ module.exports = {
       res.json(subject);
     }
     catch (err) {
-      res.status(422).json(err);
+      res.json(err);
     }
   },
 

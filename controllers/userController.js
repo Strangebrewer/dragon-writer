@@ -8,7 +8,7 @@ module.exports = {
     console.log(req.params.username);
     try {
       const url = req.params.username.toLowerCase();
-      await db.User.findOne({ url })
+      await db.User.findOne({ url: url })
         .populate({
           path: 'projects',
           match: { "published.0": { "$exists": true } },

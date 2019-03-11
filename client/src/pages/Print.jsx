@@ -7,7 +7,7 @@ import { LinkBtn } from "../components/PageElements";
 import { GlobalStyle } from "../components/Styles";
 
 const Wrapper = styled.div`
-  background: #fff;
+  background: #000;
   font-family: 'Times New Roman', Times, serif;
   min-height: 100vh;
   width: 100%; 
@@ -72,6 +72,7 @@ const PrintWarning = styled.p`
 `;
 
 const EditorStyles = styled.div`
+  color: lightseagreen;
   line-height: 1.4;
   overflow: auto;
   transition: background-color .2s ease-in-out;
@@ -118,7 +119,7 @@ class Print extends Component {
   }
 
   render() {
-    const { subject, texts } = this.props.location.state;
+    const { schema, subject, texts } = this.props.location.state;
     console.log(this.props);
     return (
       <Wrapper>
@@ -155,6 +156,7 @@ class Print extends Component {
                 readOnly
                 renderMark={renderMark}
                 renderNode={renderNode}
+                schema={schema}
               />
             ))}
           </EditorStyles>

@@ -1,11 +1,33 @@
 import { Component } from 'react';
-import { Selection, Value } from "slate";
-import { getEventTransfer } from "slate-react";
+import { Block, Value } from "slate";
+import { getEventRange, getEventTransfer } from "slate-react";
+import imageExtensions from 'image-extensions';
 import isUrl from "is-url";
 import initialValue from "../slate/utils/value.json";
 import { API, Scales } from "../../utils";
 
+console.log(imageExtensions)
+
 const DEFAULT_NODE = 'paragraph';
+
+const schema = {
+  document: {
+    last: { type: 'paragraph' },
+    normalize: (editor, { code, node, child }) => {
+      switch (code) {
+        case 'last_child_type_invalid': {
+          const paragraph = Block.create('paragraph');
+          return editor.insertNodeByKey(node.key, node.nodes.size, paragraph);
+        }
+      }
+    },
+  },
+  blocks: {
+    image: {
+      isVoid: true,
+    }
+  }
+}
 
 export class EditorLogic extends Component {
   state = {
@@ -28,12 +50,46 @@ export class EditorLogic extends Component {
   }
 
   onChange = ({ value }) => {
-      this.setState({ value });
+    this.setState({ value });
   };
 
   ref = editor => {
     this.editor = editor;
   };
+
+
+
+
+  isImage = url => !!imageExtensions.some(ext => url.includes(`.${ext}`));
+
+  insertImage = (editor, src, target) => {
+    if (target) editor.select(target);
+    editor.insertBlock({
+      type: 'image',
+      data: { src }
+    });
+  };
+
+  onClickImage = event => {
+    event.preventDefault();
+    const src = window.prompt('Enter the URL of the image:');
+    if (!src) return;
+    this.editor.command(this.insertImage, src)
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   wrapLink = (editor, href) => {
     editor.wrapInline({
@@ -74,25 +130,76 @@ export class EditorLogic extends Component {
     }
   }
 
-  onPaste = (event, editor, next) => {
-    if (editor.value.selection.isCollapsed)
-      return next();
+  onDropOrPaste = (event, editor, next) => {
+    const target = getEventRange(event, editor);
+    if (!target && event.type === 'drop') return next();
 
     const transfer = getEventTransfer(event);
-    const { type, text } = transfer;
+    const { type, text, files } = transfer;
 
-    console.log(text);
+    if (type === 'files') {
+      for (const file of files) {
+        const reader = new FileReader();
+        const [mime] = file.type.split('/');
+        if (mime !== 'image') continue;
 
-    if (type !== 'text' && type !== 'html')
-      return next();
-    if (!isUrl(text))
-      return next();
+        reader.addEventListener('load', () => {
+          editor.command(this.insertImage, reader.result, target);
+        });
 
-    if (this.hasLinks())
-      editor.command(this.unwrapLink);
+        reader.readAsDataURL(file);
+      }
+      return;
+    }
 
-    editor.command(this.wrapLink, text)
+    if (type === 'text' || type === 'html') {
+      if (!isUrl(text) && !this.isImage(text)) return next();
+      if (this.isImage(text)) {        
+        editor.command(this.insertImage, text, target);
+        return;
+      }
+      if (isUrl(text)) {
+        if (this.hasLinks())
+          editor.command(this.unwrapLink);
+        editor.command(this.wrapLink, text)
+      }
+      return;
+    }
+
+    next();
   }
+
+  // onDropOrPaste = (event, editor, next) => {
+  //   const target = getEventRange(event, editor)
+  //   if (!target && event.type === 'drop') return next()
+
+  //   const transfer = getEventTransfer(event)
+  //   const { type, text, files } = transfer
+
+  //   if (type === 'files') {
+  //     for (const file of files) {
+  //       const reader = new FileReader()
+  //       const [mime] = file.type.split('/')
+  //       if (mime !== 'image') continue
+
+  //       reader.addEventListener('load', () => {
+  //         editor.command(this.insertImage, reader.result, target)
+  //       })
+
+  //       reader.readAsDataURL(file)
+  //     }
+  //     return
+  //   }
+
+  //   if (type === 'text') {
+  //     if (!isUrl(text)) return next()
+  //     if (!this.isImage(text)) return next()
+  //     editor.command(this.insertImage, text, target)
+  //     return
+  //   }
+
+  //   next()
+  // }
 
   hasMark = type => {
     const { value } = this.state;
@@ -190,10 +297,12 @@ export class EditorLogic extends Component {
         hasMark: this.hasMark,
         onChange: this.onChange,
         onClickBlock: this.onClickBlock,
+        onClickImage: this.onClickImage,
         onClickLink: this.onClickLink,
         onClickMark: this.onClickMark,
-        onPaste: this.onPaste,
+        onDropOrPaste: this.onDropOrPaste,
         thisRef: this.ref,
+        schema: schema,
         state: this.state,
         updateText: this.updateText,
       })

@@ -1,4 +1,5 @@
 const db = require('../models');
+const removeImage = require('./imageController').removeImage;
 
 function CustomError(error) {
   console.log(error);
@@ -89,6 +90,9 @@ module.exports = {
   },
 
   deleteText: async function (req, res) {
+    console.log("THIS IS IN THE DELETE TEXT FUNCTION:");
+    console.log(req.body);
+    removeImage();
     try {
       const text = await db.Text.findByIdAndDelete(req.params.id);
       await db.Project.findOneAndUpdate(

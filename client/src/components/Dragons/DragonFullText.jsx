@@ -106,7 +106,7 @@ export class DragonFullText extends Component {
   };
 
   render() {
-    const { index, text, subject, toggleEditable, uploadImageModal } = this.props;
+    const { index, text, schema, subject, toggleEditable, uploadImageModal } = this.props;
     const { _id, largeImage, publicId } = text;
     const thisValue = text.text ? JSON.parse(text.text) : initialValue;
     text.parentSubject = subject;
@@ -173,6 +173,7 @@ export class DragonFullText extends Component {
                   readOnly
                   renderMark={renderMark}
                   renderNode={renderNode}
+                  schema={schema}
                 />
               </EditorStyles>
 

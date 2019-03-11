@@ -8,7 +8,8 @@ cloudinary.config({
 
 module.exports = {
   removeImage: async function (req, res) {
-    console.log(req.body.type);
+    console.log("THIS IS IN THE REMOVE IMAGE FUNCTION:");
+    console.log(req.body);
     let removal;
     try {
       const result = await cloudinary.v2.uploader.destroy(req.body.imageId, { invalidate: true });

@@ -165,15 +165,15 @@ export class DragonFullText extends Component {
                 </LinkBtn>
               </MetaDataContainer>
 
-              <EditorStyles className="dgn-txt-full">
+              <EditorStyles className="dgn-txt-full" onDoubleClick={() => toggleEditable(text._id)}>
                 <Editor
                   key={text._id}
                   index={index}
-                  value={Value.fromJSON(thisValue)}
                   readOnly
                   renderMark={renderMark}
                   renderNode={renderNode}
                   schema={schema}
+                  value={Value.fromJSON(thisValue)}
                 />
               </EditorStyles>
 

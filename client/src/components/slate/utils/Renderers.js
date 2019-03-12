@@ -15,7 +15,7 @@ const Image = styled.img`
 
 function renderNode(props, editor, next) {
   const { attributes, children, node, isFocused } = props;
-  
+
   switch (node.type) {
     case 'block-quote':
       return (
@@ -45,12 +45,10 @@ function renderNode(props, editor, next) {
             <Image
               {...attributes}
               src={src}
-              onClick={
-                () => props.setModal({
-                  body: <img src={src} style={{ maxHeight: '80vh', maxWidth: '90vw' }} />,
-                  buttons: <button onClick={props.closeModal}>OK</button>
-                })
-              }
+              onClick={() => props.setModal({
+                body: <img src={src} style={{ maxHeight: '80vh', maxWidth: '90vw' }} />,
+                buttons: <button onClick={props.closeModal}>OK</button>
+              })}
               selected={isFocused}
             />
           )}

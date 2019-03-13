@@ -77,6 +77,26 @@ export class EditorLogic extends Component {
     this.editor.command(this.insertImage, src)
   }
 
+  onClickImageLeft = event => {
+    event.preventDefault();
+    const src = window.prompt('Enter the URL of the image:');
+    if (!src) return;
+    this.editor.insertBlock({
+      type: 'image-left',
+      data: { src, location: 'left' }
+    });
+  }
+
+  onClickImageRight = event => {
+    event.preventDefault();
+    const src = window.prompt('Enter the URL of the image:');
+    if (!src) return;
+    this.editor.insertBlock({
+      type: 'image-right',
+      data: { src, location: 'right' }
+    });
+  }
+
 
 
 
@@ -168,38 +188,6 @@ export class EditorLogic extends Component {
 
     next();
   }
-
-  // onDropOrPaste = (event, editor, next) => {
-  //   const target = getEventRange(event, editor)
-  //   if (!target && event.type === 'drop') return next()
-
-  //   const transfer = getEventTransfer(event)
-  //   const { type, text, files } = transfer
-
-  //   if (type === 'files') {
-  //     for (const file of files) {
-  //       const reader = new FileReader()
-  //       const [mime] = file.type.split('/')
-  //       if (mime !== 'image') continue
-
-  //       reader.addEventListener('load', () => {
-  //         editor.command(this.insertImage, reader.result, target)
-  //       })
-
-  //       reader.readAsDataURL(file)
-  //     }
-  //     return
-  //   }
-
-  //   if (type === 'text') {
-  //     if (!isUrl(text)) return next()
-  //     if (!this.isImage(text)) return next()
-  //     editor.command(this.insertImage, text, target)
-  //     return
-  //   }
-
-  //   next()
-  // }
 
   hasMark = type => {
     const { value } = this.state;
@@ -298,6 +286,8 @@ export class EditorLogic extends Component {
         onChange: this.onChange,
         onClickBlock: this.onClickBlock,
         onClickImage: this.onClickImage,
+        onClickImageLeft: this.onClickImageLeft,
+        onClickImageRight: this.onClickImageRight,
         onClickLink: this.onClickLink,
         onClickMark: this.onClickMark,
         onDropOrPaste: this.onDropOrPaste,

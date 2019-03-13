@@ -44,7 +44,7 @@ const EditorStyles = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
   max-width: 1000px;
-  min-height: 35vh;
+  /* min-height: 35vh; */
   overflow: auto;
   padding: 10px;
   transition: background-color .2s ease-in-out;

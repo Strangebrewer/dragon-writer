@@ -3,13 +3,22 @@ import { Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
 import styled from 'styled-components';
+import RenderButtons from "../slate/RenderButtons";
+import { plugins } from "../slate/utils/HotKeys";
 import { renderMark, renderNode } from "../slate/utils/Renderers";
+import { EditorLogic } from "../Renderers";
 import { LinkBtn } from "../PageElements";
 import { Button } from "../Forms/FormElements";
 import initialValue from "../slate/utils/value.json"
 
+const addedStyles = {
+  backgroundColor: "rgba(38, 212, 204, 0.067)",
+  color: "#bbb",
+  cursor: 'text'
+}
+
 const Container = styled.div`
-  background: ${props => props.isDragging && '#ffffff17'};
+  /* background: ${props => props.isDragging && '#ffffff17'}; */
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   display: flex;
@@ -17,7 +26,7 @@ const Container = styled.div`
   min-height: 140px;
   min-width: 600px;
   outline: transparent;
-  padding-right: 200px;
+  padding-right: 400px;
   position: relative;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
   width: 100%;
@@ -43,7 +52,8 @@ const MetaDataContainer = styled.div`
 `;
 
 const EditorStyles = styled.div`
-  background: #000000aa;
+background: ${props => props.isDragging ? '#ffffff17' : "#000000aa"};
+  /* background: #000000aa; */
   border: none;
   /* border-radius: 8px; */
   box-shadow: none;
@@ -52,6 +62,7 @@ const EditorStyles = styled.div`
   line-height: 1.4;
   overflow: auto;
   padding: 0 40px;
+  position: relative;
   transition: background-color .2s ease-in-out;
   width: 100%;
   p {
@@ -106,9 +117,11 @@ export class DragonFullText extends Component {
   };
 
   render() {
-    const { index, text, schema, subject, toggleEditable, uploadImageModal } = this.props;
+    const { props } = this;
+    const { index, text, schema, subject, toggleEditable, toggleEditableOn, uploadImageModal } = this.props;
     const { _id, largeImage, publicId } = text;
     const thisValue = text.text ? JSON.parse(text.text) : initialValue;
+    console.log(this.props.state)
     text.parentSubject = subject;
     return (
       <React.Fragment>
@@ -165,21 +178,71 @@ export class DragonFullText extends Component {
                 </LinkBtn>
               </MetaDataContainer>
 
-              <EditorStyles className="dgn-txt-full" onDoubleClick={() => toggleEditable(text._id)}>
-                <Editor
-                  key={text._id}
-                  index={index}
-                  readOnly
-                  renderMark={renderMark}
-                  renderNode={renderNode}
-                  schema={schema}
-                  value={Value.fromJSON(thisValue)}
-                />
-              </EditorStyles>
+              <EditorStyles
+                {...provided.dragHandleProps}
+                isDragging={snapshot.isDragging}
+                onDoubleClick={() => toggleEditableOn(text._id)}
+              >
+                {this.props.editable
+                  ? (
+                    <EditorLogic
+                      callback={toggleEditable}
+                      executeDragonStateChanges={this.props.executeDragonStateChanges}
+                      incomingText={text}
+                      state={this.props.state}
+                      subject={text.subjectId}
+                      text={JSON.parse(text.text)}
+                      thesis={text.thesis}
+                      title={text.title}
+                    >
+                      {editorprops => (
+                        <Fragment>
+                          <RenderButtons
+                            {...editorprops}
+                            inline="true"
+                          />
+                          <div style={{ marginTop: '50px'}}>
+                            <button onClick={() => editorprops.updateText(text._id)}>Save</button>
+                            <button onClick={() => toggleEditable(text._id)}>Cancel</button>
+                          </div>
+                          <Editor
+                            {...editorprops}
+                            style={addedStyles}
+                            title={text.title}
+                            dragHandle={provided.dragHandleProps}
+                            id={text._id}
+                            inline="true"
+                            isDragging={snapshot.isDragging}
+                            title={text.title}
+                            toggleEditable={toggleEditable}
+                            autoFocus
+                            onDrop={editorprops.onDropOrPaste}
+                            onPaste={editorprops.onDropOrPaste}
+                            plugins={plugins}
+                            ref={editorprops.thisRef}
+                            value={editorprops.state.value}
+                            renderMark={renderMark}
+                            renderNode={renderNode}
+                            schema={editorprops.schema}
+                          />
+                        </Fragment>
+                      )}
+                    </EditorLogic>
 
-              <ImageContainer isDragging={snapshot.isDragging}>
-                <img src={text.image} alt="" onClick={() => this.props.imageModal(largeImage, publicId, _id, "text")} />
-              </ImageContainer>
+                  )
+                  : (
+                    <Editor
+                      key={text._id}
+                      index={index}
+                      readOnly
+                      renderMark={renderMark}
+                      renderNode={renderNode}
+                      schema={schema}
+                      value={Value.fromJSON(thisValue)}
+                    />
+                  )
+                }
+              </EditorStyles>
             </Container>
           )}
 

@@ -4,10 +4,19 @@ import styled from 'styled-components';
 const EditorBtnArray = styled.div`
   cursor: default;
   margin: 0px 0 0 0;
+  opacity: .1;
   padding: 10px 0 6px 12%;
   padding-left: ${props => props.inline && '15px'};
   padding-top: ${props => props.inline && '0px'};
+  position: ${props => props.inline && 'absolute'};
   text-align: left;
+  /* transform: translateY(-20px); */
+  transition: opacity .6s ease-in-out 0.8s;
+  &:hover {
+    opacity: 1;
+    /* transform: translateY(0px); */
+    transition: opacity 0.23s ease-in-out;
+  }
   button span {
     font-family: 'Times New Roman', Times, serif;
     font-size: 1rem;
@@ -24,11 +33,7 @@ const EditorBtn = styled.button`
   font-size: 1rem;
   height: 30px;
   margin: 0 5px 0 0;
-  opacity: ${props => (
-    props.isActive
-      ? 1
-      : 0.6
-  )};
+  opacity: ${props => props.isActive ? 1 : 0.6};
   padding: 0;
   width: 30px;
   &:last-of-type {
@@ -106,6 +111,28 @@ const RenderButtons = props => {
     )
   }
 
+  const renderImageLeftButton = (type, icon) => {
+    return (
+      <EditorBtn
+        inline={props.inline}
+        onClick={props.onClickImageLeft}
+      >
+        <i className="fas fa-arrow-left" /><i className={`far fa-image`} />
+      </EditorBtn>
+    )
+  }
+
+  const renderImageRightButton = (type, icon) => {
+    return (
+      <EditorBtn
+        inline={props.inline}
+        onClick={props.onClickImageRight}
+      >
+        <i className={`far fa-image`} /><i className="fas fa-arrow-right" />
+      </EditorBtn>
+    )
+  }
+
   return (
     <EditorBtnArray inline={props.inline} style={props.style}>
       {renderMarkButton('bold', 'bold')}
@@ -125,6 +152,8 @@ const RenderButtons = props => {
       {renderBlockButton('numbered-list', 'list-ol')}
       {renderBlockButton('bulleted-list', 'list-ul')}
       {renderLinkButton('link', 'link')}
+      {renderImageLeftButton('image-left')}
+      {renderImageRightButton('image-right')}
     </EditorBtnArray>
   );
 }

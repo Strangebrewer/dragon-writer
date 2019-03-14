@@ -57,9 +57,6 @@ export class EditorLogic extends Component {
     this.editor = editor;
   };
 
-
-
-
   isImage = url => !!imageExtensions.some(ext => url.includes(`.${ext}`));
 
   insertImage = (editor, src, target) => {
@@ -69,47 +66,6 @@ export class EditorLogic extends Component {
       data: { src }
     });
   };
-
-  onClickImage = event => {
-    event.preventDefault();
-    const src = window.prompt('Enter the URL of the image:');
-    if (!src) return;
-    this.editor.command(this.insertImage, src)
-  }
-
-  onClickImageLeft = event => {
-    event.preventDefault();
-    const src = window.prompt('Enter the URL of the image:');
-    if (!src) return;
-    this.editor.insertBlock({
-      type: 'image-left',
-      data: { src, location: 'left' }
-    });
-  }
-
-  onClickImageRight = event => {
-    event.preventDefault();
-    const src = window.prompt('Enter the URL of the image:');
-    if (!src) return;
-    this.editor.insertBlock({
-      type: 'image-right',
-      data: { src, location: 'right' }
-    });
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   wrapLink = (editor, href) => {
     editor.wrapInline({
@@ -174,7 +130,7 @@ export class EditorLogic extends Component {
 
     if (type === 'text' || type === 'html') {
       if (!isUrl(text) && !this.isImage(text)) return next();
-      if (this.isImage(text)) {        
+      if (this.isImage(text) || text.includes('.mp4')) {
         editor.command(this.insertImage, text, target);
         return;
       }
@@ -211,37 +167,49 @@ export class EditorLogic extends Component {
     // Handle everything but list buttons.
     if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = this.hasBlock(type);
-      const isList = this.hasBlock('list-item')
+      const isList = this.hasBlock('list-item');
+      const hasImage = this.hasBlock('image-left') || this.hasBlock('image-right');
 
-      if (isList) {
+      if (isList)
         editor
           .setBlocks(isActive ? DEFAULT_NODE : type)
           .unwrapBlock('bulleted-list')
           .unwrapBlock('numbered-list');
-      } else {
+      else if (hasImage)
         editor.setBlocks(isActive ? DEFAULT_NODE : type);
+
+      else if (type === 'image-left' || type === 'image-right') {
+        let location;
+        if (type === 'image-left') location = 'left';
+        if (type === 'image-right') location = 'right';
+        const src = window.prompt('Enter the URL of the image:');
+        editor.setBlocks(isActive ? DEFAULT_NODE : { type, data: { src, location } });
       }
+      else
+        editor.setBlocks(isActive ? DEFAULT_NODE : type);
+
     } else {
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock('list-item');
       const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type === type);
+        return !!document.getClosest(
+          block.key, parent => parent.type === type
+        );
       });
 
-      if (isList && isType) {
+      if (isList && isType)
         editor
           .setBlocks(DEFAULT_NODE)
           .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
-      } else if (isList) {
+          .unwrapBlock('numbered-list');
+      else if (isList)
         editor
           .unwrapBlock(
             type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
           )
-          .wrapBlock(type)
-      } else {
-        editor.setBlocks('list-item').wrapBlock(type)
-      }
+          .wrapBlock(type);
+      else
+        editor.setBlocks('list-item').wrapBlock(type);
     }
   };
 

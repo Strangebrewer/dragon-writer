@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const EditorBtnArray = styled.div`
   cursor: default;
   margin: 0px 0 0 0;
-  opacity: .1;
+  opacity:  ${props => props.inline ? '.01' : '1'};
   padding: 10px 0 6px 12%;
   padding-left: ${props => props.inline && '15px'};
   padding-top: ${props => props.inline && '0px'};
@@ -112,10 +112,13 @@ const RenderButtons = props => {
   }
 
   const renderImageLeftButton = (type, icon) => {
+    let isActive = props.hasBlock(type);
     return (
       <EditorBtn
         inline={props.inline}
-        onClick={props.onClickImageLeft}
+        isActive={isActive}
+        key={`icon-${type}`}
+        onClick={() => props.onClickBlock(type)}
       >
         <i className="fas fa-arrow-left" /><i className={`far fa-image`} />
       </EditorBtn>
@@ -123,10 +126,13 @@ const RenderButtons = props => {
   }
 
   const renderImageRightButton = (type, icon) => {
+    let isActive = props.hasBlock(type);
     return (
       <EditorBtn
         inline={props.inline}
-        onClick={props.onClickImageRight}
+        isActive={isActive}
+        key={`icon-${type}`}
+        onClick={() => props.onClickBlock(type)}
       >
         <i className={`far fa-image`} /><i className="fas fa-arrow-right" />
       </EditorBtn>

@@ -5,36 +5,10 @@ import { ModalLogic } from "../../Renderers";
 const Image = styled.img`
   display: block;
   margin: 10px auto;
-  max-width: 50%;
+  max-width: 80%;
   max-height: 500px;
   box-shadow: ${props => props.selected ? '0 0 0 2px blue' : 'none'};
   text-align: center;
-`;
-
-const ImageLeft = styled.img`
-  float: left;
-  margin: 5px 20px 5px 0px;
-  max-width: 50%;
-  max-height: 500px;
-  box-shadow: ${props => props.selected ? '0 0 0 2px blue' : 'none'};
-  &::before {
-    content: "";
-    clear: both;
-    display: table;
-  }
-`;
-
-const ImageRight = styled.img`
-  float: right;
-  margin: 5px 0 5px 20px;
-  max-width: 50%;
-  max-height: 500px;
-  box-shadow: ${props => props.selected ? '0 0 0 2px blue' : 'none'};
-  &::before {
-    content: "";
-    clear: both;
-    display: table;
-  }
 `;
 
 function renderNode(props, editor, next) {
@@ -54,6 +28,7 @@ function renderNode(props, editor, next) {
           <blockquote {...attributes}>{children}</blockquote>
         </div>
       );
+
     case "code":
       return (
         <pre {...attributes} style={{ textIndent: '25px', lineHeight: '1' }}>
@@ -64,57 +39,28 @@ function renderNode(props, editor, next) {
     case "image": {
       const src = node.data.get('src');
       return (
-        <ModalLogic>
-          {props => (
-            <Image
-              {...attributes}
-              src={src}
-              // onClick={() => props.setModal({
-              //   body: <img src={src} style={{ maxHeight: '80vh', maxWidth: '90vw' }} />,
-              //   buttons: <button onClick={props.closeModal}>OK</button>
-              // })}
-              selected={isFocused}
-            />
-          )}
-        </ModalLogic>
+        <Image {...attributes} alt="" selected={isFocused} src={src} />
       )
     }
 
+    // this should take the highlighted text and put it in a div with the image floated one side or the other
     case "image-left": {
       const src = node.data.get('src');
       return (
-        // <ModalLogic {...attributes}>
-        //   {props => (
-              <ImageLeft
-                {...attributes}
-                src={src}
-                // onClick={() => props.setModal({
-                //   body: <img src={src} style={{ maxHeight: '80vh', maxWidth: '90vw' }} />,
-                //   buttons: <button onClick={props.closeModal}>OK</button>
-                // })}
-                selected={isFocused}
-              />
-        //   )}
-        // </ModalLogic>
+        <div style={{ display: 'flex' }}>
+          <img style={{ maxWidth: '40%', maxHeight: '350px' }} src={src} {...attributes} alt="" selected={isFocused} />
+          <p>{children}</p>
+        </div>
       )
     }
 
     case "image-right": {
       const src = node.data.get('src');
       return (
-        // <ModalLogic>
-        //   {props => (
-              <ImageRight
-                {...attributes}
-                src={src}
-                // onClick={() => props.setModal({
-                //   body: <img src={src} style={{ maxHeight: '80vh', maxWidth: '90vw' }} />,
-                //   buttons: <button onClick={props.closeModal}>OK</button>
-                // })}
-                selected={isFocused}
-              />
-        //   )}
-        // </ModalLogic>
+        <div style={{ display: 'flex' }}>
+          <p>{children}</p>
+          <img style={{ maxWidth: '40%', maxHeight: '350px' }} src={src} {...attributes} alt="" selected={isFocused} />
+        </div>
       )
     }
 

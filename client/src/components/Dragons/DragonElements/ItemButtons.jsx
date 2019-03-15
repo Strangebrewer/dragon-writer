@@ -12,7 +12,6 @@ const Buttons = styled.div`
 `;
 
 export const ItemButtons = React.memo(props => {
-  // const { props } = this;
   const { id, index, subject, text } = props;
   const { image, publicId } = text;
   const size = "1.1rem"

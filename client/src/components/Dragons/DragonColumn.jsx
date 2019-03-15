@@ -91,7 +91,6 @@ class DragonColumn extends PureComponent {
   }
 
   updateSubjectModal = subject => {
-    const headers = this.buildHeaders();
     this.props.setModal({
       body: (
         <form>

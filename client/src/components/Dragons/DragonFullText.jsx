@@ -26,7 +26,7 @@ const Container = styled.div`
   min-height: 140px;
   min-width: 600px;
   outline: transparent;
-  padding-right: 400px;
+  padding-right: 440px;
   position: relative;
   transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out;
   width: 100%;
@@ -77,21 +77,21 @@ background: ${props => props.isDragging ? '#ffffff17' : "#000000aa"};
   }
 `;
 
-const ImageContainer = styled.div`
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-  display: flex;
-  height: 100%;
-  min-width: 200px;
-  padding: 20px 10px 20px 20px;
-  width: 200px;
-  img {
-    align-self: flex-start;
-    cursor: pointer;
-    /* if I make this 100%, it creates a sliver of space between texts */
-    max-width: 99%;
-  }
-`;
+// const ImageContainer = styled.div`
+//   border-bottom-right-radius: 10px;
+//   border-top-right-radius: 10px;
+//   display: flex;
+//   height: 100%;
+//   min-width: 200px;
+//   padding: 20px 10px 20px 20px;
+//   width: 200px;
+//   img {
+//     align-self: flex-start;
+//     cursor: pointer;
+//     /* if I make this 100%, it creates a sliver of space between texts */
+//     max-width: 99%;
+//   }
+// `;
 
 export class DragonFullText extends Component {
 
@@ -124,130 +124,128 @@ export class DragonFullText extends Component {
     console.log(this.props.state)
     text.parentSubject = subject;
     return (
-      <React.Fragment>
-        <Draggable key={text} draggableId={text._id} index={index}>
-          {(provided, snapshot) => (
-            <Container
-              {...provided.draggableProps}
-              ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
-              {...provided.dragHandleProps}
-            >
-              <MetaDataContainer>
-                <h3>{text.title}</h3>
-                <p>{text.thesis}</p>
-                <LinkBtn
-                  padding="2px 4px 10px 4px"
-                  onClick={() => toggleEditable(text._id)}
-                  title={`edit '${text.title}'`}
-                >
-                  <i className="fas fa-edit" />
-                </LinkBtn>
-
-                <LinkBtn
-                  padding="0 2px 10px 3px"
-                  onClick={() => uploadImageModal(text._id)}
-                  disabled={text.image}
-                  title={text.image
-                    ? "you must delete the current image before uploading another"
-                    : "upload image for this text"
-                  }
-                >
-                  <i className="fas fa-upload"></i>
-                </LinkBtn>
-
-                <LinkBtn
-                  padding="2px 4px 10px 4px"
-                  onClick={() => this.props.imageModal(largeImage, publicId, _id, "text")}
-                  disabled={!text.image}
-                  title={text.image
-                    ? "see image for this text"
-                    : "no image has been uploaded for this text"
-                  }
-                >
-                  <i className="far fa-images"></i>
-                </LinkBtn>
-
-                <LinkBtn
-                  padding="2px 4px 10px 4px"
-                  delete
-                  onClick={() => this.deleteTextModal(text._id, subject._id, index)}
-                  title={`delete '${text.title}'`}
-                >
-                  <i className="far fa-trash-alt" />
-                </LinkBtn>
-              </MetaDataContainer>
-
-              <EditorStyles
-                {...provided.dragHandleProps}
-                isDragging={snapshot.isDragging}
-                onDoubleClick={() => toggleEditableOn(text._id)}
+      <Draggable key={text} draggableId={text._id} index={index}>
+        {(provided, snapshot) => (
+          <Container
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+            isDragging={snapshot.isDragging}
+            {...provided.dragHandleProps}
+          >
+            <MetaDataContainer>
+              <h3>{text.title}</h3>
+              <p>{text.thesis}</p>
+              <LinkBtn
+                padding="2px 4px 10px 4px"
+                onClick={() => toggleEditable(text._id)}
+                title={`edit '${text.title}'`}
               >
-                {this.props.editable
-                  ? (
-                    <EditorLogic
-                      callback={toggleEditable}
-                      executeDragonStateChanges={this.props.executeDragonStateChanges}
-                      incomingText={text}
-                      state={this.props.state}
-                      subject={text.subjectId}
-                      text={JSON.parse(text.text)}
-                      thesis={text.thesis}
-                      title={text.title}
-                    >
-                      {editorprops => (
-                        <Fragment>
-                          <RenderButtons
-                            {...editorprops}
-                            inline="true"
-                          />
-                          <div style={{ marginTop: '50px'}}>
-                            <button onClick={() => editorprops.updateText(text._id)}>Save</button>
-                            <button onClick={() => toggleEditable(text._id)}>Cancel</button>
-                          </div>
-                          <Editor
-                            {...editorprops}
-                            style={addedStyles}
-                            title={text.title}
-                            dragHandle={provided.dragHandleProps}
-                            id={text._id}
-                            inline="true"
-                            isDragging={snapshot.isDragging}
-                            title={text.title}
-                            toggleEditable={toggleEditable}
-                            autoFocus
-                            onDrop={editorprops.onDropOrPaste}
-                            onPaste={editorprops.onDropOrPaste}
-                            plugins={plugins}
-                            ref={editorprops.thisRef}
-                            value={editorprops.state.value}
-                            renderMark={renderMark}
-                            renderNode={renderNode}
-                            schema={editorprops.schema}
-                          />
-                        </Fragment>
-                      )}
-                    </EditorLogic>
+                <i className="fas fa-edit" />
+              </LinkBtn>
 
-                  )
-                  : (
-                    <Editor
-                      key={text._id}
-                      index={index}
-                      readOnly
-                      renderMark={renderMark}
-                      renderNode={renderNode}
-                      schema={schema}
-                      value={Value.fromJSON(thisValue)}
-                    />
-                  )
+              <LinkBtn
+                padding="0 2px 10px 3px"
+                onClick={() => uploadImageModal(text._id)}
+                disabled={text.image}
+                title={text.image
+                  ? "you must delete the current image before uploading another"
+                  : "upload image for this text"
                 }
-              </EditorStyles>
-            </Container>
-          )}
+              >
+                <i className="fas fa-upload"></i>
+              </LinkBtn>
 
-        </Draggable>
-      </React.Fragment>
+              <LinkBtn
+                padding="2px 4px 10px 4px"
+                onClick={() => this.props.imageModal(largeImage, publicId, _id, "text")}
+                disabled={!text.image}
+                title={text.image
+                  ? "see image for this text"
+                  : "no image has been uploaded for this text"
+                }
+              >
+                <i className="far fa-images"></i>
+              </LinkBtn>
+
+              <LinkBtn
+                padding="2px 4px 10px 4px"
+                delete
+                onClick={() => this.deleteTextModal(text._id, subject._id, index)}
+                title={`delete '${text.title}'`}
+              >
+                <i className="far fa-trash-alt" />
+              </LinkBtn>
+            </MetaDataContainer>
+
+            <EditorStyles
+              {...provided.dragHandleProps}
+              isDragging={snapshot.isDragging}
+              onDoubleClick={() => toggleEditableOn(text._id)}
+            >
+              {this.props.editable
+                ? (
+                  <EditorLogic
+                    callback={toggleEditable}
+                    executeDragonStateChanges={this.props.executeDragonStateChanges}
+                    incomingText={text}
+                    state={this.props.state}
+                    subject={text.subjectId}
+                    text={JSON.parse(text.text)}
+                    thesis={text.thesis}
+                    title={text.title}
+                  >
+                    {editorprops => (
+                      <Fragment>
+                        <RenderButtons
+                          {...editorprops}
+                          inline="true"
+                        />
+                        <div style={{ marginTop: '50px' }}>
+                          <button onClick={() => editorprops.updateText(text._id)}>Save</button>
+                          <button onClick={() => toggleEditable(text._id)}>Cancel</button>
+                        </div>
+                        <Editor
+                          {...editorprops}
+                          style={addedStyles}
+                          title={text.title}
+                          dragHandle={provided.dragHandleProps}
+                          id={text._id}
+                          inline="true"
+                          isDragging={snapshot.isDragging}
+                          title={text.title}
+                          toggleEditable={toggleEditable}
+                          autoFocus
+                          onDrop={editorprops.onDropOrPaste}
+                          onPaste={editorprops.onDropOrPaste}
+                          plugins={plugins}
+                          ref={editorprops.thisRef}
+                          value={editorprops.state.value}
+                          renderMark={renderMark}
+                          renderNode={renderNode}
+                          schema={editorprops.schema}
+                        />
+                      </Fragment>
+                    )}
+                  </EditorLogic>
+
+                )
+                : (
+                  <Editor
+                    key={text._id}
+                    index={index}
+                    readOnly
+                    renderMark={renderMark}
+                    renderNode={renderNode}
+                    schema={schema}
+                    value={Value.fromJSON(thisValue)}
+                  />
+                )
+              }
+            </EditorStyles>
+          </Container>
+        )}
+
+      </Draggable>
     );
   }
 };

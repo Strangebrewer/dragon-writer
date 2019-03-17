@@ -156,7 +156,7 @@ export class Storyboard extends PureComponent {
   };
 
   toggleCurrentText = (text, index) => {
-    const { subject, toggleSingleEdit } = this.props;
+    const { schema, subject, toggleSingleEdit } = this.props;
     this.props.setModal({
       body: (
         <Fragment>
@@ -167,6 +167,7 @@ export class Storyboard extends PureComponent {
               value={Value.fromJSON(JSON.parse(text.text))}
               renderMark={renderMark}
               renderNode={renderNode}
+              schema={schema}
             />
           </EditorStyle>
         </Fragment>
@@ -228,6 +229,8 @@ export class Storyboard extends PureComponent {
             print view
           </Link>
         </SubjectHeading>
+
+        <div style={{ background: 'red', height: '80px', width: '80px' }}></div>
 
         {texts.length > 0
           ? (

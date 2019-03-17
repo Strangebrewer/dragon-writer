@@ -8,7 +8,7 @@ module.exports = {
         .populate('texts');
       res.json(subjects);
     } catch (err) {
-      res.status(422).json(err)
+      res.send(err)
     }
   },
 
@@ -22,7 +22,7 @@ module.exports = {
       res.json(subject);
     }
     catch (err) {
-      res.json(err);
+      res.send(err);
     }
   },
 
@@ -37,7 +37,7 @@ module.exports = {
       );
       res.json(subject)
     } catch (err) {
-      res.status(422).json(err);
+      res.send(err);
     }
   },
 
@@ -56,7 +56,7 @@ module.exports = {
       res.json(subject);
     }
     catch (err) {
-      res.json(err);
+      res.send(err);
     }
   },
 
@@ -72,7 +72,7 @@ module.exports = {
       res.status(200).json({ message: "Delete complete." })
     }
     catch (err) {
-      res.status(422).json(err);
+      res.send(err);
     }
   },
 

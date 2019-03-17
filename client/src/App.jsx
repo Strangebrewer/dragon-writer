@@ -255,7 +255,19 @@ class App extends Component {
               )}
             </Route>
 
-            <Route path={`/myboard/:username`} component={Public} />
+            <Route path='/myboard/:username' {...sharedprops} component={Public} />
+
+            {/* <Route path='/images/:username'>
+              {routeprops => (
+                isAuthenticated
+                  ? (
+                    <Images
+                      {...routeprops}
+                      {...sharedprops}
+                    />
+                  ) : <Redirect to="/" />
+              )}
+            </Route> */}
 
             {this.state.projects.length > 0
               && (

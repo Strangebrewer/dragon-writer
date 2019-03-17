@@ -21,16 +21,18 @@ const Container = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
-  padding-left: 20px;
-  height: 400px;
+  justify-content: center;
+  padding: 0 20px;
+  height: 100%;
+  max-height: 100%;
   width: 400px;
   min-width: 400px;
-  max-height: 400px;
   img {
+    /* margin: auto; */
     align-self: flex-start;
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
+    max-height: 100%;
+    max-width: 100%;
+    padding-top: 40px;
   }
 `;
 

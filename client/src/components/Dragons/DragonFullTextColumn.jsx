@@ -65,6 +65,10 @@ export class DragonFullTextColumn extends Component {
     this.setState({ [textId]: !this.state[textId] });
   }
 
+  toggleEditableOn = textId => {
+    this.setState({ [textId]: true });
+  }
+
   render() {
     console.log(this.props.subject);
     const { _id, subject } = this.props.subject;
@@ -119,35 +123,41 @@ export class DragonFullTextColumn extends Component {
                     addImageToText={this.props.addImageToText}
                   >
                     {provided => (
-                      this.props.texts.map((text, index) => {
-                        return this.state[text._id]
-                          ? (
-                            <DragonTextEditable
-                              {...provided}
-                              executeDragonStateChanges={this.props.executeDragonStateChanges}
-                              key={text._id}
-                              incomingSubject={this.props.incomingSubject}
-                              index={index}
-                              state={this.props.state}
-                              subject={this.props.subject}
-                              subjects={this.props.subjects}
-                              text={text}
-                              toggleEditable={this.toggleEditable}
-                              user={this.props.user}
-                            />
-                          ) : (
-                            <DragonFullText
-                              {...provided}
-                              deleteText={this.props.deleteText}
-                              index={index}
-                              key={text._id}
-                              subject={this.props.subject}
-                              subjects={this.props.subjects}
-                              text={text}
-                              toggleEditable={this.toggleEditable}
-                            />
-                          )
-                      })
+                      this.props.texts.map((text, index) => (
+                        // this.state[text._id]
+                        //   ? (
+                        //     <DragonTextEditable
+                        //       {...provided}
+                        //       executeDragonStateChanges={this.props.executeDragonStateChanges}
+                        //       key={text._id}
+                        //       incomingSubject={this.props.incomingSubject}
+                        //       index={index}
+                        //       state={this.props.state}
+                        //       subject={this.props.subject}
+                        //       subjects={this.props.subjects}
+                        //       text={text}
+                        //       toggleEditable={this.toggleEditable}
+                        //       user={this.props.user}
+                        //     />
+                        //   ) : (
+                        <DragonFullText
+                          {...provided}
+                          deleteText={this.props.deleteText}
+                          editable={this.state[text._id]}
+                          executeDragonStateChanges={this.props.executeDragonStateChanges}
+                          incomingSubject={this.props.incomingSubject}
+                          index={index}
+                          key={text._id}
+                          state={this.props.state}
+                          subject={this.props.subject}
+                          subjects={this.props.subjects}
+                          text={text}
+                          toggleEditable={this.toggleEditable}
+                          toggleEditableOn={this.toggleEditableOn}
+                          user={this.props.user}
+                        />
+                        // )
+                      ))
                     )}
                   </ImageUploader>
                   {provided.placeholder}

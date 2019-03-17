@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
-// mongoose.promise = Promise;
 
 const tempPw = bcrypt.hashSync("BootsNPants", bcrypt.genSaltSync(10), null);
 
@@ -14,6 +13,10 @@ const userSchema = new Schema({
 	projects: [{
 		type: Schema.Types.ObjectId,
 		ref: "Project"
+	}],
+	images: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Image'
 	}]
 },
 	{

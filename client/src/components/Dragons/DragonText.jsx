@@ -65,7 +65,7 @@ const EditorStyle = styled.div`
   border-radius: 6px;
   box-shadow: ${props => props.theme.fieldShadow};
   color: ${props => props.theme.black};
-  max-height: 300px;
+  max-height: 55vh;
   overflow: auto;
   padding: 30px 50px;
   text-shadow: none;
@@ -109,6 +109,7 @@ export const DragonText = React.memo(props => {
               value={Value.fromJSON(JSON.parse(text.text))}
               renderMark={renderMark}
               renderNode={renderNode}
+              schema={props.schema}
             />
           </EditorStyle>
         </Fragment>

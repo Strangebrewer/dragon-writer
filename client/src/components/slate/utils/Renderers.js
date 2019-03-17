@@ -1,27 +1,84 @@
 import React from "react";
+import styled from 'styled-components';
+import { ModalLogic } from "../../Renderers";
+
+const Image = styled.img`
+  display: block;
+  margin: 10px auto;
+  max-width: 80%;
+  max-height: 500px;
+  box-shadow: ${props => props.selected ? '0 0 0 2px blue' : 'none'};
+  text-align: center;
+`;
+
+const ImageFloat = styled.img`
+  margin: ${props => (
+    props.loc === 'left'
+      ? "10px 20px 5px 0"
+      : "10px 0 5px 5px"
+  )};
+  padding: 5px;
+  max-width: 40%;
+  max-height: 400px;
+  float: ${props => props.loc};
+`;
 
 function renderNode(props, editor, next) {
-  const { attributes, children, node } = props;
+  const { attributes, children, node, isFocused } = props;
+
   switch (node.type) {
     case 'block-quote':
       return (
         <div
           style={{
             borderLeft: "2px solid #e1e1e1",
-            paddingLeft: "10px",
-            width: "80%",
+            margin: "40px 0 40px 50px",
+            padding: "0 100px 0 50px",
             opacity: ".8",
+            fontFamily: "Cambria, Cochin, Georgia, Times, 'Times New Roman', serif",
+            fontSize: "2.2rem",
             fontStyle: "italic"
           }}>
-          <blockquote {...attributes}>{children}</blockquote>
+          <blockquote style={{ textIndent: '25px' }} {...attributes}>"{children}"</blockquote>
         </div>
       );
+
     case "code":
       return (
         <pre {...attributes} style={{ textIndent: '25px', lineHeight: '1' }}>
-          <code style={{ background: '#eeeeee', borderRadius: '2px', padding: '0', textIndent: "25px" }}>{children}</code>
+          <code style={{ background: '#eeeeee', borderRadius: '2px', fontSize: '1.5rem', padding: '0', textIndent: "25px" }}>{children}</code>
         </pre>
       );
+
+    case "image": {
+      const src = node.data.get('src');
+      return (
+        <Image {...attributes} alt="" selected={isFocused} src={src} />
+      )
+    }
+
+    // this should take the highlighted text and put it in a div with the image floated one side or the other
+    case "image-left": {
+      const nd = node.data;
+      return (
+        <div {...attributes} style={{ clear: 'both' }}>
+          <ImageFloat loc={nd.get('location')} src={nd.get('src')} {...attributes} alt="" selected={isFocused} />
+          {children}
+        </div>
+      )
+    }
+
+    case "image-right": {
+      const src = node.data.get('src');
+      const loc = node.data.get('location');
+      return (
+        <div {...attributes} style={{ clear: 'both' }}>
+          <ImageFloat loc={loc} src={src} {...attributes} alt="" selected={isFocused} />
+          {children}
+        </div>
+      )
+    }
+
 
     case "link": {
       const { data } = node;

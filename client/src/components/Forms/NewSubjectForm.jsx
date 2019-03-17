@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, Input, Label, TextArea } from "./FormElements";
 import { API } from "../../utils";
@@ -16,65 +16,63 @@ const Container = styled.div`
   }
 `;
 
-class NewSubjectForm extends Component {
-  state = {
-    subject: '',
-    theme: ''
-  }
+const NewSubjectForm = props => {
 
-  handleInputChange = event => {
+  const [subject, setSubject] = useState('');
+  const [theme, setTheme] = useState('');
+
+  function handleInputChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    if (name === 'subject') setSubject(value);
+    if (name === 'theme') setTheme(value);
   };
 
-  buildHeaders = () => {
+  function buildHeaders() {
     const token = localStorage.getItem('token');
     return { headers: { "Authorization": `Bearer ${token}` } };
   }
 
-  createSubject = async () => {
-    const headers = this.buildHeaders();
-    const subject = await API.createSubject({
-      subject: this.state.subject,
-      theme: this.state.theme,
-      published: this.state.published,
-      projectId: this.props.projectId
+  async function createSubject() {
+    const headers = buildHeaders();
+    const newSubject = await API.createSubject({
+      subject,
+      theme,
+      projectId: props.projectId
     }, headers);
-    this.props.addSubjectToOrder(subject.data);
+    props.addSubjectToOrder(newSubject.data);
   };
 
-  render() {
-    return (
-      <Container>
-        <Label>Column Topic:</Label>
-        <Input
-          name="subject"
-          value={this.state.subject}
-          type="text"
-          maxLength="22"
-          onChange={this.handleInputChange}
-          placeholder="enter topic"
-        />
-        <Label>Column Theme:</Label>
-        <TextArea
-          name="theme"
-          value={this.state.theme}
-          type="text"
-          maxLength="100"
-          rows="3"
-          onChange={this.handleInputChange}
-          placeholder="(100 characters max)"
-        />
-        <Button
-          disabled={!this.state.subject || !this.state.theme}
-          onClick={this.createSubject}
-        >
-          Create
+
+  return (
+    <Container>
+      <Label>Column Topic:</Label>
+      <Input
+        name="subject"
+        value={subject}
+        type="text"
+        maxLength="22"
+        onChange={handleInputChange}
+        placeholder="enter topic"
+      />
+      <Label>Column Theme:</Label>
+      <TextArea
+        name="theme"
+        value={theme}
+        type="text"
+        maxLength="100"
+        rows="3"
+        onChange={handleInputChange}
+        placeholder="(100 characters max)"
+      />
+      <Button
+        disabled={!subject || !theme}
+        onClick={createSubject}
+      >
+        Create
          </Button>
-        <Button onClick={this.props.toggleSubjectForm}>Cancel</Button>
-      </Container>
-    )
-  }
+      <Button onClick={props.toggleSubjectForm}>Cancel</Button>
+    </Container>
+  )
 };
 
 export default NewSubjectForm;

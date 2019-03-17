@@ -87,9 +87,11 @@ export const InlineNewEditor = props => {
               ref={props.thisRef}
               value={props.state.value}
               onChange={props.onChange}
-              onPaste={props.onPaste}
+              onDrop={props.onDropOrPaste}
+              onPaste={props.onDropOrPaste}
               renderMark={renderMark}
               renderNode={renderNode}
+              schema={props.schema}
               tabIndex={3}
             />
           </EditorStyles>

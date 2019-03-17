@@ -47,8 +47,8 @@ export const Signup = props => (
       />
       <Label>Confirm Password</Label>
       <Input
-        name="confirmPassword"
-        value={props.confirmPassword}
+        name="confirmPw"
+        value={props.confirmPw}
         type="password"
         onChange={props.handleInputChange}
       />

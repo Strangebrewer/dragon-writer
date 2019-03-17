@@ -44,7 +44,7 @@ const EditorStyles = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.4;
   max-width: 1000px;
-  min-height: 35vh;
+  /* min-height: 35vh; */
   overflow: auto;
   padding: 10px;
   transition: background-color .2s ease-in-out;
@@ -68,6 +68,7 @@ export const InlineUpdateEditor = props => {
       <MetaDataForm>
         <Label {...props.dragHandle}>Title:</Label>
         <Input
+          tabIndex="1"
           type="text"
           name="title"
           value={props.state.title}
@@ -77,6 +78,7 @@ export const InlineUpdateEditor = props => {
         />
         <Label {...props.dragHandle}>Summary:</Label>
         <Input
+          tabIndex="2"
           type="text"
           maxLength="140"
           name="thesis"
@@ -111,9 +113,12 @@ export const InlineUpdateEditor = props => {
             ref={props.thisRef}
             value={props.state.value}
             onChange={props.onChange}
-            onPaste={props.onPaste}
+            onDrop={props.onDropOrPaste}
+            onPaste={props.onDropOrPaste}
             renderMark={renderMark}
             renderNode={renderNode}
+            schema={props.schema}
+            tabIndex={3}
           />
         </EditorStyles>
       </EditorInner>

@@ -1,12 +1,10 @@
 import { Component } from 'react';
-import { Block, Value } from "slate";
+import { Block, Selection, Value } from "slate";
 import { getEventRange, getEventTransfer } from "slate-react";
 import imageExtensions from 'image-extensions';
 import isUrl from "is-url";
 import initialValue from "../slate/utils/value.json";
 import { API, Scales } from "../../utils";
-
-console.log(imageExtensions)
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -108,10 +106,12 @@ export class EditorLogic extends Component {
 
   onDropOrPaste = (event, editor, next) => {
     const target = getEventRange(event, editor);
+    console.log(editor);
     if (!target && event.type === 'drop') return next();
 
     const transfer = getEventTransfer(event);
     const { type, text, files } = transfer;
+    console.log(transfer);
 
     if (type === 'files') {
       for (const file of files) {
@@ -183,7 +183,9 @@ export class EditorLogic extends Component {
         if (type === 'image-left') location = 'left';
         if (type === 'image-right') location = 'right';
         const src = window.prompt('Enter the URL of the image:');
-        editor.setBlocks(isActive ? DEFAULT_NODE : { type, data: { src, location } });
+        editor
+          .wrapBlock(isActive ? DEFAULT_NODE : { type, data: { src, location } })
+          // .unwrapBlock(DEFAULT_NODE)
       }
       else
         editor.setBlocks(isActive ? DEFAULT_NODE : type);

@@ -230,6 +230,8 @@ export class Storyboard extends PureComponent {
           </Link>
         </SubjectHeading>
 
+        <div style={{ background: 'red', height: '80px', width: '80px' }}></div>
+
         {texts.length > 0
           ? (
             <SortableList

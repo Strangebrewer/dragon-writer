@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Editor } from "slate-react";
 import { Value } from "slate";
@@ -7,7 +7,7 @@ import { LinkBtn } from "../components/PageElements";
 import { GlobalStyle } from "../components/Styles";
 
 const Wrapper = styled.div`
-  background: #000;
+  background: #fff;
   font-family: 'Times New Roman', Times, serif;
   min-height: 100vh;
   width: 100%; 
@@ -72,7 +72,6 @@ const PrintWarning = styled.p`
 `;
 
 const EditorStyles = styled.div`
-  color: lightseagreen;
   line-height: 1.4;
   overflow: auto;
   transition: background-color .2s ease-in-out;
@@ -87,83 +86,70 @@ const EditorStyles = styled.div`
   }
 `;
 
-class Print extends Component {
-  state = {
-    tooltip: '',
-    tooltipStyle: {}
+const Print = props => {
+
+  const [tooltip, setTooltip] = useState('');
+  const [tooltipStyle, setTooltipStyle] = useState({});
+
+  const showTooltip = type => {
+    const tip = type === "arrow" ? "go back" : "when you print, select 'Print to PDF'";
+    const transform = type === "arrow" ? "translateX(-20px)" : "translateX(140px)";
+    const width = type === "arrow" ? "80px" : "235px";
+    setTooltip(tip);
+    setTooltipStyle({ opacity: 1, transform, width });
   }
 
-  showTooltip = type => {
-    this.setState({
-      tooltip: type === "arrow" ? "go back" : "when you print, select 'Print to PDF'",
-      tooltipStyle: {
-        opacity: 1,
-        transform: type === "arrow" ? "translateX(-20px)" : "translateX(140px)",
-        width: type === "arrow" ? "80px" : "235px"
-      }
-    })
-  }
+  const hideTooltip = () => setTooltipStyle({ ...tooltipStyle, opacity: 0 });
 
-  hideTooltip = type => {
-    this.setState({
-      tooltipStyle: {
-        ...this.state.tooltipStyle,
-        opacity: 0
-      }
-    });
-  }
-
-  print = () => {
+  const print = () => {
     window.print();
-    this.hideTooltip();
+    hideTooltip();
   }
 
-  render() {
-    const { schema, subject, texts } = this.props.location.state;
-    console.log(this.props);
-    return (
-      <Wrapper>
-        <GlobalStyle />
-        <Container>
-          <PrintNav className="do-not-print">
-            <LinkBtn
-              onClick={this.props.history.goBack}
-              onMouseOver={() => this.showTooltip("arrow")}
-              onMouseLeave={this.hideTooltip}
-              size="1.5rem"
-              color="#2c9c97"
-            >
-              <i className="fas fa-arrow-left" />
-            </LinkBtn>
-            <LinkBtn
-              onClick={this.print}
-              onMouseOver={this.showTooltip}
-              onMouseLeave={this.hideTooltip}
-              size="1.5rem"
-              color="#2c9c97"
-            >
-              <i className="fas fa-print"></i>
-            </LinkBtn>
-          </PrintNav>
-          <PrintWarning className="do-not-print" style={this.state.tooltipStyle}>{this.state.tooltip}</PrintWarning>
-          <Heading>{subject.subject}</Heading>
-          <EditorStyles>
-            {texts.map((text, index) => (
-              <Editor
-                key={text._id}
-                index={index}
-                value={Value.fromJSON(JSON.parse(text.text))}
-                readOnly
-                renderMark={renderMark}
-                renderNode={renderNode}
-                schema={schema}
-              />
-            ))}
-          </EditorStyles>
-        </Container>
-      </Wrapper>
-    );
-  }
+  const { schema, subject, texts } = props.location.state;
+  console.log(props);
+  return (
+    <Wrapper>
+      <GlobalStyle />
+      <Container>
+        <PrintNav className="do-not-print">
+          <LinkBtn
+            onClick={props.history.goBack}
+            onMouseOver={() => showTooltip("arrow")}
+            onMouseLeave={hideTooltip}
+            size="1.5rem"
+            color="#2c9c97"
+          >
+            <i className="fas fa-arrow-left" />
+          </LinkBtn>
+          <LinkBtn
+            onClick={print}
+            onMouseOver={showTooltip}
+            onMouseLeave={hideTooltip}
+            size="1.5rem"
+            color="#2c9c97"
+          >
+            <i className="fas fa-print"></i>
+          </LinkBtn>
+        </PrintNav>
+        <PrintWarning className="do-not-print" style={tooltipStyle}>{tooltip}</PrintWarning>
+        <Heading>{subject.subject}</Heading>
+        <EditorStyles>
+          {texts.map((text, index) => (
+            <Editor
+              key={text._id}
+              index={index}
+              value={Value.fromJSON(JSON.parse(text.text))}
+              readOnly
+              renderMark={renderMark}
+              renderNode={renderNode}
+              schema={schema}
+            />
+          ))}
+        </EditorStyles>
+      </Container>
+    </Wrapper>
+  );
 }
 
 export default Print;

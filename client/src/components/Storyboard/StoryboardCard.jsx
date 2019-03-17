@@ -73,21 +73,35 @@ const Card = styled.div`
   }
 `;
 
-export class StoryboardCard extends PureComponent {
+const CopyText = styled.textarea`
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 0;
+`;
 
-  render() {
-    console.log(this.props.textIndex);
-    const { image, thesis, title } = this.props.text;
-    return (
-      <Card image={image}>
-        <StoryboardButtons {...this.props} />
-        <DragHandle>{title}</DragHandle>
-        <p>{thesis}</p>
-        {image && <img src={image} />}
-      </Card>
-    );
+export const StoryboardCard = React.memo(props => {
+
+  const copyImageAddress = () => {
+    const el = document.getElementById(`img-copy-${props.id}`);
+    el.focus();
+    el.select();
+    document.execCommand('copy');
   }
-};
+
+  const { image, thesis, title } = props.text;
+  console.log(props);
+  return (
+    <Card image={image}>
+      <CopyText id={`img-copy-${props.id}`} defaultValue={image} />
+      <StoryboardButtons {...props} />
+      <DragHandle>{title}</DragHandle>
+      <p>{thesis}</p>
+      {image && <img src={image} onClick={copyImageAddress} />}
+    </Card>
+  );
+});
 
 // export this component to re-use in the fake Storyboard Card
 export {

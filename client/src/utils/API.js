@@ -37,10 +37,13 @@ export const API = {
     return axios.post('/user/change', pwData, { ...headers });
   },
 
-  // saveImage: function (imageData) {
-  //   return axios.post('/api/image/upload', imageData);
-  // },
+  saveImage: function (imageData, headers) {
+    return axios.post('/api/image/upload', imageData, { ...headers });
+  },
 
+  getImages: function (headers) {
+    return axios.get('/api/image/all', { ...headers });
+  },
 
   removeImage: function (id, data, headers) {
     return axios.put(`/api/image/${id}`, data, { ...headers });

@@ -163,7 +163,9 @@ export class UploadLogic extends Component {
       this.props.children({
         imageModal: this.imageModal,
         loading: this.state.loading,
+        saveImage: this.saveImage,
         state: this.state,
+        uploadImage: this.uploadImage,
         uploadImageModal: this.uploadImageModal,
       })
     );

@@ -21,6 +21,7 @@ module.exports = {
   },
 
   getCurrentUser: function (req, res) {
+    console.log(console);
     const { _id, order, projects, username } = req.user;
     const userData = { _id, order, projects, username };
     res.json({ msg: "logged in", user: userData });

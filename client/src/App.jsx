@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import { ThemeProvider } from "styled-components";
 import { DragonLogic } from "./components/Renderers";
 import Home from "./pages/Home";
+import Images from './pages/Images';
 import Landing from "./pages/Landing";
 import Public from "./pages/Public";
 import Print from "./pages/Print";
@@ -257,7 +258,7 @@ class App extends Component {
 
             <Route path='/myboard/:username' {...sharedprops} component={Public} />
 
-            {/* <Route path='/images/:username'>
+            <Route path='/images/:username'>
               {routeprops => (
                 isAuthenticated
                   ? (
@@ -267,7 +268,7 @@ class App extends Component {
                     />
                   ) : <Redirect to="/" />
               )}
-            </Route> */}
+            </Route>
 
             {this.state.projects.length > 0
               && (

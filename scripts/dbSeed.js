@@ -87,6 +87,7 @@ async function seedDb() {
   await db.Project.remove({});
   await db.Subject.remove({});
   await db.Text.remove({});
+  await db.Image.remove({});
 
   // insert users and assign to variable:
   const users = await db.User.collection.insertMany(userSeed);

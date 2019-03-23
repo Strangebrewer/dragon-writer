@@ -41,6 +41,10 @@ export const API = {
     return axios.post('/api/image/upload', imageData, { ...headers });
   },
 
+  getImage: function (id, headers) {
+    return axios.get(`/api/image/${id}`, { ...headers })
+  },
+
   getImages: function (headers) {
     return axios.get('/api/image/all', { ...headers });
   },

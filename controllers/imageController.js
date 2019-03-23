@@ -16,7 +16,19 @@ module.exports = {
     } catch (err) {
       res.json(err);
     }
+  },
 
+  getImage: async function (req, res) {
+    console.log("THIS IS IN THE GET SINGLE IMAGE FUNCTION:");
+    console.log(req.params);
+    try {
+      const image = await db.Image.findById(req.params.id);
+      console.log(image);
+      res.json(image);
+    } catch (err) {
+      console.log(err);
+      res.json(err);
+    }
   },
 
   removeImage: async function (req, res) {

@@ -4,7 +4,8 @@ import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import { ImageUploader, LinkBtn } from "../PageElements";
 import { DragonFullText } from "./DragonFullText";
-import { DragonTextEditable } from "./DragonTextEditable";
+import { DragonThumb } from "./DragonElements";
+import { API } from '../../utils';
 
 const TextColumn = styled.div`
   display: flex;
@@ -12,6 +13,7 @@ const TextColumn = styled.div`
   margin: 0 auto;
   padding: 10px 30px;
   width: 100%;
+  min-height: 100vh;
 `;
 
 const SubjectHeading = styled.div`
@@ -43,6 +45,20 @@ const DragonTextList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  position: relative;
+`;
+
+const ImageThumbs = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  right: 20px;
+  width: 421px;
+  height: 80vh;
+  top: 160px;
+  /* border: 1px solid red; */
+  overflow: auto;
+  align-content: flex-start;
 `;
 
 const NothingContainer = styled.div`
@@ -59,14 +75,39 @@ const NothingContainer = styled.div`
 `;
 
 export class DragonFullTextColumn extends Component {
-  state = {}
+  state = {
+    editable: false,
+    editables: 0,
+    images: []
+  }
+
+  async componentDidMount() {
+    const res = await API.getImages(this.buildHeaders());
+    this.setState({ images: res.data.images });
+  }
+
+  buildHeaders = () => {
+    const token = localStorage.getItem('token');
+    return { headers: { "Authorization": `Bearer ${token}` } };
+  }
 
   toggleEditable = textId => {
-    this.setState({ [textId]: !this.state[textId] });
+    let editables = 0;
+    let editable = true;
+    if (this.state[textId])
+      if (this.state.editables > 1) editables = this.state.editables - 1;
+      else editable = false;
+    else
+      editables = this.state.editables + 1;
+    this.setState({ [textId]: !this.state[textId], editables, editable });
   }
 
   toggleEditableOn = textId => {
-    this.setState({ [textId]: true });
+    this.setState({
+      [textId]: true,
+      editable: true,
+      editables: this.state.editables + 1
+    });
   }
 
   render() {
@@ -124,22 +165,6 @@ export class DragonFullTextColumn extends Component {
                   >
                     {provided => (
                       this.props.texts.map((text, index) => (
-                        // this.state[text._id]
-                        //   ? (
-                        //     <DragonTextEditable
-                        //       {...provided}
-                        //       executeDragonStateChanges={this.props.executeDragonStateChanges}
-                        //       key={text._id}
-                        //       incomingSubject={this.props.incomingSubject}
-                        //       index={index}
-                        //       state={this.props.state}
-                        //       subject={this.props.subject}
-                        //       subjects={this.props.subjects}
-                        //       text={text}
-                        //       toggleEditable={this.toggleEditable}
-                        //       user={this.props.user}
-                        //     />
-                        //   ) : (
                         <DragonFullText
                           {...provided}
                           deleteText={this.props.deleteText}
@@ -156,7 +181,6 @@ export class DragonFullTextColumn extends Component {
                           toggleEditableOn={this.toggleEditableOn}
                           user={this.props.user}
                         />
-                        // )
                       ))
                     )}
                   </ImageUploader>
@@ -171,6 +195,17 @@ export class DragonFullTextColumn extends Component {
             </NothingContainer>
           )
         }
+        {this.state.editable && (
+          <ImageThumbs>
+            {this.state.images.map(image => (
+              <DragonThumb
+                id={image._id}
+                src={image.thumbnail}
+                url={image.midImage}
+              />
+            ))}
+          </ImageThumbs>
+        )}
       </TextColumn>
     );
   }

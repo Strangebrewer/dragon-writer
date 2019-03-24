@@ -227,6 +227,8 @@ class App extends Component {
       user: this.state.user
     }
 
+    console.log(this.state.user);
+
     if (this.state.loading) return null;
 
     return (

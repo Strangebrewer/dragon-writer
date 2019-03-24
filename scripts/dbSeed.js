@@ -7,7 +7,7 @@ const pw = bcrypt.hashSync("1234", bcrypt.genSaltSync(10), null);
 // This file empties the database and inserts the data below
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/writing_tool"
+  process.env.MONGODB_URI || "mongodb+srv://dangUser:dangUser@cluster0-rzvqk.mongodb.net/writing_tool?retryWrites=true"
 );
 
 const userSeed = [

@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Page } from '../components/PageElements';
+import { LinkBtn, Page } from '../components/PageElements';
 import { ModalLogic } from '../components/Renderers';
 import { Button, Input, Label } from '../components/Forms/FormElements';
 import { API } from '../utils';
@@ -77,7 +77,9 @@ const Buttons = styled.div`
   }
 `;
 
-function Images() {
+function Images(props) {
+
+  console.log(props)
 
   const [file, setFile] = useState('');
   const [images, setImages] = useState([]);
@@ -138,10 +140,17 @@ function Images() {
     document.execCommand('copy');
   }
 
+  const goBack = props.history.goBack;
+
   return (
     <ModalLogic>
       {modalProps => (
-        <Page>
+        <Page
+          authenticated={props.authenticated}
+          logout={props.logout}
+          user={props.user}
+        >
+          <div style={{ textAlign: 'center' }}><LinkBtn onClick={() => goBack()}>Go back</LinkBtn></div>
           {!loading && (
             <div style={{ width: '300px', margin: '100px auto' }}>
               <Label htmlFor="file">Select Image:</Label>

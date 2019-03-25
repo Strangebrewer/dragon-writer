@@ -128,9 +128,10 @@ function Images(props) {
       publicId: jsonFile.public_id,
     };
     const headers = buildHeaders();
-    const user = await API.saveImage(imageObject, headers);
+    const response = await API.saveImage(imageObject, headers);
+    console.log(response);
     setLoading(false);
-    setImages(user.data.images);
+    setImages(response.data.user.images);
   };
 
   const copyToClipboard = id => {

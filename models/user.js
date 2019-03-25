@@ -10,6 +10,12 @@ const userSchema = new Schema({
 	password: { type: String, required: true, default: tempPw },
 	email: String,
 	order: String,
+  image: String,
+  imageId: String,
+  largeImage: String,
+  midImage: String,
+  thumbnail: String,
+  publicId: String,
 	projects: [{
 		type: Schema.Types.ObjectId,
 		ref: "Project"

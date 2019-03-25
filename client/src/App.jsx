@@ -27,8 +27,8 @@ class App extends Component {
 
   componentDidMount() {
     if (localStorage.getItem('token'))
-      this.getCurrentUser();
-    else this.setState({ loading: false });
+      return this.getCurrentUser();
+    this.setState({ loading: false });
   };
 
   buildHeaders = () => {
@@ -227,7 +227,8 @@ class App extends Component {
       user: this.state.user
     }
 
-    console.log(this.state.user);
+    Utils.consoleLoudLog('HERE COME THE USER', this.state.user);
+    // console.log(this.state.user);
 
     if (this.state.loading) return null;
 

@@ -1,4 +1,41 @@
 export const Utils = {
+  consoleLoudLog: function (msg, logObj, colors) {
+    let paddingColor = 'aqua';
+    let messageColor = 'magenta';
+
+    if (colors) {
+      const { padding, message } = colors;
+      if (padding) paddingColor = padding;
+      if (message) messageColor = message;
+    }
+
+    const padOneR = (100 - msg.length) / 2;
+    let padOneL = padOneR;
+    const padTwoR = (92 - msg.length) / 2;
+    let padTwoL = padTwoR;
+
+    if (msg.length % 2 == 1) {
+      padOneL -= 1;
+      padTwoL -= 1;
+    }
+
+    const FULL_ROW = '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++';
+    const colorOne = `color: ${paddingColor}`;
+    const colorTwo = `color: ${messageColor}`;
+
+    console.log('\n');
+    console.log(`%c${FULL_ROW}`, colorOne);
+    console.log(`%c${makePadding(padOneL)}` + `%c${msg}` + `%c${makePadding(padOneR)}`, colorOne, colorTwo, colorOne );
+    console.log(`%c${FULL_ROW}`, colorOne);
+    console.log('\n');
+    console.log(logObj)
+    console.log('\n');
+    console.log(`%c${FULL_ROW}`, colorOne);
+    console.log(`%c${makePadding(padTwoL)}` + `%cEND OF: ${msg}` + `%c${makePadding(padTwoR)}`, colorOne, colorTwo, colorOne );
+    console.log(`%c${FULL_ROW}`, colorOne);
+    console.log('\n');
+  },
+
   formatInitialData: function (project) {
     const initialData = { texts: {}, subjects: {} };
     const subjectArray = [];
@@ -56,6 +93,14 @@ export const Utils = {
         return i;
     }
   }
+}
+
+function makePadding(len) {
+  let str = '';
+  for (let i = 0; i < len; i++) {
+    str += '+';
+  }
+  return str;
 }
 
 // const exampleDataStructure = {

@@ -1,4 +1,5 @@
 const db = require('../models');
+const ctrl = require('./controllerUtils');
 const cloudinary = require('cloudinary');
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -8,8 +9,7 @@ cloudinary.config({
 
 module.exports = {
   getImages: async function (req, res) {
-    console.log("THIS IS IN THE GET IMAGES FUNCTION:");
-    console.log(req.user);
+    ctrl.consoleLoudLog('THIS IS IN THE GET IMAGES FUNCTION! DONT TAZE ME BRO!', req.user);
     try {
       const user = await db.User.findById(req.user._id).populate('images');
       res.json(user);
@@ -19,8 +19,11 @@ module.exports = {
   },
 
   getImage: async function (req, res) {
-    console.log("THIS IS IN THE GET SINGLE IMAGE FUNCTION:");
-    console.log(req.params);
+    const colors = {
+      padding: "green",
+      message: "grey"
+    }
+    ctrl.consoleLoudLog('THIS IS IN THE GET SINGLE IMAGE FUNCTION:', req.params, colors);
     try {
       const image = await db.Image.findById(req.params.id);
       console.log(image);
@@ -32,16 +35,17 @@ module.exports = {
   },
 
   removeImage: async function (req, res) {
-    console.log("THIS IS IN THE REMOVE IMAGE FUNCTION:");
-    console.log(req.body);
+    ctrl.consoleLoudLog('THIS IS IN THE REMOVE IMAGE FUNCTION:', req.body, { padding: "red", message: "blue" });
     let removal;
     try {
-      const result = await cloudinary.v2.uploader.destroy(req.body.imageId, { invalidate: true });
+      const result = await cloudinary.v2.uploader.destroy(req.body.publicId, { invalidate: true });
       console.log(result.result);
       if (result.result === 'ok' || result.result === "not found") {
         removal = await db[req.body.type].findByIdAndUpdate(req.params.id, {
           image: '',
           largeImage: '',
+          midImage: '',
+          thumbnail: '',
           publicId: ''
         }, { new: true });
         console.log(removal);
@@ -54,11 +58,9 @@ module.exports = {
   },
 
   saveImage: async function (req, res) {
-    console.log("THIS IS IN THE SAVE IMAGE FUNCTION:");
-    console.log(req.body);
+    ctrl.consoleLoudLog('THIS IS IN THE SAVE IMAGE FUNCTION:', req.body);
     req.body.userId = req.user._id;
-    console.log("THIS IS IN THE SAVE IMAGE FUNCTION AFTER ADDING THE USERID:");
-    console.log(req.body);
+    ctrl.consoleLoudLog('THIS IS IN THE SAVE IMAGE FUNCTION AFTER ADDING THE USERID:', req.body);
 
     try {
       const image = await db.Image.create(req.body);
@@ -67,7 +69,7 @@ module.exports = {
         { new: true }
       ).populate('images');
       console.log(user);
-      res.json(user);
+      res.json({ user, image });
     } catch (err) {
       res.json(err);
     }

@@ -47,14 +47,15 @@ export class UploadLogic extends Component {
       body: this.state.data
     });
     const file = await res.json();
+    const response = await API.saveImage(updateObject, headers);
     const updateObject = {
+      imageId: response.image._id,
       image: file.secure_url,
       largeImage: file.eager[0].secure_url,
       midImage: file.eager[1].secure_url,
       thumbnail: file.eager[2].secure_url,
       publicId: file.public_id,
     };
-    API.saveImage(updateObject, headers);
     const headers = this.buildHeaders();
     switch (this.props.type) {
       case 'project':
@@ -65,9 +66,11 @@ export class UploadLogic extends Component {
         const subject = await API.updateSubject(id, updateObject, headers);
         this.props.addImageToSubject(subject.data);
         break;
-      default:
+      case 'text':
         const text = await API.updateText(id, updateObject, headers);
-        this.props.addImageToText(text.data)
+        this.props.addImageToText(text.data);
+        break;
+      // default:
     }
     this.setState({ loading: false });
   };
@@ -88,11 +91,11 @@ export class UploadLogic extends Component {
     })
   };
 
-  deleteImage = async (id, imageId) => {
+  deleteImage = async (id, publicId) => {
     await this.setState({ loading: true });
     this.props.closeModal();
 
-    const deleteObj = { imageId };
+    const deleteObj = { publicId };
     const headers = this.buildHeaders();
     switch (this.props.type) {
       case 'project':

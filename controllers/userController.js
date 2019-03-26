@@ -5,7 +5,6 @@ const { passport, sign } = require('../passport');
 module.exports = {
   fetchPublicWorks: async function (req, res) {
     // get all texts that are public
-    console.log(req.params.username);
     try {
       const url = req.params.username.toLowerCase();
       await db.User.findOne({ url: url })
@@ -16,12 +15,12 @@ module.exports = {
         })
         .exec((err, docs) => res.json(docs));
     } catch (e) {
-      console.log(e);
+      console.loud(e);
     }
   },
 
   getCurrentUser: function (req, res) {
-    console.log(console);
+    console.loud(req.user);
     const { _id, order, projects, url, username } = req.user;
     const userData = { _id, order, projects, url, username };
     res.json({ msg: "logged in", user: userData });
@@ -86,7 +85,7 @@ module.exports = {
           }
           res.json({ msg: "logged in", token, user: userData });
         } catch (e) {
-          console.log(e);
+          console.loud(e);
           res.status(500).json({ msg: e.message });
         }
       }
@@ -94,10 +93,10 @@ module.exports = {
   },
 
   updateUserOrder: async function (req, res) {
-    console.log(req.body);
+    console.loud(req.body);
     try {
       const user = await db.User.findByIdAndUpdate(req.user._id, req.body, { new: true })
-      console.log(user);
+      console.loud(user);
       res.json(user);
     }
     catch (err) {
@@ -140,7 +139,7 @@ module.exports = {
           }
           res.json(userData);
         } catch (e) {
-          console.log(e);
+          console.loud(e);
           res.json({ msg: e.message });
         }
       }
@@ -170,13 +169,13 @@ module.exports = {
         throw Error('Invalid credentials');
       }
     } catch (e) {
-      console.log(e);
+      console.loud(e);
       res.status(500).json({ message: e.message });
     }
   },
 
   changePw: function (req, res) {
-    console.log(req.body);
+    console.loud(req.body);
     const isMatch = bcrypt.compareSync(req.body.currentPassword, req.user.password);
     if (isMatch) {
       const pw = bcrypt.hashSync(req.body.newPassword, bcrypt.genSaltSync(10), null);
@@ -185,8 +184,8 @@ module.exports = {
         { password: pw }
       )
         .then(response => {
-          console.log("Check pw response:");
-          console.log(response);
+          console.loud("Check pw response:");
+          console.loud(response);
           res.json(response);
         })
     } else {

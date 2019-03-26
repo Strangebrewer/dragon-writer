@@ -11,6 +11,7 @@ import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
 import { Themes } from "./components/Styles";
 import { API, Utils } from "./utils";
+console.loud = Utils.consoleLoud
 
 let isAuthenticated = false;
 
@@ -227,7 +228,7 @@ class App extends Component {
       user: this.state.user
     }
 
-    Utils.consoleLoudLog('HERE COME THE USER', this.state.user);
+    // console.loud(this.state.user, 'YOU HOMINIDS RUIN EVERYTHING! GOSH!');
     // console.log(this.state.user);
 
     if (this.state.loading) return null;

@@ -1,45 +1,63 @@
 const colors = require('colors');
 
-exports.consoleLoudLog = function (msg, logObject, colorObj) {
-
+exports.consoleLoud = function (logObject, msg, options) {
   let paddingColor = 'grey';
   let messageColor = 'magenta';
   let objColor = 'cyan';
+  let rowLength = 100;
+  let msgOne = " SOME PEOPLE DON'T THINK IT BE LIKE IT IS ";
+  let msgTwo = " BUT IT DO ";
+  let isTight = false;
 
-  if (colorObj) {
-    const { padding, message, log } = colorObj;
+  if (msg) {
+    msgOne = ` ${msg} `;
+    msgTwo = ` END OF ${msg} `;
+  }
+
+  if (options) {
+    const { padding, message, log, row, tight } = options;
     if (padding) paddingColor = padding;
     if (message) messageColor = message;
     if (log) objColor = log;
+    if ((row || row === 0) && row <= 150 && row >= 0) rowLength = row;
+    if (tight) isTight = tight;
   }
 
-  const padOneR = (100 - msg.length) / 2;
-  let padOneL = padOneR;
-  const padTwoR = (92 - msg.length) / 2;
-  let padTwoL = padTwoR;
+  // set defaults:
+  const padLeft1 = (rowLength - (msgOne.length)) / 2;
+  const padLeft2 = (rowLength - (msgTwo.length)) / 2;
+  let padRight1 = (rowLength - (msgOne.length)) / 2;
+  let padRight2 = (rowLength - (msgTwo.length)) / 2;
 
-  if (msg.length % 2 == 1) {
-    padOneL -= 1;
-    padTwoL -= 1;
-  }
+  if ((rowLength - msgOne.length) % 2 === 1)
+    padRight1 = ((rowLength - (msgOne.length + 1)) / 2);
+  if ((rowLength - msgTwo.length) % 2 === 1)
+    padRight2 = ((rowLength - (msgTwo.length + 1)) / 2);
 
-  console.log('\n');
-  console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'[paddingColor]);
-  console.log(`${makePadding(padOneL, paddingColor)}${msg.bold[messageColor]}${makePadding(padOneR, paddingColor)}`);
-  console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'[paddingColor]);
-  console.log('\n');
+  if (!isTight) console.log('\n');
+  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  console.log(`${writePadding(padLeft1, paddingColor)}${msgOne[messageColor]}${writePadding(padRight1, paddingColor)}`);
+  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  if (!isTight) console.log('\n');
   console.log(getColorFunction(objColor, logObject));
-  console.log('\n');
-  console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'[paddingColor]);
-  console.log(`${makePadding(padTwoL, paddingColor)}` + `END OF: `.bold[messageColor] + `${msg.bold[messageColor]}${makePadding(padTwoR, paddingColor)}`);
-  console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'[paddingColor]);
-  console.log('\n');
+  if (!isTight) console.log('\n');
+  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  console.log(`${writePadding(padLeft2, paddingColor)}${msgTwo[messageColor]}${writePadding(padRight2, paddingColor)}`);
+  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  if (!isTight) console.log('\n');
 }
 
-function makePadding(len, color) {
+// helper functions:
+function writeFullRow(num, color) {
+  let str = '';
+  for (let i = 0; i < num; i++) { str += '%'; }
+  return str[color];
+}
+
+function writePadding(len, color) {
   let str = '';
   for (let i = 0; i < len; i++) {
-    str += '+';
+    str += '%';
   }
   return str[color];
 }

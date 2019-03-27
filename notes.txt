@@ -36,7 +36,7 @@ When login fails, there should be some indication of it instead of the login scr
 
 Setup functionality that allows you to specify if a new text should be placed at the beginning or end of the column.
 
-Create a splash page that presents the app to new users
+Create a landing page that presents the app to new users
   - also should allow access to public pages (once that's been created)
 
 Page for seeing published texts is pulling correct data: Now I need to build out the public-facing app.

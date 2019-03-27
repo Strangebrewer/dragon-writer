@@ -1,6 +1,4 @@
 const db = require('../models');
-const ctrl = require('./controllerUtils');
-const { consoleLoud } = ctrl;
 const cloudinary = require('cloudinary');
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -10,7 +8,7 @@ cloudinary.config({
 
 module.exports = {
   getImages: async function (req, res) {
-    consoleLoud('THIS IS IN THE GET IMAGES FUNCTION! DONT TAZE ME BRO!', req.user);
+    console.loud(req.user, 'THIS IS IN THE GET IMAGES FUNCTION! DONT TAZE ME BRO!', { padding: 'yellow', message: 'red', log: 'green', tight: true });
     try {
       const user = await db.User.findById(req.user._id).populate('images');
       res.json(user);
@@ -24,7 +22,7 @@ module.exports = {
       padding: "green",
       message: "grey"
     }
-    consoleLoud('THIS IS IN THE GET SINGLE IMAGE FUNCTION:', req.params, colors);
+    console.loud(req.params, 'THIS IS IN THE GET SINGLE IMAGE FUNCTION:', colors);
     try {
       const image = await db.Image.findById(req.params.id);
       console.log(image);
@@ -36,7 +34,7 @@ module.exports = {
   },
 
   removeImage: async function (req, res) {
-    consoleLoud('THIS IS IN THE REMOVE IMAGE FUNCTION:', req.body, { padding: "red", message: "blue" });
+    console.loud(req.body, 'THIS IS IN THE REMOVE IMAGE FUNCTION:', { padding: "red", message: "blue" });
     let removal;
     try {
       const result = await cloudinary.v2.uploader.destroy(req.body.publicId, { invalidate: true });
@@ -59,9 +57,9 @@ module.exports = {
   },
 
   saveImage: async function (req, res) {
-    consoleLoud('THIS IS IN THE SAVE IMAGE FUNCTION:', req.body);
+    console.loud(req.body, 'THIS IS IN THE SAVE IMAGE FUNCTION:');
     req.body.userId = req.user._id;
-    consoleLoud('THIS IS IN THE SAVE IMAGE FUNCTION AFTER ADDING THE USERID:', req.body);
+    console.loud(req.body, 'THIS IS IN THE SAVE IMAGE FUNCTION AFTER ADDING THE USERID:');
 
     try {
       const image = await db.Image.create(req.body);

@@ -4,7 +4,7 @@ export const Utils = {
     let messageColor = '#8d13ff';
     let isTable = false;
     let isSpaced = false;
-    let rowLength = 100;
+    let rowLength = 60;
     let msgOne = " SOME PEOPLE DON'T THINK IT BE LIKE IT IS ";
     let msgTwo = " BUT IT DO ";
 

@@ -72,10 +72,16 @@ export class Navbar extends PureComponent {
               <LinkContainer>
                 <Link title="to home page" to="/"><i className="fas fa-home" /></Link>
                 <Link
-                  title="to home page"
+                  title="to your image repository"
                   to={`/images/${user.url}`}
                 >
                   <i className="fas fa-images" />
+                </Link>
+                <Link
+                  title="to your published page"
+                  to={`/myboard/${user.url}`}
+                >
+                  <i className="fab fa-old-republic" />
                 </Link>
                 <Button title="log out" onClick={logout}><i className="fas fa-sign-out-alt" /></Button>
               </LinkContainer>

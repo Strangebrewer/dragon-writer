@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Button, Form, Input, Label } from "./FormElements";
 import { LinkBtn } from "../PageElements";
 
-const Paragraph = styled.p`
+let Paragraph = styled.p`
   font-size: 1.2rem;
   margin: 10px 0;
   text-align: center;

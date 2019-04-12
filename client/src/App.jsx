@@ -27,8 +27,12 @@ class App extends Component {
   };
 
   componentDidMount() {
-    if (localStorage.getItem('token'))
-      return this.getCurrentUser();
+    if (localStorage.getItem('token')) {
+      // const headers = this.buildHeaders();
+      this.getCurrentUser();
+      // this.props.getCurrentUser(headers);
+      return;
+    }
     this.setState({ loading: false });
   };
 
@@ -41,7 +45,6 @@ class App extends Component {
     try {
       const headers = this.buildHeaders();
       const res = await API.getCurrentUser(headers);
-      console.log(res);
       if (res.data.msg === "logged in") {
         this.getInitialData(res.data.user);
       } else {
@@ -59,7 +62,6 @@ class App extends Component {
     const headers = this.buildHeaders();
     const res = await API.getProjectsWithAll(headers);
     const projects = res.data;
-    console.log(projects);
     projects.forEach(project => {
       if (project.order) {
         projectData.push(Utils.addTextsToOrder(project));
@@ -126,7 +128,6 @@ class App extends Component {
     const headers = this.buildHeaders();
     const res = await API.getUserWithProjects(headers);
     const projects = res.data.projects;
-    console.log(res);
     const projectOrder = JSON.parse(res.data.order);
     const projectOrderData = Utils.formatProjectOrderData(projects);
     this.setState({ projectOrder, projectOrderData });
@@ -232,6 +233,7 @@ class App extends Component {
     // console.log(this.state.user);
 
     if (this.state.loading) return null;
+    console.loud(this.props, "APP PROPS");
 
     return (
       <ThemeProvider theme={Themes.nightmode}>

@@ -20,7 +20,9 @@ export const Utils = {
       if (message) messageColor = message;
       if (table) isTable = true;
       if (spaced) isSpaced = true;
-      if ((row || row === 0) && parseInt(row) <= 500 && parseInt(row) >= 0) rowLength = parseInt(row);
+      if ((row || row === 0) && parseInt(row) <= 500 && parseInt(row) >= 0) {
+        rowLength = parseInt(row);
+      }
     }
 
     // set defaults:
@@ -30,12 +32,13 @@ export const Utils = {
     let padRight2 = (rowLength - (msgTwo.length)) / 2;
 
 
-    if ((rowLength - msgOne.length) % 2 === 1)
+    if ((rowLength - msgOne.length) % 2 === 1) {
       padRight1 = ((rowLength - (msgOne.length + 1)) / 2);
+    }
 
-    if ((rowLength - msgTwo.length) % 2 === 1)
+    if ((rowLength - msgTwo.length) % 2 === 1) {
       padRight2 = ((rowLength - (msgTwo.length + 1)) / 2);
-
+    }
 
     const colorOne = `color: ${paddingColor}; font-weight: bold;`;
     const colorTwo = `

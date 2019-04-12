@@ -23,7 +23,7 @@ const ImageFloat = styled.img`
   float: ${props => props.loc};
 `;
 
-function renderNode(props, editor, next) {
+function renderNode(props, editor, nextIsJustACallbackDude) {
   const { attributes, children, node, isFocused } = props;
 
   switch (node.type) {
@@ -106,11 +106,11 @@ function renderNode(props, editor, next) {
     case 'numbered-list':
       return <ol {...attributes}>{children}</ol>
     default:
-      return next();
+      return nextIsJustACallbackDude();
   }
 };
 
-function renderMark(props, editor, next) {
+function renderMark(props, editor, narfingTheNext) {
   const { children, mark, attributes } = props;
   switch (mark.type) {
     case "red":
@@ -134,7 +134,7 @@ function renderMark(props, editor, next) {
     case 'underline':
       return <u {...attributes}>{children}</u>;
     default:
-      return next();
+      return narfingTheNext();
   }
 };
 

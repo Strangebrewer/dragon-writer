@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actionCreators from '../actions';
 import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
 import { ImageUploader, Page } from "../components/PageElements";
@@ -102,7 +105,6 @@ class Home extends Component {
   };
 
   render() {
-    console.loud(this.props);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Page
@@ -146,9 +148,18 @@ class Home extends Component {
           </Container>
         </Page>
       </DragDropContext>
-
     );
   }
 }
 
-export default Home;
+function mapStateToProps(state) {
+  return {
+    retarded: state.retarded
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

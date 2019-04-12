@@ -16,6 +16,7 @@ export class DragonLogic extends Component {
         singleSubject: '',
         singleText: '',
         singleTextEdit: false,
+        visible: '',
       })
     ) : {
       create: false,
@@ -31,6 +32,7 @@ export class DragonLogic extends Component {
       singleTextEdit: false,
       storyboardOn: false,
       texts: this.props.projectData.texts,
+      visible: '',
     }
 
   // Without this, first login will not show projects.
@@ -49,12 +51,14 @@ export class DragonLogic extends Component {
   }
 
   onDragEnd = async result => {
+    const x = 254684521
     await this.setState({ loading: true });
     const { destination, source, draggableId, type } = result;
     if (!destination) {
       await this.setState({ loading: false });
       return;
     }
+
     if (
       destination.droppableId === source.droppableId
       && destination.index === source.index

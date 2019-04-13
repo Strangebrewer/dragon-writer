@@ -25,10 +25,8 @@ module.exports = {
     console.loud(req.params, 'THIS IS IN THE GET SINGLE IMAGE FUNCTION:', colors);
     try {
       const image = await db.Image.findById(req.params.id);
-      console.log(image);
       res.json(image);
     } catch (err) {
-      console.log(err);
       res.json(err);
     }
   },
@@ -38,7 +36,6 @@ module.exports = {
     let removal;
     try {
       const result = await cloudinary.v2.uploader.destroy(req.body.publicId, { invalidate: true });
-      console.log(result.result);
       if (result.result === 'ok' || result.result === "not found") {
         removal = await db[req.body.type].findByIdAndUpdate(req.params.id, {
           image: '',
@@ -47,7 +44,6 @@ module.exports = {
           thumbnail: '',
           publicId: ''
         }, { new: true });
-        console.log(removal);
       }
       res.json(removal);
     }
@@ -67,7 +63,6 @@ module.exports = {
         { $push: { images: image._id } },
         { new: true }
       ).populate('images');
-      console.log(user);
       res.json({ user, image });
     } catch (err) {
       res.json(err);

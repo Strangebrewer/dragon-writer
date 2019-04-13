@@ -1,6 +1,5 @@
 
 function users(state = [], action) {
-  console.log(action);
   switch (action.type) {
     case 'GET_CURRENT_USER_FULFILLED':
       return {

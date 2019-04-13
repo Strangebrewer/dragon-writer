@@ -79,8 +79,6 @@ const Buttons = styled.div`
 
 function Images(props) {
 
-  console.log(props)
-
   const [file, setFile] = useState('');
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -129,7 +127,6 @@ function Images(props) {
     };
     const headers = buildHeaders();
     const response = await API.saveImage(imageObject, headers);
-    console.log(response);
     setLoading(false);
     setImages(response.data.user.images);
   };
@@ -168,9 +165,7 @@ function Images(props) {
             </div>
           )}
           <ImageWrapper>
-            {console.log(images)}
             {images.map(image => {
-              console.log(image._id)
               return (
                 <ImageContainer key={image._id}>
                   <Textarea id={`${image._id}-large`} defaultValue={image.largeImage} />

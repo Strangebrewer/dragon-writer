@@ -106,12 +106,10 @@ export class EditorLogic extends Component {
 
   onDropOrPaste = (event, editor, next) => {
     const target = getEventRange(event, editor);
-    console.log(editor);
     if (!target && event.type === 'drop') return next();
 
     const transfer = getEventTransfer(event);
     const { type, text, files } = transfer;
-    console.log(transfer);
 
     if (type === 'files') {
       for (const file of files) {

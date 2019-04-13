@@ -135,7 +135,6 @@ class DragonColumn extends PureComponent {
   };
 
   publishModal = async (subject) => {
-    console.log(subject);
     const change = subject.published ? "private" : "public"
     this.props.setModal({
       body: <h2>Are you sure you want to make this column {change}?</h2>,
@@ -222,7 +221,6 @@ class DragonColumn extends PureComponent {
       toggleSubject,
       uploadImageModal,
     } = this.props;
-    console.log(this.props);
     const { _id, published, theme } = subject;
     return (
       <Draggable draggableId={_id} index={index}>

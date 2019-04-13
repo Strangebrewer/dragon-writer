@@ -99,7 +99,6 @@ const NothingContainer = styled.div`
 `;
 
 const SortableItem = SortableElement(props => {
-  console.log(props);
   return <StoryboardCard {...props} />
 });
 

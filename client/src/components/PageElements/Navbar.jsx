@@ -59,9 +59,7 @@ const Button = styled.button`
 
 export class Navbar extends PureComponent {
   render() {
-    console.log("Navbar Rendering")
     const { authenticated, user, logout } = this.props;
-    console.log(user);
     return (
       <NavContainer>
         <NavInner>

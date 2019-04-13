@@ -20,7 +20,6 @@ const addedEdOuterStyles = {
 export const InlineNewEditor = props => {
   const { createText, texts, toggleInlineNew } = props;
   const { subject, title } = props.state;
-  console.log(props);
   return (
     <OuterContainer>
       <DragonColumnFake

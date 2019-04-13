@@ -107,7 +107,6 @@ const Print = props => {
   }
 
   const { schema, subject, texts } = props.location.state;
-  console.log(props);
   return (
     <Wrapper>
       <GlobalStyle />

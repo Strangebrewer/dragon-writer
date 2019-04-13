@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Editor } from "slate-react";
 import { Value } from "slate";
@@ -120,7 +120,6 @@ export const DragonFullText = props => {
   const { index, text, schema, subject, toggleEditable, toggleEditableOn, uploadImageModal } = props;
   const { _id, largeImage, publicId } = text;
   const thisValue = text.text ? JSON.parse(text.text) : initialValue;
-  console.log(props.state)
   text.parentSubject = subject;
   return (
     <Draggable key={text} draggableId={text._id} index={index}>
@@ -211,7 +210,6 @@ export const DragonFullText = props => {
                         id={text._id}
                         inline="true"
                         isDragging={snapshot.isDragging}
-                        title={text.title}
                         toggleEditable={toggleEditable}
                         autoFocus
                         onDrop={editorprops.onDropOrPaste}

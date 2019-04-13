@@ -46,24 +46,26 @@ class UploadLogic extends Component {
       }), 500)
       return;
     }
-    // this.setState({ loading: true });
-    this.props.toggleLoading({ loading: store.getState().loading });
+    this.setState({ loading: true });
     this.props.closeModal();
     const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload/`, {
       method: 'POST',
       body: this.state.data
     });
     const file = await res.json();
-    const headers = this.buildHeaders();
-    const response = await API.saveImage(updateObject, headers);
-    consoleLoud(response, "IMAGE UPLOADER RESPONSE")
-    const updateObject = {
-      imageId: response.image._id,
+    const imageObject = {
       image: file.secure_url,
       largeImage: file.eager[0].secure_url,
       midImage: file.eager[1].secure_url,
       thumbnail: file.eager[2].secure_url,
       publicId: file.public_id,
+    };
+    const headers = this.buildHeaders();
+    const response = await API.saveImage(imageObject, headers);
+    consoleLoud(response, "IMAGE UPLOADER RESPONSE")
+    const updateObject = {
+      imageId: response.data.image._id,
+      ...imageObject
     };
     switch (this.props.type) {
       case 'project':
@@ -80,8 +82,7 @@ class UploadLogic extends Component {
         break;
       // default:
     }
-    // this.setState({ loading: false });
-    this.props.toggleLoading(store.getState().loading);
+    this.setState({ loading: false });
   };
 
   deleteImageModal = (textId, imageId) => {
@@ -101,8 +102,7 @@ class UploadLogic extends Component {
   };
 
   deleteImage = async (id, publicId) => {
-    // await this.setState({ loading: true });
-    this.props.toggleLoading({ loading: store.getState().loading });
+    await this.setState({ loading: true });
     this.props.closeModal();
 
     const deleteObj = { publicId };
@@ -123,12 +123,10 @@ class UploadLogic extends Component {
         const text = await API.removeImage(id, deleteObj, headers);
         this.props.addImageToText(text.data)
     }
-    // this.setState({ loading: false });
-    this.props.toggleLoading({ loading: store.getState().loading });
+    this.setState({ loading: false });
   };
 
   uploadImageModal = id => {
-    console.log(id)
     this.props.setModal({
       body: (
         <Fragment>
@@ -171,8 +169,7 @@ class UploadLogic extends Component {
   };
 
   assignImage = async (imageId, id) => {
-    // this.setState({ loading: true });
-    this.props.toggleLoading({ loading: store.getState().loading });
+    this.setState({ loading: true });
     this.props.closeModal();
     const headers = this.buildHeaders();
     const res = await API.getImage(imageId, headers);
@@ -191,8 +188,7 @@ class UploadLogic extends Component {
         const text = await API.updateText(id, updateObject, headers);
         this.props.addImageToText(text.data)
     }
-    // this.setState({ loading: false });
-    this.props.toggleLoading({ loading: store.getState().loading });
+    this.setState({ loading: false });
   }
 
   imageModal = (image, imageId, id, type) => {
@@ -223,7 +219,7 @@ class UploadLogic extends Component {
     return (
       this.props.children({
         imageModal: this.imageModal,
-        loading: this.props.loading,
+        loading: this.state.loading,
         saveImage: this.saveImage,
         state: this.state,
         uploadImage: this.uploadImage,

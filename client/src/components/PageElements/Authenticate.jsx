@@ -17,6 +17,7 @@ export const Authenticate = props => {
       case 'username': setUsername(value); break;
       case 'password': setPassword(value); break;
       case 'confirmPw': setConfirmPw(value); break;
+      default: break;
     }
   };
 

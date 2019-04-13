@@ -27,7 +27,6 @@ module.exports = {
   createProject: async function (req, res) {
     let lowerCaseLink = req.body.link.toLowerCase();
     const link = /^[a-z]+$/.test(lowerCaseLink);
-    console.log(link);
     if (!link) return res.json({ customMessage: "Project keywords must be alpha characters only." });
     const projects = await db.Project.find({ userId: req.user._id });
     if (projects.length > 19) {

@@ -136,7 +136,6 @@ class Project extends Component {
     const subjects = state.subjectOrder
       .map(subject => ({ ...state.subjects[subject] }));
 
-    console.log(this.props);
     return (
       <Page
         addSubjectToOrder={this.addSubjectToOrder}

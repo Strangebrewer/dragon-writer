@@ -36,21 +36,13 @@ exports.consoleLoud = function (logObject, msg, options) {
 
   if (!isTight) console.log('\n');
   if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
-  console.log(`
-    ${writePadding(padLeft1, paddingColor)}
-    ${msgOne[messageColor]}
-    ${writePadding(padRight1, paddingColor)}
-  `);
+  console.log(`${writePadding(padLeft1, paddingColor)}${msgOne[messageColor]}${writePadding(padRight1, paddingColor)}`);
   if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
   if (!isTight) console.log('\n');
   console.log(getColorFunction(objColor, logObject));
   if (!isTight) console.log('\n');
   if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
-  console.log(`
-    ${writePadding(padLeft2, paddingColor)}
-    ${msgTwo[messageColor]}
-    ${writePadding(padRight2, paddingColor)}
-  `);
+  console.log(`${writePadding(padLeft2, paddingColor)}${msgTwo[messageColor]}${writePadding(padRight2, paddingColor)}`);
   if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
   if (!isTight) console.log('\n');
 }

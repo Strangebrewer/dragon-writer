@@ -52,7 +52,6 @@ const Buttons = styled.div`
 export const ColumnButtons = React.memo(props => {
   const { id, index, subject, texts } = props;
   const { image, publicId, published } = subject;
-  console.log(subject);
   return (
     props.loading
       ? <Spinner top="8px" left="54px" size="12px" />

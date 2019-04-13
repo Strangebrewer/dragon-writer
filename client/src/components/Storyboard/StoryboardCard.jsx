@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from "styled-components";
 import { SortableHandle } from 'react-sortable-hoc';
 import { StoryboardButtons } from "../Dragons/DragonElements";
@@ -91,7 +91,6 @@ export const StoryboardCard = React.memo(props => {
   }
 
   const { image, thesis, title } = props.text;
-  console.log(props);
   return (
     <Card image={image}>
       <CopyText id={`img-copy-${props.id}`} defaultValue={image} />

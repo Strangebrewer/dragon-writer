@@ -57,7 +57,6 @@ const AuthContainer = styled.div`
 
 class Landing extends Component {
   render() {
-    console.log(this.props);
     if (this.props.authenticated) return <Redirect to="/home" />;
 
     return (

@@ -11,7 +11,6 @@ class Public extends Component {
   async componentDidMount() {
     const username = this.props.match.params.username;
     const res = await API.fetchPublicWorks(username);
-    console.log(res.data);
     const works = res.data.projects;
     this.setState({ works, loading: false });
   }

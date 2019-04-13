@@ -1,7 +1,8 @@
 
 function users(state = [], action) {
+  
   switch (action.type) {
-    case 'GET_CURRENT_USER':
+    case 'NARF':
       console.log(action);
       return state;
     default: return state;

@@ -1,5 +1,6 @@
-import { createStore, compose } from 'redux';
-import rootReducer from './reducers/index';
+import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from './redux/reducers/index';
+import promiseMiddleware from 'redux-promise-middleware';
 
 const defaultState = {
   projects: [],
@@ -8,15 +9,15 @@ const defaultState = {
   projectOrderData: {},
   user: null,
   loading: true,
-  loggedIn: false,
-  retarded: 'yes'
+  loggedIn: false
 }
 
 // this gives Redux in chrome dev tools access to this app's Redux store
-const enhancers = compose(
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, defaultState, enhancers);
+const store = createStore(
+  rootReducer,
+  defaultState,
+  composeEnhancers(applyMiddleware(promiseMiddleware)));
 
 export default store;

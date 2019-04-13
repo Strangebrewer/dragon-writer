@@ -1,8 +1,14 @@
 import React, { Component, Fragment } from 'react';
+import { bindActionCreators } from 'redux';
 import { Button, Input, Label } from "../Forms/FormElements";
-import { API } from "../../utils";
+import { API, Utils } from "../../utils";
+import { connect } from 'react-redux';
+import * as actionCreators from '../../redux/actions';
+import store from '../../store';
 
-export class UploadLogic extends Component {
+const { consoleLoud } = Utils;
+
+class UploadLogic extends Component {
   state = {
     image: '',
     imageId: '',
@@ -40,14 +46,17 @@ export class UploadLogic extends Component {
       }), 500)
       return;
     }
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
+    this.props.toggleLoading({ loading: store.getState().loading });
     this.props.closeModal();
     const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload/`, {
       method: 'POST',
       body: this.state.data
     });
     const file = await res.json();
+    const headers = this.buildHeaders();
     const response = await API.saveImage(updateObject, headers);
+    consoleLoud(response, "IMAGE UPLOADER RESPONSE")
     const updateObject = {
       imageId: response.image._id,
       image: file.secure_url,
@@ -56,7 +65,6 @@ export class UploadLogic extends Component {
       thumbnail: file.eager[2].secure_url,
       publicId: file.public_id,
     };
-    const headers = this.buildHeaders();
     switch (this.props.type) {
       case 'project':
         await API.updateProject(id, updateObject, headers);
@@ -72,7 +80,8 @@ export class UploadLogic extends Component {
         break;
       // default:
     }
-    this.setState({ loading: false });
+    // this.setState({ loading: false });
+    this.props.toggleLoading(store.getState().loading);
   };
 
   deleteImageModal = (textId, imageId) => {
@@ -92,7 +101,8 @@ export class UploadLogic extends Component {
   };
 
   deleteImage = async (id, publicId) => {
-    await this.setState({ loading: true });
+    // await this.setState({ loading: true });
+    this.props.toggleLoading({ loading: store.getState().loading });
     this.props.closeModal();
 
     const deleteObj = { publicId };
@@ -113,7 +123,8 @@ export class UploadLogic extends Component {
         const text = await API.removeImage(id, deleteObj, headers);
         this.props.addImageToText(text.data)
     }
-    this.setState({ loading: false });
+    // this.setState({ loading: false });
+    this.props.toggleLoading({ loading: store.getState().loading });
   };
 
   uploadImageModal = id => {
@@ -142,7 +153,7 @@ export class UploadLogic extends Component {
       buttons: (
         <div>
           <Button
-            disabled={this.state.loading}
+            disabled={this.props.loading}
             onClick={() => (
               this.state.imageId
                 ? this.assignImage(this.state.imageId, id)
@@ -160,7 +171,8 @@ export class UploadLogic extends Component {
   };
 
   assignImage = async (imageId, id) => {
-    this.setState({ loading: true });
+    // this.setState({ loading: true });
+    this.props.toggleLoading({ loading: store.getState().loading });
     this.props.closeModal();
     const headers = this.buildHeaders();
     const res = await API.getImage(imageId, headers);
@@ -179,7 +191,8 @@ export class UploadLogic extends Component {
         const text = await API.updateText(id, updateObject, headers);
         this.props.addImageToText(text.data)
     }
-    this.setState({ loading: false });
+    // this.setState({ loading: false });
+    this.props.toggleLoading({ loading: store.getState().loading });
   }
 
   imageModal = (image, imageId, id, type) => {
@@ -192,7 +205,7 @@ export class UploadLogic extends Component {
         <div>
           {image &&
             <Button
-              disabled={this.state.loading}
+              disabled={this.props.loading}
               onClick={() => this.deleteImageModal(id, imageId)}
             >
               Delete
@@ -210,7 +223,7 @@ export class UploadLogic extends Component {
     return (
       this.props.children({
         imageModal: this.imageModal,
-        loading: this.state.loading,
+        loading: this.props.loading,
         saveImage: this.saveImage,
         state: this.state,
         uploadImage: this.uploadImage,
@@ -219,3 +232,16 @@ export class UploadLogic extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  consoleLoud(state, "STATE in mAPsTATEtOpROPS");
+  return {
+    ...state
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UploadLogic)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import { bindActionCreators } from 'redux';
 import { DragonLogic } from "./components/Renderers";
 import Home from "./pages/Home";
 import Images from './pages/Images';
@@ -9,9 +9,11 @@ import Public from "./pages/Public";
 import Print from "./pages/Print";
 import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
-import { Themes } from "./components/Styles";
 import { API, Utils } from "./utils";
-console.loud = Utils.consoleLoud
+import { connect } from 'react-redux';
+import store from './store';
+import * as actionCreators from './redux/actions';
+const { consoleLoud } = Utils;
 
 let isAuthenticated = false;
 
@@ -26,33 +28,20 @@ class App extends Component {
     loggedIn: false
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (localStorage.getItem('token')) {
-      // const headers = this.buildHeaders();
-      this.getCurrentUser();
-      // this.props.getCurrentUser(headers);
-      return;
+      const headers = this.buildHeaders();
+      await this.props.getCurrentUser(headers);
+      this.getInitialData(this.props.user)
     }
-    this.setState({ loading: false });
+    else {
+      this.props.toggleLoading({ loading: store.getState().loading });
+    }
   };
 
   buildHeaders = () => {
     const token = localStorage.getItem('token');
     return { headers: { "Authorization": `Bearer ${token}` } };
-  }
-
-  getCurrentUser = async () => {
-    try {
-      const headers = this.buildHeaders();
-      const res = await API.getCurrentUser(headers);
-      if (res.data.msg === "logged in") {
-        this.getInitialData(res.data.user);
-      } else {
-        console.log("Set up login error handling!");
-      }
-    } catch (e) {
-      console.log(e);
-    }
   }
 
   getInitialData = async user => {
@@ -80,7 +69,6 @@ class App extends Component {
     isAuthenticated = true;
 
     this.setState({
-      loading: false,
       loggedIn: true,
       projectData,
       projectOrder,
@@ -88,6 +76,8 @@ class App extends Component {
       projects,
       user
     });
+
+    this.props.toggleLoading({ loading: store.getState().loading });
   }
 
   addNewProject = async (projectId, callback) => {
@@ -223,107 +213,121 @@ class App extends Component {
       authenticated: isAuthenticated,
       buildHeaders: this.buildHeaders,
       getInitialData: this.getInitialData,
-      loading: this.state.loading,
+      loading: this.props.loading,
       loggedIn: this.state.loggedIn,
       logout: this.logout,
       user: this.state.user
     }
 
-    // console.loud(this.state.user, 'YOU HOMINIDS RUIN EVERYTHING! GOSH!');
+    // consoleLoud(this.state.user, 'YOU HOMINIDS RUIN EVERYTHING! GOSH!');
     // console.log(this.state.user);
 
-    if (this.state.loading) return null;
-    console.loud(this.props, "APP PROPS");
+    consoleLoud(this.props, "PROPS in APP")
 
+    if (this.props.loading) return null;
     return (
-      <ThemeProvider theme={Themes.nightmode}>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              {routeprops => (
-                <Landing {...routeprops} {...sharedprops} />
-              )}
-            </Route>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            {routeprops => (
+              <Landing {...routeprops} {...sharedprops} />
+            )}
+          </Route>
 
-            <Route exact path="/home">
-              {routeprops => (
-                isAuthenticated
-                  ? (
-                    <Home
-                      {...routeprops}
-                      {...sharedprops}
-                      addNewProject={this.addNewProject}
-                      projectOrder={this.state.projectOrder}
-                      projectOrderData={this.state.projectOrderData}
-                      refreshProjectList={this.refreshProjectList}
-                      removeProjectFromList={this.removeProjectFromList}
-                    />
-                  ) : <Redirect to="/" />
-              )}
-            </Route>
+          <Route exact path="/home">
+            {routeprops => (
+              isAuthenticated
+                ? (
+                  <Home
+                    {...routeprops}
+                    {...sharedprops}
+                    addNewProject={this.addNewProject}
+                    projectOrder={this.state.projectOrder}
+                    projectOrderData={this.state.projectOrderData}
+                    refreshProjectList={this.refreshProjectList}
+                    removeProjectFromList={this.removeProjectFromList}
+                  />
+                ) : <Redirect to="/" />
+            )}
+          </Route>
 
-            <Route path='/myboard/:username' {...sharedprops} component={Public} />
+          <Route path='/myboard/:username' {...sharedprops} component={Public} />
 
-            <Route path='/images/:username'>
-              {routeprops => (
-                isAuthenticated
-                  ? (
-                    <Images
-                      {...routeprops}
-                      {...sharedprops}
-                    />
-                  ) : <Redirect to="/" />
-              )}
-            </Route>
+          <Route path='/images/:username'>
+            {routeprops => (
+              isAuthenticated
+                ? (
+                  <Images
+                    {...routeprops}
+                    {...sharedprops}
+                  />
+                ) : <Redirect to="/" />
+            )}
+          </Route>
 
-            {this.state.projects.length > 0
-              && (
-                this.state.projects.map((project, index) => (
-                  <Route key={project._id} path={`/${project.link}`}>
-                    {routeprops => (
-                      isAuthenticated
-                        ? (
-                          <DragonLogic
-                            addTextToProject={this.addTextToProject}
-                            getInitialData={this.getInitialData}
-                            project={project}
-                            projectData={this.state.projectData[index]}
-                            refreshSingleProjectOrder={this.refreshSingleProjectOrder}
-                            updateTextInProject={this.updateTextInProject}
-                          >
-                            {dragonprops => (
-                              <Project
-                                {...routeprops}
-                                {...dragonprops}
-                                {...sharedprops}
-                                project={project}
-                              />
-                            )}
-                          </DragonLogic>
-                        ) : <Redirect to="/" />
-                    )}
-                  </Route>
-                ))
-              )}
-
-            <Route path="/print" component={Print} />
-
-            {/* this forces the unknown paths (i.e. projects) to redirect to the landing page rather than simply default to the NoMatch page */}
-            {this.state.redirect && (
-              <Route path="*">
-                {routeprops => (
-                  <Redirect to="/" />
-                )}
-              </Route>
+          {this.state.projects.length > 0
+            && (
+              this.state.projects.map((project, index) => (
+                <Route key={project._id} path={`/${project.link}`}>
+                  {routeprops => (
+                    isAuthenticated
+                      ? (
+                        <DragonLogic
+                          addTextToProject={this.addTextToProject}
+                          getInitialData={this.getInitialData}
+                          project={project}
+                          projectData={this.state.projectData[index]}
+                          refreshSingleProjectOrder={this.refreshSingleProjectOrder}
+                          updateTextInProject={this.updateTextInProject}
+                        >
+                          {dragonprops => (
+                            <Project
+                              {...routeprops}
+                              {...dragonprops}
+                              {...sharedprops}
+                              project={project}
+                            />
+                          )}
+                        </DragonLogic>
+                      ) : <Redirect to="/" />
+                  )}
+                </Route>
+              ))
             )}
 
-            <Route path="*" component={NoMatch} />
+          <Route path="/print" component={Print} />
 
-          </Switch>
-        </Router>
-      </ThemeProvider>
+          {/* this forces the unknown paths (i.e. projects) to redirect to the landing page rather than simply default to the NoMatch page */}
+          {this.state.redirect && (
+            <Route path="*">
+              {routeprops => (
+                <Redirect to="/" />
+              )}
+            </Route>
+          )}
+
+          <Route path="*" component={NoMatch} />
+        </Switch>
+      </Router>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  consoleLoud(state, "STATE in mAPsTATEtOpROPS");
+  return {
+    projects: state.projects,
+    projectData: state.projectData,
+    projectOrder: state.projectOrder,
+    projectOrderData: state.projectOrderData,
+    user: state.user,
+    loading: state.loading,
+    loggedIn: state.loggedIn
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

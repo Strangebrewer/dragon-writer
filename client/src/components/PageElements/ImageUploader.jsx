@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { ModalLogic, UploadLogic } from "../Renderers";
+import UploadLogic, { ModalLogic } from "../Renderers";
 
 export class ImageUploader extends PureComponent {
   render() {

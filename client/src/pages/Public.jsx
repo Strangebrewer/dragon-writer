@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { API } from '../utils';
+import { API, Utils } from '../utils';
+const { consoleLoud } = Utils;
 
 class Public extends Component {
   state = {
@@ -16,13 +17,13 @@ class Public extends Component {
   }
 
   unwrittenFunction = id => {
-    console.loud(id, "SUBJECT ID", { padding: 'cyan', message: 'green'});
+    consoleLoud(id, "SUBJECT ID", { padding: 'cyan', message: 'green'});
     // this function will toggle the selected column on and toggle all others off
     // That's right, only one column at a time, folks. Because I said so.
   }
 
   render() {
-    // console.loud(this.state.works, "Works");
+    // consoleLoud(this.state.works, "Works");
     return (
       <div>
         {/* Got it returning the data I need */}
@@ -35,7 +36,7 @@ class Public extends Component {
                   <li>{project.title}</li>
                   <ul>
                     {project.published.map(subject => {
-                      console.loud(subject, "HERE'S YOUR SUBJECT, SUCKA!");
+                      consoleLoud(subject, "HERE'S YOUR SUBJECT, SUCKA!");
                       return (
                         <li key={subject._id}>
                           <button onClick={() => this.unwrittenFunction(subject._id)}>{subject.subject}</button>

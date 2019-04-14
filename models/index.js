@@ -1,7 +1,9 @@
 module.exports = {
-  Image: require('./image'),
-  Project: require('./project'),
-  Subject: require('./subject'),
-  User: require('./user'),
-  Text: require('./text')
+  ImageModel: require('./ImageModel'),
+  Project: require('./Project'),
+  ProjectModel: require('./ProjectModel'),
+  SubjectModel: require('./SubjectModel'),
+  User: require('./User'),
+  UserModel: require('./UserModel'),
+  TextModel: require('./TextModel')
 };

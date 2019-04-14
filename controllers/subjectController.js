@@ -4,7 +4,7 @@ module.exports = {
 
   getSubjects: async function (req, res) {
     try {
-      const subjects = await db.Subject.find({ userId: req.user._id })
+      const subjects = await db.SubjectModel.find({ userId: req.user._id })
         .populate('texts');
       res.json(subjects);
     } catch (err) {
@@ -14,7 +14,7 @@ module.exports = {
 
   getSingleSubject: async function (req, res) {
     try {
-      const subject = await db.Subject.findById(req.params.id)
+      const subject = await db.SubjectModel.findById(req.params.id)
         .populate('texts')
         .catch(err => {
           throw new Error({ message: "Could not find that subject in the database." });
@@ -29,8 +29,8 @@ module.exports = {
   createSubject: async function (req, res) {
     req.body.userId = req.user._id;
     try {
-      const subject = await db.Subject.create(req.body);
-      await db.Project.findOneAndUpdate(
+      const subject = await db.SubjectModel.create(req.body);
+      await db.ProjectModel.findOneAndUpdate(
         { _id: req.body.projectId },
         { $push: { subjects: subject._id } },
         { new: true }
@@ -47,10 +47,10 @@ module.exports = {
         let update;
         if (req.body.published) update = { $push: { published: req.params.id } };
         else update = { $pull: { published: req.params.id } };
-        await db.Project.findOneAndUpdate({ _id: req.body.projectId }, update, { new: true });
+        await db.ProjectModel.findOneAndUpdate({ _id: req.body.projectId }, update, { new: true });
         delete req.body.projectId;
       }
-      const subject = await db.Subject.findByIdAndUpdate(
+      const subject = await db.SubjectModel.findByIdAndUpdate(
         req.params.id, req.body, { new: true }
       );
       res.json(subject);
@@ -63,10 +63,10 @@ module.exports = {
   deleteSubject: async function (req, res) {
     try {
       const promiseArray = []
-      const subject = await db.Subject.findByIdAndDelete(req.params.id);
+      const subject = await db.SubjectModel.findByIdAndDelete(req.params.id);
       for (let i = 0; i < subject.texts.length; i++) {
         const element = subject.texts[i];
-        promiseArray.push(db.Text.findByIdAndDelete(element));
+        promiseArray.push(db.TextModel.findByIdAndDelete(element));
       }
       await Promise.all(promiseArray);
       res.status(200).json({ message: "Delete complete." })

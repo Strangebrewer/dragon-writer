@@ -35,20 +35,20 @@ exports.consoleLoud = function (logObject, msg, options) {
     padRight2 = ((rowLength - (msgTwo.length + 1)) / 2);
 
   if (!isTight) console.log('\n');
-  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  if (rowLength) console.log(`${writeRow(rowLength, paddingColor)}`);
   console.log(`${writePadding(padLeft1, paddingColor)}${msgOne[messageColor]}${writePadding(padRight1, paddingColor)}`);
-  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  if (rowLength) console.log(`${writeRow(rowLength, paddingColor)}`);
   if (!isTight) console.log('\n');
-  console.log(getColorFunction(objColor, logObject));
+  console.log(getColor(objColor, logObject));
   if (!isTight) console.log('\n');
-  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  if (rowLength) console.log(`${writeRow(rowLength, paddingColor)}`);
   console.log(`${writePadding(padLeft2, paddingColor)}${msgTwo[messageColor]}${writePadding(padRight2, paddingColor)}`);
-  if (rowLength) console.log(`${writeFullRow(rowLength, paddingColor)}`);
+  if (rowLength) console.log(`${writeRow(rowLength, paddingColor)}`);
   if (!isTight) console.log('\n');
 }
 
 // helper functions:
-function writeFullRow(num, color) {
+function writeRow(num, color) {
   let str = '';
   for (let i = 0; i < num; i++) { str += '%'; }
   return str[color];
@@ -62,7 +62,7 @@ function writePadding(len, color) {
   return str[color];
 }
 
-function getColorFunction(color, logObject) {
+function getColor(color, logObject) {
   switch (color) {
     case 'black': return colors.black(logObject);
     case 'red': return colors.red(logObject);

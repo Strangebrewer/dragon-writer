@@ -1,102 +1,46 @@
 const db = require('../models');
-const bcrypt = require('bcryptjs');
-const { passport, sign } = require('../passport');
+const { sign } = require('../passport');
+const user_model = new db.User(db.UserModel, sign);
 
 module.exports = {
   fetchPublicWorks: async function (req, res) {
-    // get all texts that are public
     try {
-      const url = req.params.username.toLowerCase();
-      await db.User.findOne({ url: url })
-        .populate({
-          path: 'projects',
-          match: { "published.0": { "$exists": true } },
-          populate: { path: 'published', populate: { path: 'texts' } }
-        })
-        .exec((err, docs) => res.json(docs));
+      const user = await user_model.getPublicWorks(req.params)
+      res.json(user);
     } catch (e) {
       console.loud(e);
     }
   },
 
   getCurrentUser: function (req, res) {
-    console.loud(req.user);
     const { _id, order, projects, url, username } = req.user;
     const userData = { _id, order, projects, url, username };
     res.json({ msg: "logged in", user: userData });
   },
 
-  getUserWithProjects: function (req, res) {
-    if (req.user) {
-      db.User.findOne({ _id: req.user._id })
-        .populate('projects')
-        .then(response => {
-          const user = {
-            projects: response.projects,
-            _id: response._id,
-            username: response.username,
-            email: response.email,
-            order: response.order,
-            updatedAt: response.updatedAt,
-          }
-          res.json(user);
-        });
-    } else {
+  getUserWithProjects: async function (req, res) {
+    try {
+      if (req.user) {
+        const user = await user_model.findWithProjects(req.user.id, 'projects');
+        res.json(user);
+      }
+    } catch (err) {
       res.json({ user: null })
     }
   },
 
   signup: async function (req, res) {
-    const { username, email } = req.body;
-    let emailTest = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
-    let userTest = /^[a-zA-Z][a-zA-Z0-9]+$/.test(username);
-
-    let error = {};
-    if (!emailTest) error.email = "email invalid";
-    if (!userTest) error.username = "username invalid";
-
-    if (!emailTest || !userTest) {
-      return res.json(error);
-    }
-
-    // ADD VALIDATION
-    const user = await db.User.findOne({ username: username })
-    if (user) res.json({ error: 'username taken' });
-    else {
-      const nextUser = await db.User.findOne({ email: email });
-      if (nextUser) res.json({ error: 'email taken' });
-      else {
-        const password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null);
-        req.body.password = password;
-        try {
-          req.body.url = username.toLowerCase();
-          const user = await db.User.create(req.body);
-          const { email, _id, order, projects } = user;
-          const token = sign({
-            id: user._id,
-            username,
-          });
-          const userData = {
-            _id,
-            email,
-            order,
-            projects,
-            username
-          }
-          res.json({ msg: "logged in", token, user: userData });
-        } catch (e) {
-          console.loud(e);
-          res.status(500).json({ msg: e.message });
-        }
-      }
+    try {
+      const user = await user_model.createNewUser(req.body);
+      res.json(user)
+    } catch (err) {
+      res.json({ msg: err.message });
     }
   },
 
   updateUserOrder: async function (req, res) {
-    console.loud(req.body);
     try {
-      const user = await db.User.findByIdAndUpdate(req.user._id, req.body, { new: true })
-      console.loud(user);
+      const user = await db.UserModel.findByIdAndUpdate(req.user._id, req.body, { new: true })
       res.json(user);
     }
     catch (err) {
@@ -105,91 +49,29 @@ module.exports = {
   },
 
   updateUserInfo: async function (req, res) {
-    const { username, email } = req.body;
-
-    let emailTest;
-    email !== undefined
-      ? emailTest = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email)
-      : emailTest = true;
-
-    let userTest;
-    username !== undefined
-      ? userTest = /^[a-zA-Z0-9]+$/.test(username)
-      : userTest = true;
-
-    if (!emailTest || !userTest)
-      return res.json({ error: 'did not validate' });
-
-    // ADD VALIDATION
-    const user = await db.User.findOne({ username: username })
-    if (user) res.json({ error: 'username taken' });
-    else {
-      const nextUser = await db.User.findOne({ email: email });
-      if (nextUser) res.json({ error: 'email taken' });
-      else {
-        try {
-          const user = await db.User.findOneAndUpdate({ _id: req.user._id }, req.body);
-          const { email, _id, order, projects } = user;
-          const userData = {
-            _id,
-            email,
-            order,
-            projects,
-            username
-          }
-          res.json(userData);
-        } catch (e) {
-          console.loud(e);
-          res.json({ msg: e.message });
-        }
-      }
+    try {
+      const user = await user_model.updateUser(req.body, req.user);
+      res.json(user);
+    } catch (err) {
+      res.json({ msg: err.message });
     }
   },
 
   login: async function (req, res) {
     try {
-      const { username, password } = req.body;
-      const user = await db.User.findOne({ username });
-      const passwordValid = await bcrypt.compare(password, user.password);
-      const { email, _id, order, projects } = user;
-      if (passwordValid) {
-        const token = sign({
-          id: user._id,
-          username,
-        });
-        const userData = {
-          _id,
-          email,
-          order,
-          projects,
-          username
-        }
-        res.json({ msg: "logged in", token, user: userData });
-      } else {
-        throw Error('Invalid credentials');
-      }
-    } catch (e) {
-      console.loud(e);
-      res.status(500).json({ message: e.message });
+      const user = await user_model.login(req.body);
+      res.json(user);
+    } catch (err) {
+      res.json({ message: err.message });
     }
   },
 
   changePw: function (req, res) {
-    console.loud(req.body);
-    const isMatch = bcrypt.compareSync(req.body.currentPassword, req.user.password);
-    if (isMatch) {
-      const pw = bcrypt.hashSync(req.body.newPassword, bcrypt.genSaltSync(10), null);
-      db.User.findOneAndUpdate(
-        { _id: req.user._id },
-        { password: pw }
-      )
-        .then(response => {
-          console.loud("Check pw response:");
-          console.loud(response);
-          res.json(response);
-        })
-    } else {
-      res.send({ message: "incorrect" })
+    try {
+      const user = user_model.updatePassword(req.body, req.user)
+      res.json(user);
+    } catch (err) {
+      res.json({ message: err.message });
     }
   },
 

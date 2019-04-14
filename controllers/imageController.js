@@ -10,7 +10,7 @@ module.exports = {
   getImages: async function (req, res) {
     console.loud(req.user, 'THIS IS IN THE GET IMAGES FUNCTION! DONT TAZE ME BRO!', { padding: 'yellow', message: 'red', log: 'green', tight: true });
     try {
-      const user = await db.User.findById(req.user._id).populate('images');
+      const user = await db.UserModel.findById(req.user._id).populate('images');
       res.json(user);
     } catch (err) {
       res.json(err);
@@ -24,7 +24,7 @@ module.exports = {
     }
     console.loud(req.params, 'THIS IS IN THE GET SINGLE IMAGE FUNCTION:', colors);
     try {
-      const image = await db.Image.findById(req.params.id);
+      const image = await db.ImageModel.findById(req.params.id);
       res.json(image);
     } catch (err) {
       res.json(err);
@@ -37,7 +37,7 @@ module.exports = {
     try {
       const result = await cloudinary.v2.uploader.destroy(req.body.publicId, { invalidate: true });
       if (result.result === 'ok' || result.result === "not found") {
-        removal = await db[req.body.type].findByIdAndUpdate(req.params.id, {
+        removal = await db[`${req.body.type}Model`].findByIdAndUpdate(req.params.id, {
           image: '',
           largeImage: '',
           midImage: '',
@@ -58,8 +58,8 @@ module.exports = {
     console.loud(req.body, 'THIS IS IN THE SAVE IMAGE FUNCTION AFTER ADDING THE USERID:');
 
     try {
-      const image = await db.Image.create(req.body);
-      const user = await db.User.findByIdAndUpdate(req.user._id,
+      const image = await db.ImageModel.create(req.body);
+      const user = await db.UserModel.findByIdAndUpdate(req.user._id,
         { $push: { images: image._id } },
         { new: true }
       ).populate('images');

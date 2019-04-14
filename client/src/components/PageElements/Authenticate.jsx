@@ -37,6 +37,7 @@ export const Authenticate = props => {
     const res = await API.signup({
       username, email, password
     });
+    console.log("Signup Response: ", res)
     const { token, user } = res.data;
     if (!res.data.error && user._id)
       localStorage.setItem('token', token)

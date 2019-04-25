@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Dragon Writer",
+  "name": "Dragon Writer: drag and drop storyboarding for writers",
   "icons": [
     {
       "src": "dragon-icon2.png",

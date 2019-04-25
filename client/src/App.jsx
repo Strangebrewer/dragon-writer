@@ -51,6 +51,7 @@ class App extends Component {
     const headers = this.buildHeaders();
     const res = await API.getProjectsWithAll(headers);
     const projects = res.data;
+    console.log(projects);
     projects.forEach(project => {
       if (project.order) {
         projectData.push(Utils.addTextsToOrder(project));

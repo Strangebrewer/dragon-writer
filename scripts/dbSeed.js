@@ -7,7 +7,8 @@ const pw = bcrypt.hashSync("1234", bcrypt.genSaltSync(10), null);
 // This file empties the database and inserts the data below
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb+srv://dangUser:dangUser@cluster0-rzvqk.mongodb.net/writing_tool?retryWrites=true"
+  process.env.MONGODB_URI || 'mongodb://localhost/writing_tool'
+  // process.env.MONGODB_URI || "mongodb+srv://dangUser:dangUser@cluster0-rzvqk.mongodb.net/writing_tool?retryWrites=true"
 );
 
 const userSeed = [
@@ -86,25 +87,25 @@ const subjectSeed = [
 
 async function seedDb() {
   // empty all collections:
-  await db.User.remove({});
-  await db.Project.remove({});
-  await db.Subject.remove({});
-  await db.Text.remove({});
-  await db.Image.remove({});
+  await db.UserModel.remove({});
+  await db.ProjectModel.remove({});
+  await db.SubjectModel.remove({});
+  await db.TextModel.remove({});
+  await db.ImageModel.remove({});
 
   // insert users and assign to variable:
-  const users = await db.User.collection.insertMany(userSeed);
+  const users = await db.UserModel.collection.insertMany(userSeed);
   // add user id to each seed project:
   projectSeed.forEach(project => (
     project.userId = users.ops[0]._id
   ));
 
   // insert projects and assign to variable:
-  const projects = await db.Project.collection.insertMany(projectSeed)
+  const projects = await db.ProjectModel.collection.insertMany(projectSeed)
   // extract project ids:
   const projectIds = projects.ops.filter(project => project._id);
   // add project ids to user projects array:
-  const thisUser = await db.User.findOneAndUpdate(
+  const thisUser = await db.UserModel.findOneAndUpdate(
     { _id: users.ops[0]._id },
     { $push: { projects: { $each: projectIds } } },
     { new: true }
@@ -120,11 +121,11 @@ async function seedDb() {
   ));
 
   // insert subjects and assign to variable:
-  const subjects = await db.Subject.collection.insertMany(subjectSeed);
+  const subjects = await db.SubjectModel.collection.insertMany(subjectSeed);
   // extract subject ids:
   const subjectIds = subjects.ops.filter(subject => subject._id);
   // add subject ids to project subjects array:
-  const thisProject = await db.Project.findOneAndUpdate(
+  const thisProject = await db.ProjectModel.findOneAndUpdate(
     { _id: projects.ops[0]._id },
     { $push: { subjects: { $each: subjectIds } } },
     { new: true }

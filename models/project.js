@@ -5,15 +5,18 @@ class Project {
     this.Schema = model;
   }
 
-  async find(query = {}, populate = []) {
-    if (typeof populate == 'string') populate.split(',');
-    return await this.Schema.find(query).populate(populate);
-  }
-
-  async findOneWithAll(id, populate = []) {
-    if (typeof populate == 'string') populate.split(',');
-    return await this.Schema.findById(id).populate(populate);
-  }
+  // I'M NOT SURE WHAT THE 'populate.split' IS SUPPOSED TO BE DOING
+  // BUT IT DOESN'T APPEAR TO BE NECESSARY
+  // SO THERE ISN'T MUCH NEED FOR EITHER OF THESE
+  // KEEPING IN CASE I NEED THEM FOR SOMETHING LATER...
+  // async find(query = {}, populate = []) {
+  //   // if (typeof populate == 'string') populate.split(',');
+  //   return await this.Schema.find(query).populate(populate);
+  // }
+  // async findOneWithAll(id, populate = []) {
+  //   if (typeof populate == 'string') populate.split(',');
+  //   return await this.Schema.findById(id).populate(populate);
+  // }
 
   async validateNewProject(req_body, req_user) {
     const validate = { valid: true };

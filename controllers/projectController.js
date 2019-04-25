@@ -4,7 +4,8 @@ const project_model = new Project(ProjectModel)
 module.exports = {
 
   getProjectsWithAll: async function (req, res) {
-    project_model.find({ userId: req.user._id }, 'subjects, texts')
+    ProjectModel.find({ userId: req.user._id })
+      .populate('subjects texts')
       .then(response => res.json(response))
       .catch(err => res.status(422).json(err));
   },
@@ -16,7 +17,8 @@ module.exports = {
   },
 
   getSingleProjectWithAll: async function (req, res) {
-    project_model.findOneWithAll(req.params.id, 'subjects, texts')
+    ProjectModel.findById(req.params.id)
+      .populate('subjects texts')
       .then(response => res.json(response))
       .catch(err => res.status(422).json(err));
   },

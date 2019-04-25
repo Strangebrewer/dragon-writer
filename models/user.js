@@ -16,14 +16,8 @@ class User {
   async findWithProjects(id, populate = []) {
     if (typeof populate == 'string') populate.split(',');
     const response = await this.Schema.findById(id).populate(populate);
-    return {
-      projects: response.projects,
-      _id: response._id,
-      username: response.username,
-      email: response.email,
-      order: response.order,
-      updatedAt: response.updatedAt,
-    }
+    const { _id, email, order, projects, updatedAt } = response;
+    return { projects, _id, username, email, order, updatedAt, }
   }
 
   async getPublicWorks(req_params) {
@@ -103,13 +97,7 @@ class User {
       id: _id,
       username,
     });
-    const userData = {
-      _id,
-      email,
-      order,
-      projects,
-      username
-    }
+    const userData = { _id, email, order, projects, username }
     return { msg: "logged in", token, user: userData };
   }
 
@@ -119,20 +107,13 @@ class User {
     if (!inputs.valid) return inputs;
     const avail = await this.checkUserAvailable(username, email);
     if (!avail.valid) return avail;
-
     const res = await this.Schema.findOneAndUpdate({ _id: req_user._id }, req_body);
     const { _id, order, projects } = res;
     const token = this.sign({
       id: _id,
       username,
     });
-    const user = {
-      _id,
-      email,
-      order,
-      projects,
-      username
-    }
+    const user = { _id, email, order, projects, username }
     return { msg: "update successful", token, user };
   }
 
@@ -146,13 +127,7 @@ class User {
         id: _id,
         username,
       });
-      const user = {
-        _id,
-        email,
-        order,
-        projects,
-        username
-      }
+      const user = { _id, email, order, projects, username }
       return { msg: "logged in", token, user };
     }
   }
@@ -163,22 +138,13 @@ class User {
     const passwordValid = this.checkPassword(currentPassword, password);
     if (passwordValid) {
       const pw = hashPassword(newPassword);
-      const res = await this.Schema.findOneAndUpdate(
-        { _id },
-        { password: pw }
-      );
+      const res = await this.Schema.findOneAndUpdate({ _id }, { password: pw });
       const { email, order, projects, username } = res;
       const token = this.sign({
         id: _id,
         username,
       });
-      const user = {
-        _id,
-        email,
-        order,
-        projects,
-        username
-      }
+      const user = { _id, email, order, projects, username }
       return { msg: "password changed", token, user };
     }
   }

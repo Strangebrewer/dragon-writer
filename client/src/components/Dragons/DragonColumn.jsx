@@ -54,17 +54,17 @@ const SubjectHeader = styled.div`
 `;
 
 const DragonList = styled.div`
-  box-shadow: ${props => props.isDraggingOver
-    ? `0 0 5px rgba(38, 212, 204, .5),
-      0 0 2px rgba(38, 212, 204, .5),
-      inset 0 0 20px 0 rgba(39, 212, 204, .5)`
-    : "none"};
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 8px;
-  padding-top: 136px;
-  transition: box-shadow .2s ease-in-out;
+   box-shadow: ${props => props.isDraggingOver
+      ? `0 0 5px rgba(38, 212, 204, .5),
+         0 0 2px rgba(38, 212, 204, .5),
+         inset 0 0 20px 0 rgba(39, 212, 204, .5)`
+      : "none"};
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   padding: 8px;
+   padding-top: 136px;
+   transition: box-shadow .2s ease-in-out;
 `;
 
 const ButtonContainer = styled.div`

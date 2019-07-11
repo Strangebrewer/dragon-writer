@@ -5,37 +5,37 @@ const bcrypt = require('bcryptjs');
 const tempPw = bcrypt.hashSync("BootsNPants", bcrypt.genSaltSync(10), null);
 
 const userSchema = new Schema({
-	username: { type: String, required: true },
-	url: String,
-	password: { type: String, required: true, default: tempPw },
-	email: String,
-	order: String,
-  image: String,
-  imageId: String,
-  largeImage: String,
-  midImage: String,
-  thumbnail: String,
-  publicId: String,
-	projects: [{
-		type: Schema.Types.ObjectId,
-		ref: "Project"
-	}],
-	images: [{
-		type: Schema.Types.ObjectId,
-		ref: 'Image'
-	}]
+   username: { type: String, required: true },
+   url: String,
+   password: { type: String, required: true, default: tempPw },
+   email: String,
+   order: String,
+   image: String,
+   imageId: String,
+   largeImage: String,
+   midImage: String,
+   thumbnail: String,
+   publicId: String,
+   projects: [{
+      type: Schema.Types.ObjectId,
+      ref: "Project"
+   }],
+   images: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Image'
+   }]
 },
-	{
-		timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
-	}
+   {
+      timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
+   }
 );
 
 userSchema.methods.checkPassword = function (inputPassword) {
-	return bcrypt.compareSync(inputPassword, this.password);
+   return bcrypt.compareSync(inputPassword, this.password);
 }
 
 userSchema.methods.hashPassword = function (plainTextPassword) {
-	return bcrypt.hashSync(plainTextPassword, 10);
+   return bcrypt.hashSync(plainTextPassword, 10);
 }
 
 const User = mongoose.model('User', userSchema);

@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
 const db = require("../models");
 const bcrypt = require('bcryptjs');
 
 const pw = bcrypt.hashSync("1234", bcrypt.genSaltSync(10), null);
 
-// This file empties the database and inserts the data below
+const { DB_USERNAME, DB_PASSWORD, DB_CLUSTER, MONGODB_URI } = process.env;
 
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/writing_tool"
-);
+const URI = MONGODB_URI || `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_CLUSTER}.mongodb.net/writing_tool?retryWrites=true`
+
+mongoose.connect(URI);
 
 const userSeed = [
   {

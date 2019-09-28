@@ -1,9 +1,9 @@
 // Connect to Mongo database
 const mongoose = require('mongoose');
-// mongoose.Promise = global.Promise;
 
-// const uri = process.env.MONGODB_URI || 'mongodb://localhost/writing_tool';
-const uri = process.env.MONGODB_URI || 'mongodb+srv://writer:fuckfuck@cluster0-rzvqk.mongodb.net/writing_tool?retryWrites=true';
+const { DB_USERNAME, DB_PASSWORD, DB_CLUSTER } = process.env;
+
+const uri = process.env.MONGODB_URI || `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_CLUSTER}.mongodb.net/writing_tool?retryWrites=true`;
 
 mongoose.connect(uri).then(
 	() => {

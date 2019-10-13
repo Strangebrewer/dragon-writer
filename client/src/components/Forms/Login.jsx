@@ -10,34 +10,34 @@ const Paragraph = styled.p`
 `;
 
 export const Login = props => (
-  <Fragment>
-    <Form style={{ paddingBottom: "10px" }}>
-      <h2>Login</h2>
-      <Label>Username</Label>
-      <Input
-        name="username"
-        value={props.username}
-        type="text"
-        onChange={props.handleInputChange}
-      />
-      <Label>Password</Label>
-      <Input
-        name="password"
-        value={props.password}
-        type="password"
-        onChange={props.handleInputChange}
-      />
-      <Button center onClick={props.login}>Submit</Button>
-      <Paragraph>Don't have an account?
+   <Fragment>
+      <Form style={{ paddingBottom: "10px" }}>
+         <h2>Login</h2>
+         <Label>Username</Label>
+         <Input
+            name="username"
+            value={props.username}
+            type="text"
+            onChange={props.handleInputChange}
+         />
+         <Label>Password</Label>
+         <Input
+            name="password"
+            value={props.password}
+            type="password"
+            onChange={props.handleInputChange}
+         />
+         <Button center onClick={props.login}>Submit</Button>
+         <Paragraph>Don't have an account?
       <LinkBtn
-          size="1.5rem"
-          shadow
-          text
-          onClick={props.toggleSignupForm}
-        >
-          Create one.
+               size="1.5rem"
+               shadow
+               text
+               onClick={props.toggleSignupForm}
+            >
+               Create one.
       </LinkBtn>
-      </Paragraph>
-    </Form>
-  </Fragment>
+         </Paragraph>
+      </Form>
+   </Fragment>
 );

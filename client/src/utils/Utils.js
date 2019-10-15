@@ -1,4 +1,75 @@
 export const Utils = {
+  consoleLoud: function (logObj, msg, options) {
+    let paddingColor = '#5598e4';
+    let messageColor = '#8d13ff';
+    let isTable = false;
+    let isSpaced = false;
+    let rowLength = 60;
+    let msgOne = " SOME PEOPLE DON'T THINK IT BE LIKE IT IS ";
+    let msgTwo = " BUT IT DO ";
+
+
+    if (msg) {
+      msgOne = ` ${msg} `;
+      msgTwo = ` END OF ${msg} `;
+    }
+
+    if (options) {
+      const { padding, message, row, table, spaced } = options;
+      if (padding) paddingColor = padding;
+      if (message) messageColor = message;
+      if (table) isTable = true;
+      if (spaced) isSpaced = true;
+      if ((row || row === 0) && parseInt(row) <= 500 && parseInt(row) >= 0) rowLength = parseInt(row);
+    }
+
+    // set defaults:
+    const padLeft1 = (rowLength - (msgOne.length)) / 2;
+    const padLeft2 = (rowLength - (msgTwo.length)) / 2;
+    let padRight1 = (rowLength - (msgOne.length)) / 2;
+    let padRight2 = (rowLength - (msgTwo.length)) / 2;
+
+
+    if ((rowLength - msgOne.length) % 2 === 1)
+      padRight1 = ((rowLength - (msgOne.length + 1)) / 2);
+
+    if ((rowLength - msgTwo.length) % 2 === 1)
+      padRight2 = ((rowLength - (msgTwo.length + 1)) / 2);
+
+
+    const colorOne = `color: ${paddingColor}; font-weight: bold;`;
+    const colorTwo = `
+      color: #baffa9;
+      font-weight: bold;
+      text-shadow:0 0 1px ${messageColor},
+        0 0 2px ${messageColor},
+        0 0 3px ${messageColor},
+        0 0 4px ${messageColor},
+        0 0 5px ${messageColor};
+      `;
+
+    if (rowLength > 0) console.log(`%c${writeFullRow(rowLength)}`, colorOne);
+    console.log(`%c${writePadding(padLeft1)}` + `%c${msgOne}` + `%c${writePadding(padRight1)}`, colorOne, colorTwo, colorOne);
+    if (isSpaced) console.log('\n');
+    if (isTable) console.table(logObj);
+    else console.log(logObj);
+    if (isSpaced) console.log('\n');
+    console.log(`%c${writePadding(padLeft2)}` + `%c${msgTwo}` + `%c${writePadding(padRight2)}`, colorOne, colorTwo, colorOne);
+    if (rowLength > 0) console.log(`%c${writeFullRow(rowLength)}`, colorOne);
+
+    // helper functions:
+    function writeFullRow(num) {
+      let str = '';
+      for (let i = 0; i < num; i++) { str += '='; }
+      return str;
+    }
+    function writePadding(len) {
+      let str = '';
+      for (let i = 0; i < len; i++) { str += '='; }
+      return str;
+    }
+  },
+
   formatInitialData: function (project) {
     const initialData = { texts: {}, subjects: {} };
     const subjectArray = [];

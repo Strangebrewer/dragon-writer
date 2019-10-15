@@ -65,7 +65,9 @@ export class DragonLogic extends Component {
 
     // if you are dragging one of the subject columns, the type will be "subject"
     if (type === 'subject') {
-      const newState = Scales.dragonSubjectColumns(this.state.subjectOrder, source, destination, draggableId);
+      const { subjectOrder } = this.state;
+      const args = { subjectOrder, source, destination, draggableId }
+      const newState = Scales.dragonSubjectColumns(args);
       this.executeDragonStateChanges(newState);
       return;
     }
@@ -73,28 +75,21 @@ export class DragonLogic extends Component {
     const start = this.state.subjects[source.droppableId];
     const finish = this.state.subjects[destination.droppableId];
 
+    const args = {
+      state: this.state,
+      start, source, destination, draggableId
+    }
+
     // if source column and destination column are the same:
     if (start === finish) {
-      const newState = Scales.singleSubjectDragon(
-        this.state,
-        start,
-        source,
-        destination,
-        draggableId
-      );
+      const newState = Scales.singleSubjectDragon(args);
       this.executeDragonStateChanges(newState);
       return;
+    } else {
+      args.finish = finish;
     }
 
     // if moving to a new column:
-    const args = {
-      state: this.state,
-      start,
-      finish,
-      source,
-      destination,
-      draggableId
-    }
     const newState = Scales.multiSubjectDragon(args);
     this.executeDragonStateChanges(newState);
     return;

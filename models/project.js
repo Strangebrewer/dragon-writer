@@ -6,11 +6,14 @@ const projectSchema = new Schema({
   title: { type: String, required: true },
   link: { type: String, required: true },
   image: String,
+  imageId: String,
   published: [{
     type: Schema.Types.ObjectId,
     ref: "Subject"
   }],
   largeImage: String,
+  midImage: String,
+  thumbnail: String,
   publicId: String,
   summary: String,
   subjects: [{

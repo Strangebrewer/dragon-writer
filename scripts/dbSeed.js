@@ -36,6 +36,7 @@ const projectSeed = [
     summary: "Write a novel, yo.",
     subjects: [],
     texts: [],
+    order: '',
     image: '',
     largeImage: '',
     publicId: ''
@@ -47,6 +48,7 @@ const projectSeed = [
     summary: "Write my thoughts and experiences...",
     subjects: [],
     texts: [],
+    order: '',
     image: '',
     largeImage: '',
     publicId: ''
@@ -58,6 +60,7 @@ const projectSeed = [
     summary: "A to-do list that's customizable and easy to use.",
     subjects: [],
     texts: [],
+    order: '',
     image: '',
     largeImage: '',
     publicId: ''
@@ -88,6 +91,7 @@ async function seedDb() {
   await db.Project.remove({});
   await db.Subject.remove({});
   await db.Text.remove({});
+  await db.Image.remove({});
 
   // insert users and assign to variable:
   const users = await db.User.collection.insertMany(userSeed);

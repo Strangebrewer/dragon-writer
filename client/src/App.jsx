@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import { ThemeProvider } from "styled-components";
 import { DragonLogic } from "./components/Renderers";
 import Home from "./pages/Home";
+import Images from './pages/Images';
 import Landing from "./pages/Landing";
 import Public from "./pages/Public";
 import Print from "./pages/Print";
@@ -10,6 +11,7 @@ import NoMatch from "./pages/NoMatch";
 import Project from "./pages/Project";
 import { Themes } from "./components/Styles";
 import { API, Utils } from "./utils";
+console.loud = Utils.consoleLoud
 
 let isAuthenticated = false;
 
@@ -26,8 +28,8 @@ class App extends Component {
 
   componentDidMount() {
     if (localStorage.getItem('token'))
-      this.getCurrentUser();
-    else this.setState({ loading: false });
+      return this.getCurrentUser();
+    this.setState({ loading: false });
   };
 
   buildHeaders = () => {
@@ -226,6 +228,9 @@ class App extends Component {
       user: this.state.user
     }
 
+    // console.loud(this.state.user, 'YOU HOMINIDS RUIN EVERYTHING! GOSH!');
+    // console.log(this.state.user);
+
     if (this.state.loading) return null;
 
     return (
@@ -257,7 +262,7 @@ class App extends Component {
 
             <Route path='/myboard/:username' {...sharedprops} component={Public} />
 
-            {/* <Route path='/images/:username'>
+            <Route path='/images/:username'>
               {routeprops => (
                 isAuthenticated
                   ? (
@@ -267,7 +272,7 @@ class App extends Component {
                     />
                   ) : <Redirect to="/" />
               )}
-            </Route> */}
+            </Route>
 
             {this.state.projects.length > 0
               && (

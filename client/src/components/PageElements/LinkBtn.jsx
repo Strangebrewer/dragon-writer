@@ -27,18 +27,18 @@ const Button = styled.button`
   &:hover {
     color: ${props => (
       props.delete
-        ? props.theme.deleteLinkHover
-        : props.text ? "#fff" : "#26d4cc"
-    )};
+         ? props.theme.deleteLinkHover
+         : props.text ? "#fff" : "#26d4cc"
+   )};
     text-shadow: ${props => props.shadow && '2px 2px 3px #000'};
   }
   &:disabled {
     cursor: default;
     opacity: ${props => (
       props.storyboard
-        ? 0.1
-        : 0.6
-    )};
+         ? 0.1
+         : 0.6
+   )};
   }
   &:disabled:hover {
     color: inherit;
@@ -47,7 +47,7 @@ const Button = styled.button`
 
 
 export const LinkBtn = props => {
-  return (
-    <Button {...props}>{props.children}</Button>
-  )
+   return (
+      <Button {...props}>{props.children}</Button>
+   )
 };

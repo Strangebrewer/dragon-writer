@@ -102,7 +102,7 @@ class Home extends Component {
   };
 
   render() {
-    console.log(this.props);
+    console.loud(this.props);
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Page

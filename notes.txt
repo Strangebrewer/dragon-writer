@@ -1,0 +1,179 @@
+Drag and drop and persisting to the database is all done.
+
+TODOS
+
+Create an Image Repository page
+  I created an Image model. I'll need to adjust the transformations on Cloudinary to match the fields in the model (large, mid, thumbnail)
+  - Images added directly to a text via upload will also be added to the image repository
+  - Images for texts (i.e. Storyboard mode) can also come directly from the user's repository:
+    - removing the image from a text should not delete it from the repository, only remove it as the one representing the text
+    - images can be deleted from anywhere, but first:
+      - a warning that the deletion will remove it from other texts
+      - the image will have to be searched and removed from all texts, or
+      - images can only be deleted if they are not attached to any texts
+  - DONE Clicking on an image in one's repository will also copy the image address to the clipboard.
+    - DONE - or maybe instead I can have a 'copy' button for that.
+    - DONE - and maybe if I create a thumbnails repository, the address will be copied on click
+      - DONE - thumbnails view will show to the right when a text editor is open (on larger screens)
+
+Style all full text or editor displays to render the texts and images in the same way
+  - Right now, the text is in a different place relative to both the images and the size of the editor in each different view
+  - These need to be standardized.
+
+Style the buttons in the InlineUpdate component
+
+Change 'seeFullText' functionality in individual text items to something like the text editor page
+  - You know, with the fake dragonColumn or fake storyboardItem sitting there.
+  - It will look much better than a modal.
+
+Put a 'New Text' kind of button at the end of each column in Overview mode
+  - That button should add a text at the end of the column.
+  - That button should also appear at the end of the full text column
+
+When deleting a text, subject column, or project, need to make sure all images get deleted from Cloudinary as well.
+
+When login fails, there should be some indication of it instead of the login screen just hanging there.
+
+Setup functionality that allows you to specify if a new text should be placed at the beginning or end of the column.
+
+Create a landing page that presents the app to new users
+  - also should allow access to public pages (once that's been created)
+
+Page for seeing published texts is pulling correct data: Now I need to build out the public-facing app.
+  - The Landing page: currently just a login, needs more:
+    - Search bar for someone's username to find their public page
+    - Tutorial or something
+
+(test all these again, then create a tutorial)
+PRINT VIEW:
+  In Chrome:
+    - 'Save as PDF' creates a PDF with selectable text (so it can be copied & pasted)
+    - 'Microsoft Print to PDF' creates a PDF with non-selectable text, but when you convert it to a Word doc (with a paid Adobe account), it seems fine.
+    - 'Microsoft XPS Document Writer' creates a file with non-selectable text that can be read but seems otherwise useless.
+    - 'Send to OneNote' creates an empty document in OneNote.
+    - Has the option of turning off headers and footers (app title, page numbering, web address)
+  In Firefox:
+    - 'Save as PDF' is not an option.
+    - 'Microsoft Print to PDF' creates a PDF with selectable text.
+    - 'Microsoft XPS Document Writer' creates a file with selectable text.
+    - 'Send to OneNote' creates an empty document in OneNote.
+    - Does NOT have the option of turning off headers and footers (app title, page numbering, web address)
+  In MS Edge:
+    - 'Save as PDF' is not an option.
+    - 'Microsoft Print to PDF' creates a PDF with selectable text.
+    - 'Send to OneNote' creates an image in OneNote (worthless).
+    - 'Microsoft XPS Document Writer' creates a file with selectable text.
+    - Has the option of turning off headers and footers (app title, page numbering, web address)
+
+
+
+
+
+
+
+DONE - Figure out the inlineUpdate render button positioning problem.
+  - Also, add the 'Save' and 'Cancel' buttons to the editor
+  - Also, add the image-left & image-right buttons to the RenderButtons component
+  - Then add the image-left & image-right functionality to the EditorLogic component
+
+DONE - Change the InlineUpdateEditor to appear around the text that's already there
+  - Without altering its appearance beyond just background color or opacity or whatever indicator that it's in editing mode.
+  - see if it's possible to have an onDblClick in the text renders it editable
+
+DONE - Add image functionality to text editors.
+
+DONE: 
+Change the view for seeing individual texts
+  - Refined modal to make reading individual texts look better
+  - In storyboard mode, it looks just like editing a text in overview mode, but the storyboard card is visible instead of the column.
+
+DONE - Restyle modals
+
+DONE - Restyle InlineNewEditor screen (creating a new text for a particular column)
+
+DONE - Re-style SingleNewEditor (creating a new text for anywhere)
+
+DONE - Get a new icon (maybe a tiny dragon)
+
+DONE - add the vertical Stygian picture to a text and then view in full text mode. Why is the placement like that? Fix it.
+  - (You can also see it on the deployed version...)
+
+DONE - Fix it so uploading text images in storyboard mode works.
+
+DONE - Set up validation to only accept letters, numbers, or single dashes in the project keyword (this is what becomes the url)
+  - also set it up to convert all letters to lowercase
+
+DONE - Set a limit on the number of projects you can have
+  - disable the create new project button if projects.length > 20
+
+DONE - fine-tune functions to only fetch data that's needed with each re-arrangement or new text
+  - (instead of just doing getInitialData() every time)
+  - DONE - project overview onDragEnd (for both text drag and column drag) data fetching refactor
+    - (as well as for creating new columns)
+  - DONE - next: set up functionality to handle new or updated texts
+    - empty functions are in place in App.jsx
+    
+DONE - Deleting a project probably doesn't require the whole getInitialData function...
+  - check into that.
+
+DONE - Remove Cloudinary name, keys, and secrets from imageController file and UploadLogic.jsx file 
+  - remove any pull requests where the data still shows.
+  - might have to:
+    - move the file to a separate project
+    - push to git so it only shows a deleted file,
+    - learn to use a .env (and dot-env or if-env packages)
+    - learn to use .env files in react (it seems it might be different)
+    - put the file back (sans private data)
+    - push to github
+
+DONE - Set it up so you can click a button on a column and have it display the full text of all the texts in that column while still being drag-and-drop-able.
+  - Each text should be editable (an edit and a delete button, just like it was initially).
+
+DONE - Style the full text section so the meta data (title, createdAt, edit & delete buttons, etc) are on the side so that each text will flow together like one document.
+
+DONE - Make the draggable portion of the inline text editor the top bar, like when dragging a window on your desktop.
+
+DONE - Create Signup functionality
+
+DONE - Make it so you can delete projects - with a warning of permanence.
+
+DONE - Make it so you can delete subjects (columns)
+  - Deletes everything in the column, but with a warning first.
+  - (this allows for, say, a delete column where you move trash items)
+
+DONE - When you create a new column, it should automatically toggle to 'on'.
+
+DONE - Have the left column menu draw from the project.order so the list rearranges along with dragging and dropping the columns.
+
+DONE - Make the project list on the home page a drag and drop list
+  - you might have numerous projects and want to keep certain ones at the top.
+
+DONE - Integrate uploading pics via Cloudinary.
+  - Pics should show as smaller versions to the side when viewing in full text mode
+  - clicking a pic should make it pop up full-size in a modal
+
+
+
+
+
+
+
+
+
+
+
+ABANDONED: Too Much Hassle - Finish setting up DragonLogic to contain the drag and drop logic.
+  - It's going to have to go outisde of all the routes in the APP component if I want to use it on the Projects Card on the Home page.
+  - I Set it up with a separate (and parallel, not nested) DragDropContext for the home page.
+
+
+
+
+
+IDEAS FOR LATER...
+Eventually, make it possible to create a public page that only shows what you put into a public column, or that you mark public, or something like that.
+
+I bet I could make these columns a certain size that would allow you to create a fairly normal looking website.
+  - narrow side columns, wide middle column, horizontal top column to work like a navbar, etc.
+  - I could basically create a website layout and make each block a drag-and-drop column...
+  - worth exploring once I have the rest set up.

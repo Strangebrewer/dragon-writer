@@ -5,6 +5,7 @@ import { API } from "../../utils";
 export class UploadLogic extends Component {
   state = {
     image: '',
+    imageId: '',
     largeImage: '',
     publicId: '',
     data: '',
@@ -14,6 +15,11 @@ export class UploadLogic extends Component {
   buildHeaders = () => {
     const token = localStorage.getItem('token');
     return { headers: { "Authorization": `Bearer ${token}` } };
+  }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   uploadImage = async event => {
@@ -41,9 +47,13 @@ export class UploadLogic extends Component {
       body: this.state.data
     });
     const file = await res.json();
+    const response = await API.saveImage(updateObject, headers);
     const updateObject = {
+      imageId: response.image._id,
       image: file.secure_url,
       largeImage: file.eager[0].secure_url,
+      midImage: file.eager[1].secure_url,
+      thumbnail: file.eager[2].secure_url,
       publicId: file.public_id,
     };
     const headers = this.buildHeaders();
@@ -56,9 +66,11 @@ export class UploadLogic extends Component {
         const subject = await API.updateSubject(id, updateObject, headers);
         this.props.addImageToSubject(subject.data);
         break;
-      default:
+      case 'text':
         const text = await API.updateText(id, updateObject, headers);
-        this.props.addImageToText(text.data)
+        this.props.addImageToText(text.data);
+        break;
+      // default:
     }
     this.setState({ loading: false });
   };
@@ -79,11 +91,11 @@ export class UploadLogic extends Component {
     })
   };
 
-  deleteImage = async (id, imageId) => {
+  deleteImage = async (id, publicId) => {
     await this.setState({ loading: true });
     this.props.closeModal();
 
-    const deleteObj = { imageId };
+    const deleteObj = { publicId };
     const headers = this.buildHeaders();
     switch (this.props.type) {
       case 'project':
@@ -105,6 +117,7 @@ export class UploadLogic extends Component {
   };
 
   uploadImageModal = id => {
+    console.log(id)
     this.props.setModal({
       body: (
         <Fragment>
@@ -116,13 +129,25 @@ export class UploadLogic extends Component {
             onChange={this.uploadImage}
             placeholder="upload an image"
           />
+          <p>or</p>
+          <Label>Paste Image ID:</Label>
+          <Input
+            type="imageId"
+            name="imageId"
+            // value={this.state.imageId}
+            onChange={this.handleInputChange}
+          />
         </Fragment>
       ),
       buttons: (
         <div>
           <Button
             disabled={this.state.loading}
-            onClick={() => this.saveImage(id)}
+            onClick={() => (
+              this.state.imageId
+                ? this.assignImage(this.state.imageId, id)
+                : this.saveImage(id)
+            )}
           >
             Submit
           </Button>
@@ -133,6 +158,29 @@ export class UploadLogic extends Component {
       )
     })
   };
+
+  assignImage = async (imageId, id) => {
+    this.setState({ loading: true });
+    this.props.closeModal();
+    const headers = this.buildHeaders();
+    const res = await API.getImage(imageId, headers);
+    const { image, largeImage, midImage, publicId, thumbnail } = res.data;
+    const updateObject = { image, largeImage, midImage, publicId, thumbnail };
+    switch (this.props.type) {
+      case 'project':
+        await API.updateProject(id, updateObject, headers);
+        this.props.refreshProjectList();
+        break;
+      case 'subject':
+        const subject = await API.updateSubject(id, updateObject, headers);
+        this.props.addImageToSubject(subject.data);
+        break;
+      default:
+        const text = await API.updateText(id, updateObject, headers);
+        this.props.addImageToText(text.data)
+    }
+    this.setState({ loading: false });
+  }
 
   imageModal = (image, imageId, id, type) => {
     let body;
@@ -163,7 +211,9 @@ export class UploadLogic extends Component {
       this.props.children({
         imageModal: this.imageModal,
         loading: this.state.loading,
+        saveImage: this.saveImage,
         state: this.state,
+        uploadImage: this.uploadImage,
         uploadImageModal: this.uploadImageModal,
       })
     );

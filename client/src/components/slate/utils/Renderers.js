@@ -6,7 +6,7 @@ const Image = styled.img`
   display: block;
   margin: 10px auto;
   max-width: 80%;
-  max-height: 500px;
+  /* max-height: 500px; */
   box-shadow: ${props => props.selected ? '0 0 0 2px blue' : 'none'};
   text-align: center;
 `;

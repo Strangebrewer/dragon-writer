@@ -46,10 +46,22 @@ module.exports = {
     }
   },
 
-  updateText: function (req, res) {
-    db.Text.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
-      .then(text => res.json(text))
-      .catch(err => res.status(422).json(err));
+  updateText: async function (req, res) {
+    try {
+      const text = db.Text.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+      if (req.body.imageId) {
+        db.Image.findByIdAndUpdate({ _id: req.body.imageId },
+          { $push: { texts: text._id } },
+          { new: true }
+        );
+      }
+      res.json(text);
+    } catch (err) {
+      res.json(err)
+    }
+    // db.Text.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+    //   .then(text => res.json(text))
+    //   .catch(err => res.status(422).json(err));
   },
 
   updateTextSubject: async function (req, res) {

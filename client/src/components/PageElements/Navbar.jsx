@@ -61,6 +61,7 @@ export class Navbar extends PureComponent {
   render() {
     console.log("Navbar Rendering")
     const { authenticated, user, logout } = this.props;
+    console.log(user);
     return (
       <NavContainer>
         <NavInner>
@@ -69,8 +70,20 @@ export class Navbar extends PureComponent {
               <h3>Hello, {user.username}</h3>
 
               <LinkContainer>
-                <Link title="to home page" to="/"><i className="fas fa-home"/></Link>
-                <Button title="log out" onClick={logout}><i className="fas fa-sign-out-alt"/></Button>
+                <Link title="to home page" to="/"><i className="fas fa-home" /></Link>
+                <Link
+                  title="to your image repository"
+                  to={`/images/${user.url}`}
+                >
+                  <i className="fas fa-images" />
+                </Link>
+                <Link
+                  title="to your published page"
+                  to={`/myboard/${user.url}`}
+                >
+                  <i className="fab fa-old-republic" />
+                </Link>
+                <Button title="log out" onClick={logout}><i className="fas fa-sign-out-alt" /></Button>
               </LinkContainer>
 
             </React.Fragment>
